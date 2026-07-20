@@ -19,7 +19,7 @@
 
 #include <Trade\Trade.mqh>
 
-#define TRTM_BUILD  "Stage8-b28"  // internal build tag, bump per delivery
+#define TRTM_BUILD  "Stage9-b29"  // internal build tag, bump per delivery
 
 //+------------------------------------------------------------------+
 //| ENUMS                                                            |
@@ -3050,6 +3050,12 @@ void PanelButtonSet(const string name, const int x, const int y, const int w, co
       ObjectSetInteger(0, name, OBJPROP_BORDER_COLOR, COL_BORDER);
       ObjectSetInteger(0, name, OBJPROP_SELECTABLE, false);
       ObjectSetInteger(0, name, OBJPROP_HIDDEN, true);
+      // Stage 9 Step 1 (D1): raise buttons above the panel bg (zorder 0)
+      // so tester hit-testing lands on the button, not the background.
+      // Unconditional - live click behavior unaffected (buttons already
+      // win at zorder 0; see matrix M4). Set at create; M4-3 verifies it
+      // survives refresh churn (PanelButtonSet re-entry skips this block).
+      ObjectSetInteger(0, name, OBJPROP_ZORDER, 10);
      }
    ObjectSetInteger(0, name, OBJPROP_XDISTANCE, x);
    ObjectSetInteger(0, name, OBJPROP_YDISTANCE, y);
@@ -4038,6 +4044,7 @@ int OnInit()
       EventSetMillisecondTimer(500);
       LogBrokerExitGeometry();   // b27: guidance is useful even while blocked
    Log(LOG_INFO, "Init complete - " + TRTM_BUILD + " CONFIG-BLOCKED (trading frozen)");
+      LogTesterModeOnce();   // Stage 9: announce polling channel even while blocked (M3-1)
       return INIT_SUCCEEDED;
      }
 
@@ -4063,6 +4070,7 @@ int OnInit()
    Log(LOG_INFO, "Init complete - " + TRTM_BUILD + (InpEnableRecovery
                   ? " (adoption, exits, recovery active)"
                   : " (adoption, exits active - recovery DISABLED)"));
+   LogTesterModeOnce();   // Stage 9: announce tester polling channel (M2-1)
    return INIT_SUCCEEDED;
   }
 
@@ -4085,8 +4093,55 @@ void OnDeinit(const int reason)
      }
   }
 
+//+------------------------------------------------------------------+
+//| Stage 9 Step 1: tester interactive mode (D2/D3)                   |
+//| MT5 visual tester delivers NO chart events (build 5833). The only |
+//| input channel is polling OBJ_BUTTON OBJPROP_STATE. Gated on       |
+//| MQL_TESTER so it is unreachable on live/demo charts (matrix M1).  |
+//+------------------------------------------------------------------+
+void LogTesterModeOnce()
+  {
+   if(!MQLInfoInteger(MQL_TESTER))
+      return;
+   if(AlreadyLogged("testermode"))
+      return;
+   Log(LOG_INFO, "[TESTER] Interactive mode active - OnTick polling 10 panel "
+                 "buttons (chart events do not fire in tester, build-confirmed)");
+  }
+
+void PollTesterButtons()
+  {
+   // D2: poll every tick (no throttle). Button STATE latches true on click
+   // until HandlePanelClick un-presses it, so a fast click is not lost.
+   // Two buttons latched in one tick dispatch in array order (matrix M2-5).
+   static const string btns[10] =
+     {
+      PNL + "B_BUY",  PNL + "B_SELL",  PNL + "B_CLOSE",
+      PNL + "B_PBUY", PNL + "B_PSELL", PNL + "B_PCONF",
+      PNL + "B_PCXL", PNL + "B_CXLP",  PNL + "B_BE", PNL + "B_TRAIL"
+     };
+   for(int i = 0; i < 10; i++)
+     {
+      if(ObjectFind(0, btns[i]) < 0)
+         continue;
+      if(ObjectGetInteger(0, btns[i], OBJPROP_STATE))
+        {
+         // D3: mark the dispatch boundary only; HandlePanelClick's
+         // downstream logs stay byte-identical to the live event path.
+         Log(LOG_INFO, "[TESTER] Panel click via poll: " + btns[i] +
+                       " (event channel inactive)");
+         HandlePanelClick(btns[i]);   // un-presses + refreshes internally
+        }
+     }
+  }
+
 void OnTick()
   {
+   // Stage 9 Step 1: tester input channel. MUST run BEFORE the config-
+   // blocked return so a click under config-block still reaches
+   // HandlePanelClick, whose own guard logs the refusal (matrix M3-1).
+   if(MQLInfoInteger(MQL_TESTER))
+      PollTesterButtons();
    if(g_configBlocked)
       return;   // b17: config-blocked = full trading freeze (adoption, exits, recovery)
    if(g_state.levelCount == 0)
