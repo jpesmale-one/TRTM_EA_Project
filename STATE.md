@@ -3,11 +3,11 @@
 # resume: recompute the hash and compare. Match = aligned in one command,
 # no diff, no reconstruction from conversation memory.
 
-build: Stage8-b28
+build: Stage9-b29
 file: TRTM.mq5
-sha256_16: 14f30dcc66197082
-lines: 4142
-date: 2026-07-19
+sha256_16: 7def6cd918f94a15
+lines: 4197
+date: 2026-07-20
 
 ## Environment note
 ALL charts are DEMO; multi-symbol attachments are test surface.
@@ -109,6 +109,34 @@ BTCUST empirical: stops/freeze 0 pts at init; spread ~1400-1418 pts;
 tether tick-value factor ~0.9991 on all money projections; MaxSpread
 80 (gold-tuned) forfeited L2 until raised (forfeit WARNs correct).
 
+## b29 changes (Stage 9 Step 1: tester interactive mode, matrix SEALED)
+Design: STAGE9_MATRIX.md (21 rows, 5 groups, sealed 2026-07-20).
+Purpose: make the SHIPPING EA interactive in the MT5 visual tester
+(chart events never fire there, build 5833) with ZERO live-chart
+behavior change. NO money-path changes in this build.
+Touch points (+55 lines, all one file; +27 was the code estimate,
+overage is inline rationale comments, no extra logic):
+1. TP-1 PanelButtonSet create-block: OBJPROP_ZORDER=10 on buttons
+   (bg stays 0), unconditional (D1). Only live-visible delta; M4
+   proves live clicks unaffected.
+2. TP-2 PollTesterButtons(): MQL_TESTER-gated, polls 10 button STATEs
+   every tick (D2, no throttle); latched button -> [TESTER] click
+   line -> HandlePanelClick (reused verbatim, un-presses internally).
+   Two-latched-same-tick dispatch in array order (M2-5).
+3. TP-3 OnTick head: poll call placed ABOVE the g_configBlocked
+   early-return so a click under config-block still reaches
+   HandlePanelClick's own guard (M3-1). Verified 4144 before 4145.
+4. TP-4 LogTesterModeOnce(): one-shot [TESTER] init INFO (D3),
+   MQL_TESTER-gated, called from BOTH OnInit exit paths (config-
+   blocked + normal) so the channel is announced either way.
+UNCHANGED (explicit): HandlePanelClick body, OnChartEvent (live event
+path byte-identical - regression anchor), all 10 click handlers, ALL
+money paths (exits/recovery/adoption/reconcile/BE/trail), state
+persistence + self-test (no new persisted field), PanelRefresh value-
+update path, all inputs. MQL_TESTER is net-new in the file.
+Hygiene: brace delta -1 (unchanged), CRLF clean (0 bare LF), ASCII-
+only. Cannot compile MQL5 - compiler output is checklist gate zero.
+
 ## b28 fix (found live 2026-07-18, K2 kill test on BTCUST - FAIL)
 K2 (S8-24b) FAIL on b27: death-window close released manual TP
 correctly (M7-4 WARN), but ReconcileManualExits' M7-5 branch then
@@ -127,10 +155,68 @@ untouched (b25 discriminator already correct there). Queued
 observability items remain queued (fix-only build). FAIL evidence
 retained: 23:44:59 log block 2026-07-18, b27.
 
-## Pending
-(none for Stage 8 Step 1 - see Verified. Next build decision open:
-b29 observability batch vs Stage 9 Step 1; each is its own build
-with matrix/checklist per protocol.)
+## Stage 9 Step 1 - SEALED by Jeff 2026-07-20
+Tester interactive mode on the SHIPPING EA. All 19 checklist items
+PASS. Two environments: LIVE demo (regression) + MT5 visual tester
+(GBPAUD.s M15, build 5833). Evidence audited to the cent.
+
+LIVE regression (safety gate - proves zorder change is clean live):
+- S9-1 PASS: live init shows NO [TESTER] line (gate holds, MQL_TESTER
+  false live). S9-2 PASS: all buttons dispatch via OnChartEvent, NO
+  [TESTER] poll line ever (verified absence). S9-3 PASS: object list
+  = 0 objects (buttons still HIDDEN, no strays, screenshot). S9-4
+  PASS: zorder survived ~3 min refresh churn, all buttons responsive
+  first-click (M4-3 clean, no finding).
+
+TESTER items:
+- S9-5 PASS: one-shot [TESTER] init INFO, at init not per-tick (x2+
+  launches). S9-6 PASS: same line fires from the CONFIG-BLOCKED init
+  path too (TP-4 both call sites live).
+- S9-7/S9-8 PASS: poll channel dispatches on shipping EA; ALL 10
+  buttons have DIRECT [TESTER] poll lines (equivalence not needed) -
+  B_BUY/SELL/CLOSE/PBUY/PSELL/PCONF/PCXL/CXLP/BE/TRAIL.
+- S9-9 PASS: latch-fires-once, accepted on ~18-click accumulated
+  evidence (no double-fire ever). S9-10 PASS by inspection+procedure:
+  same-tick two-button contention not manually reproducible (3 tries,
+  best 1 tester-sec; mirrors S8-14). Poll loop is for(i=0..9) over a
+  static array, no inter-iteration state -> array-order dispatch is a
+  structural guarantee. Adjacent-tick sequential (E4 arm-switch)
+  directly evidenced.
+- S9-11 PASS (the no-silent-path row): under config-block the poll
+  reaches HandlePanelClick (loop sits ABOVE the OnTick config-blocked
+  return, 4144<4145), refusal logged ONE-SHOT via AlreadyLogged, no
+  order, no silent swallow. Repeat clicks still emit the poll line
+  (channel never silent) while the refusal is suppressed (one-shot) -
+  both observability axes satisfied. S9-12 PASS by composition: true
+  mid-run input change is a TESTER LIMITATION (inputs locked per
+  pass); block->clean transition proven by blocked-run clean latch
+  behavior + clean-run dispatch + g_configBlocked reset at OnInit
+  boundary (line 4009, code-confirmed).
+- S9-13..S9-19 PASS: full lifecycle via poll. BUY/SELL arm+open
+  (signs exact), CLOSE arm+confirm+flat (x2), pending PBUY place+
+  confirm+CXLP cancel AND PSELL/PCXL placement-cancel, BE arm+trigger
+  (floor = avg + 30 offset exact: 1.88457+30pts=1.88487), trail
+  arm+ratchet+exit (activation -100 exact; steps 34pt/11pt >= min 10;
+  exit on trailed SL 1.88297, attribution correct). Pending-confirm
+  broker-min guard fired correctly (line 1pt from market < 25 min,
+  named cause).
+
+TESTER EMPIRICAL FACTS (ledger; terminal is truth):
+- GBPAUD.s stops level = 25 pts (tester), confirms prior probe.
+- Cross-pair first-trade symbol auto-sync (GBPUSD.s, AUDUSD.s load on
+  first GBPAUD position): this is MetaTester's USD-valuation engine
+  loading conversion legs, NOT a TRTM behavior (plain tester lines,
+  no [TRTM] tag; TRTM only touches _Symbol via the wrapper). Would
+  reproduce on b28. Verifiable: USD-quote symbol shows no pop-ups.
+- Config-block refusal ("Buttons are config-blocked") is one-shot in
+  tester too (AlreadyLogged cfgclick).
+- Tester input limits: inputs locked per pass (no mid-run change);
+  object drag dead (draggable pending line = Step 2).
+
+## b29-QUEUED observability batch: STILL QUEUED (separate build, own
+matrix/checklist). Now unblocked. Guard A file-log WARN item has a
+clean tester surface (Guard A fired live in tester at balance-ratio
+0.0075<0.01 min).
 
 ## Stage 8 Step 1 - SEALED by Jeff 2026-07-20
 Final market-hours session (XAUUSD.s, demo, logs audited to the cent):
