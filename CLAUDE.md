@@ -197,6 +197,14 @@ Observability rules (blocking, not style):
   says, then why, then the fix — never with reassurance.
 - Names are design: self-documenting identifiers, grouped inputs,
   section headers (`//--- Phase N ...`). No placeholder names.
+- Chat = decisions, not lectures. Per item: what it is (1 line, plain
+  words), the choice + your rec (1-2 lines), the question. Mechanism
+  traces, code walkthroughs, and full rationale go in the artifact
+  files (matrix/plan/STATE.md), never chat. Jeff asks if he wants the
+  deep trace.
+- Explain to be understood, not to prove rigor. Plain language over
+  jargon; one concrete example, not three. If a point needs more than
+  ~5 lines in chat, it belongs in a file.
 
 ---
 
