@@ -3,11 +3,11 @@
 # resume: recompute the hash and compare. Match = aligned in one command,
 # no diff, no reconstruction from conversation memory.
 
-build: Stage9-b29
+build: Stage9s2-b33
 file: TRTM.mq5
-sha256_16: 7def6cd918f94a15
-lines: 4197
-date: 2026-07-20
+sha256_16: b732b80fddf75fda
+lines: 4296
+date: 2026-07-21
 
 ## Environment note
 ALL charts are DEMO; multi-symbol attachments are test surface.
@@ -20,6 +20,106 @@ behavior on EVERY chart b24 is attached to. Flagged and accepted.
 Stages 1-7 SEALED (S7 sealed 2026-07-16 on b23; kill tests on b21).
 Stage 8 Step 1 SEALED by Jeff 2026-07-20 on b28 (see seal section).
 Stage 8 Step 2 (draggable lines) is the only parked Stage 8 item.
+Stage 9 Step 1 SEALED by Jeff 2026-07-20 on b29 (tester interactive).
+Stage 10 (observability batch) SEALED by Jeff 2026-07-21 at Stage10-b32.
+A1 guards A/B/C, A2 (reworked b31), A3 (>0 branch), A4 all PASS with
+audited live logs; A5 + A3 0-stops sub-case accepted by inspection.
+Full scoreboard in HANDOVER_2026-07-21_stage10_b32.md.
+
+## b33 changes (Stage 9 Step 2: tester pending-line NUDGE, matrix SEALED
+## 2026-07-21). ZERO money paths (trade-primitive count 8=8 vs b32).
+1. INPUT InpTesterNudgePts (default 50) + "=== Tester (Stage 9) ===" group.
+   Global g_nudgePts clamped >=1 in OnInit (N1-5). LogTesterModeOnce now
+   says "12 buttons" and announces the nudge step.
+2. NEW FN NudgePendingLine(dir) [helper-before-caller, above
+   HandlePanelClick]: moves ONLY PLINE OBJPROP_PRICE by +/- g_nudgePts;
+   reads g_pendDir, never writes (N3-4); no-line -> INFO "no pending line
+   to move" (N3-3, not silent). Free movement either side of market;
+   CONFIRM stays sole authority (G4).
+3. DISPATCH B_PUP/B_PDN in HandlePanelClick (reuse shared un-press +
+   PanelRefresh). 
+4. LAYOUT (placing branch): TESTER-only 4-button row CONFIRM|+|-|CANCEL
+   via x-cursor; LIVE else-branch byte-identical (bw2+40 CONFIRM, N3-1).
+   Nudge buttons collapse to 10x10 off when not placing, tester-guarded
+   so the live panel never creates the objects.
+5. POLL ARRAY 10 -> 12 (B_PUP/B_PDN appended last; up-before-dn = N1-4
+   order); loop bound now ArraySize (no second magic number). Existing 10
+   dispatch order + behavior unchanged.
+No persisted field added (state schema/self-test unchanged, N4-2). Line
+delta +60 (est. was +40; tester layout split + comments ran longer).
+STATUS: SEALED by Jeff 2026-07-21. All 20 checklist items resolved
+(12 PASS audited, S13/S14 equivalence, S15/S17/S19/S20 inspection).
+S1 full lifecycle recomputed exact to the cent; money engines proven
+byte-identical to b32. No FAILs, no new parked items.
+
+## b32 changes (Stage 10: A5 reword, 2026-07-21)
+Finding (evidence: every reason-5 deinit this session -> "acquired (no
+existing lock)"): OnDeinit calls ReleaseInstanceLock() UNCONDITIONALLY,
+so a clean re-init (param change, recompile) releases the lock and the
+next init logs "acquired", NOT "re-asserted". The re-assert branch
+(owner==ChartID + fresh heartbeat + lock present) is therefore only
+reachable via an UNCLEAN shutdown that skips OnDeinit. b29's and b31's
+"parameter-change re-init" descriptor named an unreachable case.
+FIX (wording only, line count unchanged): re-assert message now names
+ONLY the unclean-shutdown-survivor case and notes a clean re-init
+releases the lock first. A5 accepted by INSPECTION: trigger branch
+byte-identical to b29, string-only change, and forcing a hard-kill +
+fast-restart purely to watch a wording line is disproportionate.
+
+## b31 changes (Stage 10: A2 REWORK after live FAIL, 2026-07-21)
+Live verification found A2-as-b30 broken two ways (evidence retained):
+- S10-11 FAIL: init sibling never fires - MQL_TRADE_ALLOWED reads TRUE at
+  OnInit even with F7 "Allow Algo Trading" unchecked (12:45 init silent,
+  12:46 send blocked "by client"). Flag does not track the checkbox at
+  init on this MT5 build.
+- TP4 (flag-aware 10027) was on the PENDING path only; the common
+  MARKET-entry path (E7) printed MT's generic string, no cause hint
+  (12:46 BUY 10027). BUT the flag IS correct at TRADE time: 12:55 pending
+  10027 with box off printed the EA-checkbox branch = S10-15 PASS.
+b31 fix (ZERO money paths, +8 lines 4228->4236):
+1. Removed the dead init sibling (TP3). Toolbar-off at init still covered
+   by the existing WARN.
+2. New helper AutoTradingDisabledHint() - single source for the 3-branch
+   10027 cause hint, called at SEND time only (flag reliable there).
+3. E7 (market entry) now appends the hint on 10027 (was bare).
+4. P6 (pending) now calls the helper (+ keeps "Distance was fine.") -
+   no duplicated branch logic to drift.
+
+## b30 changes (Stage 10: observability batch, matrix SEALED 2026-07-21)
+Design: STAGE10_MATRIX.md (20 rows) + STAGE10_PLAN.md (7 touch points).
+ZERO money paths - emission/wording only. +31 lines (4197 -> 4228).
+Compile is gate zero (Jeff's terminal); not yet compiled.
+1. A1 (M1): Guards A/B/C blocked-while-flat now FILE-log a WARN, not
+   dashboard-only. Reason-tracked via transient g_flatBlockReasonLogged
+   (0/1/2/3): one WARN per reason, re-announce on reason switch, re-arm
+   on clear or when a sequence opens. reasonNow set only in the flat
+   branch => never fires while a sequence is live (M1-7). Closes the
+   Inputs-Reset silent path that bit Jeff (Guard A blocked, no journal).
+2. A2 (M2): per-EA MQL_TRADE_ALLOWED now checked. Init sibling WARN
+   (gated toolbar-ON && program-OFF, no double-blame) names the EA
+   properties checkbox. 10027 diagnostic now reads both flags live and
+   names the ACTUAL off-switch (toolbar / EA-checkbox / toggled-at-send)
+   instead of always blaming the toolbar - same class as the b27
+   distance/10027 misdirect fix.
+3. A3 (M3): broker-geometry INFO now says "no fixed stops/freeze
+   reported (0 pts)" + dynamic caveat when the broker reports 0, instead
+   of a bare "0 pts" that read as known-safe.
+4. A4 (M3): tick/ask recovery-signal branch now logs an INFO naming the
+   tick basis (was silent; only bar-close mode logged, at 1970).
+5. A5 (M3): own-chart lock re-assert message now names the unclean-
+   shutdown-survivor case, not only parameter-change re-init.
+6. A6 PARKED - manual-SL-refused throttle; never observed spamming
+   (Jeff 2026-07-21). Re-opens only on real repeat evidence.
+No persisted field added => state-file schema / self-test unchanged.
+
+## FINDING (raise with Jeff) - stale broker fact in this manifest
+The Environment note above states "Doo Prime XAUUSD.s stops level =
+100 pts" as a constant, but the b29 handover empirical ledger records
+it as DYNAMIC 20-100 pts intraday (sampled). A3 (above) codifies the
+dynamic reality. The "= 100 pts" line should be reworded to "sampled
+100 pts; DYNAMIC 20-100 intraday" - not silently changed here because
+it underpins sealed b28 deferral evidence (93 < 100). Flagged, pending
+Jeff's confirmation of the wording.
 
 ## b24 changes (Stage 8 Step 1: manual exit adoption, matrix SEALED)
 Design: STAGE8_MATRIX.md (37 rows, sealed 2026-07-16). Summary:
@@ -211,12 +311,18 @@ TESTER EMPIRICAL FACTS (ledger; terminal is truth):
 - Config-block refusal ("Buttons are config-blocked") is one-shot in
   tester too (AlreadyLogged cfgclick).
 - Tester input limits: inputs locked per pass (no mid-run change);
-  object drag dead (draggable pending line = Step 2).
+  object drag dead (draggable pending line). WORKAROUND b33: Stage 9
+  Step 2 adds tester-only +/- nudge buttons to move the pending line.
+- MT5 visual tester has NO in-pass EA restart (observed 2026-07-21,
+  Jeff-corrected): no remove/re-attach, no Properties/param-change
+  re-init mid-pass. To re-init you must stop and restart the whole pass
+  from the beginning. => restart-row tests (e.g. S18) run on a LIVE demo
+  chart, where remove/re-add / recompile / param-change fire a real
+  OnDeinit->OnInit. (OBSERVED, not assumed.)
 
-## b29-QUEUED observability batch: STILL QUEUED (separate build, own
-matrix/checklist). Now unblocked. Guard A file-log WARN item has a
-clean tester surface (Guard A fired live in tester at balance-ratio
-0.0075<0.01 min).
+## b29-QUEUED observability batch: NOW BUILT as Stage10-b30 (2026-07-21).
+Own matrix/checklist (STAGE10_*). All 5 confirmed items (A1-A5) in the
+build; A6 parked. Awaiting live+tester verification before seal.
 
 ## Stage 8 Step 1 - SEALED by Jeff 2026-07-20
 Final market-hours session (XAUUSD.s, demo, logs audited to the cent):
@@ -278,3 +384,77 @@ no policy selector; removals always reverted; asymmetric manual
 lifetime (TP releases on structural events, SL persists); conflict
 adopts nothing; engines own once armed; adoption persisted w/ death-
 window reconcile rules. Policy A retired with b24.
+2026-07-21 Stage 10 observability batch (see STAGE10_MATRIX.md):
+D1 Guard-blocked file log = WARN, not INFO. Rejected INFO: splits log
+   from the amber dashboard row and understates an operational-
+   availability event (EA silently won't enter); the "protective ->
+   INFO" rule is about market-risk direction, a different axis. Keying:
+   one-shot per reason, re-announce on reason switch, re-arm on clear.
+D2 A2 = BOTH touches (init sibling WARN + flag-aware 10027). Rejected
+   init-only. SUPERSEDED by D6 (see below) on live evidence.
+D6 (2026-07-21, supersedes D2's init-sibling half): DROP the init
+   sibling; MQL_TRADE_ALLOWED is proven unreliable at OnInit (true with
+   the F7 box off) though correct at TRADE time. Move the cause hint to
+   a shared helper called from BOTH send paths (E7 market + P6 pending).
+   D2's flag-aware-10027 half stands and is proven (S10-15 PASS); only
+   the init-detection premise was wrong.
+D3 Cover Guards A/B/C, not A alone. Rejected A-only: B/C share the
+   identical dashboard-only block; fixing one leaves a known-identical
+   silent path.
+D4 A6 (manual-SL-refused throttle) PARKED. Rejected inclusion: no
+   observed log spam; a throttle for a theorized repeat violates
+   terminal-is-truth. Re-opens only on real repeat evidence.
+D5 A3/A4/A5 verified as ONE folded regression row (Jeff). Pure log
+   text/emission, money-neutral.
+2026-07-21 MARTINGALE COMPOUNDING BASIS - CLOSED, zero code delta.
+Jeff's live-raised recursive request WITHDRAWN by Jeff after reviewing
+the numeric tradeoff (GATE1_martingale_basis.md). CLOSED-FORM (current)
+STANDS as the meaning of the multiplier: level = base * mult^tier,
+normalized per level (ComputeLevelLot line 1752/1776; normalizer 1798
+round-to-nearest). Confirmed behavior on base 0.01 / mult 1.5 / step 2:
+L3-L6 hold at 0.02 (0.0225 rounds down - the "stall"), first step-up at
+L7 (0.03375 -> 0.03), then L9 0.05, etc. Jeff verified and accepts the
+stall as the honest geometric curve.
+  Rejected R-a (deterministic recursive on last-normalized lot): gives
+  the climbing 1,1,2,2,3,3 ramp AND stays stateless/restart-safe, but is
+  RISK-INCREASING - drifts above mult^n and accelerates (~+33% margin by
+  tier2, more at depth). Jeff declined the added risk for no offsetting
+  gain; the stall is cosmetic-expectation only, not a math error.
+  Rejected R-b (recursive seeded from executed lot): also risk-
+  increasing AND breaks statelessness (needs realized last lot ->
+  persisted field, uninit-field trap, self-test + backward-compat
+  change). No mid-sequence input-adaptation requirement exists to
+  justify it.
+  Scope untouched by this decision: plain RM_MARTINGALE, RM_MANUAL,
+  incremental / deferred-incremental all remain as-is. No matrix, no
+  build - nothing was changed.
+  RE-OPEN CONDITION: only if a live requirement for a per-tier climbing
+  ramp appears; then R-a is the implementation to cost, as a fresh
+  Gate 1 with its own matrix and explicit risk-drift acknowledgement.
+
+2026-07-21 STAGE 9 STEP 2 - tester pending-line adjust = NUDGE (Gate 1
+locked; matrix pending). Problem: visual tester creates the pending
+placement line at ask/bid but chart drag is dead there, so the line
+cannot leave the market band and CONFIRM (pollable) always hits the
+stops-level refusal - the pending flow is reachable but unusable in
+tester. Decision: add two TESTER-ONLY polled buttons (B_PUP/B_PDN) that
+shift PLINE OBJPROP_PRICE by +/- InpTesterNudgePts per click; the SEALED
+confirm path (ComputeEntryLot, Guard C pre-screen, EntrySLRealizable/
+Guard B, stops-level band, place) is read+validated UNCHANGED.
+  Rejected OFFSET (declarative input placing the line at ref+/-offset):
+  non-interactive (edit input + re-run to change price) and a fixed
+  per-run offset is really a Stage 9 Step 3 auto-entry seed - building it
+  here duplicates Step 3 and gives no interactive-flow value. Offset held
+  in reserve for Step 3.
+  Sub-decisions carried into the matrix (seal or correct there):
+   - Buttons created + polled in TESTER ONLY (MQL_TESTER-gated), so the
+     LIVE panel stays byte-identical (live already has native drag).
+   - Step = input InpTesterNudgePts, default 50, clamp >=1.
+   - NO band clamp on movement (REVERSED from the Gate 1 brief's clamp
+     rec): the line may legitimately sit either side of market (buy-limit
+     below / buy-stop above; order type inferred at confirm). Clamping at
+     the band would block legitimate cross-market placement. Movement is
+     free; CONFIRM remains the sole authority and already refuses+keeps
+     the line for re-nudge. Each nudge logs the new line price (INFO;
+     placement price, not a live money change).
+  NO code yet - matrix must seal first (STAGE9_STEP2_MATRIX.md).

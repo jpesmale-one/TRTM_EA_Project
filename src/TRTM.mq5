@@ -19,7 +19,7 @@
 
 #include <Trade\Trade.mqh>
 
-#define TRTM_BUILD  "Stage9-b29"  // internal build tag, bump per delivery
+#define TRTM_BUILD  "Stage9s2-b33"  // internal build tag, bump per delivery
 
 //+------------------------------------------------------------------+
 //| ENUMS                                                            |
@@ -99,6 +99,9 @@ input int    InpMaxDeviationPts= 15;    // Max Deviation (points)
 input bool   InpEnableDDClose  = false; // Enable Drawdown Auto Close
 input double InpMaxDDPercent   = 0.0;   // Max DD in % of Balance (0 = off)
 input double InpMaxDDUSD       = 0.0;   // Max DD in USD (0 = off)
+
+input group "=== Tester (Stage 9) ==="
+input int  InpTesterNudgePts = 50; // [TESTER] Pending-line nudge step (points, clamped >=1)
 
 input group "=== System (Stage 1) ==="
 input bool InpLogToFile   = true;  // Write logs to daily file
@@ -602,6 +605,7 @@ string g_loggedKeys[];   // "context:ticket" keys already warned (log-once per c
 // g_dashMMTNotice while flat (b9-1: adoptable candidate but MMT off).
 string g_dashWarn      = "";
 string g_dashMMTNotice = "";
+int    g_flatBlockReasonLogged = 0;   // Stage10-b30: 0 none,1 GuardA,2 GuardB,3 GuardC - flat-block file-WARN dedupe (transient; restart re-announces once)
 
 bool AlreadyLogged(const string key)
   {
@@ -1012,8 +1016,11 @@ void LogBrokerExitGeometry()
    long stopsPts  = SymbolInfoInteger(_Symbol, SYMBOL_TRADE_STOPS_LEVEL);
    long freezePts = SymbolInfoInteger(_Symbol, SYMBOL_TRADE_FREEZE_LEVEL);
    long minDist   = (long)MathMax((double)stopsPts, (double)freezePts);
-   Log(LOG_INFO, StringFormat("Broker exit geometry (at init): stops level %d pts, freeze level %d pts - TP/SL closer than %d pts to price are DEFERRED until placeable",
-                              (int)stopsPts, (int)freezePts, (int)minDist));
+   if(minDist <= 0)   // Stage10-b30 (A3): 0 = broker reported none, NOT known-safe; stops are dynamic here
+      Log(LOG_INFO, "Broker exit geometry (at init): no fixed stops/freeze level reported (0 pts) - but this broker's stops level is DYNAMIC (XAUUSD.s observed 20-100 pts intraday); TP/SL can still be rejected and are deferred until placeable");
+   else
+      Log(LOG_INFO, StringFormat("Broker exit geometry (at init): stops level %d pts, freeze level %d pts (dynamic on this broker) - TP/SL closer than %d pts to price are DEFERRED until placeable",
+                                 (int)stopsPts, (int)freezePts, (int)minDist));
    if(minDist <= 0)
       return;
    int beDist = InpBETriggerPts - InpBEOffsetPts;
@@ -1979,6 +1986,9 @@ void EvaluateRecovery()
       bool signal = (dir < 0) ? (px >= trigger) : (px <= trigger);
       if(!signal)
          return;
+      Log(LOG_INFO, StringFormat("Recovery signal: %s %s vs trigger %s (tick basis; worst entry %s %s %d pts)",
+                                 dir < 0 ? "bid" : "ask", DoubleToString(px, _Digits), DoubleToString(trigger, _Digits),
+                                 DoubleToString(worst, _Digits), dir < 0 ? "+" : "-", InpRecoveryIntervalPts));
      }
 
    // Entry-side guard (b2): the signal may be bid-based (bar closes), but a
@@ -2523,6 +2533,7 @@ ENUM_ARM_STATE g_armState    = ARM_NONE;
 ulong          g_armExpiryMs = 0;      // GetTickCount64() deadline
 double         g_armLot      = 0.0;    // lot computed + clamped at ARM time (E1)
 int            g_pendDir     = 0;      // placement line: 0 none, 1 buy, -1 sell
+int            g_nudgePts    = 50;     // [TESTER] pending-line nudge step, clamped >=1 at init (transient)
 bool           g_entryEnabled = true;  // false: Percent Risk + SL=0 (locked rule)
 //--- b17: config-blocked state (Jeff request, S6-1 finding). Invalid inputs no
 //--- longer deinit the EA - it stays attached with ALL trading frozen, every
@@ -2859,6 +2870,21 @@ double SequenceFloatingPnL()
   }
 
 //--- Money actions ----------------------------------------------------
+// Stage10-b31 (A2 rework): single source for the 10027 AutoTrading-off cause
+// hint, called from BOTH the market-entry (E7) and pending (P6) send paths.
+// MQL_TRADE_ALLOWED is unreliable at OnInit on this build (reads true with the
+// F7 box off) but correct at TRADE time (proven b30 S10-15) - so this is only
+// ever called at send time, never at init. 10027 with the toolbar ON => the
+// per-EA Allow-Algo-Trading checkbox is the client-side cause.
+string AutoTradingDisabledHint()
+  {
+   bool termOK = TerminalInfoInteger(TERMINAL_TRADE_ALLOWED);
+   bool progOK = MQLInfoInteger(MQL_TRADE_ALLOWED);
+   if(!termOK)      return "toolbar Algo Trading is OFF (global) - enable it and confirm again.";
+   else if(!progOK) return "this EA's Algo Trading is OFF (EA properties -> Common -> Allow Algo Trading) - enable it and confirm again.";
+   else             return "AutoTrading was toggled OFF at send time (reads back ON now) - retry.";
+  }
+
 void ExecuteMarketEntry(const int dir)
   {
    // Re-checks at EXECUTION time (E2/E6): the arm-time state must still hold.
@@ -2894,8 +2920,9 @@ void ExecuteMarketEntry(const int dir)
    uint rc = g_trade.ResultRetcode();
    if(!sent || (rc != TRADE_RETCODE_DONE && rc != TRADE_RETCODE_DONE_PARTIAL && rc != TRADE_RETCODE_PLACED))
      {
-      Log(LOG_ERROR, StringFormat("L1 %s entry FAILED (retcode %d: %s) - no retry, re-arm to try again (E7)",
-                                  dir > 0 ? "BUY" : "SELL", rc, g_trade.ResultRetcodeDescription()));
+      Log(LOG_ERROR, StringFormat("L1 %s entry FAILED (retcode %d: %s) - no retry, re-arm to try again (E7).%s",
+                                  dir > 0 ? "BUY" : "SELL", rc, g_trade.ResultRetcodeDescription(),
+                                  rc == TRADE_RETCODE_CLIENT_DISABLES_AT ? " " + AutoTradingDisabledHint() : ""));
       return;
      }
    Log(LOG_INFO, StringFormat("L1 %s OPENED via button: %.2f lots @ %s (deal %I64u)",
@@ -2994,7 +3021,7 @@ void ConfirmPendingOrder()
       // trader hunting a distance problem on a 10027 (AutoTrading off).
       string hint;
       if(rc == TRADE_RETCODE_CLIENT_DISABLES_AT)        // 10027
-         hint = "AutoTrading is OFF (toolbar Algo Trading button) - enable it and confirm again. Distance was fine.";
+         hint = AutoTradingDisabledHint() + " Distance was fine.";   // Stage10-b31 (A2 rework): shared helper
       else if(rc == TRADE_RETCODE_SERVER_DISABLES_AT)   // 10026
          hint = "Auto trading disabled SERVER-side (broker/account setting).";
       else if(rc == TRADE_RETCODE_TRADE_DISABLED)       // 10017
@@ -3367,6 +3394,7 @@ void PanelRefresh()
    // Warning row: full-width, amber. Dup/unmanaged while live; while flat
    // the MMT-off candidate notice or the disabled-buttons reason.
    string warn = flat ? g_dashMMTNotice : g_dashWarn;
+   int reasonNow = 0;   // Stage10-b30 (A1): which guard blocks entries while flat (0 = none)
    if(g_configBlocked)
       warn = "BLOCKED: " + (g_cfgReason == "" ? "invalid inputs (see log)" : g_cfgReason);
       // outranks every other warning; b18 wraps long text below
@@ -3380,11 +3408,26 @@ void PanelRefresh()
       // "blocked" lot value, found by Jeff in G7b).
       if(warn == "" && g_entryEnabled
          && !EntrySLRealizable(SymbolInfoDouble(_Symbol, SYMBOL_BID), true))
-         warn = "orders blocked: reduce Stop Loss (Guard B)";
+        { warn = "orders blocked: reduce Stop Loss (Guard B)"; reasonNow = 2; }   // Stage10-b30 (A1)
       if(warn == "" && g_entryEnabled && dispLot <= 0.0)
-         warn = "orders blocked: lot < broker min (Guard A)";
+        { warn = "orders blocked: lot < broker min (Guard A)"; reasonNow = 1; }   // Stage10-b30 (A1)
       if(warn == "" && g_entryEnabled && dispLot > 0.0 && !EntryLotRecoveryConsistent(dispLot, true))
-         warn = StringFormat("orders blocked: L1 lot %.2f > Fixed recovery %.2f (Guard C)", dispLot, InpFixedRecoveryLot);
+        { warn = StringFormat("orders blocked: L1 lot %.2f > Fixed recovery %.2f (Guard C)", dispLot, InpFixedRecoveryLot); reasonNow = 3; }   // Stage10-b30 (A1)
+     }
+   // Stage10-b30 (A1): flat-block file WARN (Guards A/B/C), reason-tracked
+   // one-shot. Dashboard already shows the amber row; this closes the
+   // log-side gap (Guard A bit Jeff via Inputs Reset with no journal line).
+   // reasonNow is 0 unless the flat branch set it, so a live sequence never
+   // fires this (M1-7); re-arms when the block clears or a sequence opens.
+   if(reasonNow != g_flatBlockReasonLogged)
+     {
+      if(reasonNow == 1)
+         Log(LOG_WARN, "Guard A: computed L1 lot below broker minimum " + DoubleToString(SymbolInfoDouble(_Symbol, SYMBOL_VOLUME_MIN), 2) + " for the current risk config - opening the minimum would exceed the configured amount. Entries BLOCKED until risk/balance changes (flat).");
+      else if(reasonNow == 2)
+         Log(LOG_WARN, "Guard B: entry Stop Loss not realizable at the current price - reduce Stop Loss. Entries BLOCKED (flat).");
+      else if(reasonNow == 3)
+         Log(LOG_WARN, StringFormat("Guard C: L1 lot %.2f exceeds Fixed recovery lot %.2f (must be <=). Entries BLOCKED (flat).", dispLot, InpFixedRecoveryLot));
+      g_flatBlockReasonLogged = reasonNow;
      }
    // b18 (Jeff request, S6-1 dashboard): word-wrap the warning to fit the
    // panel (Consolas 8pt, ~45 chars usable) instead of truncating. Up to
@@ -3460,11 +3503,32 @@ void PanelRefresh()
       double refPx  = (g_pendDir > 0) ? SymbolInfoDouble(_Symbol, SYMBOL_ASK) : SymbolInfoDouble(_Symbol, SYMBOL_BID);
       string ptype  = (g_pendDir > 0) ? (linePx <= refPx ? "BLIMIT" : "BSTOP")
                                       : (linePx >= refPx ? "SLIMIT" : "SSTOP");
-      PanelButtonSet(PNL + "B_PCONF", xb, by1, bw2 + 40, PNL_BTN_H,
-                     StringFormat("CONFIRM %s %s", ptype, DoubleToString(linePx, _Digits)),
-                     g_pendDir > 0 ? COL_BUY_ARM : COL_SELL_ARM, flat);
-      PanelButtonSet(PNL + "B_PCXL",  xb + bw2 + 40 + PNL_BTN_GAP, by1, bwF - (bw2 + 40) - PNL_BTN_GAP, PNL_BTN_H,
-                     "CANCEL", COL_OFF, flat);
+      string cnfTxt = StringFormat("CONFIRM %s %s", ptype, DoubleToString(linePx, _Digits));
+      color  cnfCol = g_pendDir > 0 ? COL_BUY_ARM : COL_SELL_ARM;
+      if(MQLInfoInteger(MQL_TESTER))
+        {
+         // [TESTER] Stage 9 Step 2: CONFIRM | + | - | CANCEL on the by1 row.
+         // Squares sized to row height; CONFIRM absorbs the remainder. Live
+         // geometry (else branch) is left byte-identical (N3-1).
+         int sq   = PNL_BTN_H;
+         int cxlW = bw2;
+         int cnfW = bwF - cxlW - 2 * sq - 4 * PNL_BTN_GAP;
+         if(cnfW < sq) cnfW = sq;   // defensive floor (never negative width)
+         int cx = xb;
+         PanelButtonSet(PNL + "B_PCONF", cx, by1, cnfW, PNL_BTN_H, cnfTxt, cnfCol, flat);
+         cx += cnfW + PNL_BTN_GAP;
+         PanelButtonSet(PNL + "B_PUP",   cx, by1, sq, PNL_BTN_H, "+", COL_BUY_ARM,  flat);
+         cx += sq + PNL_BTN_GAP;
+         PanelButtonSet(PNL + "B_PDN",   cx, by1, sq, PNL_BTN_H, "-", COL_SELL_ARM, flat);
+         cx += sq + PNL_BTN_GAP;
+         PanelButtonSet(PNL + "B_PCXL",  cx, by1, bwF - (cx - xb), PNL_BTN_H, "CANCEL", COL_OFF, flat);
+        }
+      else
+        {
+         PanelButtonSet(PNL + "B_PCONF", xb, by1, bw2 + 40, PNL_BTN_H, cnfTxt, cnfCol, flat);
+         PanelButtonSet(PNL + "B_PCXL",  xb + bw2 + 40 + PNL_BTN_GAP, by1, bwF - (bw2 + 40) - PNL_BTN_GAP, PNL_BTN_H,
+                        "CANCEL", COL_OFF, flat);
+        }
       PanelButtonSet(PNL + "B_PBUY",  xb, by1, 10, 10, "", COL_OFF, false);
       PanelButtonSet(PNL + "B_PSELL", xb, by1, 10, 10, "", COL_OFF, false);
       PanelButtonSet(PNL + "B_CXLP",  xb, by1, 10, 10, "", COL_OFF, false);
@@ -3486,6 +3550,15 @@ void PanelRefresh()
       PanelButtonSet(PNL + "B_CXLP",  xb, by1, 10, 10, "", COL_OFF, false);
       PanelButtonSet(PNL + "B_PCONF", xb, by1, 10, 10, "", COL_OFF, false);
       PanelButtonSet(PNL + "B_PCXL",  xb, by1, 10, 10, "", COL_OFF, false);
+     }
+
+   // [TESTER] Stage 9 Step 2: collapse the nudge buttons whenever we are
+   // not placing (they only live on the placing row). Tester-guarded so the
+   // live panel never creates these objects (N3-1).
+   if(!placing && MQLInfoInteger(MQL_TESTER))
+     {
+      PanelButtonSet(PNL + "B_PUP", xb, by1, 10, 10, "", COL_OFF, false);
+      PanelButtonSet(PNL + "B_PDN", xb, by1, 10, 10, "", COL_OFF, false);
      }
 
    // BE / Trail toggles (always visible; per-sequence overrides)
@@ -3717,6 +3790,27 @@ void HandleToggleClick(const bool isBE)
      }
   }
 
+//+------------------------------------------------------------------+
+//| Stage 9 Step 2: move the pending placement line by one nudge step |
+//| [TESTER] input surface only (live uses native drag). Touches ONLY |
+//| PLINE's OBJPROP_PRICE; g_pendDir is READ, never written (N3-4).   |
+//| CONFIRM remains the sole authority - free movement either side of |
+//| market (N2-3, G4), the confirm band-check refuses if too close.   |
+//+------------------------------------------------------------------+
+void NudgePendingLine(const int dir)
+  {
+   if(g_pendDir == 0 || ObjectFind(0, PNL + "PLINE") < 0)
+     {
+      Log(LOG_INFO, "[TESTER] Nudge ignored - no pending placement line to move");   // N3-3, not silent
+      return;
+     }
+   double p  = ObjectGetDouble(0, PNL + "PLINE", OBJPROP_PRICE);
+   double np = NormalizePrice(p + dir * g_nudgePts * _Point);
+   ObjectSetDouble(0, PNL + "PLINE", OBJPROP_PRICE, np);
+   Log(LOG_INFO, StringFormat("[TESTER] Pending line nudged %s %d pts -> %s",
+                              dir > 0 ? "UP" : "DN", g_nudgePts, DoubleToString(np, _Digits)));
+  }
+
 void HandlePanelClick(const string name)
   {
    if(g_configBlocked)
@@ -3737,6 +3831,8 @@ void HandlePanelClick(const string name)
       Log(LOG_INFO, "Pending placement canceled by user (line removed, nothing sent)");
       RemovePlacementLine();
      }
+   else if(name == PNL + "B_PUP")   NudgePendingLine(+1);   // [TESTER] Stage 9 Step 2
+   else if(name == PNL + "B_PDN")   NudgePendingLine(-1);   // [TESTER] Stage 9 Step 2
    else if(name == PNL + "B_CXLP")  CancelOwnPendingOrders("user cancel button", false);
    else if(name == PNL + "B_BE")    HandleToggleClick(true);
    else if(name == PNL + "B_TRAIL") HandleToggleClick(false);
@@ -3976,7 +4072,7 @@ bool AcquireInstanceLock()
       else if(owner != ChartID())
          Log(LOG_WARN, "Stale instance lock found (previous chart gone) - taking over");
       else
-         Log(LOG_INFO, "Instance lock re-asserted (own chart - e.g. parameter-change re-init)");
+         Log(LOG_INFO, "Instance lock re-asserted (own chart - recovery after an unclean shutdown that left this chart's own lock behind; a clean re-init releases the lock first, so it cannot reach this branch)");
      }
    else
       Log(LOG_INFO, "Instance lock acquired (no existing lock)");   // b8: this path was
@@ -4011,6 +4107,7 @@ int OnInit()
    g_symbolNorm = NormalizeSymbol(_Symbol);
    g_magic      = (InpMagicNumber > 0) ? InpMagicNumber : DeriveMagic(g_symbolNorm);
    g_stateFile  = TRTM_DIR_BASE + "state_" + g_symbolNorm + "_" + (string)g_magic + ".json";
+   g_nudgePts   = (int)MathMax(1, InpTesterNudgePts);   // [TESTER] pending nudge step, clamped >=1 (N1-5)
 
    Log(LOG_INFO, StringFormat("=== TRTM %s init === symbol=%s (raw %s) magic=%d stateFile=%s",
                               TRTM_BUILD, g_symbolNorm, _Symbol, (int)g_magic, g_stateFile));
@@ -4105,8 +4202,9 @@ void LogTesterModeOnce()
       return;
    if(AlreadyLogged("testermode"))
       return;
-   Log(LOG_INFO, "[TESTER] Interactive mode active - OnTick polling 10 panel "
-                 "buttons (chart events do not fire in tester, build-confirmed)");
+   Log(LOG_INFO, StringFormat("[TESTER] Interactive mode active - OnTick polling 12 panel "
+                 "buttons (chart events do not fire in tester, build-confirmed). "
+                 "Pending nudge step = %d pts (+/- buttons on the CONFIRM row)", g_nudgePts));
   }
 
 void PollTesterButtons()
@@ -4114,13 +4212,14 @@ void PollTesterButtons()
    // D2: poll every tick (no throttle). Button STATE latches true on click
    // until HandlePanelClick un-presses it, so a fast click is not lost.
    // Two buttons latched in one tick dispatch in array order (matrix M2-5).
-   static const string btns[10] =
+   static const string btns[12] =
      {
       PNL + "B_BUY",  PNL + "B_SELL",  PNL + "B_CLOSE",
       PNL + "B_PBUY", PNL + "B_PSELL", PNL + "B_PCONF",
-      PNL + "B_PCXL", PNL + "B_CXLP",  PNL + "B_BE", PNL + "B_TRAIL"
+      PNL + "B_PCXL", PNL + "B_CXLP",  PNL + "B_BE", PNL + "B_TRAIL",
+      PNL + "B_PUP",  PNL + "B_PDN"    // [TESTER] Stage 9 Step 2 (appended last; up before dn = M2-5/N1-4 order)
      };
-   for(int i = 0; i < 10; i++)
+   for(int i = 0; i < ArraySize(btns); i++)
      {
       if(ObjectFind(0, btns[i]) < 0)
          continue;
