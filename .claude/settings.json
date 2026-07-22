@@ -1,5 +1,6 @@
 {
   "permissions": {
+    "defaultMode": "plan",
     "deny": [
       "Bash(taskkill:*)",
       "Bash(terminal64:*)",
