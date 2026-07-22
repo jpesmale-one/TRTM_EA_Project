@@ -1,7 +1,8 @@
 # TRTM SYNC MANIFEST - update with EVERY build delivery
-# Resume protocol: upload TRTM.mq5 + STATE.md together. First action on
-# resume: recompute the hash and compare. Match = aligned in one command,
-# no diff, no reconstruction from conversation memory.
+# Resume protocol (repo-based; see CLAUDE.md section 0). First action on
+# resume: git status + sha256_16 + wc -l of src/TRTM.mq5 AND the MT5
+# runtime copy, all compared to this manifest. Match = aligned in one
+# line. Disk + git are truth, never conversation or auto memory.
 
 build: Stage9s2-b33
 file: TRTM.mq5
@@ -12,7 +13,9 @@ date: 2026-07-21
 ## Environment note
 ALL charts are DEMO; multi-symbol attachments are test surface.
 Checklist EVIDENCE comes from XAUUSD.s only.
-Broker facts: Doo Prime XAUUSD.s stops level = 100 pts.
+Broker facts: Doo Prime XAUUSD.s stops level is DYNAMIC - 100 pts was a
+sample observed at init; it has ranged ~20-100 pts within one evening.
+Never treat it as a constant; guidance logs must say "at init".
 DEPLOY NOTE (b24): no policy selector - manual exit adoption is live
 behavior on EVERY chart b24 is attached to. Flagged and accepted.
 
