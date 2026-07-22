@@ -19,6 +19,36 @@ Never treat it as a constant; guidance logs must say "at init".
 DEPLOY NOTE (b24): no policy selector - manual exit adoption is live
 behavior on EVERY chart b24 is attached to. Flagged and accepted.
 
+## CORE STATUS - COMPLETE (2026-07-22, first Claude Code session)
+Core trade functionality is CLOSED. Sealed: Stages 1-7, Stage 8 Step 1,
+Stage 9 Steps 1-2, Stage 10 observability. The full live loop - entry,
+grid/martingale levels, SL/TP, break-even, manual-exit adoption,
+recovery, state persistence, observability - is built and demo-verified.
+Nothing in the core loop is unbuilt or unverified.
+
+Reconciliation - the b33 handover section 3 "queued" list was STALE;
+these three were already PASS and sealed under Stage 8 Step 1, not
+remaining work:
+- SELL lap (direction symmetry): DONE. Three SELL sequences PASS
+  (S8-10(S)/S8-15(S)/S8-6(S), 2026-07-20) satisfy the STAGE8_MATRIX
+  spot-check symmetry contract (matrix is BUY-worded, direction-
+  symmetric, evidence = BUY + SELL spot-checks). Jeff confirmed closed
+  2026-07-22.
+- M6-1 (post-BE SL adoption above floor): DONE, PASS 07:16:42, sealed.
+- S8-17 (trail-arm TP release): DONE, PASS 16:01:01, sealed.
+
+## Enhancement backlog (TRTM-only; post-core; NONE started)
+Plan phase next. Each is a fresh delivery through the gates when picked.
+E1 BE/TP anchor - SIMPLE avg (live) vs lot-weighted. Money-path; own
+   Gate 1 -> matrix -> plan. Full evidence + rationale below in "Parked
+   additions".
+E2 Stage 8 Step 2 - draggable EXIT (SL/TP) lines LIVE. Not built; only
+   the pending PLACEMENT line exists today. Money-path UX; Gate 1 ->
+   matrix -> plan.
+E3 Stage 9 Step 3 - auto-entry stub (MQL_TESTER-gated). Optimization
+   infra, required before parameter optimization. Reuse the OFFSET seed
+   (rejected for Step 2, held in reserve for Step 3).
+
 ## Verified (demo, logs audited)
 Stages 1-7 SEALED (S7 sealed 2026-07-16 on b23; kill tests on b21).
 Stage 8 Step 1 SEALED by Jeff 2026-07-20 on b28 (see seal section).
