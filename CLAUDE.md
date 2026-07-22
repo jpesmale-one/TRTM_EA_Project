@@ -10,13 +10,27 @@ file, never from memory.
 
 ## 0. SESSION RESUME PROTOCOL (do this before anything else)
 
-1. Jeff uploads TRTM.mq5 + STATE.md (+ latest handover + checklist).
-2. Your FIRST action: `sha256sum TRTM.mq5 | cut -c1-16` and `wc -l`.
-   Compare both to STATE.md. Match = fully aligned, say so in one
-   line, zero reconstruction from conversation memory.
-3. Mismatch = STOP. Ask which copy runs in MT5 before anything else.
-4. Rebuild your working master from JEFF'S UPLOADED FILE, never from
-   a sandbox copy, never from memory of past edits.
+MT5 Experts path (written once here so it is never retyped from
+memory):
+`/c/Users/jpesm/AppData/Roaming/MetaQuotes/Terminal/D0E8209F77C8CF37AD8BF550E51FF075/MQL5/Experts`
+
+1. First action every session — run all four, compare to STATE.md:
+   - `git status` (tree clean, or Jeff explains the dirt)
+   - `sha256sum src/TRTM.mq5 | cut -c1-16` (repo master)
+   - `wc -l src/TRTM.mq5`
+   - `sha256sum "/c/Users/jpesm/AppData/Roaming/MetaQuotes/Terminal/D0E8209F77C8CF37AD8BF550E51FF075/MQL5/Experts/TRTM.mq5" | cut -c1-16` (MT5 runtime copy)
+   All four match STATE.md = fully aligned, say so in one line, zero
+   reconstruction from conversation memory.
+2. Mismatch = STOP. `git diff <last build tag>`, then ask which copy
+   produced the last live evidence — the logs came from the MT5 copy,
+   so THAT is the file the evidence describes. Never guess.
+3. Rebuild your working master from the REPO FILE (`src/TRTM.mq5`),
+   never from a sandbox copy, never from memory of past edits. You may
+   READ the MT5 copy to hash it, but never write to it — copying
+   repo -> MT5 is Jeff's manual step (Step 2b deploy protocol; the
+   MT5 tree is deny per D1).
+4. "Never rebuild from memory" now reads: **disk + git are truth;
+   conversation memory and auto memory never override them.**
 5. Read the handover's "remaining" list. Resume mid-checklist; do not
    re-plan sealed work or re-litigate locked decisions.
 
