@@ -461,3 +461,19 @@ Guard B, stops-level band, place) is read+validated UNCHANGED.
      the line for re-nudge. Each nudge logs the new line price (INFO;
      placement price, not a live money change).
   NO code yet - matrix must seal first (STAGE9_STEP2_MATRIX.md).
+
+2026-07-22 CLAUDE CODE TRANSITION - compile/deploy boundary (see
+docs/CLAUDE_CODE_TRANSITION_v2.md). Decision: compile AND deploy stay
+MANUAL and MT5-side, Jeff's responsibility; NO automated compile gate in
+the repo. Git is the SOURCE OF TRUTH for TRTM.mq5 - on any repo-vs-MT5
+mismatch, Git wins. Quick-verify which build is loaded: the TRTM_BUILD
+tag is shown on the chart panel and the Experts-log init line; compare to
+STATE.md build:. sha256_16 (resume protocol) is the byte-level backstop.
+  Rejected automated gate zero (compile_gate.py, built + verified this
+  session then dropped): it shelled MetaEditor64.exe from the repo, which
+  re-couples Claude Code to the MT5 toolchain - the exact thing the repo
+  separation exists to avoid. Verified once that the b33 repo copy
+  compiles clean (0 errors / 0 warnings) before dropping it.
+  Verified gotchas (for anyone who ever revisits CLI compile): MetaEditor
+  /log is UTF-16, and its process EXIT CODE is not pass/fail (returned 1
+  on a clean 0/0 build) - parse the "Result:" line, never $?.

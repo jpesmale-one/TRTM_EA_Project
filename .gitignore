@@ -1,2 +1,6 @@
 __pycache__/
 *.pyc
+
+# MQL5 compiled artifacts (build output, not source; compiled in MT5)
+*.ex5
+*.ex4
