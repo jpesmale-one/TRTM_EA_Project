@@ -100,81 +100,49 @@ DEFINITION OF DONE (a stage/step is finished when ALL of):
 
 ## 3. CODE CHANGE MECHANICS
 
-File hygiene (violating any of these corrupts the build):
-- CRLF line endings, ASCII-only. Verify both after every edit pass.
-- Brace-count sanity after edits (note: naive {/} count baseline is
-  -1 in this codebase due to a brace in a string — compare DELTA).
-- Surgical edits with unique anchors; never regenerate whole files;
-  never present a wall of code without what-changed-and-why.
-- Bump `TRTM_BUILD` ("StageN-bM") on EVERY delivery, even one-line
-  fixes. Recompute sha256_16 + line count into STATE.md same message.
-- You cannot compile MQL5. Say so; compiler output is checklist gate
-  zero. Jeff applies mid-session local fixes — fold them into your
-  master immediately on report.
+Full detail lives in `.claude/rules/mql5-traps.md` (path-scoped to
+`**/*.mq5` / `**/*.mqh` — loads automatically when editing EA source).
+It covers file hygiene (CRLF/ASCII/brace), the MQL5/broker traps that
+each caused a real bug, and the observability rules. The non-negotiable
+summary that always applies:
+- Surgical edits only; never regenerate a whole file; always say
+  what-changed-and-why.
+- Bump `TRTM_BUILD` on EVERY delivery; recompute sha256_16 + line count
+  into STATE.md in the same message.
+- You cannot compile MQL5 — compiler output is gate zero (Jeff runs it).
+- CRLF + ASCII-only; the `check_hygiene` hook enforces this at write.
 
-MQL5/broker traps (each of these caused a real bug — do not relearn):
-- `input` is a reserved word; never a local variable name.
-- Local structs/simple types are NOT auto-initialized. Any new
-  persisted field gets an explicit default BEFORE parse so absent
-  JSON keys are deterministic (backward compat with old state files).
-- New persisted fields also go into the state self-test write+compare.
-- Functions may be used before definition, but keep file order
-  helper-before-caller to match codebase style.
-- Some brokers key on POSITION_IDENTIFIER not POSITION_TICKET — all
-  position selection goes through the existing wrapper.
-- 64-bit IDs never stored as double (53-bit mantissa).
-- Cached phase/state computed at function entry is STALE after any
-  close within the same call — recompute after closes.
-- Broker stops/freeze levels are DYNAMIC (observed 20–100 pts on
-  XAUUSD.s within one evening). Never treat a sampled value as a
-  constant; guidance logs must say "at init".
-- Retcodes: 10027 = AutoTrading toolbar off (client); 10026 = server
-  disables; 10016/10015 = invalid stops/price. Diagnostics must name
-  the ACTUAL cause — never print a generic hint that misdirects.
-- Task Manager Processes "End task" is a GRACEFUL close. Only Details
-  "End process" / `taskkill /F` is a real kill. Kill-test evidence
-  from a soft kill is invalid.
-- MT5 Inputs "Reset" restores ALL defaults (it has reverted risk
-  settings mid-test). Jeff keeps a .set preset; when a config
-  mystery appears, ask for a full inputs screenshot before debugging.
+---
 
-Observability rules (blocking, not style):
-- Every skip, guard, refusal, block, and failure path LOGS. A
-  dashboard-only block is a bug (file log too, one-shot).
-- Risk-increasing events WARN with computed money impact (pts, lots,
-  currency). Neutral/decreasing events INFO. One-shot where repeats
-  add no information.
-- Log labels state PROVENANCE by comparing values (which source
-  produced this number), never by checking a flag that may be stale.
-- Accepted cosmetics (ordering quirks, benign double-prints) are
-  RECORDED in STATE.md, not churned into builds mid-verification.
+## 3a. MT5 RUNTIME BOUNDARY (hard boundary, hook-enforced)
+
+Claude Code edits `src/TRTM.mq5` in the repo ONLY. It must NEVER touch
+the running terminal or a live account:
+- Never write into the MT5 `MQL5\Experts` tree or the MT5 `Files\`
+  state dir — copying repo -> MT5 is Jeff's manual step (section 0,
+  Step 2b). Claude Code may READ the MT5 copy to hash it, nothing more.
+- Never invoke `terminal64.exe`, never `taskkill` MT5, never attach or
+  detach an EA.
+This is a money-risk boundary, not a preference. It is enforced by a
+`guard_mt5.sh` PreToolUse deny hook + `settings.json` deny rules — the
+client blocks these regardless of what Claude decides. The rules here
+explain the wall; the hook IS the wall.
 
 ---
 
 ## 4. VERIFICATION & EVIDENCE RULES
 
-- Terminal is truth. Live logs and actual fills outrank the code,
-  the plan, and your expectations.
-- AUDIT TO THE CENT: before declaring any item PASS, recompute every
-  number in the pasted log (entries, averages, TP/SL, point deltas,
-  money impacts, projections). State the arithmetic. Two real bugs
-  were caught this way; a mismatch is a finding, never noise.
-- PASS requires log evidence for the specific item. Absence-type
-  items (must-NOT rows) require checking the log for what is NOT
-  there and saying so explicitly.
-- Equivalence passes are allowed only when the untested case runs
-  the IDENTICAL code branch as a tested one — name the branch and
-  the bracketing evidence.
-- FAIL protocol: root cause FIRST (trace the exact log lines), then
-  fix build, then a new matrix row so it can never silently regress,
-  then harden the checklist item, and RETAIN the FAIL evidence in
-  STATE.md. A fix without a matrix row is incomplete.
-- When Jeff reports a symptom, read his log before theorizing. If
-  his premise and the log disagree, say so with the evidence — the
-  log wins, kindly.
-- Carry-forward: verified items survive a new build only if the
-  delta provably cannot affect them (e.g. display-only); say which
-  and why.
+Full detail lives in `.claude/rules/verification.md` (path-scoped to
+`docs/**` — loads when working with matrices, checklists, handovers,
+the facts ledger). It covers audit-to-the-cent, absence-type PASS,
+equivalence passes, the FAIL protocol, and carry-forward. The summary
+that always applies:
+- Terminal is truth — live logs outrank the code, the plan, and your
+  expectations.
+- AUDIT TO THE CENT before any PASS: recompute every number in the
+  pasted log and state the arithmetic. A mismatch is a finding.
+- Read Jeff's log before theorizing; if premise and log disagree, the
+  log wins.
 
 ---
 
