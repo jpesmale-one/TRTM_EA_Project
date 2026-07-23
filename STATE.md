@@ -4,18 +4,20 @@
 # runtime copy, all compared to this manifest. Match = aligned in one
 # line. Disk + git are truth, never conversation or auto memory.
 
-build: Stage9s2-b33
+build: E1-b34
 file: TRTM.mq5
-sha256_16: b732b80fddf75fda
-lines: 4296
-date: 2026-07-21
+sha256_16: aef5dc989609dc45
+lines: 4307
+date: 2026-07-23
 
 ## Environment note
 ALL charts are DEMO; multi-symbol attachments are test surface.
 Checklist EVIDENCE comes from XAUUSD.s only.
-Broker facts: Doo Prime XAUUSD.s stops level is DYNAMIC - 100 pts was a
-sample observed at init; it has ranged ~20-100 pts within one evening.
-Never treat it as a constant; guidance logs must say "at init".
+Broker facts: Doo Prime XAUUSD.s stops level (broker minimum SL/TP
+distance) is DYNAMIC - 100 pts was a sample observed at one init; it has
+ranged ~20-100 pts within one evening. Never treat it as a constant;
+guidance logs must say "at init". The sealed b28 deferral evidence
+(93 < 100 pts) was audited against that 100-pt init sample.
 DEPLOY NOTE (b24): no policy selector - manual exit adoption is live
 behavior on EVERY chart b24 is attached to. Flagged and accepted.
 
@@ -39,15 +41,132 @@ remaining work:
 
 ## Enhancement backlog (TRTM-only; post-core; NONE started)
 Plan phase next. Each is a fresh delivery through the gates when picked.
-E1 BE/TP anchor - SIMPLE avg (live) vs lot-weighted. Money-path; own
-   Gate 1 -> matrix -> plan. Full evidence + rationale below in "Parked
-   additions".
+E4-E7 merged 2026-07-23 from docs/ENHANCEMENT_INPUT_2026-07-23_tier1.md
+(Gate 1 INPUT only - nothing locked, no matrix, no code). E4-E7 are
+reverse-engineered from a third-party reference EA (Shadow Trade Manager
+PRO v3.21) via tester logs only; each item is tagged OBSERVED (evidenced,
+arithmetic recomputed in the input doc) or CHOSEN (Jeff's TRTM design
+decision). Shadow is a REFERENCE, never a spec. The input doc holds the
+full arithmetic and per-fire evidence; entries below are the durable
+summary.
+E1 (SEALED E1-b34, 2026-07-23) BE/TP/trail anchor -> LOT-WEIGHTED, ALL
+   PATHS + DASHBOARD. DONE - all gates cleared, sealed by Jeff after 5
+   live runs (see b34 changes for the seal evidence). Lot-weighted average
+   replaced the simple-average anchor across avg-TP, BE stop/trigger, trail
+   activation/trigger, AND the dashboard projection/avg-entry. Two
+   compute sites converted in-loop (ComputeTargets, ComputeProjection);
+   a shared helper was drafted then removed (dead code, deferred to E4).
+   Docs: E1_MATRIX.md (sealed, 25 rows), E1_PLAN.md, E1_CHECKLIST.md (all
+   PASS). Lot-weighted is the
+   financially correct basket break-even; simple average only coincides
+   when all lots are equal. NEW COUPLING: E4's Tier 1 trigger computes
+   from a lot-weighted VWAP - landing E4 while TP/BE stays simple-average
+   puts two averaging bases in one money path (section 7 consistency
+   break). Therefore E1 and E4 are ONE Gate 1, OR E1 lands FIRST and E4
+   follows. E4 MUST NOT land before E1. Matrix caveat: under the sealed
+   closed-form stall (base 0.01/mult 1.5 -> L3-L6 all 0.02) equal lots
+   are common, so simple and weighted coincide across a stalled band -
+   any E1 matrix MUST include an unequal-lot sequence or it proves
+   nothing. Full evidence + rationale below in "Parked additions".
 E2 Stage 8 Step 2 - draggable EXIT (SL/TP) lines LIVE. Not built; only
    the pending PLACEMENT line exists today. Money-path UX; Gate 1 ->
    matrix -> plan.
 E3 Stage 9 Step 3 - auto-entry stub (MQL_TESTER-gated). Optimization
    infra, required before parameter optimization. Reuse the OFFSET seed
    (rejected for Step 2, held in reserve for Step 3).
+E4 (NEW 2026-07-23) Drawdown Reduction Tier 1 - point-based basket
+   close. One-line: when the basket is deep, close the OLDEST position
+   together with every currently-profitable position, but only if that
+   group's combined P/L clears a per-lot profit threshold. Money-path;
+   full Gate 1 -> matrix -> plan. DEPENDS ON E1 (lot-weighted) - now
+   SATISFIED: E1 sealed E1-b34 2026-07-23, so E4 is UNBLOCKED. NOT STARTED;
+   next up when picked, opens with its own Gate 1.
+   OBSERVED (Shadow, both runs, arithmetic in input doc): trigger = open
+   count >= MinTrades (was 4) AND group (anchor + ALL profitables) VWAP
+   >= MinProfitPoints (was 150 pts) in front of the FAR-side market
+   price. Sells close at Ask (confirmed 3x); buys would close at Bid
+   (NOT observed). Evaluation TICK-based, not bar-gated (both fires
+   mid-bar). On fire: close every member at market, anchor first then
+   profitables descending ticket, then recompute sequence TP + refresh
+   ladder. Threshold restated: group must net >= MinProfitPoints per lot
+   (VWAP framing is the lot-size-independent form) => group can NEVER
+   close at combined loss; only the anchor realizes a loss. Anchor cost
+   MEASURED to escalate (run B: fire1 anchor 0.01 -26.99 lot-pts; fire2
+   anchor 0.02 -43.92, +63%) - the squeeze C1 accepts.
+   CHOSEN for TRTM (Jeff 2026-07-23):
+     C1 anchor = OLDEST position strictly; transfers to next-oldest when
+        it closes; NO skip-to-affordable. Rationale: oldest = most
+        swap-expensive; Tier 1 failing to fire on an expensive anchor is
+        acceptable, not a defect. Rejected skip-ahead (leaves oldest
+        alive longest, unpredictable next-close). Cost accepted:
+        cost-to-close rises each fire so Tier 1 fires progressively less
+        often. Evidence note: Shadow CANNOT confirm its own anchor rule
+        and no ordinary run can - in an unbroken additive ladder
+        oldest = deepest = smallest-lot coincide structurally; behavior
+        (#2 then #3 across both fires) agrees with C1 but the RULE is
+        unproven. Edge case named: on a V/whipsaw the oldest can be the
+        shallowest loser - the rationale that always holds is "oldest =
+        most swap-expensive", not "oldest = deepest".
+     C2 at least one profitable position NOT mandatory; threshold test
+        alone governs (Shadow never fired with zero profitables -
+        unevidenced, a TRTM choice).
+     C3 PRESERVED LADDER INDEX (diverges from Shadow, which re-indexes by
+        count). A rung is an ADDRESS not a counter position: Level N
+        always = (price from anchor + N*interval, lot =
+        ComputeLevelLot(N)); price revisits a level -> refills at that
+        level's lot. Still nothing stored (both derived). Rationale:
+        restores basket weight so lot-weighted VWAP/TP returns to where
+        the sequence earned it; Shadow's re-index leaves the basket
+        permanently lighter at the top, pushing TP further away and
+        compounding across heals. Rejected count-based re-index (silently
+        discards rungs, degrades TP). WARNING: C3 touches the SEALED
+        martingale path (ComputeLevelLot 1752/1776, normalizer 1798) and
+        the level counter - the matrix MUST carry must-NOT-fire rows
+        proving closed-form output is bit-identical for the no-heal case,
+        and rows sited at a curve STEP not inside a stall (a stall makes
+        preserved-index and count-re-index indistinguishable).
+     C4 3-second post-fire recovery suppression (Shadow hardcodes it);
+        TRTM to decide input vs hardcoded - see O3.
+   OPEN sub-decisions (resolve in E4's Gate 1): O1 rung re-arm after a
+     Tier 1 close (preserved index allows repeated whipsaw refill; each
+     cycle net-positive by construction so no loss leak, but ladder
+     CONSUMPTION is real - 9 fires empties it; decide whether a closed
+     rung needs extra travel before re-arming; the existing 3 entry gates
+     do NOT bound the count, bar-close bounds only the rate). O2 threshold
+     scaling with depth (flat 150 for first and ninth fire; later fires
+     already harder under C1 - a knob, decide or park). O3 post-fire
+     suppression window input vs hardcoded (C4). O4 BUY-side far-price =
+     Bid (NOT observed - no buy sequence exists); matrix MUST carry a SELL
+     lap AND a BUY lap, close-side price DIRECTION-DERIVED never a fixed
+     Bid/Ask read (known defect class, surfaces on one direction only).
+     O5 group close ordering + partial-fill handling (Shadow: anchor-first
+     then profitables descending, separate market orders, no retry; a
+     mid-group leg failure leaves a partially-closed group whose combined
+     P/L no longer matches what was tested - needs a rule; unaddressed by
+     Shadow logs).
+E5 (NEW 2026-07-23) Drawdown Reduction Tier 2 - percent-based (Shadow
+   InpPC2_ProfitPercent/InpPC2_MinTrades). DISABLED in both reference
+   runs - ZERO observed behavior. Recorded as a known sibling only;
+   requires its own reference run (E7 R1) before it can be specified.
+E6 (NEW 2026-07-23) Drawdown Reduction Tier 3 - partial-lot close
+   (Shadow InpPC3_MinTrades/MinLots/MinProfitPoints/ClosePercent).
+   DISABLED in both runs - ZERO observed behavior. Input names imply
+   closing a PERCENTAGE of a position's lots (a different mechanism from
+   E4); requires its own reference run (E7 R2).
+E7 (NEW 2026-07-23) Reference-EA behavior capture - RESEARCH task, NOT a
+   TRTM build, no gates, pure evidence gathering. Rerun Shadow with
+   disabled features ON to get E5/E6 data and close E4's unobserved
+   branches: R1 InpEnablePartialClose2=true (Tier 2); R2
+   InpEnablePartialClose3=true (Tier 3); R3 a BUY sequence (all data
+   today SELL-only; needed for O4); R5 a BE reference run (price
+   favourable to basket AND Tier 1 disabled so it cannot harvest
+   positions before BE arms - see F4; only if Shadow's BE is ever wanted
+   as a reference, TRTM's own BE is sealed). R4 WITHDRAWN 2026-07-23: a
+   different run cannot separate oldest/deepest/smallest-lot (they
+   coincide by construction in every additive ladder; verified against
+   run B's two fires); disambiguation would need an artificial basket,
+   no longer a faithful reference. Formally parked as
+   undeterminable-by-observation; C1 does not depend on the answer.
 
 ## Verified (demo, logs audited)
 Stages 1-7 SEALED (S7 sealed 2026-07-16 on b23; kill tests on b21).
@@ -58,6 +177,44 @@ Stage 10 (observability batch) SEALED by Jeff 2026-07-21 at Stage10-b32.
 A1 guards A/B/C, A2 (reworked b31), A3 (>0 branch), A4 all PASS with
 audited live logs; A5 + A3 0-stops sub-case accepted by inspection.
 Full scoreboard in HANDOVER_2026-07-21_stage10_b32.md.
+
+## b34 changes (E1: lot-weighted anchor - SEALED by Jeff 2026-07-23).
+## MONEY PATH - anchor basis change. All gates cleared (locked-decisions
+## 2026-07-23; docs/E1_MATRIX.md 25 rows; docs/E1_PLAN.md;
+## docs/E1_CHECKLIST.md all PASS across 5 live runs). +11 lines
+## (4296 -> 4307). Compiled clean (0/0, Jeff's terminal).
+1. ComputeTargets: loop now accumulates sumPrice=sum(lot*entry) + sumVol;
+   g_curAvgEntry = sumPrice/sumVol (was sum(entry)/count). avg-TP (>1
+   level) reads g_curAvgEntry (inline sum/count duplicate removed).
+   anchorEntry (lowest-level SL anchor) + levelCount==1 TP UNCHANGED.
+   Stale "simple average implemented to match spec" comment replaced.
+2. ComputeProjection: loop now accumulates sumWV=sum(lot*entry); avgEntry
+   = sumWV/lots (was sum(entry)/count). Drives dashboard avg-entry row +
+   "Proj at TP/SL" - now the SAME lot-weighted basis as the engine (no
+   b26/S8-25 display drift). Per-leg pTP/pSL math untouched.
+3. Lot-weighted computed IN-LOOP at both existing scan sites (no
+   redundant per-tick pass). A shared helper was drafted then REMOVED
+   before handoff (it had no caller - both consumers own a loop - so it
+   was dead code / unused-function warning risk at gate zero); deferred
+   to E4, which needs the average outside these loops. C-1 single-basis
+   guarantee is enforced by matrix recompute, not code sharing.
+UNCHANGED (money/state): Recovery lot sizing (ComputeLevelLot) + level
+spacing; SL anchor (lowest-level entry); CostCoverPoints; manual-exit
+substitution + [MANUAL] tag; state schema + RunStateSelfTest (no new
+persisted field - g_curAvgEntry already per-pass non-persisted). Equal-
+lot sequences are bit-identical to b33 by construction (weighted==simple
+when lots equal). Hygiene: 0 bare LF, ASCII-only, brace delta preserved
+(-1 pre-existing string/comment brace, +2/+2 from the new helper).
+STATUS: SEALED by Jeff 2026-07-23. Verified across 5 live demo runs on
+XAUUSD.s (audited to the cent, docs/E1_CHECKLIST.md): unequal-lot BUY
+10-level lifecycle (weighted TP exact every level + BE fire + weighted-TP
+exit), equal-lot SELL 10-level no-op (weighted==simple) + SELL BE, trail
+activation (weighted threshold discriminated vs simple), manual-TP edit
+(path unchanged, computed re-assert weighted), hard-kill recompute +
+lowest-level re-anchor. SELL/descending/manual-list by equivalence (the
+averaging code has no direction/order term). No FAILs, no findings.
+Empirical: XAUUSD.s stops level read 100 pts at 22:03/22:11 inits (within
+the DYNAMIC 20-100 band). E4 (Tier 1) is now UNBLOCKED - E1 has landed.
 
 ## b33 changes (Stage 9 Step 2: tester pending-line NUDGE, matrix SEALED
 ## 2026-07-21). ZERO money paths (trade-primitive count 8=8 vs b32).
@@ -151,8 +308,46 @@ The Environment note above states "Doo Prime XAUUSD.s stops level =
 it as DYNAMIC 20-100 pts intraday (sampled). A3 (above) codifies the
 dynamic reality. The "= 100 pts" line should be reworded to "sampled
 100 pts; DYNAMIC 20-100 intraday" - not silently changed here because
-it underpins sealed b28 deferral evidence (93 < 100). Flagged, pending
-Jeff's confirmation of the wording.
+it underpins sealed b28 deferral evidence (93 < 100). RESOLVED 2026-07-23:
+the Environment note already read DYNAMIC (not a "= 100 pts" constant);
+Jeff confirmed the wording and it now names the stops level as the broker
+minimum SL/TP distance and ties the 100-pt sample to the sealed 93 < 100
+evidence. See F2 below.
+
+## FINDINGS (raise with Jeff) - 2026-07-23 enhancement input merge
+From docs/ENHANCEMENT_INPUT_2026-07-23_tier1.md. F1-F4 RAISED, none
+applied to code or to the referenced STATE.md text yet.
+F1. E1 wording (backlog above): the ORIGINAL E1 line read the choice as
+    open ("SIMPLE avg vs lot-weighted"). Jeff directed LOT-WEIGHTED
+    2026-07-23. E1 has been reworded in the backlog to record the
+    intended direction while keeping the Gate 1 requirement. The
+    "Parked additions 2026-07-20" evidence block (below) is UNCHANGED -
+    it still states simple-vs-lot-weighted as pending because it is the
+    dated evidence record, not the decision. Do not edit that block.
+F2. RESOLVED 2026-07-23. The stale-broker-fact FINDING immediately above
+    (stops level "= 100 pts" constant vs the DYNAMIC 20-100 pts ledger)
+    was found already corrected in the Environment note - it read DYNAMIC,
+    not a constant. Jeff confirmed the wording; the note now names the
+    stops level as the broker minimum SL/TP distance and ties the 100-pt
+    init sample to the sealed b28 93 < 100 deferral evidence. No code
+    change (doc clarity only).
+F3. Shadow log cosmetic (reference-EA defect, informational): its three
+    Tier 1 CLOSING deals each print "Confirmed initial deal #N. Position
+    count is 0", misclassifying close-deals as initial entries and
+    reporting count 0 while 7 positions remained open. Recorded as a
+    defect CLASS for TRTM to avoid - close deals must NOT route through
+    the initial-entry branch. Not a TRTM bug; a design guardrail note.
+F4. Shadow's break-even engine is UNOBSERVED across the full four-day
+    run despite InpEnableBreakEven=true: no BE line, no SL modification,
+    no armed message; every modify carries sl: 0.00000. Reason
+    demonstrated (not assumed): price ran persistently AGAINST the
+    basket, and the two times positions moved into profit Tier 1 closed
+    them (14:57 06.24, 15:48 06.25) before any held the 200-pt trigger.
+    STRUCTURAL NOTE worth carrying into TRTM design thinking: an
+    aggressive Tier 1 can systematically harvest exactly the positions a
+    BE engine would otherwise arm on. TRTM's own BE is sealed; if
+    Shadow's BE is ever wanted as a reference it needs E7 R5 (price
+    favourable AND Tier 1 disabled).
 
 ## b24 changes (Stage 8 Step 1: manual exit adoption, matrix SEALED)
 Design: STAGE8_MATRIX.md (37 rows, sealed 2026-07-16). Summary:
@@ -405,6 +600,73 @@ Final market-hours session (XAUUSD.s, demo, logs audited to the cent):
   money-path change, do not fold in.
 
 ## Locked decisions log (additions this session)
+2026-07-23 E1 ANCHOR BASIS = LOT-WEIGHTED, ALL THREE PATHS (Gate 1
+LOCKED; matrix + plan still required before any code). Decision: replace
+the SIMPLE-average sequence anchor (g_curAvgEntry, TRTM.mq5 line 1091,
+"locked structural") with the LOT-WEIGHTED AVERAGE of open entries
+(sum(lot_i*entry_i)/sum(lot_i)), applied to EVERY path that reads the
+anchor - NOT TP alone. SCOPE FENCE: E1 changes ONLY the exit/protection
+anchor. It does NOT touch Recovery - not level lot sizing (ComputeLevelLot
+line 1755, sealed closed-form, untouched) and not level spacing (the
+anchor + N*interval ladder does not read g_curAvgEntry). Recovery stays
+byte-identical. TERMINOLOGY: this lot-weighted average is the same formula
+E4 later calls "VWAP"; E1 uses the plainer name to keep the two features
+distinct. E1 is a basis swap on three existing paths; E4 (Tier 1 basket
+close) is a separate feature that happens to read the same lot-weighted
+average of its own close-group. The anchor feeds three money paths,
+confirmed by grep of g_curAvgEntry: (1) avg-TP computed = anchor +
+InpAvgTPPts (line 1106, levelCount>1 branch only); (2) BE stop = anchor +
+InpBEOffsetPts [+ CostCoverPoints] (BEStopPrice line 1183, trigger test
+line 1208); (3) trail activation + trigger = anchor + InpBEOffsetPts +
+InpTrailDistPts (TrailActivationPrice line 1191, trigger line 1253). All
+three move to lot-weighted together.
+  SCOPE CORRECTION 2026-07-23 (found reading code before the matrix):
+  there is a FOURTH averaging site the "three paths" wording missed -
+  ComputeProjection (line 1848) recomputes sumPrice/counted independently
+  (line 1871) to drive the DASHBOARD "Proj at TP/SL" row (line 3338) and
+  the displayed avg-entry. Also the TP site (1106) recomputes
+  sumPrice/counted INLINE, not via g_curAvgEntry. So E1 must convert
+  every place the average is COMPUTED - g_curAvgEntry (1091), the TP
+  inline (1106), AND ComputeProjection (1871) - or the panel would
+  project/display a simple-mean average while the engine runs
+  lot-weighted: the exact display-vs-engine drift b26/S8-25 fixed and
+  locked. Jeff confirmed 2026-07-23: align EVERYTHING anchored to the
+  average, dashboard included. Does NOT reopen Option A (still
+  lot-weighted, all exit/protection paths); it extends the fence to the
+  projection/display site so display never drifts from engine. Not a new
+  money path - a display-consistency requirement.
+  RATIONALE: lot-weighted is the financially correct basket break-even;
+  simple average only coincides when all lots are equal. One anchor, one
+  basis, everywhere it is read = internally consistent AND consistent
+  with E4, whose Tier 1 trigger already computes from the same lot-
+  weighted average of its close-group (leaving the E1 anchor simple would
+  put two averaging bases in one money
+  path - the section-7 consistency break the E1 amendment exists to
+  close). MONEY EFFECT ACCEPTED (Jeff, eyes open): when later/deeper lots
+  are larger (normal martingale), lot-weighting pulls the anchor toward
+  them (BUY: higher), pushing TP, BE, and trail activation all FURTHER
+  away, so BE arms slightly later and TP is slightly harder to reach than
+  today. Simple average currently errs early/profitable; lot-weighted
+  trades that small early-exit bias for correctness. Worked example (live
+  0.02/0.02/0.03 BUY, entries 4018.20/4018.30/4018.53): simple avg
+  4018.3433 vs lot-weighted 281.28671/0.07 = 4018.3843, +4.1 pts; avg-TP(+300)
+  4021.3433->4021.3843, BE stop(+30) 4018.6433->4018.6843, all shift the
+  same +4.1 pts.
+    Rejected B (lot-weighted TP ONLY, BE/trail stay simple): creates a
+    NEW internal split - TP on a different basis than BE/trail - and is
+    still mismatched with E4. A fresh inconsistency to buy a smaller diff.
+    Rejected C (keep simple everywhere): E4 then forces two bases in one
+    money path (the flagged break); rejects the 2026-07-23 E1 amendment.
+  MATRIX REQUIREMENTS carried forward: (a) MUST include an UNEQUAL-LOT
+  sequence - under the sealed closed-form stall (base 0.01/mult 1.5 ->
+  L3-L6 all 0.02) simple and weighted coincide across a stalled band, so
+  a stall-only row proves nothing. (b) must-NOT-fire rows proving the
+  equal-lot case is bit-identical to today (lot-weighted == simple mean
+  when all lots equal). (c) all three paths (TP, BE trigger/stop, trail
+  activation/trigger) exercised, both BUY and SELL laps (anchor is
+  direction-signed at the consumer sites). E4 remains blocked until E1
+  lands (E4 MUST NOT land first).
+
 2026-07-16 Deferred-TP RE-EXAMINED AND CLOSED, zero code delta:
 Choice 1 (bank at market when computed TP already exceeded) STANDS.
 b20 race gate made broker-held-TP riding technically trustworthy but

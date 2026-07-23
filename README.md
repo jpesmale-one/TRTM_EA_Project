@@ -125,14 +125,26 @@ managed and closed together.
 TRTM opens if price moves against the sequence by
 `InpRecoveryIntervalPts` from the worst entry so far.
 
-**Average entry.** With multiple levels open, the shared take-profit is
-computed from the average of the entry prices. Every level gets the
-same TP price, so the whole group exits together.
+**Average entry (lot-weighted).** With multiple levels open, the shared
+take-profit is computed from the **lot-weighted** average of the entry
+prices - each level's price counts in proportion to its lot size, not
+equally. This is the true break-even of the basket: a bigger lot pulls
+the average toward its price, exactly as it pulls your real profit/loss.
+Every level gets the same TP, so the whole group exits together.
+
+> Why lot-weighted, not a plain average? If your levels use different
+> lot sizes (any Incremental, Martingale, or Manual setup), a plain
+> average of prices is *not* where the basket actually breaks even - it
+> only matches when every lot is the same size. Lot-weighting places the
+> TP so that at target you bank exactly `InpAvgTPPts` per lot across the
+> whole group. When all lots are equal the two are identical, so nothing
+> changes for equal-lot sequences.
 
 **Break-even (BE).** Once the sequence is ahead by `InpBETriggerPts`,
-TRTM moves all stops to the average entry, offset by `InpBEOffsetPts`
-on the profit side - locking in a small gain instead of risking a
-round-trip back to loss.
+TRTM moves all stops to the lot-weighted average entry, offset by
+`InpBEOffsetPts` on the profit side - locking in a small gain instead
+of risking a round-trip back to loss. The trailing stop's activation
+point is measured from the same lot-weighted average.
 
 **Trailing stop.** After BE, the stop can follow price at
 `InpTrailDistPts`, either a fixed distance or the previous candle's
@@ -188,11 +200,11 @@ as soon as it's legal - it doesn't silently drop it.
 | Input | Meaning |
 |---|---|
 | `InpInitialTPPts` | TP for L1 before any recovery. 0 = off. |
-| `InpAvgTPPts` | TP target from the average entry once recovery starts. 0 = off. |
-| `InpStopLossPts` | Stop-loss, anchored to the lowest level. 0 = off. |
+| `InpAvgTPPts` | TP target from the lot-weighted average entry once recovery starts. 0 = off. |
+| `InpStopLossPts` | Stop-loss, anchored to the lowest level (not the average). 0 = off. |
 | `InpEnableBE` | Break-even on by default (the **BE** button overrides per sequence). |
-| `InpBETriggerPts` | Profit from average entry needed to arm BE. |
-| `InpBEOffsetPts` | Where the BE stop sits, on the profit side of average. |
+| `InpBETriggerPts` | Profit from lot-weighted average entry needed to arm BE. |
+| `InpBEOffsetPts` | Where the BE stop sits, on the profit side of the lot-weighted average. |
 | `InpBEAutoAdjust` | Widen BE to cover swaps/fees. |
 | `InpEnableTrailing` | Trailing on by default (the **TRAIL** button overrides). |
 | `InpTrailDistPts` | Trailing distance. |

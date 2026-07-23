@@ -19,7 +19,7 @@
 
 #include <Trade\Trade.mqh>
 
-#define TRTM_BUILD  "Stage9s2-b33"  // internal build tag, bump per delivery
+#define TRTM_BUILD  "E1-b34"  // internal build tag, bump per delivery
 
 //+------------------------------------------------------------------+
 //| ENUMS                                                            |
@@ -1054,6 +1054,16 @@ double NormalizePrice(const double price)
    return NormalizeDouble(price, _Digits);
   }
 
+// E1: the sequence anchor is the LOT-WEIGHTED average entry =
+// sum(lot_i*entry_i)/sum(lot_i), the financially correct basket
+// break-even (equals the simple mean iff all lots are equal). It is
+// computed IN-LOOP at the two sites that already scan open positions -
+// ComputeTargets (money anchor: TP/BE/trail via g_curAvgEntry) and
+// ComputeProjection (dashboard) - so there is no redundant per-tick pass.
+// Both MUST produce the identical value (matrix C-1, verified by
+// recompute). A shared helper is deferred to E4, which needs the average
+// outside these loops.
+
 // Computes the sequence's target TP and SL from current structure.
 // tp/sl of 0.0 mean "not managed" (feature disabled).
 void ComputeTargets(double &tp, double &sl)
@@ -1068,27 +1078,31 @@ void ComputeTargets(double &tp, double &sl)
    // SL anchored to lowest surviving level; L1 while it lives, then L2...).
    double anchorEntry = 0.0;
    int    minLvl      = 2147483647;
-   // Avg entry across all open levels (dormant until Stage 4: levelCount==1
-   // means avg == L1 entry anyway).
-   double sumPrice = 0.0;
+   // Lot-weighted avg entry across all open levels (E1), weighted in this
+   // existing loop; ComputeProjection computes the identical value for the
+   // dashboard (matrix C-1, verified by recompute).
+   double sumPrice = 0.0;   // now sum(lot*entry)
+   double sumVol   = 0.0;
    int    counted  = 0;
    for(int i = 0; i < g_state.levelCount; i++)
      {
       if(!PositionSelectByTicket(g_state.tickets[i]))
          continue;   // liveness handles disappearance; skip this tick
       double entry = PositionGetDouble(POSITION_PRICE_OPEN);
+      double vol   = PositionGetDouble(POSITION_VOLUME);
       if(g_state.levels[i] < minLvl)
         {
          minLvl      = g_state.levels[i];
          anchorEntry = entry;
         }
-      sumPrice += entry;
+      sumPrice += vol * entry;
+      sumVol   += vol;
       counted++;
      }
    if(counted == 0)
       return;
    g_curAnchorLvl = minLvl;
-   g_curAvgEntry  = sumPrice / counted;   // Stage 6: BE/trail reference (simple avg, locked structural)
+   g_curAvgEntry  = (sumVol > 0.0) ? sumPrice / sumVol : 0.0;   // E1: lot-weighted; BE/trail/TP reference
 
    if(g_state.levelCount == 1)
      {
@@ -1097,13 +1111,11 @@ void ComputeTargets(double &tp, double &sl)
      }
    else
      {
-      // DORMANT until Stage 4. NOTE for Stage 4 design review: spec defines
-      // avg entry as the SIMPLE average of entry prices (per the worked
-      // example). With unequal lots (martingale etc.) the volume-weighted
-      // average is the financially meaningful anchor. Decision pending -
-      // simple average implemented to match spec until then.
+      // E1 (Gate 2 sealed 2026-07-23): TP anchor is the LOT-WEIGHTED avg
+      // (g_curAvgEntry above), the financially correct basket break-even.
+      // Was simple mean; equal-lot bands are unchanged (weighted==simple).
       if(InpAvgTPPts > 0)
-         tp = NormalizePrice(sumPrice / counted + dir * InpAvgTPPts * _Point);
+         tp = NormalizePrice(g_curAvgEntry + dir * InpAvgTPPts * _Point);
      }
    if(InpStopLossPts > 0)
      {
@@ -1843,8 +1855,9 @@ bool RegisterNewRecovery(const int levelN)
 // Projection math shared by LogStructure (Stage 4) and the dashboard
 // (Stage 5). Extracted in b9 as a pure lift-out - identical arithmetic -
 // so the panel displays the SAME computation the engine logs, never a
-// display-only mirror that can drift. Also returns simple avg entry
-// (the sequence TP anchor) for the dashboard's live row.
+// display-only mirror that can drift. Also returns the LOT-WEIGHTED avg
+// entry (E1: the sequence anchor, matching g_curAvgEntry) for the
+// dashboard's live row - display must never drift from the engine basis.
 void ComputeProjection(const double tp, const double sl,
                        double &lots, double &pTP, double &pSL, double &avgEntry)
   {
@@ -1853,22 +1866,20 @@ void ComputeProjection(const double tp, const double sl,
    if(tickSz <= 0.0) tickSz = _Point;
    int dir = g_state.direction;
    lots = 0.0; pTP = 0.0; pSL = 0.0; avgEntry = 0.0;
-   double sumPrice = 0.0;
-   int    counted  = 0;
+   double sumWV = 0.0;   // E1: sum(lot*entry); lots is the volume total
    for(int i = 0; i < g_state.levelCount; i++)
      {
       if(!PositionSelectByTicket(g_state.tickets[i]))
          continue;
       double vol   = PositionGetDouble(POSITION_VOLUME);
       double entry = PositionGetDouble(POSITION_PRICE_OPEN);
-      lots += vol;
-      sumPrice += entry;
-      counted++;
+      lots  += vol;
+      sumWV += vol * entry;
       if(tp > 0.0) pTP += dir * (tp - entry) / tickSz * tickVal * vol;
       if(sl > 0.0) pSL += dir * (sl - entry) / tickSz * tickVal * vol;
      }
-   if(counted > 0)
-      avgEntry = sumPrice / counted;
+   if(lots > 0.0)
+      avgEntry = sumWV / lots;   // E1: lot-weighted, matches the engine anchor
   }
 
 // Structure summary + projected PnL guard. Called on every structure
