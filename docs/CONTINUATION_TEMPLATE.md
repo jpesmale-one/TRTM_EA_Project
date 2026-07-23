@@ -50,21 +50,28 @@ every money number before any PASS.
 
 ---
 
-## Current instance - pre-filled for the NEXT break (E4)
+## Current instance - pre-filled for the NEXT break (E4 Gate 3)
 
 ```
 Resume TRTM. Run the section 0 resume protocol FIRST: git status +
 sha256_16 + wc -l of src/TRTM.mq5 AND the MT5 runtime copy, all compared
 to STATE.md (expect build E1-b34, aef5dc989609dc45, 4307 lines). Report
-aligned in one line, or STOP on mismatch.
+aligned in one line, or STOP on mismatch. (No build since E1-b34 - E4 is
+still pre-code.)
 
-Then read docs/HANDOVER_2026-07-23_E1_b34.md and STATE.md. E1 (lot-weighted
-anchor) sealed 2026-07-23; E4 (Drawdown Reduction Tier 1) is now unblocked.
+Then read docs/HANDOVER_2026-07-24_E4_gate2.md and STATE.md. E4 Gate 1
+(O1-O5) is locked and Gate 2 (docs/E4_MATRIX.md, rev 1, 36 rows) is SEALED;
+Gate 3 (confirmed code plan) is next.
 
-Open E4's Gate 1. Work its open sub-decisions O1-O5 with me ONE at a time,
-concrete numbers, your rec each - start with whichever you judge most
-foundational. Record each decision + rejected alternatives in STATE.md's
-locked-decisions log as we go.
+Resume E4 at Gate 3. The matrix is sealed - do NOT re-plan or re-open sealed
+rows or locked decisions. Produce the surgical code plan: touch points,
+insertion order, each step mapped to its matrix row(s). Expect it SMALL -
+reuse CloseSequenceAtMarket for the group close (O5); the re-arm is already
+address-based (ComputeRecoveryTrigger max+1, ComputeLevelLot by level) so
+C3/H-2 is a confirm not a rewrite. The ONE careful piece is H-6: the SL must
+re-anchor to the new lowest survivor when Tier 1 closes the oldest (the SL
+anchor). Also resolve the gold default for InpTier1MinProfitPts (plan-time,
+O2 rider). One question per message.
 
 This item is reverse-engineered from a reference EA (Shadow) - treat it as
 reference, never spec; each point is tagged OBSERVED or CHOSEN in
@@ -74,12 +81,12 @@ Gate order holds: locked decisions -> sealed matrix (money paths) ->
 confirmed plan -> build -> evidence-audited verification -> seal on my
 explicit word. One question per message, concrete numbers, your rec each;
 record every decision + rejected alternatives in STATE.md's locked-
-decisions log. No code before a confirmed plan; no matrix before locked
-decisions. Do not touch the MT5 tree (deploy is my manual step); recompute
-every money number before any PASS.
+decisions log. No code before a confirmed plan. Do not touch the MT5 tree
+(deploy is my manual step); recompute every money number before any PASS.
 
-Note: the E1 commit (77cfca6) is local only - not pushed to origin. Tell me
-if you want it pushed.
+Note: E1 is pushed (origin/main @ 864effe); this session's Gate 1/2 docs are
+committed locally (ahead of origin, not pushed). Open findings: F3 (guardrail
+= matrix X-5), F4 (design note).
 ```
 
 > After each future break, replace this "Current instance" block with a

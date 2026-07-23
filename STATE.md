@@ -158,7 +158,10 @@ E7 (NEW 2026-07-23) Reference-EA behavior capture - RESEARCH task, NOT a
    disabled features ON to get E5/E6 data and close E4's unobserved
    branches: R1 InpEnablePartialClose2=true (Tier 2); R2
    InpEnablePartialClose3=true (Tier 3); R3 a BUY sequence (all data
-   today SELL-only; needed for O4); R5 a BE reference run (price
+   today SELL-only) - SUPERSEDED 2026-07-23: O4 was decided from the
+   platform invariant (buy closes at Bid, already TRTM's sealed-core
+   behavior), so R3 is NO LONGER NEEDED for O4 and nothing in E4 blocks
+   on it; de-prioritized, retains only general buy-side corroboration; R5 a BE reference run (price
    favourable to basket AND Tier 1 disabled so it cannot harvest
    positions before BE arms - see F4; only if Shadow's BE is ever wanted
    as a reference, TRTM's own BE is sealed). R4 WITHDRAWN 2026-07-23: a
@@ -600,6 +603,196 @@ Final market-hours session (XAUUSD.s, demo, logs audited to the cent):
   money-path change, do not fold in.
 
 ## Locked decisions log (additions this session)
+2026-07-23 E4 O1 RUNG RE-ARM = UNRESTRICTED REFILL (Gate 1 LOCKED; matrix +
+plan still required before any code). After a Tier 1 fire vacates a rung's
+ADDRESS, that address refills by the ORDINARY recovery-ladder re-arm - the
+same derived path as the level's first open (price = anchor + N*interval, lot
+= ComputeLevelLot(N) under C3 preserved index). NO extra re-arm-travel
+criteria, NO "armed" flag, NO per-rung last-closed state. Nothing new
+triggers the refill (the normal recovery ladder recomputing from the
+surviving top does) and nothing is stored - both price and lot stay DERIVED,
+C3 invariant intact. FIRE-GROUP reminder (so the re-arm scope is not
+misread): Tier 1 closes the anchor (oldest) + ALL currently-profitable
+positions, so a 6-level basket can vacate e.g. L1(anchor)+L4/L5/L6, leaving
+underwater survivors L2/L3 - not just top+bottom; every vacated address
+re-arms by the same rule.
+  DIRECTION REALITY (Jeff's clarification 2026-07-23, structural not
+  probabilistic): only the HIGHER closed rungs re-arm; the LOWEST closed rung
+  (the anchor) NEVER re-arms. The recovery ladder extends ONLY in the adverse
+  direction (a SELL adds higher rungs as price rises), never below the current
+  lowest survivor. The closed anchor sits at the FAVOURABLE extreme (lowest
+  price for a SELL), so revisiting it needs price to move FOR the basket -
+  which heads toward basket TP, not toward a recovery add. Concretely: a fire
+  closes L1(anchor,bottom) + the profitable top band L4/L5/L6, leaving
+  survivors L2/L3; recovery re-arms L4->L5->L6 above the top survivor as price
+  moves adverse again, and L1's address is never revisited by an add.
+  RATIONALE: every refill->close cycle is net-POSITIVE by construction - the
+  threshold guarantees the group nets >= MinProfitPoints/lot (run A +30.16
+  lot-pts; run B fire2 +29.72), so there is NO loss mechanism to gate against.
+  Rate is already bounded: the bar-close entry gate caps refills at 1/M15 bar
+  (<=96/day) and each refill still needs a qualifying tick clearing the
+  threshold (observed: 2 fires in 4 days, run B). A re-arm-travel gate would
+  defend against no loss while forcing per-rung STORED state that breaks C3's
+  derived-only design and adds a fresh touch on the sealed ladder - cost
+  against zero financial benefit. Jeff confirmed 2026-07-23.
+  LADDER-CONSUMPTION cost ACCEPTED (bounded by fires; each fire spends the
+  oldest; 9 fires empties a 9-rung ladder even if all 9 profit) - that IS the
+  intended pressure-valve behavior. The residual "should deeper/later fires be
+  worth MORE" question is handed to O2, not gated here.
+  Rejected: require extra travel before a vacated rung re-arms. Rejected -
+  defends against no loss (every cycle net-positive), requires per-rung stored
+  state breaking C3, and duplicates the rate throttle the bar-close gate
+  already provides.
+
+2026-07-23 E4 O4 FAR-SIDE PRICE = DIRECTION-DERIVED, basis = PLATFORM INVARIANT
+(Gate 1 LOCKED; matrix + plan still required before any code). The Tier 1
+trigger far-price - the price the group's margin is measured against AND the
+side the group closes at - is DERIVED FROM BASKET DIRECTION: SELL basket ->
+Ask, BUY basket -> Bid. Never a hardcoded/fixed side.
+  BASIS (Jeff 2026-07-23, first-principles - stronger than a single Shadow
+  observation): a market close of a BUY is a SELL executed at BID; a close of a
+  SELL is a BUY executed at ASK. Broker/platform INVARIANT, always true, and
+  ALREADY the behavior of TRTM's SEALED TP + manual-exit close paths (buys have
+  always exited at Bid across the whole sealed core). So the BUY side needs NO
+  Shadow buy fire to justify it - buy-closes-at-Bid is a platform fact TRTM
+  already relies on. Shadow's SELL-closes-at-Ask (observed 3x: run A + run B
+  x2) corroborates the SELL side.
+  DEFECT CLASS the rule guards (EA-CODE risk, NOT a platform risk): computing
+  the trigger MARGIN against a FIXED side (e.g. SYMBOL_BID as "current price"
+  regardless of direction). The CLOSE always executes on the correct broker
+  side, so the danger is a MISMATCH - the EA tests the margin on the wrong
+  side, so tested margin != realized margin by one spread (a BUY tested vs Ask
+  fires ~1 spread optimistic; realized close at Bid is worse). TRTM must
+  compute the trigger far-price on the SAME side the close will execute, so
+  tested margin == realized margin.
+  MATRIX: still BOTH laps (SELL + BUY) - NOT to prove buys close at Bid
+  (platform-guaranteed) but to prove TRTM's CODE derives the far-price from
+  direction and does not hardcode a side. The BUY lap is validated against the
+  platform invariant + arithmetic, not against a Shadow reference.
+  CONSEQUENCE for E7 R3: R3 ("get a BUY sequence") was listed ONLY to observe
+  O4's buy side. O4 is now decided from the platform invariant, so R3 is NO
+  LONGER NEEDED for O4 and nothing in E4 blocks on it (R3 retains only general
+  buy-side corroboration value; de-prioritized).
+  Rejected: any fixed Bid/Ask read - passes SELL-only evidence, breaks live on
+  the first BUY basket, surfaces only on the untested side.
+
+2026-07-23 E4 O3 POST-FIRE SUPPRESSION = NONE (no input, no hardcoded timer)
+(Gate 1 LOCKED; matrix + plan still required before any code). TRTM does NOT
+port Shadow's hardcoded 3s recovery-suppression window and does NOT expose it
+as an input.
+  RATIONALE: TRTM recovery entry is BAR-CLOSE gated (the same gate O1 relies
+  on - 1 refill per M15 bar). A 3s window NEVER binds under bar-close entry:
+  the fire lands mid-bar (Shadow log 14:57:40) and the next possible recovery
+  entry is the next M15 bar close, minutes away, always >> 3s. Porting the
+  timer would be dead code. Shadow itself ran InpRecoveryBarCloseEntry=true in
+  both runs AND still hardcoded 3s - a generic defensive belt, redundant once
+  entries are bar-gated.
+  WHAT ACTUALLY NEEDS PROTECTING (implementation invariant, not a knob): the
+  recovery-state refresh (Shadow's RefreshRecoveryState) must be ATOMIC with
+  fire completion - synchronous, in the same handler, before any next
+  bar-close evaluation - so the next bar-close already sees correct post-fire
+  state (survivors, Level, LastPrice). No stale-state window then exists, so no
+  timer is needed. A post-fire rung re-arming on the next bar close is exactly
+  the O1 unrestricted-refill behavior already locked - desirable, not
+  suppressed.
+  Rejected: expose a suppression input (a knob that does nothing under
+  bar-close entry - misleading). Rejected: port Shadow's hardcoded 3s (dead
+  code under bar-close gating).
+  PLAN-TIME RIDER (parked): this rests on recovery staying bar-close gated. If
+  TRTM ever adds TICK-based recovery entry (relevant to E3 auto-entry),
+  revisit with a minimal "no recovery entry on the same fire tick" guard, NOT
+  a wall-clock timer. Out of scope for E4.
+
+2026-07-23 E4 O5 GROUP-CLOSE ORDER + PARTIAL-FILL = PROFITABLES-FIRST /
+ANCHOR-LAST + ABORT-ON-FAILURE (Gate 1 LOCKED; matrix + plan still required
+before any code). CHOSEN - a deliberate safety divergence from Shadow's
+OBSERVED order. Rule:
+  1. Reuse the SEALED close-with-retry routine (manual-exit/TP path); do NOT
+     invent a new close path.
+  2. ORDER: close ALL profitable legs FIRST, the ANCHOR LAST (inverts Shadow's
+     anchor-first). The anchor is the only loss leg; its loss is realized ONLY
+     after the covering profit is already banked. Among profitables, descending
+     ticket for determinism.
+  3. Bounded retries per leg via the sealed routine, then treat the leg as
+     failed.
+  4. ABORT RULE: the anchor closes ONLY if every profitable leg is confirmed
+     closed. If any profitable leg fails after retries -> STOP, do NOT touch
+     the anchor; leave it open. Tier 1 re-evaluates next qualifying tick (group
+     re-forms from what is open, threshold re-checked - self-correcting).
+  INVARIANT PROOF (protects O2's "group never closes at a combined loss"): all
+  profitables + anchor -> = tested group, >=0. Some profitables close then one
+  fails -> abort anchor -> realized = pure profit subset, strictly >=0. All
+  profitables close then anchor fails -> realized = pure profit, anchor stays,
+  strictly >=0. Worst partial outcome is a SAFE DEFERRAL (harvested winners,
+  did not shed the anchor this cycle), never a realized combined loss.
+  OPTIONAL GUARD NAMED, NOT ADOPTED (Jeff 2026-07-23, my lean out): gating the
+  final anchor close on banked-profit-so-far >= anchor cost-to-close would
+  cover adverse anchor drift between banking profit and closing the anchor -
+  negligible in practice (Shadow's fires landed whole-group on one sub-second
+  tick), and the profitables-first order + abort rule already protect the
+  invariant. Parked as a cheap future hardening if ever wanted.
+  SHADOW EVIDENCE (run B 14:57:40 fire, pasted 2026-07-23, CONFIRMS the
+  OBSERVED half and the GAP): Shadow closes ANCHOR FIRST (#2, the loss leg)
+  then profitables DESCENDING TICKET (#11 then #10), ONE market order per leg
+  (a buy to close each sell), all three filled on one sub-second tick
+  (23:49:26.959->.965). NO retry, NO error handling, NO partial-fill path -
+  the failure branch is never exercised, so Shadow's logs CANNOT define
+  failure behavior. That is precisely why O5 is a TRTM CHOSEN rule. Shadow got
+  away with the fragile anchor-first order only because no leg ever failed.
+  Also re-confirms F3 (close deals #12/#13/#14 print "Confirmed initial deal
+  #N. Position count is 0" - close-deals routed through the initial-entry
+  branch; TRTM's transaction handler must not).
+  Rejected: Shadow's anchor-first (realizes the loss before securing the
+  profit - the exact failure the invariant forbids). Rejected: rollback/reopen
+  a closed leg on failure (reopening is fresh entry risk - new price, slippage,
+  re-derived lot/level). Rejected: all-or-nothing pre-check (cannot pre-verify
+  a market order will fill; not implementable).
+
+2026-07-23 E4 O2 THRESHOLD = FLAT MinProfitPoints, scaling PARKED (Gate 1
+LOCKED; matrix + plan still required before any code). MinProfitPoints stays a
+single flat constant - same value for the first fire and the ninth. NO
+depth-scaling term (no 150 + K*(count-MinTrades)).
+  RATIONALE: C1's anchor-cost escalation ALREADY provides implicit
+  depth-scaling - a more-negative anchor demands a larger profitable tail to
+  reach the same VWAP-margin, so later fires are structurally harder without a
+  new knob (run B: fire1 surplus +30.16 lot-pts on a 0.01 anchor; fire2
+  surplus FELL to +29.72 despite a LARGER profitable tail, because the 0.02
+  anchor cost +63% more). Eventually cost-to-close exceeds any achievable tail
+  and Tier 1 simply stops firing (run A basket 14:57: L1 27.1 -> L2 46.9 ->
+  L3 59.2 -> L4 63.6 lot-pts). An explicit scaling term double-counts this and
+  adds an UNVALIDATED tuning constant with zero reference evidence (Shadow ran
+  flat 150 across both fires). Reversible: if live TRTM runs later show Tier 1
+  firing too eagerly at depth, a scaling term is a clean follow-up.
+  Rejected: depth-scaled threshold now - premature, redundant with the
+  automatic anchor-cost self-limiting, unvalidated knob.
+
+  TWO-GATE TRIGGER STRUCTURE clarified this session (Jeff's two points
+  2026-07-23), both LOCKED, feeding the matrix:
+    GATE A (depth): total OPEN POSITION COUNT >= MinTrades. NEW INPUT "Tier 1:
+      Min Trades to Activate" (Shadow's MinTrades, was 4; TRTM default 4).
+      Gates on the COUNT of currently-open positions, NOT the level index. In
+      a fresh unbroken ladder these coincide (reach L4 = 4 open); under C3
+      after a fire the index is preserved while the count drops, so they
+      DIVERGE and the durable rule is COUNT-based. CONSEQUENCE (Jeff confirmed
+      2026-07-23): a fire that drops open count below MinTrades makes Tier 1
+      DORMANT until recovery rebuilds the count to >= MinTrades - a shallow
+      basket is not under drawdown pressure and does not need the valve;
+      Tier 1 re-activates once the ladder deepens again. Count is always the
+      REMAINING open positions.
+    GATE B (profit): the group (anchor + ALL currently-profitable positions)
+      combined P/L must clear MinProfitPoints per lot (the VWAP-margin framing
+      is the lot-size-independent form of the same test). This subsumes "is it
+      positive?" - clearing a positive MinProfitPoints guarantees combined > 0.
+    HARD MONEY-SAFETY INVARIANT (Jeff's Point 1, elevated): a Tier 1 group must
+      NEVER close at a combined loss. The ANCHOR alone always realizes a loss;
+      the GROUP (anchor + profitables) never does. Positivity is the GROUP
+      combined, NOT each leg and NOT the whole basket. O5 (partial-fill) must
+      protect this invariant if a close leg fails mid-group.
+  PLAN-TIME RIDER (not an O2 decision): MinProfitPoints is in POINTS and
+  symbol-relative. Shadow's 150 was GBPAUD.s (5-digit); on XAUUSD.s (_Point
+  0.01) 150 pts = a $1.50 move - the DEFAULT value for gold must be chosen
+  deliberately at plan time, independent of flat-vs-scaled.
+
 2026-07-23 E1 ANCHOR BASIS = LOT-WEIGHTED, ALL THREE PATHS (Gate 1
 LOCKED; matrix + plan still required before any code). Decision: replace
 the SIMPLE-average sequence anchor (g_curAvgEntry, TRTM.mq5 line 1091,
