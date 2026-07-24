@@ -19,7 +19,7 @@
 
 #include <Trade\Trade.mqh>
 
-#define TRTM_BUILD  "E1-b34"  // internal build tag, bump per delivery
+#define TRTM_BUILD  "E4-b36"  // internal build tag, bump per delivery
 
 //+------------------------------------------------------------------+
 //| ENUMS                                                            |
@@ -90,6 +90,11 @@ input ENUM_TRAIL_MODE InpTrailMode      = TRAIL_FIXED_DISTANCE; // Trail Stop Mo
 input int             InpMinTrailStepPts= 10;    // Min Step to Update SL (points)
 input bool            InpTrailBarClose  = false; // Trail on Bar Close Only
 input ENUM_TIMEFRAMES InpTrailTF        = PERIOD_M15; // Trailing Timeframe
+
+input group "=== Drawdown Reduction - Tier 1 (E4) ==="
+input bool InpEnableTier1       = false; // Enable Tier 1 (point-based basket close)
+input int  InpTier1MinTrades    = 4;     // Tier 1: Min Trades to Activate (open count, Gate A)
+input int  InpTier1MinProfitPts = 150;   // Tier 1: Min Profit (points/lot, Gate B; symbol-relative)
 
 input group "=== Filters & Safety (Stage 7) ==="
 input bool   InpSpreadFilter   = true;  // Spread Filter (recovery entries only)
@@ -1054,15 +1059,30 @@ double NormalizePrice(const double price)
    return NormalizeDouble(price, _Digits);
   }
 
-// E1: the sequence anchor is the LOT-WEIGHTED average entry =
-// sum(lot_i*entry_i)/sum(lot_i), the financially correct basket
-// break-even (equals the simple mean iff all lots are equal). It is
-// computed IN-LOOP at the two sites that already scan open positions -
-// ComputeTargets (money anchor: TP/BE/trail via g_curAvgEntry) and
-// ComputeProjection (dashboard) - so there is no redundant per-tick pass.
-// Both MUST produce the identical value (matrix C-1, verified by
-// recompute). A shared helper is deferred to E4, which needs the average
-// outside these loops.
+// E1/E4: the LOT-WEIGHTED average entry = sum(lot_i*entry_i)/sum(lot_i), the
+// financially correct basket break-even (equals the simple mean iff all lots
+// are equal). E4 (C-1) makes this the SINGLE money-path basis: the helper
+// below is the one code path, consumed by BOTH the sequence anchor
+// (ComputeTargets -> g_curAvgEntry, drives TP/BE/trail) and the Tier 1 group
+// VWAP (EvaluateTier1). MUST-NOT reintroduce a second averaging basis in the
+// money path (C-2). ComputeProjection keeps its own dashboard-side pass, which
+// is DISPLAY, proven to match by recompute (b26/S8-25) - not a money-path
+// basis. The helper is the shared lift-out drafted then parked in E1.
+//
+// Lot-weighted VWAP over the live tickets in tk[0..n-1]. Missing tickets are
+// skipped (same liveness rule the callers use). Returns 0.0 with no live volume.
+double ComputeWeightedVWAP(const ulong &tk[], const int n)
+  {
+   double sumWV = 0.0, sumVol = 0.0;
+   for(int i = 0; i < n; i++)
+     {
+      if(!PositionSelectByTicket(tk[i]))
+         continue;
+      sumWV  += PositionGetDouble(POSITION_VOLUME) * PositionGetDouble(POSITION_PRICE_OPEN);
+      sumVol += PositionGetDouble(POSITION_VOLUME);
+     }
+   return (sumVol > 0.0) ? sumWV / sumVol : 0.0;
+  }
 
 // Computes the sequence's target TP and SL from current structure.
 // tp/sl of 0.0 mean "not managed" (feature disabled).
@@ -1078,31 +1098,28 @@ void ComputeTargets(double &tp, double &sl)
    // SL anchored to lowest surviving level; L1 while it lives, then L2...).
    double anchorEntry = 0.0;
    int    minLvl      = 2147483647;
-   // Lot-weighted avg entry across all open levels (E1), weighted in this
-   // existing loop; ComputeProjection computes the identical value for the
-   // dashboard (matrix C-1, verified by recompute).
-   double sumPrice = 0.0;   // now sum(lot*entry)
-   double sumVol   = 0.0;
-   int    counted  = 0;
+   int    counted     = 0;
+   // Anchor detection stays in-loop; the lot-weighted avg now flows through the
+   // shared helper below (E4 C-1). ComputeProjection keeps its own dashboard
+   // pass, proven to match by recompute (C-1, verified).
    for(int i = 0; i < g_state.levelCount; i++)
      {
       if(!PositionSelectByTicket(g_state.tickets[i]))
          continue;   // liveness handles disappearance; skip this tick
-      double entry = PositionGetDouble(POSITION_PRICE_OPEN);
-      double vol   = PositionGetDouble(POSITION_VOLUME);
       if(g_state.levels[i] < minLvl)
         {
          minLvl      = g_state.levels[i];
-         anchorEntry = entry;
+         anchorEntry = PositionGetDouble(POSITION_PRICE_OPEN);
         }
-      sumPrice += vol * entry;
-      sumVol   += vol;
       counted++;
      }
    if(counted == 0)
       return;
    g_curAnchorLvl = minLvl;
-   g_curAvgEntry  = (sumVol > 0.0) ? sumPrice / sumVol : 0.0;   // E1: lot-weighted; BE/trail/TP reference
+   // E4 C-1: g_curAvgEntry now flows through the SHARED lot-weighted helper
+   // (was an inline sum in this loop). Same tickets, same skip rule -> value is
+   // byte-identical to b34 on every no-fire path (H-1/R-2 obligation).
+   g_curAvgEntry  = ComputeWeightedVWAP(g_state.tickets, g_state.levelCount);   // E1: lot-weighted; BE/trail/TP reference
 
    if(g_state.levelCount == 1)
      {
@@ -1348,6 +1365,33 @@ bool WasEAClosed(const ulong ticket)
    return false;
   }
 
+// E4 (X-4): one leg of a market close, extracted verbatim from
+// CloseSequenceAtMarket so the whole-sequence close AND the Tier 1 group close
+// (EvaluateTier1) run the SAME sealed close path - no new close path invented.
+// Caller sets magic + deviation once before looping. Returns true when the
+// position is closed OR already gone via a benign 10036 race; false only on a
+// genuine failure the caller must act on (Tier 1 aborts the anchor, X-2).
+// 10036 does NOT MarkEAClosed: the broker exit closed it, so liveness attributes
+// it via ClosingDealReason, exactly as before this lift-out.
+bool CloseLegAtMarket(const ulong ticket, const int level)
+  {
+   if(!g_trade.PositionClose(ticket))
+     {
+      if((int)g_trade.ResultRetcode() == 10036)   // b20: position already gone
+        {
+         Log(LOG_INFO, StringFormat("Market close on ticket %I64u: broker exit filled first (10036) - benign race, liveness attributes it", ticket));
+         return true;
+        }
+      Log(LOG_ERROR, StringFormat("Market close FAILED on ticket %I64u (retcode %d: %s) - will retry while condition holds",
+                                  ticket, (int)g_trade.ResultRetcode(), g_trade.ResultRetcodeDescription()));
+      return false;
+     }
+   MarkEAClosed(ticket);   // b9-2: liveness attributes this correctly
+   Log(LOG_INFO, StringFormat("Closed L%d ticket %I64u @ %s", level, ticket,
+                              DoubleToString(g_trade.ResultPrice(), _Digits)));
+   return true;
+  }
+
 void CloseSequenceAtMarket(const string reason)
   {
    Log(LOG_INFO, StringFormat("Closing sequence at market: %s", reason));
@@ -1355,23 +1399,9 @@ void CloseSequenceAtMarket(const string reason)
    g_trade.SetDeviationInPoints(InpDeviationFilter ? (ulong)InpMaxDeviationPts : 1000000);
    for(int i = 0; i < g_state.levelCount; i++)
      {
-      ulong ticket = g_state.tickets[i];
-      if(!PositionSelectByTicket(ticket))
+      if(!PositionSelectByTicket(g_state.tickets[i]))
          continue;
-      if(!g_trade.PositionClose(ticket))
-        {
-         if((int)g_trade.ResultRetcode() == 10036)   // b20: position already
-            Log(LOG_INFO, StringFormat("Market close on ticket %I64u: broker exit filled first (10036) - benign race, liveness attributes it", ticket));
-         else
-            Log(LOG_ERROR, StringFormat("Market close FAILED on ticket %I64u (retcode %d: %s) - will retry while condition holds",
-                                        ticket, (int)g_trade.ResultRetcode(), g_trade.ResultRetcodeDescription()));
-        }
-      else
-        {
-         MarkEAClosed(ticket);   // b9-2: liveness attributes this correctly
-         Log(LOG_INFO, StringFormat("Closed L%d ticket %I64u @ %s", g_state.levels[i], ticket,
-                                    DoubleToString(g_trade.ResultPrice(), _Digits)));
-        }
+      CloseLegAtMarket(g_state.tickets[i], g_state.levels[i]);   // E4: shared leg path
      }
   }
 
@@ -2089,6 +2119,148 @@ void EvaluateRecovery()
                               nextLvl, lot, dir > 0 ? "BUY" : "SELL",
                               DoubleToString(g_trade.ResultPrice(), _Digits), g_trade.ResultDeal()));
    RegisterNewRecovery(nextLvl);
+  }
+
+//+------------------------------------------------------------------+
+//| E4 - DRAWDOWN REDUCTION TIER 1 (point-based basket close)        |
+//| Pressure valve: when the basket is deep (Gate A: open count >=   |
+//| MinTrades) and the OLDEST position (anchor, C1) plus every        |
+//| currently-profitable position clears a per-lot profit threshold  |
+//| (Gate B: VWAP-margin >= MinProfitPts), close that GROUP at market |
+//| - profitables first, anchor last, abort the anchor on any         |
+//| profitable-leg failure (O5). Fully DERIVED per tick; no state.    |
+//| See docs/E4_MATRIX.md (SEALED) + docs/E4_PLAN_2026-07-24_gate3.md.|
+//+------------------------------------------------------------------+
+// Evaluated EVERY tick (T-5), distinct from InpBarCloseEntry which gates
+// recovery ENTRIES only. Returns true when a fire was INITIATED this tick (the
+// caller then defers recovery to next tick - H-5/H-6 atomicity); false when
+// Tier 1 did nothing (disabled / dormant / gates unmet).
+bool EvaluateTier1()
+  {
+   if(!InpEnableTier1 || g_state.levelCount == 0 || g_state.direction == 0)
+      return false;
+   if(g_state.trailingActive)
+      return false;   // trailing owns the exit; Tier 1 stands down (mirrors recovery)
+   int dir = g_state.direction;
+
+   // GATE A (depth, O2) + anchor selection (C1). openCount = LIVE tracked
+   // positions (the COUNT, not the level index - they diverge after a fire
+   // under C3). anchor = lowest surviving LEVEL number (== oldest = the SL
+   // anchor, A-1). Both come from one scan.
+   int   openCount = 0;
+   int   anchorLvl = 2147483647;
+   ulong anchorTk  = 0;
+   for(int i = 0; i < g_state.levelCount; i++)
+     {
+      if(!PositionSelectByTicket(g_state.tickets[i]))
+         continue;
+      openCount++;
+      if(g_state.levels[i] < anchorLvl)
+        {
+         anchorLvl = g_state.levels[i];
+         anchorTk  = g_state.tickets[i];
+        }
+     }
+   if(openCount < InpTier1MinTrades || anchorTk == 0)
+      return false;   // dormant while shallow (D-1); anchor must exist
+
+   // GROUP (G-1): anchor + EVERY currently-profitable position. Profitable =
+   // POSITION_PROFIT > 0 (the platform prices it at the correct close side:
+   // SELL profits below entry, BUY above - O4). The anchor is always in the
+   // group even if it is a loser; >=1 profitable is NOT required (C2).
+   ulong grp[];
+   int   grpLvl[];
+   for(int i = 0; i < g_state.levelCount; i++)
+     {
+      if(!PositionSelectByTicket(g_state.tickets[i]))
+         continue;
+      if(g_state.tickets[i] == anchorTk || PositionGetDouble(POSITION_PROFIT) > 0.0)
+        {
+         int n = ArraySize(grp);
+         ArrayResize(grp, n + 1);
+         ArrayResize(grpLvl, n + 1);
+         grp[n]    = g_state.tickets[i];
+         grpLvl[n] = g_state.levels[i];
+        }
+     }
+
+   // M-1 (E4 live-finding amendment, 2026-07-24; live gold fire pre-empted the
+   // sequence AvgTP): if the group would close the WHOLE open basket (no
+   // underwater survivor remains), Tier 1 is not VALVING - it is a full close,
+   // which is the sequence's OWN exit's job (AvgTP-exceeded market close / BE /
+   // trail, all bank-at-market). Firing here only pre-empts the sequence TP at
+   // MinProfitPts < AvgTPPts and banks LESS than the sequence reaches on its own.
+   // Stand down so Tier 1 is never worse than the baseline exit - a PARTIAL valve
+   // only. (grp always contains the anchor; grp==openCount => every non-anchor is
+   // profitable, i.e. nothing underwater would survive.)
+   if(ArraySize(grp) >= openCount)
+     {
+      if(!AlreadyLogged("t1standdown:" + (string)(long)g_state.adoptionTime))
+         Log(LOG_INFO, "Tier 1 stands down: group would close the whole basket (no underwater survivor to valve) - sequence AvgTP/BE/trail owns the full close (M-1)");
+      return false;
+     }
+
+   // GATE B (profit, O2/O4). grpVWAP via the SHARED lot-weighted helper (C-1).
+   // Far price DIRECTION-DERIVED (SELL closes at Ask, BUY at Bid). The
+   // VWAP-margin (points) is the lot-size-independent form of the combined
+   // P/L test (G-2). margin >= threshold(>0) => combined P/L > 0 (G-3).
+   double grpVWAP   = ComputeWeightedVWAP(grp, ArraySize(grp));
+   if(grpVWAP <= 0.0)
+      return false;
+   double farPx     = (dir < 0) ? SymbolInfoDouble(_Symbol, SYMBOL_ASK)
+                                : SymbolInfoDouble(_Symbol, SYMBOL_BID);
+   double marginPts = ((dir < 0) ? (grpVWAP - farPx) : (farPx - grpVWAP)) / _Point;
+   if(marginPts < (double)InpTier1MinProfitPts)
+      return false;   // Gate B fails (T-4; T-6 when the group is anchor-only)
+
+   // FIRE (O5). Profitables FIRST (descending ticket), ANCHOR LAST, each via
+   // the SEALED leg-close path (CloseLegAtMarket, X-4). Abort the anchor on ANY
+   // profitable-leg failure (X-2): realized stays a pure-profit subset (>= 0),
+   // so the GROUP never realizes a combined loss (G-3 hard invariant).
+   Log(LOG_INFO, StringFormat("Tier 1 FIRE: %s group %d leg(s) (anchor L%d + %d profitable) | VWAP %s far %s margin %.1f pts >= %d/lot",
+                              dir < 0 ? "SELL" : "BUY", ArraySize(grp), anchorLvl, ArraySize(grp) - 1,
+                              DoubleToString(grpVWAP, _Digits), DoubleToString(farPx, _Digits),
+                              marginPts, InpTier1MinProfitPts));
+   g_trade.SetExpertMagicNumber(g_magic);
+   g_trade.SetDeviationInPoints(InpDeviationFilter ? (ulong)InpMaxDeviationPts : 1000000);
+
+   // Profitables = group minus the anchor, ordered by DESCENDING ticket (X-1).
+   ulong prof[];
+   int   profLvl[];
+   for(int i = 0; i < ArraySize(grp); i++)
+      if(grp[i] != anchorTk)
+        {
+         int n = ArraySize(prof);
+         ArrayResize(prof, n + 1);
+         ArrayResize(profLvl, n + 1);
+         prof[n]    = grp[i];
+         profLvl[n] = grpLvl[i];
+        }
+   for(int a = 0; a < ArraySize(prof) - 1; a++)
+      for(int b = a + 1; b < ArraySize(prof); b++)
+         if(prof[b] > prof[a])
+           {
+            ulong tt = prof[a];    prof[a]    = prof[b];    prof[b]    = tt;
+            int   ll = profLvl[a]; profLvl[a] = profLvl[b]; profLvl[b] = ll;
+           }
+
+   for(int i = 0; i < ArraySize(prof); i++)
+     {
+      if(!PositionSelectByTicket(prof[i]))
+         continue;   // already gone (race) - liveness attributes it, treat as done
+      if(!CloseLegAtMarket(prof[i], profLvl[i]))
+        {
+         Log(LOG_WARN, StringFormat("Tier 1 ABORT: profitable L%d ticket %I64u close failed - anchor L%d left OPEN, realized = profit subset (>= 0). Re-evaluates next qualifying tick (X-2).",
+                                    profLvl[i], prof[i], anchorLvl));
+         return true;   // fired (partial); the anchor is NOT touched this tick
+        }
+     }
+   // All profitables closed -> close the ANCHOR last (X-1). If it fails it stays
+   // open; realized is pure profit (X-3) and Tier 1 retargets it next tick.
+   if(PositionSelectByTicket(anchorTk) && !CloseLegAtMarket(anchorTk, anchorLvl))
+      Log(LOG_WARN, StringFormat("Tier 1: anchor L%d ticket %I64u close failed after all profitables closed - stays open, realized = pure profit (X-3). Retargets next tick.",
+                                 anchorLvl, anchorTk));
+   return true;
   }
 
 //+------------------------------------------------------------------+
@@ -4268,6 +4440,10 @@ void OnTick()
         {
          WatchDuplicateTags();  // Stage 2b2: warn on unmanaged duplicate L1 tags
          EnforceExits();        // Stage 3: TP/SL placement + policy-A enforcement
+         if(EvaluateTier1())    // E4: point-based basket close (tick-based, T-5).
+            return;             //   on a FIRE, defer recovery to next tick so the
+                                //   prune + SL re-anchor settle atomically first
+                                //   (H-5/H-6); next tick resumes normally.
          EvaluateRecovery();    // Stage 4: interval tracking + recovery entries
         }
      }

@@ -1,0 +1,794 @@
+2026.07.24 15:06:01.097	MetaTester 5 started on 127.0.0.1:3000
+2026.07.24 15:06:01.101	cloud network mode is off
+2026.07.24 15:06:01.101	initialization finished
+2026.07.24 15:06:01.376	login (build 5833)
+2026.07.24 15:06:01.790	19576 bytes of account info loaded
+2026.07.24 15:06:01.790	1478 bytes of tester parameters loaded
+2026.07.24 15:06:01.790	26820 bytes of input parameters loaded
+2026.07.24 15:06:01.790	636 bytes of symbols list loaded (85 symbols)
+2026.07.24 15:06:01.790	expert file added: Experts\TRTM.ex5. 214902 bytes loaded
+2026.07.24 15:06:01.804	10596 Mb available, 132 blocks set for ticks generating
+2026.07.24 15:06:01.804	initial deposit 3000.00 USD, leverage 1:500
+2026.07.24 15:06:01.804	successfully initialized
+2026.07.24 15:06:01.804	213 Kb of total initialization data received
+2026.07.24 15:06:01.804	AMD Ryzen 5 9600X 6-Core, 31909 MB
+2026.07.24 15:06:01.829	XAUUSD.s: symbol to be synchronized
+2026.07.24 15:06:01.829	XAUUSD.s: symbol synchronized, 3720 bytes of symbol info received
+2026.07.24 15:06:01.830	XAUUSD.s: history synchronization started
+2026.07.24 15:06:01.830	XAUUSD.s: load 31 bytes of history data to synchronize in 0:00:00.000
+2026.07.24 15:06:01.830	XAUUSD.s: history synchronized from 2025.01.02 to 2026.07.03
+2026.07.24 15:06:01.830	XAUUSD.s: ticks synchronization started
+2026.07.24 15:06:01.830	XAUUSD.s: load 38 bytes of tick data to synchronize in 0:00:00.000
+2026.07.24 15:06:01.830	XAUUSD.s: history ticks synchronized from 2026.06.22 to 2026.07.02
+2026.07.24 15:06:01.850	XAUUSD.s,M15: history cache allocated for 35522 bars and contains 34620 bars from 2025.01.02 01:00 to 2026.06.19 20:00
+2026.07.24 15:06:01.850	XAUUSD.s,M15: history begins from 2025.01.02 01:00
+2026.07.24 15:06:01.860	XAUUSD.s,M15 (DooTechnology-Demo): generating based on real ticks
+2026.07.24 15:06:01.860	XAUUSD.s,M15: testing of Experts\TRTM.ex5 from 2026.06.22 00:00 to 2026.07.03 00:00 started with inputs:
+2026.07.24 15:06:01.860	  === Money Management - L1 Entry (Stage 5) ====
+2026.07.24 15:06:01.860	  InpMoneyMode=0
+2026.07.24 15:06:01.860	  InpEntryLotSize=0.01
+2026.07.24 15:06:01.860	  InpBalancePerLot=1000
+2026.07.24 15:06:01.860	  InpRiskPercent=1.0
+2026.07.24 15:06:01.860	  InpMagicNumber=0
+2026.07.24 15:06:01.860	  === Adoption (Stage 2) ====
+2026.07.24 15:06:01.860	  InpManageMobileTrades=false
+2026.07.24 15:06:01.860	  === Recovery Trade Management (Stage 4) ====
+2026.07.24 15:06:01.860	  InpEnableRecovery=true
+2026.07.24 15:06:01.860	  InpRecoveryMultMode=0
+2026.07.24 15:06:01.860	  InpIncrementStep=0.01
+2026.07.24 15:06:01.860	  InpFixedRecoveryLot=0.01
+2026.07.24 15:06:01.860	  InpMartingaleMult=2.0
+2026.07.24 15:06:01.860	  InpDeferredStep=2
+2026.07.24 15:06:01.860	  InpManualMultipliers=1,2,5,8,12
+2026.07.24 15:06:01.860	  InpRecoveryIntervalPts=1000
+2026.07.24 15:06:01.860	  InpBarCloseEntry=true
+2026.07.24 15:06:01.860	  InpRecoveryTF=15
+2026.07.24 15:06:01.860	  InpMaxRecoveryTrades=0
+2026.07.24 15:06:01.860	  === Exit Rules (Stage 3 / Stage 6) ====
+2026.07.24 15:06:01.860	  InpInitialTPPts=3000
+2026.07.24 15:06:01.860	  InpAvgTPPts=2500
+2026.07.24 15:06:01.860	  InpStopLossPts=0
+2026.07.24 15:06:01.860	  InpEnableBE=false
+2026.07.24 15:06:01.860	  InpBETriggerPts=130
+2026.07.24 15:06:01.860	  InpBEOffsetPts=30
+2026.07.24 15:06:01.860	  InpBEAutoAdjust=true
+2026.07.24 15:06:01.860	  InpEnableTrailing=false
+2026.07.24 15:06:01.860	  InpTrailDistPts=300
+2026.07.24 15:06:01.860	  InpTrailMode=0
+2026.07.24 15:06:01.860	  InpMinTrailStepPts=10
+2026.07.24 15:06:01.860	  InpTrailBarClose=false
+2026.07.24 15:06:01.860	  InpTrailTF=15
+2026.07.24 15:06:01.860	  === Drawdown Reduction - Tier 1 (E4) ====
+2026.07.24 15:06:01.860	  InpEnableTier1=true
+2026.07.24 15:06:01.860	  InpTier1MinTrades=4
+2026.07.24 15:06:01.860	  InpTier1MinProfitPts=500
+2026.07.24 15:06:01.860	  === Filters & Safety (Stage 7) ====
+2026.07.24 15:06:01.860	  InpSpreadFilter=true
+2026.07.24 15:06:01.860	  InpMaxSpreadPts=80
+2026.07.24 15:06:01.860	  InpDeviationFilter=true
+2026.07.24 15:06:01.860	  InpMaxDeviationPts=15
+2026.07.24 15:06:01.860	  InpEnableDDClose=false
+2026.07.24 15:06:01.860	  InpMaxDDPercent=0.0
+2026.07.24 15:06:01.860	  InpMaxDDUSD=0.0
+2026.07.24 15:06:01.860	  === Tester (Stage 9) ====
+2026.07.24 15:06:01.860	  InpTesterNudgePts=50
+2026.07.24 15:06:01.860	  === System (Stage 1) ====
+2026.07.24 15:06:01.860	  InpLogToFile=true
+2026.07.24 15:06:01.860	  InpRunSelfTest=true
+2026.07.24 15:06:01.860	  InpLogRetentionDays=14
+2026.07.24 15:06:01.877	2026.06.22 00:00:00   [TRTM][INFO ] === TRTM E4-b35 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.07.24 15:06:01.877	2026.06.22 00:00:00   [TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.07.24 15:06:01.879	2026.06.22 00:00:00   [TRTM][INFO ] State persistence self-test: PASS
+2026.07.24 15:06:01.879	2026.06.22 00:00:00   [TRTM][INFO ] Reconcile complete: FLAT
+2026.07.24 15:06:01.880	2026.06.22 00:00:00   [TRTM][INFO ] Broker exit geometry (at init): stops level 100 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 100 pts to price are DEFERRED until placeable
+2026.07.24 15:06:01.880	2026.06.22 00:00:00   [TRTM][INFO ] Init complete - E4-b35 (adoption, exits, recovery active)
+2026.07.24 15:06:01.880	2026.06.22 00:00:00   [TRTM][INFO ] [TESTER] Interactive mode active - OnTick polling 12 panel buttons (chart events do not fire in tester, build-confirmed). Pending nudge step = 50 pts (+/- buttons on the CONFIRM row)
+2026.07.24 15:06:01.970	XAUUSD.s : real ticks begin from 2026.06.22 00:00:00
+2026.07.24 15:06:26.080	2026.06.22 10:24:31   [TRTM][INFO ] [TESTER] Panel click via poll: TRTM_B_BUY (event channel inactive)
+2026.07.24 15:06:26.080	2026.06.22 10:24:31   [TRTM][INFO ] BUY ARMED: 0.01 lots (Fixed 0.01) - click CONFIRM within 10s to execute
+2026.07.24 15:06:30.947	2026.06.22 12:38:39   [TRTM][INFO ] [TESTER] Panel click via poll: TRTM_B_BUY (event channel inactive)
+2026.07.24 15:06:30.947	2026.06.22 12:38:39   market buy 0.01 XAUUSD.s (4207.34 / 4207.50)
+2026.07.24 15:06:30.947	2026.06.22 12:38:39   deal #2 buy 0.01 XAUUSD.s at 4207.50 done (based on order #2)
+2026.07.24 15:06:30.947	2026.06.22 12:38:39   deal performed [#2 buy 0.01 XAUUSD.s at 4207.50]
+2026.07.24 15:06:30.947	2026.06.22 12:38:39   order performed buy 0.01 at 4207.50 [#2 buy 0.01 XAUUSD.s at 4207.50]
+2026.07.24 15:06:30.949	2026.06.22 12:38:39   CTrade::OrderSend: market buy 0.01 XAUUSD.s [done at 4207.50]
+2026.07.24 15:06:30.949	2026.06.22 12:38:39   [TRTM][INFO ] L1 BUY OPENED via button: 0.01 lots @ 4207.50 (deal 2)
+2026.07.24 15:06:30.949	2026.06.22 12:38:39   [TRTM][INFO ] Structure: 1 level(s), 0.01 lots | projected at TP +30.00 | at SL n/a
+2026.07.24 15:06:30.949	2026.06.22 12:38:39   [TRTM][INFO ] EA L1 REGISTERED: ticket 2 BUY 0.01 lots @ 4207.50. Exits apply next tick.
+2026.07.24 15:06:30.950	2026.06.22 12:38:39   position modified [#2 buy 0.01 XAUUSD.s 4207.50 tp: 4237.50]
+2026.07.24 15:06:30.952	2026.06.22 12:38:39   CTrade::OrderSend: modify position #2 XAUUSD.s (sl: 0.00, tp: 4237.50) [done]
+2026.07.24 15:06:30.952	2026.06.22 12:38:39   [TRTM][INFO ] Exits applied to ticket 2: TP 4237.50 SL none
+2026.07.24 15:06:38.906	2026.06.22 16:00:00   [TRTM][INFO ] Recovery signal: PERIOD_M15 bar closed 4193.40 vs trigger 4197.50 (worst entry 4207.50 - 1000 pts)
+2026.07.24 15:06:38.906	2026.06.22 16:00:00   market buy 0.02 XAUUSD.s (4193.47 / 4193.63)
+2026.07.24 15:06:38.906	2026.06.22 16:00:00   deal #3 buy 0.02 XAUUSD.s at 4193.63 done (based on order #3)
+2026.07.24 15:06:38.906	2026.06.22 16:00:00   deal performed [#3 buy 0.02 XAUUSD.s at 4193.63]
+2026.07.24 15:06:38.906	2026.06.22 16:00:00   order performed buy 0.02 at 4193.63 [#3 buy 0.02 XAUUSD.s at 4193.63]
+2026.07.24 15:06:38.908	2026.06.22 16:00:00   CTrade::OrderSend: market buy 0.02 XAUUSD.s [done at 4193.63]
+2026.07.24 15:06:38.908	2026.06.22 16:00:00   [TRTM][INFO ] Recovery L2 OPENED: 0.02 lots BUY @ 4193.63 (deal 3)
+2026.07.24 15:06:38.908	2026.06.22 16:00:00   [TRTM][INFO ] Recovery L2 registered: ticket 3
+2026.07.24 15:06:38.908	2026.06.22 16:00:00   [TRTM][INFO ] Structure: 2 level(s), 0.03 lots | projected at TP +74.99 | at SL n/a
+2026.07.24 15:06:38.908	2026.06.22 16:00:00   position modified [#2 buy 0.01 XAUUSD.s 4207.50 tp: 4223.25]
+2026.07.24 15:06:38.910	2026.06.22 16:00:00   CTrade::OrderSend: modify position #2 XAUUSD.s (sl: 0.00, tp: 4223.25) [done]
+2026.07.24 15:06:38.910	2026.06.22 16:00:00   [TRTM][INFO ] Exits applied to ticket 2: TP 4223.25 SL none
+2026.07.24 15:06:38.910	2026.06.22 16:00:00   position modified [#3 buy 0.02 XAUUSD.s 4193.63 tp: 4223.25]
+2026.07.24 15:06:38.912	2026.06.22 16:00:00   CTrade::OrderSend: modify position #3 XAUUSD.s (sl: 0.00, tp: 4223.25) [done]
+2026.07.24 15:06:38.912	2026.06.22 16:00:00   [TRTM][INFO ] Exits applied to ticket 3: TP 4223.25 SL none
+2026.07.24 15:06:46.086	2026.06.22 18:45:00   [TRTM][INFO ] Recovery signal: PERIOD_M15 bar closed 4180.94 vs trigger 4183.63 (worst entry 4193.63 - 1000 pts)
+2026.07.24 15:06:46.086	2026.06.22 18:45:00   market buy 0.03 XAUUSD.s (4180.90 / 4181.06)
+2026.07.24 15:06:46.086	2026.06.22 18:45:00   deal #4 buy 0.03 XAUUSD.s at 4181.06 done (based on order #4)
+2026.07.24 15:06:46.086	2026.06.22 18:45:00   deal performed [#4 buy 0.03 XAUUSD.s at 4181.06]
+2026.07.24 15:06:46.086	2026.06.22 18:45:00   order performed buy 0.03 at 4181.06 [#4 buy 0.03 XAUUSD.s at 4181.06]
+2026.07.24 15:06:46.088	2026.06.22 18:45:00   CTrade::OrderSend: market buy 0.03 XAUUSD.s [done at 4181.06]
+2026.07.24 15:06:46.088	2026.06.22 18:45:00   [TRTM][INFO ] Recovery L3 OPENED: 0.03 lots BUY @ 4181.06 (deal 4)
+2026.07.24 15:06:46.088	2026.06.22 18:45:00   [TRTM][INFO ] Recovery L3 registered: ticket 4
+2026.07.24 15:06:46.088	2026.06.22 18:45:00   [TRTM][INFO ] Structure: 3 level(s), 0.06 lots | projected at TP +150.02 | at SL n/a
+2026.07.24 15:06:46.088	2026.06.22 18:45:00   position modified [#2 buy 0.01 XAUUSD.s 4207.50 tp: 4214.66]
+2026.07.24 15:06:46.090	2026.06.22 18:45:00   CTrade::OrderSend: modify position #2 XAUUSD.s (sl: 0.00, tp: 4214.66) [done]
+2026.07.24 15:06:46.090	2026.06.22 18:45:00   [TRTM][INFO ] Exits applied to ticket 2: TP 4214.66 SL none
+2026.07.24 15:06:46.090	2026.06.22 18:45:00   position modified [#3 buy 0.02 XAUUSD.s 4193.63 tp: 4214.66]
+2026.07.24 15:06:46.092	2026.06.22 18:45:00   CTrade::OrderSend: modify position #3 XAUUSD.s (sl: 0.00, tp: 4214.66) [done]
+2026.07.24 15:06:46.092	2026.06.22 18:45:00   [TRTM][INFO ] Exits applied to ticket 3: TP 4214.66 SL none
+2026.07.24 15:06:46.092	2026.06.22 18:45:00   position modified [#4 buy 0.03 XAUUSD.s 4181.06 tp: 4214.66]
+2026.07.24 15:06:46.093	2026.06.22 18:45:00   CTrade::OrderSend: modify position #4 XAUUSD.s (sl: 0.00, tp: 4214.66) [done]
+2026.07.24 15:06:46.093	2026.06.22 18:45:00   [TRTM][INFO ] Exits applied to ticket 4: TP 4214.66 SL none
+2026.07.24 15:07:17.290	2026.06.23 04:45:00   [TRTM][INFO ] Recovery signal: PERIOD_M15 bar closed 4154.38 vs trigger 4171.06 (worst entry 4181.06 - 1000 pts)
+2026.07.24 15:07:17.291	2026.06.23 04:45:00   market buy 0.04 XAUUSD.s (4154.37 / 4154.55)
+2026.07.24 15:07:17.291	2026.06.23 04:45:00   deal #5 buy 0.04 XAUUSD.s at 4154.55 done (based on order #5)
+2026.07.24 15:07:17.291	2026.06.23 04:45:00   deal performed [#5 buy 0.04 XAUUSD.s at 4154.55]
+2026.07.24 15:07:17.291	2026.06.23 04:45:00   order performed buy 0.04 at 4154.55 [#5 buy 0.04 XAUUSD.s at 4154.55]
+2026.07.24 15:07:17.293	2026.06.23 04:45:00   CTrade::OrderSend: market buy 0.04 XAUUSD.s [done at 4154.55]
+2026.07.24 15:07:17.293	2026.06.23 04:45:00   [TRTM][INFO ] Recovery L4 OPENED: 0.04 lots BUY @ 4154.55 (deal 5)
+2026.07.24 15:07:17.293	2026.06.23 04:45:00   [TRTM][INFO ] Recovery L4 registered: ticket 5
+2026.07.24 15:07:17.293	2026.06.23 04:45:00   [TRTM][INFO ] Structure: 4 level(s), 0.10 lots | projected at TP +249.96 | at SL n/a
+2026.07.24 15:07:17.293	2026.06.23 04:45:00   position modified [#2 buy 0.01 XAUUSD.s 4207.50 tp: 4200.61]
+2026.07.24 15:07:17.295	2026.06.23 04:45:00   CTrade::OrderSend: modify position #2 XAUUSD.s (sl: 0.00, tp: 4200.61) [done]
+2026.07.24 15:07:17.295	2026.06.23 04:45:00   [TRTM][INFO ] Exits applied to ticket 2: TP 4200.61 SL none
+2026.07.24 15:07:17.295	2026.06.23 04:45:00   position modified [#3 buy 0.02 XAUUSD.s 4193.63 tp: 4200.61]
+2026.07.24 15:07:17.297	2026.06.23 04:45:00   CTrade::OrderSend: modify position #3 XAUUSD.s (sl: 0.00, tp: 4200.61) [done]
+2026.07.24 15:07:17.297	2026.06.23 04:45:00   [TRTM][INFO ] Exits applied to ticket 3: TP 4200.61 SL none
+2026.07.24 15:07:17.297	2026.06.23 04:45:00   position modified [#4 buy 0.03 XAUUSD.s 4181.06 tp: 4200.61]
+2026.07.24 15:07:17.299	2026.06.23 04:45:00   CTrade::OrderSend: modify position #4 XAUUSD.s (sl: 0.00, tp: 4200.61) [done]
+2026.07.24 15:07:17.299	2026.06.23 04:45:00   [TRTM][INFO ] Exits applied to ticket 4: TP 4200.61 SL none
+2026.07.24 15:07:17.299	2026.06.23 04:45:00   position modified [#5 buy 0.04 XAUUSD.s 4154.55 tp: 4200.61]
+2026.07.24 15:07:17.301	2026.06.23 04:45:00   CTrade::OrderSend: modify position #5 XAUUSD.s (sl: 0.00, tp: 4200.61) [done]
+2026.07.24 15:07:17.301	2026.06.23 04:45:00   [TRTM][INFO ] Exits applied to ticket 5: TP 4200.61 SL none
+2026.07.24 15:07:22.405	2026.06.23 06:15:00   [TRTM][INFO ] Recovery signal: PERIOD_M15 bar closed 4142.08 vs trigger 4144.55 (worst entry 4154.55 - 1000 pts)
+2026.07.24 15:07:22.405	2026.06.23 06:15:00   market buy 0.05 XAUUSD.s (4142.08 / 4142.25)
+2026.07.24 15:07:22.405	2026.06.23 06:15:00   deal #6 buy 0.05 XAUUSD.s at 4142.25 done (based on order #6)
+2026.07.24 15:07:22.405	2026.06.23 06:15:00   deal performed [#6 buy 0.05 XAUUSD.s at 4142.25]
+2026.07.24 15:07:22.405	2026.06.23 06:15:00   order performed buy 0.05 at 4142.25 [#6 buy 0.05 XAUUSD.s at 4142.25]
+2026.07.24 15:07:22.407	2026.06.23 06:15:00   CTrade::OrderSend: market buy 0.05 XAUUSD.s [done at 4142.25]
+2026.07.24 15:07:22.407	2026.06.23 06:15:00   [TRTM][INFO ] Recovery L5 OPENED: 0.05 lots BUY @ 4142.25 (deal 6)
+2026.07.24 15:07:22.407	2026.06.23 06:15:00   [TRTM][INFO ] Recovery L5 registered: ticket 6
+2026.07.24 15:07:22.407	2026.06.23 06:15:00   [TRTM][INFO ] Structure: 5 level(s), 0.15 lots | projected at TP +374.96 | at SL n/a
+2026.07.24 15:07:22.407	2026.06.23 06:15:00   position modified [#2 buy 0.01 XAUUSD.s 4207.50 tp: 4189.49]
+2026.07.24 15:07:22.409	2026.06.23 06:15:00   CTrade::OrderSend: modify position #2 XAUUSD.s (sl: 0.00, tp: 4189.49) [done]
+2026.07.24 15:07:22.409	2026.06.23 06:15:00   [TRTM][INFO ] Exits applied to ticket 2: TP 4189.49 SL none
+2026.07.24 15:07:22.409	2026.06.23 06:15:00   position modified [#3 buy 0.02 XAUUSD.s 4193.63 tp: 4189.49]
+2026.07.24 15:07:22.411	2026.06.23 06:15:00   CTrade::OrderSend: modify position #3 XAUUSD.s (sl: 0.00, tp: 4189.49) [done]
+2026.07.24 15:07:22.411	2026.06.23 06:15:00   [TRTM][INFO ] Exits applied to ticket 3: TP 4189.49 SL none
+2026.07.24 15:07:22.411	2026.06.23 06:15:00   position modified [#4 buy 0.03 XAUUSD.s 4181.06 tp: 4189.49]
+2026.07.24 15:07:22.413	2026.06.23 06:15:00   CTrade::OrderSend: modify position #4 XAUUSD.s (sl: 0.00, tp: 4189.49) [done]
+2026.07.24 15:07:22.413	2026.06.23 06:15:00   [TRTM][INFO ] Exits applied to ticket 4: TP 4189.49 SL none
+2026.07.24 15:07:22.413	2026.06.23 06:15:00   position modified [#5 buy 0.04 XAUUSD.s 4154.55 tp: 4189.49]
+2026.07.24 15:07:22.414	2026.06.23 06:15:00   CTrade::OrderSend: modify position #5 XAUUSD.s (sl: 0.00, tp: 4189.49) [done]
+2026.07.24 15:07:22.414	2026.06.23 06:15:00   [TRTM][INFO ] Exits applied to ticket 5: TP 4189.49 SL none
+2026.07.24 15:07:22.414	2026.06.23 06:15:00   position modified [#6 buy 0.05 XAUUSD.s 4142.25 tp: 4189.49]
+2026.07.24 15:07:22.416	2026.06.23 06:15:00   CTrade::OrderSend: modify position #6 XAUUSD.s (sl: 0.00, tp: 4189.49) [done]
+2026.07.24 15:07:22.416	2026.06.23 06:15:00   [TRTM][INFO ] Exits applied to ticket 6: TP 4189.49 SL none
+2026.07.24 15:07:28.974	2026.06.23 08:00:00   [TRTM][INFO ] Recovery signal: PERIOD_M15 bar closed 4118.17 vs trigger 4132.25 (worst entry 4142.25 - 1000 pts)
+2026.07.24 15:07:28.974	2026.06.23 08:00:00   market buy 0.06 XAUUSD.s (4118.16 / 4118.34)
+2026.07.24 15:07:28.974	2026.06.23 08:00:00   deal #7 buy 0.06 XAUUSD.s at 4118.34 done (based on order #7)
+2026.07.24 15:07:28.974	2026.06.23 08:00:00   deal performed [#7 buy 0.06 XAUUSD.s at 4118.34]
+2026.07.24 15:07:28.974	2026.06.23 08:00:00   order performed buy 0.06 at 4118.34 [#7 buy 0.06 XAUUSD.s at 4118.34]
+2026.07.24 15:07:28.976	2026.06.23 08:00:00   CTrade::OrderSend: market buy 0.06 XAUUSD.s [done at 4118.34]
+2026.07.24 15:07:28.976	2026.06.23 08:00:00   [TRTM][INFO ] Recovery L6 OPENED: 0.06 lots BUY @ 4118.34 (deal 7)
+2026.07.24 15:07:28.976	2026.06.23 08:00:00   [TRTM][INFO ] Recovery L6 registered: ticket 7
+2026.07.24 15:07:28.976	2026.06.23 08:00:00   [TRTM][INFO ] Structure: 6 level(s), 0.21 lots | projected at TP +525.08 | at SL n/a
+2026.07.24 15:07:28.976	2026.06.23 08:00:00   position modified [#2 buy 0.01 XAUUSD.s 4207.50 tp: 4176.31]
+2026.07.24 15:07:28.977	2026.06.23 08:00:00   CTrade::OrderSend: modify position #2 XAUUSD.s (sl: 0.00, tp: 4176.31) [done]
+2026.07.24 15:07:28.977	2026.06.23 08:00:00   [TRTM][INFO ] Exits applied to ticket 2: TP 4176.31 SL none
+2026.07.24 15:07:28.977	2026.06.23 08:00:00   position modified [#3 buy 0.02 XAUUSD.s 4193.63 tp: 4176.31]
+2026.07.24 15:07:28.979	2026.06.23 08:00:00   CTrade::OrderSend: modify position #3 XAUUSD.s (sl: 0.00, tp: 4176.31) [done]
+2026.07.24 15:07:28.979	2026.06.23 08:00:00   [TRTM][INFO ] Exits applied to ticket 3: TP 4176.31 SL none
+2026.07.24 15:07:28.979	2026.06.23 08:00:00   position modified [#4 buy 0.03 XAUUSD.s 4181.06 tp: 4176.31]
+2026.07.24 15:07:28.980	2026.06.23 08:00:00   CTrade::OrderSend: modify position #4 XAUUSD.s (sl: 0.00, tp: 4176.31) [done]
+2026.07.24 15:07:28.980	2026.06.23 08:00:00   [TRTM][INFO ] Exits applied to ticket 4: TP 4176.31 SL none
+2026.07.24 15:07:28.980	2026.06.23 08:00:00   position modified [#5 buy 0.04 XAUUSD.s 4154.55 tp: 4176.31]
+2026.07.24 15:07:28.982	2026.06.23 08:00:00   CTrade::OrderSend: modify position #5 XAUUSD.s (sl: 0.00, tp: 4176.31) [done]
+2026.07.24 15:07:28.982	2026.06.23 08:00:00   [TRTM][INFO ] Exits applied to ticket 5: TP 4176.31 SL none
+2026.07.24 15:07:28.982	2026.06.23 08:00:00   position modified [#6 buy 0.05 XAUUSD.s 4142.25 tp: 4176.31]
+2026.07.24 15:07:28.983	2026.06.23 08:00:00   CTrade::OrderSend: modify position #6 XAUUSD.s (sl: 0.00, tp: 4176.31) [done]
+2026.07.24 15:07:28.983	2026.06.23 08:00:00   [TRTM][INFO ] Exits applied to ticket 6: TP 4176.31 SL none
+2026.07.24 15:07:28.983	2026.06.23 08:00:00   position modified [#7 buy 0.06 XAUUSD.s 4118.34 tp: 4176.31]
+2026.07.24 15:07:28.985	2026.06.23 08:00:00   CTrade::OrderSend: modify position #7 XAUUSD.s (sl: 0.00, tp: 4176.31) [done]
+2026.07.24 15:07:28.985	2026.06.23 08:00:00   [TRTM][INFO ] Exits applied to ticket 7: TP 4176.31 SL none
+2026.07.24 15:07:29.337	2026.06.23 08:05:31   [TRTM][INFO ] Tier 1 FIRE: BUY group 2 leg(s) (anchor L1 + 1 profitable) | VWAP 4131.08 far 4136.76 margin 568.3 pts >= 500/lot
+2026.07.24 15:07:29.338	2026.06.23 08:05:31   market sell 0.06 XAUUSD.s, close #7 (4136.76 / 4136.94)
+2026.07.24 15:07:29.338	2026.06.23 08:05:31   deal #8 sell 0.06 XAUUSD.s at 4136.76 done (based on order #8)
+2026.07.24 15:07:29.338	2026.06.23 08:05:31   deal performed [#8 sell 0.06 XAUUSD.s at 4136.76]
+2026.07.24 15:07:29.338	2026.06.23 08:05:31   order performed sell 0.06 at 4136.76 [#8 sell 0.06 XAUUSD.s at 4136.76]
+2026.07.24 15:07:29.340	2026.06.23 08:05:31   CTrade::OrderSend: market sell 0.06 position #7 XAUUSD.s [done at 4136.76]
+2026.07.24 15:07:29.340	2026.06.23 08:05:31   [TRTM][INFO ] Closed L6 ticket 7 @ 4136.76
+2026.07.24 15:07:29.340	2026.06.23 08:05:31   market sell 0.01 XAUUSD.s, close #2 (4136.76 / 4136.94)
+2026.07.24 15:07:29.340	2026.06.23 08:05:31   deal #9 sell 0.01 XAUUSD.s at 4136.76 done (based on order #9)
+2026.07.24 15:07:29.340	2026.06.23 08:05:31   deal performed [#9 sell 0.01 XAUUSD.s at 4136.76]
+2026.07.24 15:07:29.340	2026.06.23 08:05:31   order performed sell 0.01 at 4136.76 [#9 sell 0.01 XAUUSD.s at 4136.76]
+2026.07.24 15:07:29.342	2026.06.23 08:05:31   CTrade::OrderSend: market sell 0.01 position #2 XAUUSD.s [done at 4136.76]
+2026.07.24 15:07:29.342	2026.06.23 08:05:31   [TRTM][INFO ] Closed L1 ticket 2 @ 4136.76
+2026.07.24 15:07:29.342	2026.06.23 08:05:31   [TRTM][INFO ] Liveness: L6 ticket 7 closed by EA (market close) - removed from sequence
+2026.07.24 15:07:29.342	2026.06.23 08:05:31   [TRTM][INFO ] Liveness: L1 ticket 2 closed by EA (market close) - removed from sequence
+2026.07.24 15:07:29.342	2026.06.23 08:05:31   [TRTM][INFO ] Structure: 4 level(s), 0.14 lots | projected at TP +349.99 | at SL n/a
+2026.07.24 15:07:29.342	2026.06.23 08:05:31   position modified [#3 buy 0.02 XAUUSD.s 4193.63 tp: 4186.42]
+2026.07.24 15:07:29.344	2026.06.23 08:05:31   CTrade::OrderSend: modify position #3 XAUUSD.s (sl: 0.00, tp: 4186.42) [done]
+2026.07.24 15:07:29.344	2026.06.23 08:05:31   [TRTM][INFO ] Exits applied to ticket 3: TP 4186.42 SL none
+2026.07.24 15:07:29.344	2026.06.23 08:05:31   position modified [#4 buy 0.03 XAUUSD.s 4181.06 tp: 4186.42]
+2026.07.24 15:07:29.346	2026.06.23 08:05:31   CTrade::OrderSend: modify position #4 XAUUSD.s (sl: 0.00, tp: 4186.42) [done]
+2026.07.24 15:07:29.346	2026.06.23 08:05:31   [TRTM][INFO ] Exits applied to ticket 4: TP 4186.42 SL none
+2026.07.24 15:07:29.346	2026.06.23 08:05:31   position modified [#5 buy 0.04 XAUUSD.s 4154.55 tp: 4186.42]
+2026.07.24 15:07:29.348	2026.06.23 08:05:31   CTrade::OrderSend: modify position #5 XAUUSD.s (sl: 0.00, tp: 4186.42) [done]
+2026.07.24 15:07:29.348	2026.06.23 08:05:31   [TRTM][INFO ] Exits applied to ticket 5: TP 4186.42 SL none
+2026.07.24 15:07:29.348	2026.06.23 08:05:31   position modified [#6 buy 0.05 XAUUSD.s 4142.25 tp: 4186.42]
+2026.07.24 15:07:29.350	2026.06.23 08:05:31   CTrade::OrderSend: modify position #6 XAUUSD.s (sl: 0.00, tp: 4186.42) [done]
+2026.07.24 15:07:29.350	2026.06.23 08:05:31   [TRTM][INFO ] Exits applied to ticket 6: TP 4186.42 SL none
+2026.07.24 15:07:29.947	2026.06.23 08:15:00   [TRTM][INFO ] Recovery signal: PERIOD_M15 bar closed 4129.79 vs trigger 4132.25 (worst entry 4142.25 - 1000 pts)
+2026.07.24 15:07:29.947	2026.06.23 08:15:00   market buy 0.06 XAUUSD.s (4129.75 / 4129.93)
+2026.07.24 15:07:29.947	2026.06.23 08:15:00   deal #10 buy 0.06 XAUUSD.s at 4129.93 done (based on order #10)
+2026.07.24 15:07:29.947	2026.06.23 08:15:00   deal performed [#10 buy 0.06 XAUUSD.s at 4129.93]
+2026.07.24 15:07:29.947	2026.06.23 08:15:00   order performed buy 0.06 at 4129.93 [#10 buy 0.06 XAUUSD.s at 4129.93]
+2026.07.24 15:07:29.949	2026.06.23 08:15:00   CTrade::OrderSend: market buy 0.06 XAUUSD.s [done at 4129.93]
+2026.07.24 15:07:29.949	2026.06.23 08:15:00   [TRTM][INFO ] Recovery L6 OPENED: 0.06 lots BUY @ 4129.93 (deal 10)
+2026.07.24 15:07:29.949	2026.06.23 08:15:00   [TRTM][INFO ] Recovery L6 registered: ticket 10
+2026.07.24 15:07:29.949	2026.06.23 08:15:00   [TRTM][INFO ] Structure: 5 level(s), 0.20 lots | projected at TP +499.93 | at SL n/a
+2026.07.24 15:07:29.949	2026.06.23 08:15:00   position modified [#3 buy 0.02 XAUUSD.s 4193.63 tp: 4176.97]
+2026.07.24 15:07:29.951	2026.06.23 08:15:00   CTrade::OrderSend: modify position #3 XAUUSD.s (sl: 0.00, tp: 4176.97) [done]
+2026.07.24 15:07:29.951	2026.06.23 08:15:00   [TRTM][INFO ] Exits applied to ticket 3: TP 4176.97 SL none
+2026.07.24 15:07:29.951	2026.06.23 08:15:00   position modified [#4 buy 0.03 XAUUSD.s 4181.06 tp: 4176.97]
+2026.07.24 15:07:29.953	2026.06.23 08:15:00   CTrade::OrderSend: modify position #4 XAUUSD.s (sl: 0.00, tp: 4176.97) [done]
+2026.07.24 15:07:29.953	2026.06.23 08:15:00   [TRTM][INFO ] Exits applied to ticket 4: TP 4176.97 SL none
+2026.07.24 15:07:29.953	2026.06.23 08:15:00   position modified [#5 buy 0.04 XAUUSD.s 4154.55 tp: 4176.97]
+2026.07.24 15:07:29.954	2026.06.23 08:15:00   CTrade::OrderSend: modify position #5 XAUUSD.s (sl: 0.00, tp: 4176.97) [done]
+2026.07.24 15:07:29.954	2026.06.23 08:15:00   [TRTM][INFO ] Exits applied to ticket 5: TP 4176.97 SL none
+2026.07.24 15:07:29.954	2026.06.23 08:15:00   position modified [#6 buy 0.05 XAUUSD.s 4142.25 tp: 4176.97]
+2026.07.24 15:07:29.956	2026.06.23 08:15:00   CTrade::OrderSend: modify position #6 XAUUSD.s (sl: 0.00, tp: 4176.97) [done]
+2026.07.24 15:07:29.956	2026.06.23 08:15:00   [TRTM][INFO ] Exits applied to ticket 6: TP 4176.97 SL none
+2026.07.24 15:07:29.956	2026.06.23 08:15:00   position modified [#10 buy 0.06 XAUUSD.s 4129.93 tp: 4176.97]
+2026.07.24 15:07:29.958	2026.06.23 08:15:00   CTrade::OrderSend: modify position #10 XAUUSD.s (sl: 0.00, tp: 4176.97) [done]
+2026.07.24 15:07:29.958	2026.06.23 08:15:00   [TRTM][INFO ] Exits applied to ticket 10: TP 4176.97 SL none
+2026.07.24 15:07:34.341	2026.06.23 09:30:00   [TRTM][INFO ] Recovery signal: PERIOD_M15 bar closed 4116.46 vs trigger 4119.93 (worst entry 4129.93 - 1000 pts)
+2026.07.24 15:07:34.341	2026.06.23 09:30:00   market buy 0.07 XAUUSD.s (4116.55 / 4116.72)
+2026.07.24 15:07:34.341	2026.06.23 09:30:00   deal #11 buy 0.07 XAUUSD.s at 4116.72 done (based on order #11)
+2026.07.24 15:07:34.341	2026.06.23 09:30:00   deal performed [#11 buy 0.07 XAUUSD.s at 4116.72]
+2026.07.24 15:07:34.341	2026.06.23 09:30:00   order performed buy 0.07 at 4116.72 [#11 buy 0.07 XAUUSD.s at 4116.72]
+2026.07.24 15:07:34.343	2026.06.23 09:30:00   CTrade::OrderSend: market buy 0.07 XAUUSD.s [done at 4116.72]
+2026.07.24 15:07:34.343	2026.06.23 09:30:00   [TRTM][INFO ] Recovery L7 OPENED: 0.07 lots BUY @ 4116.72 (deal 11)
+2026.07.24 15:07:34.343	2026.06.23 09:30:00   [TRTM][INFO ] Recovery L7 registered: ticket 11
+2026.07.24 15:07:34.343	2026.06.23 09:30:00   [TRTM][INFO ] Structure: 6 level(s), 0.27 lots | projected at TP +674.90 | at SL n/a
+2026.07.24 15:07:34.344	2026.06.23 09:30:00   position modified [#3 buy 0.02 XAUUSD.s 4193.63 tp: 4167.83]
+2026.07.24 15:07:34.346	2026.06.23 09:30:00   CTrade::OrderSend: modify position #3 XAUUSD.s (sl: 0.00, tp: 4167.83) [done]
+2026.07.24 15:07:34.346	2026.06.23 09:30:00   [TRTM][INFO ] Exits applied to ticket 3: TP 4167.83 SL none
+2026.07.24 15:07:34.346	2026.06.23 09:30:00   position modified [#4 buy 0.03 XAUUSD.s 4181.06 tp: 4167.83]
+2026.07.24 15:07:34.348	2026.06.23 09:30:00   CTrade::OrderSend: modify position #4 XAUUSD.s (sl: 0.00, tp: 4167.83) [done]
+2026.07.24 15:07:34.348	2026.06.23 09:30:00   [TRTM][INFO ] Exits applied to ticket 4: TP 4167.83 SL none
+2026.07.24 15:07:34.348	2026.06.23 09:30:00   position modified [#5 buy 0.04 XAUUSD.s 4154.55 tp: 4167.83]
+2026.07.24 15:07:34.350	2026.06.23 09:30:00   CTrade::OrderSend: modify position #5 XAUUSD.s (sl: 0.00, tp: 4167.83) [done]
+2026.07.24 15:07:34.350	2026.06.23 09:30:00   [TRTM][INFO ] Exits applied to ticket 5: TP 4167.83 SL none
+2026.07.24 15:07:34.350	2026.06.23 09:30:00   position modified [#6 buy 0.05 XAUUSD.s 4142.25 tp: 4167.83]
+2026.07.24 15:07:34.352	2026.06.23 09:30:00   CTrade::OrderSend: modify position #6 XAUUSD.s (sl: 0.00, tp: 4167.83) [done]
+2026.07.24 15:07:34.352	2026.06.23 09:30:00   [TRTM][INFO ] Exits applied to ticket 6: TP 4167.83 SL none
+2026.07.24 15:07:34.352	2026.06.23 09:30:00   position modified [#10 buy 0.06 XAUUSD.s 4129.93 tp: 4167.83]
+2026.07.24 15:07:34.353	2026.06.23 09:30:00   CTrade::OrderSend: modify position #10 XAUUSD.s (sl: 0.00, tp: 4167.83) [done]
+2026.07.24 15:07:34.353	2026.06.23 09:30:00   [TRTM][INFO ] Exits applied to ticket 10: TP 4167.83 SL none
+2026.07.24 15:07:34.353	2026.06.23 09:30:00   position modified [#11 buy 0.07 XAUUSD.s 4116.72 tp: 4167.83]
+2026.07.24 15:07:34.355	2026.06.23 09:30:00   CTrade::OrderSend: modify position #11 XAUUSD.s (sl: 0.00, tp: 4167.83) [done]
+2026.07.24 15:07:34.355	2026.06.23 09:30:00   [TRTM][INFO ] Exits applied to ticket 11: TP 4167.83 SL none
+2026.07.24 15:07:37.914	2026.06.23 10:45:00   [TRTM][INFO ] Recovery signal: PERIOD_M15 bar closed 4104.94 vs trigger 4106.72 (worst entry 4116.72 - 1000 pts)
+2026.07.24 15:07:37.914	2026.06.23 10:45:00   market buy 0.08 XAUUSD.s (4104.87 / 4105.04)
+2026.07.24 15:07:37.914	2026.06.23 10:45:00   deal #12 buy 0.08 XAUUSD.s at 4105.04 done (based on order #12)
+2026.07.24 15:07:37.914	2026.06.23 10:45:00   deal performed [#12 buy 0.08 XAUUSD.s at 4105.04]
+2026.07.24 15:07:37.914	2026.06.23 10:45:00   order performed buy 0.08 at 4105.04 [#12 buy 0.08 XAUUSD.s at 4105.04]
+2026.07.24 15:07:37.916	2026.06.23 10:45:00   CTrade::OrderSend: market buy 0.08 XAUUSD.s [done at 4105.04]
+2026.07.24 15:07:37.916	2026.06.23 10:45:00   [TRTM][INFO ] Recovery L8 OPENED: 0.08 lots BUY @ 4105.04 (deal 12)
+2026.07.24 15:07:37.916	2026.06.23 10:45:00   [TRTM][INFO ] Recovery L8 registered: ticket 12
+2026.07.24 15:07:37.916	2026.06.23 10:45:00   [TRTM][INFO ] Structure: 7 level(s), 0.35 lots | projected at TP +875.17 | at SL n/a
+2026.07.24 15:07:37.916	2026.06.23 10:45:00   position modified [#3 buy 0.02 XAUUSD.s 4193.63 tp: 4159.20]
+2026.07.24 15:07:37.918	2026.06.23 10:45:00   CTrade::OrderSend: modify position #3 XAUUSD.s (sl: 0.00, tp: 4159.20) [done]
+2026.07.24 15:07:37.918	2026.06.23 10:45:00   [TRTM][INFO ] Exits applied to ticket 3: TP 4159.20 SL none
+2026.07.24 15:07:37.918	2026.06.23 10:45:00   position modified [#4 buy 0.03 XAUUSD.s 4181.06 tp: 4159.20]
+2026.07.24 15:07:37.920	2026.06.23 10:45:00   CTrade::OrderSend: modify position #4 XAUUSD.s (sl: 0.00, tp: 4159.20) [done]
+2026.07.24 15:07:37.920	2026.06.23 10:45:00   [TRTM][INFO ] Exits applied to ticket 4: TP 4159.20 SL none
+2026.07.24 15:07:37.920	2026.06.23 10:45:00   position modified [#5 buy 0.04 XAUUSD.s 4154.55 tp: 4159.20]
+2026.07.24 15:07:37.922	2026.06.23 10:45:00   CTrade::OrderSend: modify position #5 XAUUSD.s (sl: 0.00, tp: 4159.20) [done]
+2026.07.24 15:07:37.922	2026.06.23 10:45:00   [TRTM][INFO ] Exits applied to ticket 5: TP 4159.20 SL none
+2026.07.24 15:07:37.922	2026.06.23 10:45:00   position modified [#6 buy 0.05 XAUUSD.s 4142.25 tp: 4159.20]
+2026.07.24 15:07:37.924	2026.06.23 10:45:00   CTrade::OrderSend: modify position #6 XAUUSD.s (sl: 0.00, tp: 4159.20) [done]
+2026.07.24 15:07:37.924	2026.06.23 10:45:00   [TRTM][INFO ] Exits applied to ticket 6: TP 4159.20 SL none
+2026.07.24 15:07:37.924	2026.06.23 10:45:00   position modified [#10 buy 0.06 XAUUSD.s 4129.93 tp: 4159.20]
+2026.07.24 15:07:37.926	2026.06.23 10:45:00   CTrade::OrderSend: modify position #10 XAUUSD.s (sl: 0.00, tp: 4159.20) [done]
+2026.07.24 15:07:37.926	2026.06.23 10:45:00   [TRTM][INFO ] Exits applied to ticket 10: TP 4159.20 SL none
+2026.07.24 15:07:37.926	2026.06.23 10:45:00   position modified [#11 buy 0.07 XAUUSD.s 4116.72 tp: 4159.20]
+2026.07.24 15:07:37.928	2026.06.23 10:45:00   CTrade::OrderSend: modify position #11 XAUUSD.s (sl: 0.00, tp: 4159.20) [done]
+2026.07.24 15:07:37.928	2026.06.23 10:45:00   [TRTM][INFO ] Exits applied to ticket 11: TP 4159.20 SL none
+2026.07.24 15:07:37.928	2026.06.23 10:45:00   position modified [#12 buy 0.08 XAUUSD.s 4105.04 tp: 4159.20]
+2026.07.24 15:07:37.930	2026.06.23 10:45:00   CTrade::OrderSend: modify position #12 XAUUSD.s (sl: 0.00, tp: 4159.20) [done]
+2026.07.24 15:07:37.930	2026.06.23 10:45:00   [TRTM][INFO ] Exits applied to ticket 12: TP 4159.20 SL none
+2026.07.24 15:07:39.546	2026.06.23 11:15:00   [TRTM][INFO ] Recovery signal: PERIOD_M15 bar closed 4094.03 vs trigger 4095.04 (worst entry 4105.04 - 1000 pts)
+2026.07.24 15:07:39.546	2026.06.23 11:15:00   market buy 0.09 XAUUSD.s (4094.04 / 4094.20)
+2026.07.24 15:07:39.546	2026.06.23 11:15:00   deal #13 buy 0.09 XAUUSD.s at 4094.20 done (based on order #13)
+2026.07.24 15:07:39.546	2026.06.23 11:15:00   deal performed [#13 buy 0.09 XAUUSD.s at 4094.20]
+2026.07.24 15:07:39.546	2026.06.23 11:15:00   order performed buy 0.09 at 4094.20 [#13 buy 0.09 XAUUSD.s at 4094.20]
+2026.07.24 15:07:39.548	2026.06.23 11:15:00   CTrade::OrderSend: market buy 0.09 XAUUSD.s [done at 4094.20]
+2026.07.24 15:07:39.548	2026.06.23 11:15:00   [TRTM][INFO ] Recovery L9 OPENED: 0.09 lots BUY @ 4094.20 (deal 13)
+2026.07.24 15:07:39.548	2026.06.23 11:15:00   [TRTM][INFO ] Recovery L9 registered: ticket 13
+2026.07.24 15:07:39.548	2026.06.23 11:15:00   [TRTM][INFO ] Structure: 8 level(s), 0.44 lots | projected at TP +1099.81 | at SL n/a
+2026.07.24 15:07:39.548	2026.06.23 11:15:00   position modified [#3 buy 0.02 XAUUSD.s 4193.63 tp: 4151.01]
+2026.07.24 15:07:39.550	2026.06.23 11:15:00   CTrade::OrderSend: modify position #3 XAUUSD.s (sl: 0.00, tp: 4151.01) [done]
+2026.07.24 15:07:39.550	2026.06.23 11:15:00   [TRTM][INFO ] Exits applied to ticket 3: TP 4151.01 SL none
+2026.07.24 15:07:39.550	2026.06.23 11:15:00   position modified [#4 buy 0.03 XAUUSD.s 4181.06 tp: 4151.01]
+2026.07.24 15:07:39.552	2026.06.23 11:15:00   CTrade::OrderSend: modify position #4 XAUUSD.s (sl: 0.00, tp: 4151.01) [done]
+2026.07.24 15:07:39.552	2026.06.23 11:15:00   [TRTM][INFO ] Exits applied to ticket 4: TP 4151.01 SL none
+2026.07.24 15:07:39.552	2026.06.23 11:15:00   position modified [#5 buy 0.04 XAUUSD.s 4154.55 tp: 4151.01]
+2026.07.24 15:07:39.553	2026.06.23 11:15:00   CTrade::OrderSend: modify position #5 XAUUSD.s (sl: 0.00, tp: 4151.01) [done]
+2026.07.24 15:07:39.553	2026.06.23 11:15:00   [TRTM][INFO ] Exits applied to ticket 5: TP 4151.01 SL none
+2026.07.24 15:07:39.553	2026.06.23 11:15:00   position modified [#6 buy 0.05 XAUUSD.s 4142.25 tp: 4151.01]
+2026.07.24 15:07:39.555	2026.06.23 11:15:00   CTrade::OrderSend: modify position #6 XAUUSD.s (sl: 0.00, tp: 4151.01) [done]
+2026.07.24 15:07:39.555	2026.06.23 11:15:00   [TRTM][INFO ] Exits applied to ticket 6: TP 4151.01 SL none
+2026.07.24 15:07:39.555	2026.06.23 11:15:00   position modified [#10 buy 0.06 XAUUSD.s 4129.93 tp: 4151.01]
+2026.07.24 15:07:39.557	2026.06.23 11:15:00   CTrade::OrderSend: modify position #10 XAUUSD.s (sl: 0.00, tp: 4151.01) [done]
+2026.07.24 15:07:39.557	2026.06.23 11:15:00   [TRTM][INFO ] Exits applied to ticket 10: TP 4151.01 SL none
+2026.07.24 15:07:39.557	2026.06.23 11:15:00   position modified [#11 buy 0.07 XAUUSD.s 4116.72 tp: 4151.01]
+2026.07.24 15:07:39.559	2026.06.23 11:15:00   CTrade::OrderSend: modify position #11 XAUUSD.s (sl: 0.00, tp: 4151.01) [done]
+2026.07.24 15:07:39.559	2026.06.23 11:15:00   [TRTM][INFO ] Exits applied to ticket 11: TP 4151.01 SL none
+2026.07.24 15:07:39.559	2026.06.23 11:15:00   position modified [#12 buy 0.08 XAUUSD.s 4105.04 tp: 4151.01]
+2026.07.24 15:07:39.561	2026.06.23 11:15:00   CTrade::OrderSend: modify position #12 XAUUSD.s (sl: 0.00, tp: 4151.01) [done]
+2026.07.24 15:07:39.561	2026.06.23 11:15:00   [TRTM][INFO ] Exits applied to ticket 12: TP 4151.01 SL none
+2026.07.24 15:07:39.561	2026.06.23 11:15:00   position modified [#13 buy 0.09 XAUUSD.s 4094.20 tp: 4151.01]
+2026.07.24 15:07:39.563	2026.06.23 11:15:00   CTrade::OrderSend: modify position #13 XAUUSD.s (sl: 0.00, tp: 4151.01) [done]
+2026.07.24 15:07:39.563	2026.06.23 11:15:00   [TRTM][INFO ] Exits applied to ticket 13: TP 4151.01 SL none
+2026.07.24 15:07:44.266	2026.06.23 12:20:47   [TRTM][INFO ] Tier 1 FIRE: BUY group 3 leg(s) (anchor L2 + 2 profitable) | VWAP 4109.23 far 4114.24 margin 500.9 pts >= 500/lot
+2026.07.24 15:07:44.266	2026.06.23 12:20:47   market sell 0.09 XAUUSD.s, close #13 (4114.24 / 4114.41)
+2026.07.24 15:07:44.266	2026.06.23 12:20:47   deal #14 sell 0.09 XAUUSD.s at 4114.24 done (based on order #14)
+2026.07.24 15:07:44.266	2026.06.23 12:20:47   deal performed [#14 sell 0.09 XAUUSD.s at 4114.24]
+2026.07.24 15:07:44.266	2026.06.23 12:20:47   order performed sell 0.09 at 4114.24 [#14 sell 0.09 XAUUSD.s at 4114.24]
+2026.07.24 15:07:44.268	2026.06.23 12:20:47   CTrade::OrderSend: market sell 0.09 position #13 XAUUSD.s [done at 4114.24]
+2026.07.24 15:07:44.268	2026.06.23 12:20:47   [TRTM][INFO ] Closed L9 ticket 13 @ 4114.24
+2026.07.24 15:07:44.268	2026.06.23 12:20:47   market sell 0.08 XAUUSD.s, close #12 (4114.24 / 4114.41)
+2026.07.24 15:07:44.268	2026.06.23 12:20:47   deal #15 sell 0.08 XAUUSD.s at 4114.24 done (based on order #15)
+2026.07.24 15:07:44.268	2026.06.23 12:20:47   deal performed [#15 sell 0.08 XAUUSD.s at 4114.24]
+2026.07.24 15:07:44.268	2026.06.23 12:20:47   order performed sell 0.08 at 4114.24 [#15 sell 0.08 XAUUSD.s at 4114.24]
+2026.07.24 15:07:44.270	2026.06.23 12:20:47   CTrade::OrderSend: market sell 0.08 position #12 XAUUSD.s [done at 4114.24]
+2026.07.24 15:07:44.270	2026.06.23 12:20:47   [TRTM][INFO ] Closed L8 ticket 12 @ 4114.24
+2026.07.24 15:07:44.270	2026.06.23 12:20:47   market sell 0.02 XAUUSD.s, close #3 (4114.24 / 4114.41)
+2026.07.24 15:07:44.270	2026.06.23 12:20:47   deal #16 sell 0.02 XAUUSD.s at 4114.24 done (based on order #16)
+2026.07.24 15:07:44.270	2026.06.23 12:20:47   deal performed [#16 sell 0.02 XAUUSD.s at 4114.24]
+2026.07.24 15:07:44.270	2026.06.23 12:20:47   order performed sell 0.02 at 4114.24 [#16 sell 0.02 XAUUSD.s at 4114.24]
+2026.07.24 15:07:44.272	2026.06.23 12:20:47   CTrade::OrderSend: market sell 0.02 position #3 XAUUSD.s [done at 4114.24]
+2026.07.24 15:07:44.272	2026.06.23 12:20:47   [TRTM][INFO ] Closed L2 ticket 3 @ 4114.24
+2026.07.24 15:07:44.274	2026.06.23 12:20:47   [TRTM][INFO ] Liveness: L9 ticket 13 closed by EA (market close) - removed from sequence
+2026.07.24 15:07:44.274	2026.06.23 12:20:47   [TRTM][INFO ] Liveness: L8 ticket 12 closed by EA (market close) - removed from sequence
+2026.07.24 15:07:44.274	2026.06.23 12:20:47   [TRTM][INFO ] Liveness: L2 ticket 3 closed by EA (market close) - removed from sequence
+2026.07.24 15:07:44.274	2026.06.23 12:20:47   [TRTM][INFO ] Structure: 5 level(s), 0.25 lots | projected at TP +625.00 | at SL n/a
+2026.07.24 15:07:44.274	2026.06.23 12:20:47   position modified [#4 buy 0.03 XAUUSD.s 4181.06 tp: 4163.77]
+2026.07.24 15:07:44.276	2026.06.23 12:20:47   CTrade::OrderSend: modify position #4 XAUUSD.s (sl: 0.00, tp: 4163.77) [done]
+2026.07.24 15:07:44.276	2026.06.23 12:20:47   [TRTM][INFO ] Exits applied to ticket 4: TP 4163.77 SL none
+2026.07.24 15:07:44.276	2026.06.23 12:20:47   position modified [#5 buy 0.04 XAUUSD.s 4154.55 tp: 4163.77]
+2026.07.24 15:07:44.278	2026.06.23 12:20:47   CTrade::OrderSend: modify position #5 XAUUSD.s (sl: 0.00, tp: 4163.77) [done]
+2026.07.24 15:07:44.278	2026.06.23 12:20:47   [TRTM][INFO ] Exits applied to ticket 5: TP 4163.77 SL none
+2026.07.24 15:07:44.278	2026.06.23 12:20:47   position modified [#6 buy 0.05 XAUUSD.s 4142.25 tp: 4163.77]
+2026.07.24 15:07:44.280	2026.06.23 12:20:47   CTrade::OrderSend: modify position #6 XAUUSD.s (sl: 0.00, tp: 4163.77) [done]
+2026.07.24 15:07:44.280	2026.06.23 12:20:47   [TRTM][INFO ] Exits applied to ticket 6: TP 4163.77 SL none
+2026.07.24 15:07:44.280	2026.06.23 12:20:47   position modified [#10 buy 0.06 XAUUSD.s 4129.93 tp: 4163.77]
+2026.07.24 15:07:44.282	2026.06.23 12:20:47   CTrade::OrderSend: modify position #10 XAUUSD.s (sl: 0.00, tp: 4163.77) [done]
+2026.07.24 15:07:44.282	2026.06.23 12:20:47   [TRTM][INFO ] Exits applied to ticket 10: TP 4163.77 SL none
+2026.07.24 15:07:44.282	2026.06.23 12:20:47   position modified [#11 buy 0.07 XAUUSD.s 4116.72 tp: 4163.77]
+2026.07.24 15:07:44.283	2026.06.23 12:20:47   CTrade::OrderSend: modify position #11 XAUUSD.s (sl: 0.00, tp: 4163.77) [done]
+2026.07.24 15:07:44.283	2026.06.23 12:20:47   [TRTM][INFO ] Exits applied to ticket 11: TP 4163.77 SL none
+2026.07.24 15:08:02.107	2026.06.23 16:53:27   [TRTM][INFO ] Tier 1 FIRE: BUY group 3 leg(s) (anchor L3 + 2 profitable) | VWAP 4133.74 far 4138.92 margin 518.2 pts >= 500/lot
+2026.07.24 15:08:02.107	2026.06.23 16:53:27   market sell 0.07 XAUUSD.s, close #11 (4138.92 / 4139.09)
+2026.07.24 15:08:02.107	2026.06.23 16:53:27   deal #17 sell 0.07 XAUUSD.s at 4138.92 done (based on order #17)
+2026.07.24 15:08:02.107	2026.06.23 16:53:27   deal performed [#17 sell 0.07 XAUUSD.s at 4138.92]
+2026.07.24 15:08:02.107	2026.06.23 16:53:27   order performed sell 0.07 at 4138.92 [#17 sell 0.07 XAUUSD.s at 4138.92]
+2026.07.24 15:08:02.109	2026.06.23 16:53:27   CTrade::OrderSend: market sell 0.07 position #11 XAUUSD.s [done at 4138.92]
+2026.07.24 15:08:02.109	2026.06.23 16:53:27   [TRTM][INFO ] Closed L7 ticket 11 @ 4138.92
+2026.07.24 15:08:02.109	2026.06.23 16:53:27   market sell 0.06 XAUUSD.s, close #10 (4138.92 / 4139.09)
+2026.07.24 15:08:02.109	2026.06.23 16:53:27   deal #18 sell 0.06 XAUUSD.s at 4138.92 done (based on order #18)
+2026.07.24 15:08:02.109	2026.06.23 16:53:27   deal performed [#18 sell 0.06 XAUUSD.s at 4138.92]
+2026.07.24 15:08:02.109	2026.06.23 16:53:27   order performed sell 0.06 at 4138.92 [#18 sell 0.06 XAUUSD.s at 4138.92]
+2026.07.24 15:08:02.111	2026.06.23 16:53:27   CTrade::OrderSend: market sell 0.06 position #10 XAUUSD.s [done at 4138.92]
+2026.07.24 15:08:02.111	2026.06.23 16:53:27   [TRTM][INFO ] Closed L6 ticket 10 @ 4138.92
+2026.07.24 15:08:02.111	2026.06.23 16:53:27   market sell 0.03 XAUUSD.s, close #4 (4138.92 / 4139.09)
+2026.07.24 15:08:02.111	2026.06.23 16:53:27   deal #19 sell 0.03 XAUUSD.s at 4138.92 done (based on order #19)
+2026.07.24 15:08:02.111	2026.06.23 16:53:27   deal performed [#19 sell 0.03 XAUUSD.s at 4138.92]
+2026.07.24 15:08:02.111	2026.06.23 16:53:27   order performed sell 0.03 at 4138.92 [#19 sell 0.03 XAUUSD.s at 4138.92]
+2026.07.24 15:08:02.113	2026.06.23 16:53:27   CTrade::OrderSend: market sell 0.03 position #4 XAUUSD.s [done at 4138.92]
+2026.07.24 15:08:02.113	2026.06.23 16:53:27   [TRTM][INFO ] Closed L3 ticket 4 @ 4138.92
+2026.07.24 15:08:02.113	2026.06.23 16:53:27   [TRTM][INFO ] Liveness: L7 ticket 11 closed by EA (market close) - removed from sequence
+2026.07.24 15:08:02.113	2026.06.23 16:53:27   [TRTM][INFO ] Liveness: L6 ticket 10 closed by EA (market close) - removed from sequence
+2026.07.24 15:08:02.113	2026.06.23 16:53:27   [TRTM][INFO ] Liveness: L3 ticket 4 closed by EA (market close) - removed from sequence
+2026.07.24 15:08:02.113	2026.06.23 16:53:27   [TRTM][INFO ] Structure: 2 level(s), 0.09 lots | projected at TP +225.03 | at SL n/a
+2026.07.24 15:08:02.113	2026.06.23 16:53:27   position modified [#5 buy 0.04 XAUUSD.s 4154.55 tp: 4172.72]
+2026.07.24 15:08:02.115	2026.06.23 16:53:27   CTrade::OrderSend: modify position #5 XAUUSD.s (sl: 0.00, tp: 4172.72) [done]
+2026.07.24 15:08:02.115	2026.06.23 16:53:27   [TRTM][INFO ] Exits applied to ticket 5: TP 4172.72 SL none
+2026.07.24 15:08:02.115	2026.06.23 16:53:27   position modified [#6 buy 0.05 XAUUSD.s 4142.25 tp: 4172.72]
+2026.07.24 15:08:02.117	2026.06.23 16:53:27   CTrade::OrderSend: modify position #6 XAUUSD.s (sl: 0.00, tp: 4172.72) [done]
+2026.07.24 15:08:02.117	2026.06.23 16:53:27   [TRTM][INFO ] Exits applied to ticket 6: TP 4172.72 SL none
+2026.07.24 15:08:05.535	2026.06.23 17:45:00   [TRTM][INFO ] Recovery signal: PERIOD_M15 bar closed 4126.11 vs trigger 4132.25 (worst entry 4142.25 - 1000 pts)
+2026.07.24 15:08:05.535	2026.06.23 17:45:00   market buy 0.06 XAUUSD.s (4126.28 / 4126.44)
+2026.07.24 15:08:05.535	2026.06.23 17:45:00   deal #20 buy 0.06 XAUUSD.s at 4126.44 done (based on order #20)
+2026.07.24 15:08:05.535	2026.06.23 17:45:00   deal performed [#20 buy 0.06 XAUUSD.s at 4126.44]
+2026.07.24 15:08:05.535	2026.06.23 17:45:00   order performed buy 0.06 at 4126.44 [#20 buy 0.06 XAUUSD.s at 4126.44]
+2026.07.24 15:08:05.537	2026.06.23 17:45:00   CTrade::OrderSend: market buy 0.06 XAUUSD.s [done at 4126.44]
+2026.07.24 15:08:05.537	2026.06.23 17:45:00   [TRTM][INFO ] Recovery L6 OPENED: 0.06 lots BUY @ 4126.44 (deal 20)
+2026.07.24 15:08:05.537	2026.06.23 17:45:00   [TRTM][INFO ] Recovery L6 registered: ticket 20
+2026.07.24 15:08:05.537	2026.06.23 17:45:00   [TRTM][INFO ] Structure: 3 level(s), 0.15 lots | projected at TP +375.06 | at SL n/a
+2026.07.24 15:08:05.537	2026.06.23 17:45:00   position modified [#5 buy 0.04 XAUUSD.s 4154.55 tp: 4164.21]
+2026.07.24 15:08:05.539	2026.06.23 17:45:00   CTrade::OrderSend: modify position #5 XAUUSD.s (sl: 0.00, tp: 4164.21) [done]
+2026.07.24 15:08:05.539	2026.06.23 17:45:00   [TRTM][INFO ] Exits applied to ticket 5: TP 4164.21 SL none
+2026.07.24 15:08:05.539	2026.06.23 17:45:00   position modified [#6 buy 0.05 XAUUSD.s 4142.25 tp: 4164.21]
+2026.07.24 15:08:05.541	2026.06.23 17:45:00   CTrade::OrderSend: modify position #6 XAUUSD.s (sl: 0.00, tp: 4164.21) [done]
+2026.07.24 15:08:05.541	2026.06.23 17:45:00   [TRTM][INFO ] Exits applied to ticket 6: TP 4164.21 SL none
+2026.07.24 15:08:05.541	2026.06.23 17:45:00   position modified [#20 buy 0.06 XAUUSD.s 4126.44 tp: 4164.21]
+2026.07.24 15:08:05.543	2026.06.23 17:45:00   CTrade::OrderSend: modify position #20 XAUUSD.s (sl: 0.00, tp: 4164.21) [done]
+2026.07.24 15:08:05.543	2026.06.23 17:45:00   [TRTM][INFO ] Exits applied to ticket 20: TP 4164.21 SL none
+2026.07.24 15:08:18.503	2026.06.23 21:45:00   [TRTM][INFO ] Recovery signal: PERIOD_M15 bar closed 4116.06 vs trigger 4116.44 (worst entry 4126.44 - 1000 pts)
+2026.07.24 15:08:18.503	2026.06.23 21:45:00   market buy 0.07 XAUUSD.s (4116.07 / 4116.23)
+2026.07.24 15:08:18.503	2026.06.23 21:45:00   deal #21 buy 0.07 XAUUSD.s at 4116.23 done (based on order #21)
+2026.07.24 15:08:18.503	2026.06.23 21:45:00   deal performed [#21 buy 0.07 XAUUSD.s at 4116.23]
+2026.07.24 15:08:18.503	2026.06.23 21:45:00   order performed buy 0.07 at 4116.23 [#21 buy 0.07 XAUUSD.s at 4116.23]
+2026.07.24 15:08:18.504	2026.06.23 21:45:00   CTrade::OrderSend: market buy 0.07 XAUUSD.s [done at 4116.23]
+2026.07.24 15:08:18.504	2026.06.23 21:45:00   [TRTM][INFO ] Recovery L7 OPENED: 0.07 lots BUY @ 4116.23 (deal 21)
+2026.07.24 15:08:18.504	2026.06.23 21:45:00   [TRTM][INFO ] Recovery L7 registered: ticket 21
+2026.07.24 15:08:18.504	2026.06.23 21:45:00   [TRTM][INFO ] Structure: 4 level(s), 0.22 lots | projected at TP +550.10 | at SL n/a
+2026.07.24 15:08:18.504	2026.06.23 21:45:00   position modified [#5 buy 0.04 XAUUSD.s 4154.55 tp: 4156.90]
+2026.07.24 15:08:18.506	2026.06.23 21:45:00   CTrade::OrderSend: modify position #5 XAUUSD.s (sl: 0.00, tp: 4156.90) [done]
+2026.07.24 15:08:18.506	2026.06.23 21:45:00   [TRTM][INFO ] Exits applied to ticket 5: TP 4156.90 SL none
+2026.07.24 15:08:18.506	2026.06.23 21:45:00   position modified [#6 buy 0.05 XAUUSD.s 4142.25 tp: 4156.90]
+2026.07.24 15:08:18.507	2026.06.23 21:45:00   CTrade::OrderSend: modify position #6 XAUUSD.s (sl: 0.00, tp: 4156.90) [done]
+2026.07.24 15:08:18.507	2026.06.23 21:45:00   [TRTM][INFO ] Exits applied to ticket 6: TP 4156.90 SL none
+2026.07.24 15:08:18.507	2026.06.23 21:45:00   position modified [#20 buy 0.06 XAUUSD.s 4126.44 tp: 4156.90]
+2026.07.24 15:08:18.509	2026.06.23 21:45:00   CTrade::OrderSend: modify position #20 XAUUSD.s (sl: 0.00, tp: 4156.90) [done]
+2026.07.24 15:08:18.509	2026.06.23 21:45:00   [TRTM][INFO ] Exits applied to ticket 20: TP 4156.90 SL none
+2026.07.24 15:08:18.509	2026.06.23 21:45:00   position modified [#21 buy 0.07 XAUUSD.s 4116.23 tp: 4156.90]
+2026.07.24 15:08:18.510	2026.06.23 21:45:00   CTrade::OrderSend: modify position #21 XAUUSD.s (sl: 0.00, tp: 4156.90) [done]
+2026.07.24 15:08:18.510	2026.06.23 21:45:00   [TRTM][INFO ] Exits applied to ticket 21: TP 4156.90 SL none
+2026.07.24 15:08:30.203	2026.06.24 01:30:00   [TRTM][INFO ] Recovery signal: PERIOD_M15 bar closed 4106.01 vs trigger 4106.23 (worst entry 4116.23 - 1000 pts)
+2026.07.24 15:08:30.203	2026.06.24 01:30:00   market buy 0.08 XAUUSD.s (4106.01 / 4106.19)
+2026.07.24 15:08:30.203	2026.06.24 01:30:00   deal #22 buy 0.08 XAUUSD.s at 4106.19 done (based on order #22)
+2026.07.24 15:08:30.203	2026.06.24 01:30:00   deal performed [#22 buy 0.08 XAUUSD.s at 4106.19]
+2026.07.24 15:08:30.203	2026.06.24 01:30:00   order performed buy 0.08 at 4106.19 [#22 buy 0.08 XAUUSD.s at 4106.19]
+2026.07.24 15:08:30.205	2026.06.24 01:30:00   CTrade::OrderSend: market buy 0.08 XAUUSD.s [done at 4106.19]
+2026.07.24 15:08:30.205	2026.06.24 01:30:00   [TRTM][INFO ] Recovery L8 OPENED: 0.08 lots BUY @ 4106.19 (deal 22)
+2026.07.24 15:08:30.205	2026.06.24 01:30:00   [TRTM][INFO ] Recovery L8 registered: ticket 22
+2026.07.24 15:08:30.205	2026.06.24 01:30:00   [TRTM][INFO ] Structure: 5 level(s), 0.30 lots | projected at TP +749.98 | at SL n/a
+2026.07.24 15:08:30.206	2026.06.24 01:30:00   position modified [#5 buy 0.04 XAUUSD.s 4154.55 tp: 4150.04]
+2026.07.24 15:08:30.208	2026.06.24 01:30:00   CTrade::OrderSend: modify position #5 XAUUSD.s (sl: 0.00, tp: 4150.04) [done]
+2026.07.24 15:08:30.208	2026.06.24 01:30:00   [TRTM][INFO ] Exits applied to ticket 5: TP 4150.04 SL none
+2026.07.24 15:08:30.208	2026.06.24 01:30:00   position modified [#6 buy 0.05 XAUUSD.s 4142.25 tp: 4150.04]
+2026.07.24 15:08:30.210	2026.06.24 01:30:00   CTrade::OrderSend: modify position #6 XAUUSD.s (sl: 0.00, tp: 4150.04) [done]
+2026.07.24 15:08:30.210	2026.06.24 01:30:00   [TRTM][INFO ] Exits applied to ticket 6: TP 4150.04 SL none
+2026.07.24 15:08:30.210	2026.06.24 01:30:00   position modified [#20 buy 0.06 XAUUSD.s 4126.44 tp: 4150.04]
+2026.07.24 15:08:30.212	2026.06.24 01:30:00   CTrade::OrderSend: modify position #20 XAUUSD.s (sl: 0.00, tp: 4150.04) [done]
+2026.07.24 15:08:30.212	2026.06.24 01:30:00   [TRTM][INFO ] Exits applied to ticket 20: TP 4150.04 SL none
+2026.07.24 15:08:30.212	2026.06.24 01:30:00   position modified [#21 buy 0.07 XAUUSD.s 4116.23 tp: 4150.04]
+2026.07.24 15:08:30.214	2026.06.24 01:30:00   CTrade::OrderSend: modify position #21 XAUUSD.s (sl: 0.00, tp: 4150.04) [done]
+2026.07.24 15:08:30.214	2026.06.24 01:30:00   [TRTM][INFO ] Exits applied to ticket 21: TP 4150.04 SL none
+2026.07.24 15:08:30.214	2026.06.24 01:30:00   position modified [#22 buy 0.08 XAUUSD.s 4106.19 tp: 4150.04]
+2026.07.24 15:08:30.216	2026.06.24 01:30:00   CTrade::OrderSend: modify position #22 XAUUSD.s (sl: 0.00, tp: 4150.04) [done]
+2026.07.24 15:08:30.216	2026.06.24 01:30:00   [TRTM][INFO ] Exits applied to ticket 22: TP 4150.04 SL none
+2026.07.24 15:08:34.283	2026.06.24 02:45:00   [TRTM][INFO ] Recovery signal: PERIOD_M15 bar closed 4086.30 vs trigger 4096.19 (worst entry 4106.19 - 1000 pts)
+2026.07.24 15:08:34.283	2026.06.24 02:45:00   market buy 0.09 XAUUSD.s (4086.31 / 4086.49)
+2026.07.24 15:08:34.283	2026.06.24 02:45:00   deal #23 buy 0.09 XAUUSD.s at 4086.49 done (based on order #23)
+2026.07.24 15:08:34.283	2026.06.24 02:45:00   deal performed [#23 buy 0.09 XAUUSD.s at 4086.49]
+2026.07.24 15:08:34.283	2026.06.24 02:45:00   order performed buy 0.09 at 4086.49 [#23 buy 0.09 XAUUSD.s at 4086.49]
+2026.07.24 15:08:34.285	2026.06.24 02:45:00   CTrade::OrderSend: market buy 0.09 XAUUSD.s [done at 4086.49]
+2026.07.24 15:08:34.285	2026.06.24 02:45:00   [TRTM][INFO ] Recovery L9 OPENED: 0.09 lots BUY @ 4086.49 (deal 23)
+2026.07.24 15:08:34.285	2026.06.24 02:45:00   [TRTM][INFO ] Recovery L9 registered: ticket 23
+2026.07.24 15:08:34.285	2026.06.24 02:45:00   [TRTM][INFO ] Structure: 6 level(s), 0.39 lots | projected at TP +974.83 | at SL n/a
+2026.07.24 15:08:34.287	2026.06.24 02:45:00   position modified [#5 buy 0.04 XAUUSD.s 4154.55 tp: 4141.14]
+2026.07.24 15:08:34.289	2026.06.24 02:45:00   CTrade::OrderSend: modify position #5 XAUUSD.s (sl: 0.00, tp: 4141.14) [done]
+2026.07.24 15:08:34.289	2026.06.24 02:45:00   [TRTM][INFO ] Exits applied to ticket 5: TP 4141.14 SL none
+2026.07.24 15:08:34.289	2026.06.24 02:45:00   position modified [#6 buy 0.05 XAUUSD.s 4142.25 tp: 4141.14]
+2026.07.24 15:08:34.291	2026.06.24 02:45:00   CTrade::OrderSend: modify position #6 XAUUSD.s (sl: 0.00, tp: 4141.14) [done]
+2026.07.24 15:08:34.291	2026.06.24 02:45:00   [TRTM][INFO ] Exits applied to ticket 6: TP 4141.14 SL none
+2026.07.24 15:08:34.291	2026.06.24 02:45:00   position modified [#20 buy 0.06 XAUUSD.s 4126.44 tp: 4141.14]
+2026.07.24 15:08:34.293	2026.06.24 02:45:00   CTrade::OrderSend: modify position #20 XAUUSD.s (sl: 0.00, tp: 4141.14) [done]
+2026.07.24 15:08:34.293	2026.06.24 02:45:00   [TRTM][INFO ] Exits applied to ticket 20: TP 4141.14 SL none
+2026.07.24 15:08:34.293	2026.06.24 02:45:00   position modified [#21 buy 0.07 XAUUSD.s 4116.23 tp: 4141.14]
+2026.07.24 15:08:34.295	2026.06.24 02:45:00   CTrade::OrderSend: modify position #21 XAUUSD.s (sl: 0.00, tp: 4141.14) [done]
+2026.07.24 15:08:34.295	2026.06.24 02:45:00   [TRTM][INFO ] Exits applied to ticket 21: TP 4141.14 SL none
+2026.07.24 15:08:34.295	2026.06.24 02:45:00   position modified [#22 buy 0.08 XAUUSD.s 4106.19 tp: 4141.14]
+2026.07.24 15:08:34.297	2026.06.24 02:45:00   CTrade::OrderSend: modify position #22 XAUUSD.s (sl: 0.00, tp: 4141.14) [done]
+2026.07.24 15:08:34.297	2026.06.24 02:45:00   [TRTM][INFO ] Exits applied to ticket 22: TP 4141.14 SL none
+2026.07.24 15:08:34.297	2026.06.24 02:45:00   position modified [#23 buy 0.09 XAUUSD.s 4086.49 tp: 4141.14]
+2026.07.24 15:08:34.299	2026.06.24 02:45:00   CTrade::OrderSend: modify position #23 XAUUSD.s (sl: 0.00, tp: 4141.14) [done]
+2026.07.24 15:08:34.299	2026.06.24 02:45:00   [TRTM][INFO ] Exits applied to ticket 23: TP 4141.14 SL none
+2026.07.24 15:08:35.492	2026.06.24 03:08:19   [TRTM][INFO ] Tier 1 FIRE: BUY group 3 leg(s) (anchor L4 + 2 profitable) | VWAP 4106.96 far 4111.97 margin 501.1 pts >= 500/lot
+2026.07.24 15:08:35.492	2026.06.24 03:08:19   market sell 0.09 XAUUSD.s, close #23 (4111.97 / 4112.15)
+2026.07.24 15:08:35.492	2026.06.24 03:08:19   deal #24 sell 0.09 XAUUSD.s at 4111.97 done (based on order #24)
+2026.07.24 15:08:35.492	2026.06.24 03:08:19   deal performed [#24 sell 0.09 XAUUSD.s at 4111.97]
+2026.07.24 15:08:35.492	2026.06.24 03:08:19   order performed sell 0.09 at 4111.97 [#24 sell 0.09 XAUUSD.s at 4111.97]
+2026.07.24 15:08:35.494	2026.06.24 03:08:19   CTrade::OrderSend: market sell 0.09 position #23 XAUUSD.s [done at 4111.97]
+2026.07.24 15:08:35.494	2026.06.24 03:08:19   [TRTM][INFO ] Closed L9 ticket 23 @ 4111.97
+2026.07.24 15:08:35.494	2026.06.24 03:08:19   market sell 0.08 XAUUSD.s, close #22 (4111.97 / 4112.15)
+2026.07.24 15:08:35.494	2026.06.24 03:08:19   deal #25 sell 0.08 XAUUSD.s at 4111.97 done (based on order #25)
+2026.07.24 15:08:35.494	2026.06.24 03:08:19   deal performed [#25 sell 0.08 XAUUSD.s at 4111.97]
+2026.07.24 15:08:35.494	2026.06.24 03:08:19   order performed sell 0.08 at 4111.97 [#25 sell 0.08 XAUUSD.s at 4111.97]
+2026.07.24 15:08:35.496	2026.06.24 03:08:19   CTrade::OrderSend: market sell 0.08 position #22 XAUUSD.s [done at 4111.97]
+2026.07.24 15:08:35.496	2026.06.24 03:08:19   [TRTM][INFO ] Closed L8 ticket 22 @ 4111.97
+2026.07.24 15:08:35.496	2026.06.24 03:08:19   market sell 0.04 XAUUSD.s, close #5 (4111.97 / 4112.15)
+2026.07.24 15:08:35.496	2026.06.24 03:08:19   deal #26 sell 0.04 XAUUSD.s at 4111.97 done (based on order #26)
+2026.07.24 15:08:35.496	2026.06.24 03:08:19   deal performed [#26 sell 0.04 XAUUSD.s at 4111.97]
+2026.07.24 15:08:35.496	2026.06.24 03:08:19   order performed sell 0.04 at 4111.97 [#26 sell 0.04 XAUUSD.s at 4111.97]
+2026.07.24 15:08:35.498	2026.06.24 03:08:19   CTrade::OrderSend: market sell 0.04 position #5 XAUUSD.s [done at 4111.97]
+2026.07.24 15:08:35.498	2026.06.24 03:08:19   [TRTM][INFO ] Closed L4 ticket 5 @ 4111.97
+2026.07.24 15:08:35.498	2026.06.24 03:08:20   [TRTM][INFO ] Liveness: L9 ticket 23 closed by EA (market close) - removed from sequence
+2026.07.24 15:08:35.498	2026.06.24 03:08:20   [TRTM][INFO ] Liveness: L8 ticket 22 closed by EA (market close) - removed from sequence
+2026.07.24 15:08:35.498	2026.06.24 03:08:20   [TRTM][INFO ] Liveness: L4 ticket 5 closed by EA (market close) - removed from sequence
+2026.07.24 15:08:35.498	2026.06.24 03:08:20   [TRTM][INFO ] Structure: 3 level(s), 0.18 lots | projected at TP +449.98 | at SL n/a
+2026.07.24 15:08:35.498	2026.06.24 03:08:20   position modified [#6 buy 0.05 XAUUSD.s 4142.25 tp: 4151.86]
+2026.07.24 15:08:35.500	2026.06.24 03:08:20   CTrade::OrderSend: modify position #6 XAUUSD.s (sl: 0.00, tp: 4151.86) [done]
+2026.07.24 15:08:35.500	2026.06.24 03:08:20   [TRTM][INFO ] Exits applied to ticket 6: TP 4151.86 SL none
+2026.07.24 15:08:35.500	2026.06.24 03:08:20   position modified [#20 buy 0.06 XAUUSD.s 4126.44 tp: 4151.86]
+2026.07.24 15:08:35.502	2026.06.24 03:08:20   CTrade::OrderSend: modify position #20 XAUUSD.s (sl: 0.00, tp: 4151.86) [done]
+2026.07.24 15:08:35.502	2026.06.24 03:08:20   [TRTM][INFO ] Exits applied to ticket 20: TP 4151.86 SL none
+2026.07.24 15:08:35.502	2026.06.24 03:08:20   position modified [#21 buy 0.07 XAUUSD.s 4116.23 tp: 4151.86]
+2026.07.24 15:08:35.504	2026.06.24 03:08:20   CTrade::OrderSend: modify position #21 XAUUSD.s (sl: 0.00, tp: 4151.86) [done]
+2026.07.24 15:08:35.504	2026.06.24 03:08:20   [TRTM][INFO ] Exits applied to ticket 21: TP 4151.86 SL none
+2026.07.24 15:08:36.723	2026.06.24 03:30:00   [TRTM][INFO ] Recovery signal: PERIOD_M15 bar closed 4099.78 vs trigger 4106.23 (worst entry 4116.23 - 1000 pts)
+2026.07.24 15:08:36.723	2026.06.24 03:30:00   market buy 0.08 XAUUSD.s (4099.77 / 4099.93)
+2026.07.24 15:08:36.723	2026.06.24 03:30:00   deal #27 buy 0.08 XAUUSD.s at 4099.93 done (based on order #27)
+2026.07.24 15:08:36.723	2026.06.24 03:30:00   deal performed [#27 buy 0.08 XAUUSD.s at 4099.93]
+2026.07.24 15:08:36.723	2026.06.24 03:30:00   order performed buy 0.08 at 4099.93 [#27 buy 0.08 XAUUSD.s at 4099.93]
+2026.07.24 15:08:36.725	2026.06.24 03:30:00   CTrade::OrderSend: market buy 0.08 XAUUSD.s [done at 4099.93]
+2026.07.24 15:08:36.725	2026.06.24 03:30:00   [TRTM][INFO ] Recovery L8 OPENED: 0.08 lots BUY @ 4099.93 (deal 27)
+2026.07.24 15:08:36.725	2026.06.24 03:30:00   [TRTM][INFO ] Recovery L8 registered: ticket 27
+2026.07.24 15:08:36.725	2026.06.24 03:30:00   [TRTM][INFO ] Structure: 4 level(s), 0.26 lots | projected at TP +649.88 | at SL n/a
+2026.07.24 15:08:36.725	2026.06.24 03:30:00   position modified [#6 buy 0.05 XAUUSD.s 4142.25 tp: 4143.57]
+2026.07.24 15:08:36.727	2026.06.24 03:30:00   CTrade::OrderSend: modify position #6 XAUUSD.s (sl: 0.00, tp: 4143.57) [done]
+2026.07.24 15:08:36.727	2026.06.24 03:30:00   [TRTM][INFO ] Exits applied to ticket 6: TP 4143.57 SL none
+2026.07.24 15:08:36.727	2026.06.24 03:30:00   position modified [#20 buy 0.06 XAUUSD.s 4126.44 tp: 4143.57]
+2026.07.24 15:08:36.729	2026.06.24 03:30:00   CTrade::OrderSend: modify position #20 XAUUSD.s (sl: 0.00, tp: 4143.57) [done]
+2026.07.24 15:08:36.729	2026.06.24 03:30:00   [TRTM][INFO ] Exits applied to ticket 20: TP 4143.57 SL none
+2026.07.24 15:08:36.729	2026.06.24 03:30:00   position modified [#21 buy 0.07 XAUUSD.s 4116.23 tp: 4143.57]
+2026.07.24 15:08:36.731	2026.06.24 03:30:00   CTrade::OrderSend: modify position #21 XAUUSD.s (sl: 0.00, tp: 4143.57) [done]
+2026.07.24 15:08:36.731	2026.06.24 03:30:00   [TRTM][INFO ] Exits applied to ticket 21: TP 4143.57 SL none
+2026.07.24 15:08:36.731	2026.06.24 03:30:00   position modified [#27 buy 0.08 XAUUSD.s 4099.93 tp: 4143.57]
+2026.07.24 15:08:36.733	2026.06.24 03:30:00   CTrade::OrderSend: modify position #27 XAUUSD.s (sl: 0.00, tp: 4143.57) [done]
+2026.07.24 15:08:36.733	2026.06.24 03:30:00   [TRTM][INFO ] Exits applied to ticket 27: TP 4143.57 SL none
+2026.07.24 15:08:39.296	2026.06.24 04:15:00   [TRTM][INFO ] Recovery signal: PERIOD_M15 bar closed 4089.92 vs trigger 4089.93 (worst entry 4099.93 - 1000 pts)
+2026.07.24 15:08:39.296	2026.06.24 04:15:00   [TRTM][WARN ] Recovery L9 FORFEITED: fill-side price 4089.94 does not satisfy trigger 4089.93 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.07.24 15:08:41.371	2026.06.24 05:00:00   [TRTM][INFO ] Recovery signal: PERIOD_M15 bar closed 4089.04 vs trigger 4089.93 (worst entry 4099.93 - 1000 pts)
+2026.07.24 15:08:41.371	2026.06.24 05:00:00   market buy 0.09 XAUUSD.s (4089.03 / 4089.21)
+2026.07.24 15:08:41.371	2026.06.24 05:00:00   deal #28 buy 0.09 XAUUSD.s at 4089.21 done (based on order #28)
+2026.07.24 15:08:41.371	2026.06.24 05:00:00   deal performed [#28 buy 0.09 XAUUSD.s at 4089.21]
+2026.07.24 15:08:41.371	2026.06.24 05:00:00   order performed buy 0.09 at 4089.21 [#28 buy 0.09 XAUUSD.s at 4089.21]
+2026.07.24 15:08:41.374	2026.06.24 05:00:00   CTrade::OrderSend: market buy 0.09 XAUUSD.s [done at 4089.21]
+2026.07.24 15:08:41.374	2026.06.24 05:00:00   [TRTM][INFO ] Recovery L9 OPENED: 0.09 lots BUY @ 4089.21 (deal 28)
+2026.07.24 15:08:41.374	2026.06.24 05:00:00   [TRTM][INFO ] Recovery L9 registered: ticket 28
+2026.07.24 15:08:41.374	2026.06.24 05:00:00   [TRTM][INFO ] Structure: 5 level(s), 0.35 lots | projected at TP +874.87 | at SL n/a
+2026.07.24 15:08:41.374	2026.06.24 05:00:00   position modified [#6 buy 0.05 XAUUSD.s 4142.25 tp: 4136.02]
+2026.07.24 15:08:41.376	2026.06.24 05:00:00   CTrade::OrderSend: modify position #6 XAUUSD.s (sl: 0.00, tp: 4136.02) [done]
+2026.07.24 15:08:41.376	2026.06.24 05:00:00   [TRTM][INFO ] Exits applied to ticket 6: TP 4136.02 SL none
+2026.07.24 15:08:41.376	2026.06.24 05:00:00   position modified [#20 buy 0.06 XAUUSD.s 4126.44 tp: 4136.02]
+2026.07.24 15:08:41.378	2026.06.24 05:00:00   CTrade::OrderSend: modify position #20 XAUUSD.s (sl: 0.00, tp: 4136.02) [done]
+2026.07.24 15:08:41.378	2026.06.24 05:00:00   [TRTM][INFO ] Exits applied to ticket 20: TP 4136.02 SL none
+2026.07.24 15:08:41.378	2026.06.24 05:00:00   position modified [#21 buy 0.07 XAUUSD.s 4116.23 tp: 4136.02]
+2026.07.24 15:08:41.380	2026.06.24 05:00:00   CTrade::OrderSend: modify position #21 XAUUSD.s (sl: 0.00, tp: 4136.02) [done]
+2026.07.24 15:08:41.380	2026.06.24 05:00:00   [TRTM][INFO ] Exits applied to ticket 21: TP 4136.02 SL none
+2026.07.24 15:08:41.380	2026.06.24 05:00:00   position modified [#27 buy 0.08 XAUUSD.s 4099.93 tp: 4136.02]
+2026.07.24 15:08:41.382	2026.06.24 05:00:00   CTrade::OrderSend: modify position #27 XAUUSD.s (sl: 0.00, tp: 4136.02) [done]
+2026.07.24 15:08:41.382	2026.06.24 05:00:00   [TRTM][INFO ] Exits applied to ticket 27: TP 4136.02 SL none
+2026.07.24 15:08:41.382	2026.06.24 05:00:00   position modified [#28 buy 0.09 XAUUSD.s 4089.21 tp: 4136.02]
+2026.07.24 15:08:41.384	2026.06.24 05:00:00   CTrade::OrderSend: modify position #28 XAUUSD.s (sl: 0.00, tp: 4136.02) [done]
+2026.07.24 15:08:41.384	2026.06.24 05:00:00   [TRTM][INFO ] Exits applied to ticket 28: TP 4136.02 SL none
+2026.07.24 15:08:43.126	2026.06.24 05:30:00   [TRTM][INFO ] Recovery signal: PERIOD_M15 bar closed 4073.63 vs trigger 4079.21 (worst entry 4089.21 - 1000 pts)
+2026.07.24 15:08:43.126	2026.06.24 05:30:00   market buy 0.1 XAUUSD.s (4073.63 / 4073.79)
+2026.07.24 15:08:43.126	2026.06.24 05:30:00   deal #29 buy 0.1 XAUUSD.s at 4073.79 done (based on order #29)
+2026.07.24 15:08:43.126	2026.06.24 05:30:00   deal performed [#29 buy 0.1 XAUUSD.s at 4073.79]
+2026.07.24 15:08:43.126	2026.06.24 05:30:00   order performed buy 0.1 at 4073.79 [#29 buy 0.1 XAUUSD.s at 4073.79]
+2026.07.24 15:08:43.128	2026.06.24 05:30:00   CTrade::OrderSend: market buy 0.10 XAUUSD.s [done at 4073.79]
+2026.07.24 15:08:43.128	2026.06.24 05:30:00   [TRTM][INFO ] Recovery L10 OPENED: 0.10 lots BUY @ 4073.79 (deal 29)
+2026.07.24 15:08:43.128	2026.06.24 05:30:00   [TRTM][INFO ] Recovery L10 registered: ticket 29
+2026.07.24 15:08:43.128	2026.06.24 05:30:00   [TRTM][INFO ] Structure: 6 level(s), 0.45 lots | projected at TP +1125.02 | at SL n/a
+2026.07.24 15:08:43.128	2026.06.24 05:30:00   position modified [#6 buy 0.05 XAUUSD.s 4142.25 tp: 4127.75]
+2026.07.24 15:08:43.130	2026.06.24 05:30:00   CTrade::OrderSend: modify position #6 XAUUSD.s (sl: 0.00, tp: 4127.75) [done]
+2026.07.24 15:08:43.130	2026.06.24 05:30:00   [TRTM][INFO ] Exits applied to ticket 6: TP 4127.75 SL none
+2026.07.24 15:08:43.130	2026.06.24 05:30:00   position modified [#20 buy 0.06 XAUUSD.s 4126.44 tp: 4127.75]
+2026.07.24 15:08:43.132	2026.06.24 05:30:00   CTrade::OrderSend: modify position #20 XAUUSD.s (sl: 0.00, tp: 4127.75) [done]
+2026.07.24 15:08:43.132	2026.06.24 05:30:00   [TRTM][INFO ] Exits applied to ticket 20: TP 4127.75 SL none
+2026.07.24 15:08:43.132	2026.06.24 05:30:00   position modified [#21 buy 0.07 XAUUSD.s 4116.23 tp: 4127.75]
+2026.07.24 15:08:43.133	2026.06.24 05:30:00   CTrade::OrderSend: modify position #21 XAUUSD.s (sl: 0.00, tp: 4127.75) [done]
+2026.07.24 15:08:43.133	2026.06.24 05:30:00   [TRTM][INFO ] Exits applied to ticket 21: TP 4127.75 SL none
+2026.07.24 15:08:43.133	2026.06.24 05:30:00   position modified [#27 buy 0.08 XAUUSD.s 4099.93 tp: 4127.75]
+2026.07.24 15:08:43.135	2026.06.24 05:30:00   CTrade::OrderSend: modify position #27 XAUUSD.s (sl: 0.00, tp: 4127.75) [done]
+2026.07.24 15:08:43.135	2026.06.24 05:30:00   [TRTM][INFO ] Exits applied to ticket 27: TP 4127.75 SL none
+2026.07.24 15:08:43.135	2026.06.24 05:30:00   position modified [#28 buy 0.09 XAUUSD.s 4089.21 tp: 4127.75]
+2026.07.24 15:08:43.137	2026.06.24 05:30:00   CTrade::OrderSend: modify position #28 XAUUSD.s (sl: 0.00, tp: 4127.75) [done]
+2026.07.24 15:08:43.137	2026.06.24 05:30:00   [TRTM][INFO ] Exits applied to ticket 28: TP 4127.75 SL none
+2026.07.24 15:08:43.137	2026.06.24 05:30:00   position modified [#29 buy 0.1 XAUUSD.s 4073.79 tp: 4127.75]
+2026.07.24 15:08:43.139	2026.06.24 05:30:00   CTrade::OrderSend: modify position #29 XAUUSD.s (sl: 0.00, tp: 4127.75) [done]
+2026.07.24 15:08:43.139	2026.06.24 05:30:00   [TRTM][INFO ] Exits applied to ticket 29: TP 4127.75 SL none
+2026.07.24 15:08:43.954	2026.06.24 05:45:00   [TRTM][INFO ] Recovery signal: PERIOD_M15 bar closed 4057.31 vs trigger 4063.79 (worst entry 4073.79 - 1000 pts)
+2026.07.24 15:08:43.954	2026.06.24 05:45:00   market buy 0.11 XAUUSD.s (4057.32 / 4057.50)
+2026.07.24 15:08:43.954	2026.06.24 05:45:00   deal #30 buy 0.11 XAUUSD.s at 4057.50 done (based on order #30)
+2026.07.24 15:08:43.954	2026.06.24 05:45:00   deal performed [#30 buy 0.11 XAUUSD.s at 4057.50]
+2026.07.24 15:08:43.954	2026.06.24 05:45:00   order performed buy 0.11 at 4057.50 [#30 buy 0.11 XAUUSD.s at 4057.50]
+2026.07.24 15:08:43.956	2026.06.24 05:45:00   CTrade::OrderSend: market buy 0.11 XAUUSD.s [done at 4057.50]
+2026.07.24 15:08:43.956	2026.06.24 05:45:00   [TRTM][INFO ] Recovery L11 OPENED: 0.11 lots BUY @ 4057.50 (deal 30)
+2026.07.24 15:08:43.956	2026.06.24 05:45:00   [TRTM][INFO ] Recovery L11 registered: ticket 30
+2026.07.24 15:08:43.956	2026.06.24 05:45:00   [TRTM][INFO ] Structure: 7 level(s), 0.56 lots | projected at TP +1399.93 | at SL n/a
+2026.07.24 15:08:43.956	2026.06.24 05:45:00   position modified [#6 buy 0.05 XAUUSD.s 4142.25 tp: 4118.86]
+2026.07.24 15:08:43.958	2026.06.24 05:45:00   CTrade::OrderSend: modify position #6 XAUUSD.s (sl: 0.00, tp: 4118.86) [done]
+2026.07.24 15:08:43.958	2026.06.24 05:45:00   [TRTM][INFO ] Exits applied to ticket 6: TP 4118.86 SL none
+2026.07.24 15:08:43.958	2026.06.24 05:45:00   position modified [#20 buy 0.06 XAUUSD.s 4126.44 tp: 4118.86]
+2026.07.24 15:08:43.960	2026.06.24 05:45:00   CTrade::OrderSend: modify position #20 XAUUSD.s (sl: 0.00, tp: 4118.86) [done]
+2026.07.24 15:08:43.960	2026.06.24 05:45:00   [TRTM][INFO ] Exits applied to ticket 20: TP 4118.86 SL none
+2026.07.24 15:08:43.960	2026.06.24 05:45:00   position modified [#21 buy 0.07 XAUUSD.s 4116.23 tp: 4118.86]
+2026.07.24 15:08:43.962	2026.06.24 05:45:00   CTrade::OrderSend: modify position #21 XAUUSD.s (sl: 0.00, tp: 4118.86) [done]
+2026.07.24 15:08:43.962	2026.06.24 05:45:00   [TRTM][INFO ] Exits applied to ticket 21: TP 4118.86 SL none
+2026.07.24 15:08:43.962	2026.06.24 05:45:00   position modified [#27 buy 0.08 XAUUSD.s 4099.93 tp: 4118.86]
+2026.07.24 15:08:43.964	2026.06.24 05:45:00   CTrade::OrderSend: modify position #27 XAUUSD.s (sl: 0.00, tp: 4118.86) [done]
+2026.07.24 15:08:43.964	2026.06.24 05:45:00   [TRTM][INFO ] Exits applied to ticket 27: TP 4118.86 SL none
+2026.07.24 15:08:43.964	2026.06.24 05:45:00   position modified [#28 buy 0.09 XAUUSD.s 4089.21 tp: 4118.86]
+2026.07.24 15:08:43.966	2026.06.24 05:45:00   CTrade::OrderSend: modify position #28 XAUUSD.s (sl: 0.00, tp: 4118.86) [done]
+2026.07.24 15:08:43.966	2026.06.24 05:45:00   [TRTM][INFO ] Exits applied to ticket 28: TP 4118.86 SL none
+2026.07.24 15:08:43.966	2026.06.24 05:45:00   position modified [#29 buy 0.1 XAUUSD.s 4073.79 tp: 4118.86]
+2026.07.24 15:08:43.968	2026.06.24 05:45:00   CTrade::OrderSend: modify position #29 XAUUSD.s (sl: 0.00, tp: 4118.86) [done]
+2026.07.24 15:08:43.968	2026.06.24 05:45:00   [TRTM][INFO ] Exits applied to ticket 29: TP 4118.86 SL none
+2026.07.24 15:08:43.968	2026.06.24 05:45:00   position modified [#30 buy 0.11 XAUUSD.s 4057.50 tp: 4118.86]
+2026.07.24 15:08:43.970	2026.06.24 05:45:00   CTrade::OrderSend: modify position #30 XAUUSD.s (sl: 0.00, tp: 4118.86) [done]
+2026.07.24 15:08:43.970	2026.06.24 05:45:00   [TRTM][INFO ] Exits applied to ticket 30: TP 4118.86 SL none
+2026.07.24 15:08:55.000	2026.06.24 08:33:40   [TRTM][INFO ] Tier 1 FIRE: BUY group 3 leg(s) (anchor L5 + 2 profitable) | VWAP 4080.06 far 4085.10 margin 503.7 pts >= 500/lot
+2026.07.24 15:08:55.000	2026.06.24 08:33:40   market sell 0.11 XAUUSD.s, close #30 (4085.10 / 4085.28)
+2026.07.24 15:08:55.000	2026.06.24 08:33:40   deal #31 sell 0.11 XAUUSD.s at 4085.10 done (based on order #31)
+2026.07.24 15:08:55.000	2026.06.24 08:33:40   deal performed [#31 sell 0.11 XAUUSD.s at 4085.10]
+2026.07.24 15:08:55.000	2026.06.24 08:33:40   order performed sell 0.11 at 4085.10 [#31 sell 0.11 XAUUSD.s at 4085.10]
+2026.07.24 15:08:55.002	2026.06.24 08:33:40   CTrade::OrderSend: market sell 0.11 position #30 XAUUSD.s [done at 4085.10]
+2026.07.24 15:08:55.002	2026.06.24 08:33:40   [TRTM][INFO ] Closed L11 ticket 30 @ 4085.10
+2026.07.24 15:08:55.002	2026.06.24 08:33:40   market sell 0.1 XAUUSD.s, close #29 (4085.10 / 4085.28)
+2026.07.24 15:08:55.002	2026.06.24 08:33:40   deal #32 sell 0.1 XAUUSD.s at 4085.10 done (based on order #32)
+2026.07.24 15:08:55.002	2026.06.24 08:33:40   deal performed [#32 sell 0.1 XAUUSD.s at 4085.10]
+2026.07.24 15:08:55.002	2026.06.24 08:33:40   order performed sell 0.1 at 4085.10 [#32 sell 0.1 XAUUSD.s at 4085.10]
+2026.07.24 15:08:55.004	2026.06.24 08:33:40   CTrade::OrderSend: market sell 0.10 position #29 XAUUSD.s [done at 4085.10]
+2026.07.24 15:08:55.004	2026.06.24 08:33:40   [TRTM][INFO ] Closed L10 ticket 29 @ 4085.10
+2026.07.24 15:08:55.004	2026.06.24 08:33:40   market sell 0.05 XAUUSD.s, close #6 (4085.10 / 4085.28)
+2026.07.24 15:08:55.004	2026.06.24 08:33:40   deal #33 sell 0.05 XAUUSD.s at 4085.10 done (based on order #33)
+2026.07.24 15:08:55.004	2026.06.24 08:33:40   deal performed [#33 sell 0.05 XAUUSD.s at 4085.10]
+2026.07.24 15:08:55.004	2026.06.24 08:33:40   order performed sell 0.05 at 4085.10 [#33 sell 0.05 XAUUSD.s at 4085.10]
+2026.07.24 15:08:55.006	2026.06.24 08:33:40   CTrade::OrderSend: market sell 0.05 position #6 XAUUSD.s [done at 4085.10]
+2026.07.24 15:08:55.006	2026.06.24 08:33:40   [TRTM][INFO ] Closed L5 ticket 6 @ 4085.10
+2026.07.24 15:08:55.006	2026.06.24 08:33:40   [TRTM][INFO ] Liveness: L11 ticket 30 closed by EA (market close) - removed from sequence
+2026.07.24 15:08:55.006	2026.06.24 08:33:40   [TRTM][INFO ] Liveness: L10 ticket 29 closed by EA (market close) - removed from sequence
+2026.07.24 15:08:55.006	2026.06.24 08:33:40   [TRTM][INFO ] Liveness: L5 ticket 6 closed by EA (market close) - removed from sequence
+2026.07.24 15:08:55.006	2026.06.24 08:33:40   [TRTM][INFO ] Structure: 4 level(s), 0.30 lots | projected at TP +750.02 | at SL n/a
+2026.07.24 15:08:55.006	2026.06.24 08:33:40   position modified [#20 buy 0.06 XAUUSD.s 4126.44 tp: 4130.82]
+2026.07.24 15:08:55.008	2026.06.24 08:33:40   CTrade::OrderSend: modify position #20 XAUUSD.s (sl: 0.00, tp: 4130.82) [done]
+2026.07.24 15:08:55.008	2026.06.24 08:33:40   [TRTM][INFO ] Exits applied to ticket 20: TP 4130.82 SL none
+2026.07.24 15:08:55.008	2026.06.24 08:33:40   position modified [#21 buy 0.07 XAUUSD.s 4116.23 tp: 4130.82]
+2026.07.24 15:08:55.010	2026.06.24 08:33:40   CTrade::OrderSend: modify position #21 XAUUSD.s (sl: 0.00, tp: 4130.82) [done]
+2026.07.24 15:08:55.010	2026.06.24 08:33:40   [TRTM][INFO ] Exits applied to ticket 21: TP 4130.82 SL none
+2026.07.24 15:08:55.010	2026.06.24 08:33:40   position modified [#27 buy 0.08 XAUUSD.s 4099.93 tp: 4130.82]
+2026.07.24 15:08:55.012	2026.06.24 08:33:40   CTrade::OrderSend: modify position #27 XAUUSD.s (sl: 0.00, tp: 4130.82) [done]
+2026.07.24 15:08:55.012	2026.06.24 08:33:40   [TRTM][INFO ] Exits applied to ticket 27: TP 4130.82 SL none
+2026.07.24 15:08:55.012	2026.06.24 08:33:40   position modified [#28 buy 0.09 XAUUSD.s 4089.21 tp: 4130.82]
+2026.07.24 15:08:55.013	2026.06.24 08:33:40   CTrade::OrderSend: modify position #28 XAUUSD.s (sl: 0.00, tp: 4130.82) [done]
+2026.07.24 15:08:55.013	2026.06.24 08:33:40   [TRTM][INFO ] Exits applied to ticket 28: TP 4130.82 SL none
+2026.07.24 15:08:55.617	2026.06.24 08:45:00   [TRTM][INFO ] Recovery signal: PERIOD_M15 bar closed 4077.29 vs trigger 4079.21 (worst entry 4089.21 - 1000 pts)
+2026.07.24 15:08:55.617	2026.06.24 08:45:00   market buy 0.1 XAUUSD.s (4077.26 / 4077.44)
+2026.07.24 15:08:55.617	2026.06.24 08:45:00   deal #34 buy 0.1 XAUUSD.s at 4077.44 done (based on order #34)
+2026.07.24 15:08:55.617	2026.06.24 08:45:00   deal performed [#34 buy 0.1 XAUUSD.s at 4077.44]
+2026.07.24 15:08:55.617	2026.06.24 08:45:00   order performed buy 0.1 at 4077.44 [#34 buy 0.1 XAUUSD.s at 4077.44]
+2026.07.24 15:08:55.619	2026.06.24 08:45:00   CTrade::OrderSend: market buy 0.10 XAUUSD.s [done at 4077.44]
+2026.07.24 15:08:55.619	2026.06.24 08:45:00   [TRTM][INFO ] Recovery L10 OPENED: 0.10 lots BUY @ 4077.44 (deal 34)
+2026.07.24 15:08:55.619	2026.06.24 08:45:00   [TRTM][INFO ] Recovery L10 registered: ticket 34
+2026.07.24 15:08:55.619	2026.06.24 08:45:00   [TRTM][INFO ] Structure: 5 level(s), 0.40 lots | projected at TP +999.82 | at SL n/a
+2026.07.24 15:08:55.619	2026.06.24 08:45:00   position modified [#20 buy 0.06 XAUUSD.s 4126.44 tp: 4123.72]
+2026.07.24 15:08:55.621	2026.06.24 08:45:00   CTrade::OrderSend: modify position #20 XAUUSD.s (sl: 0.00, tp: 4123.72) [done]
+2026.07.24 15:08:55.621	2026.06.24 08:45:00   [TRTM][INFO ] Exits applied to ticket 20: TP 4123.72 SL none
+2026.07.24 15:08:55.621	2026.06.24 08:45:00   position modified [#21 buy 0.07 XAUUSD.s 4116.23 tp: 4123.72]
+2026.07.24 15:08:55.623	2026.06.24 08:45:00   CTrade::OrderSend: modify position #21 XAUUSD.s (sl: 0.00, tp: 4123.72) [done]
+2026.07.24 15:08:55.623	2026.06.24 08:45:00   [TRTM][INFO ] Exits applied to ticket 21: TP 4123.72 SL none
+2026.07.24 15:08:55.623	2026.06.24 08:45:00   position modified [#27 buy 0.08 XAUUSD.s 4099.93 tp: 4123.72]
+2026.07.24 15:08:55.625	2026.06.24 08:45:00   CTrade::OrderSend: modify position #27 XAUUSD.s (sl: 0.00, tp: 4123.72) [done]
+2026.07.24 15:08:55.625	2026.06.24 08:45:00   [TRTM][INFO ] Exits applied to ticket 27: TP 4123.72 SL none
+2026.07.24 15:08:55.625	2026.06.24 08:45:00   position modified [#28 buy 0.09 XAUUSD.s 4089.21 tp: 4123.72]
+2026.07.24 15:08:55.627	2026.06.24 08:45:00   CTrade::OrderSend: modify position #28 XAUUSD.s (sl: 0.00, tp: 4123.72) [done]
+2026.07.24 15:08:55.627	2026.06.24 08:45:00   [TRTM][INFO ] Exits applied to ticket 28: TP 4123.72 SL none
+2026.07.24 15:08:55.627	2026.06.24 08:45:00   position modified [#34 buy 0.1 XAUUSD.s 4077.44 tp: 4123.72]
+2026.07.24 15:08:55.629	2026.06.24 08:45:00   CTrade::OrderSend: modify position #34 XAUUSD.s (sl: 0.00, tp: 4123.72) [done]
+2026.07.24 15:08:55.629	2026.06.24 08:45:00   [TRTM][INFO ] Exits applied to ticket 34: TP 4123.72 SL none
+2026.07.24 15:09:09.477	2026.06.24 13:00:00   [TRTM][INFO ] Recovery signal: PERIOD_M15 bar closed 4064.68 vs trigger 4067.44 (worst entry 4077.44 - 1000 pts)
+2026.07.24 15:09:09.477	2026.06.24 13:00:00   market buy 0.11 XAUUSD.s (4064.60 / 4064.76)
+2026.07.24 15:09:09.477	2026.06.24 13:00:00   deal #35 buy 0.11 XAUUSD.s at 4064.76 done (based on order #35)
+2026.07.24 15:09:09.477	2026.06.24 13:00:00   deal performed [#35 buy 0.11 XAUUSD.s at 4064.76]
+2026.07.24 15:09:09.477	2026.06.24 13:00:00   order performed buy 0.11 at 4064.76 [#35 buy 0.11 XAUUSD.s at 4064.76]
+2026.07.24 15:09:09.479	2026.06.24 13:00:00   CTrade::OrderSend: market buy 0.11 XAUUSD.s [done at 4064.76]
+2026.07.24 15:09:09.479	2026.06.24 13:00:00   [TRTM][INFO ] Recovery L11 OPENED: 0.11 lots BUY @ 4064.76 (deal 35)
+2026.07.24 15:09:09.479	2026.06.24 13:00:00   [TRTM][INFO ] Recovery L11 registered: ticket 35
+2026.07.24 15:09:09.479	2026.06.24 13:00:00   [TRTM][INFO ] Structure: 6 level(s), 0.51 lots | projected at TP +1275.06 | at SL n/a
+2026.07.24 15:09:09.479	2026.06.24 13:00:00   position modified [#20 buy 0.06 XAUUSD.s 4126.44 tp: 4116.40]
+2026.07.24 15:09:09.481	2026.06.24 13:00:00   CTrade::OrderSend: modify position #20 XAUUSD.s (sl: 0.00, tp: 4116.40) [done]
+2026.07.24 15:09:09.481	2026.06.24 13:00:00   [TRTM][INFO ] Exits applied to ticket 20: TP 4116.40 SL none
+2026.07.24 15:09:09.481	2026.06.24 13:00:00   position modified [#21 buy 0.07 XAUUSD.s 4116.23 tp: 4116.40]
+2026.07.24 15:09:09.483	2026.06.24 13:00:00   CTrade::OrderSend: modify position #21 XAUUSD.s (sl: 0.00, tp: 4116.40) [done]
+2026.07.24 15:09:09.483	2026.06.24 13:00:00   [TRTM][INFO ] Exits applied to ticket 21: TP 4116.40 SL none
+2026.07.24 15:09:09.483	2026.06.24 13:00:00   position modified [#27 buy 0.08 XAUUSD.s 4099.93 tp: 4116.40]
+2026.07.24 15:09:09.485	2026.06.24 13:00:00   CTrade::OrderSend: modify position #27 XAUUSD.s (sl: 0.00, tp: 4116.40) [done]
+2026.07.24 15:09:09.485	2026.06.24 13:00:00   [TRTM][INFO ] Exits applied to ticket 27: TP 4116.40 SL none
+2026.07.24 15:09:09.485	2026.06.24 13:00:00   position modified [#28 buy 0.09 XAUUSD.s 4089.21 tp: 4116.40]
+2026.07.24 15:09:09.487	2026.06.24 13:00:00   CTrade::OrderSend: modify position #28 XAUUSD.s (sl: 0.00, tp: 4116.40) [done]
+2026.07.24 15:09:09.487	2026.06.24 13:00:00   [TRTM][INFO ] Exits applied to ticket 28: TP 4116.40 SL none
+2026.07.24 15:09:09.487	2026.06.24 13:00:00   position modified [#34 buy 0.1 XAUUSD.s 4077.44 tp: 4116.40]
+2026.07.24 15:09:09.489	2026.06.24 13:00:00   CTrade::OrderSend: modify position #34 XAUUSD.s (sl: 0.00, tp: 4116.40) [done]
+2026.07.24 15:09:09.489	2026.06.24 13:00:00   [TRTM][INFO ] Exits applied to ticket 34: TP 4116.40 SL none
+2026.07.24 15:09:09.489	2026.06.24 13:00:00   position modified [#35 buy 0.11 XAUUSD.s 4064.76 tp: 4116.40]
+2026.07.24 15:09:09.491	2026.06.24 13:00:00   CTrade::OrderSend: modify position #35 XAUUSD.s (sl: 0.00, tp: 4116.40) [done]
+2026.07.24 15:09:09.491	2026.06.24 13:00:00   [TRTM][INFO ] Exits applied to ticket 35: TP 4116.40 SL none
+2026.07.24 15:09:13.530	2026.06.24 14:15:00   [TRTM][INFO ] Recovery signal: PERIOD_M15 bar closed 4045.92 vs trigger 4054.76 (worst entry 4064.76 - 1000 pts)
+2026.07.24 15:09:13.530	2026.06.24 14:15:00   market buy 0.12 XAUUSD.s (4045.87 / 4046.04)
+2026.07.24 15:09:13.530	2026.06.24 14:15:00   deal #36 buy 0.12 XAUUSD.s at 4046.04 done (based on order #36)
+2026.07.24 15:09:13.530	2026.06.24 14:15:00   deal performed [#36 buy 0.12 XAUUSD.s at 4046.04]
+2026.07.24 15:09:13.530	2026.06.24 14:15:00   order performed buy 0.12 at 4046.04 [#36 buy 0.12 XAUUSD.s at 4046.04]
+2026.07.24 15:09:13.532	2026.06.24 14:15:00   CTrade::OrderSend: market buy 0.12 XAUUSD.s [done at 4046.04]
+2026.07.24 15:09:13.532	2026.06.24 14:15:00   [TRTM][INFO ] Recovery L12 OPENED: 0.12 lots BUY @ 4046.04 (deal 36)
+2026.07.24 15:09:13.532	2026.06.24 14:15:00   [TRTM][INFO ] Recovery L12 registered: ticket 36
+2026.07.24 15:09:13.532	2026.06.24 14:15:00   [TRTM][INFO ] Structure: 7 level(s), 0.63 lots | projected at TP +1575.06 | at SL n/a
+2026.07.24 15:09:13.534	2026.06.24 14:15:00   position modified [#20 buy 0.06 XAUUSD.s 4126.44 tp: 4107.76]
+2026.07.24 15:09:13.536	2026.06.24 14:15:00   CTrade::OrderSend: modify position #20 XAUUSD.s (sl: 0.00, tp: 4107.76) [done]
+2026.07.24 15:09:13.536	2026.06.24 14:15:00   [TRTM][INFO ] Exits applied to ticket 20: TP 4107.76 SL none
+2026.07.24 15:09:13.536	2026.06.24 14:15:00   position modified [#21 buy 0.07 XAUUSD.s 4116.23 tp: 4107.76]
+2026.07.24 15:09:13.538	2026.06.24 14:15:00   CTrade::OrderSend: modify position #21 XAUUSD.s (sl: 0.00, tp: 4107.76) [done]
+2026.07.24 15:09:13.538	2026.06.24 14:15:00   [TRTM][INFO ] Exits applied to ticket 21: TP 4107.76 SL none
+2026.07.24 15:09:13.538	2026.06.24 14:15:00   position modified [#27 buy 0.08 XAUUSD.s 4099.93 tp: 4107.76]
+2026.07.24 15:09:13.539	2026.06.24 14:15:00   CTrade::OrderSend: modify position #27 XAUUSD.s (sl: 0.00, tp: 4107.76) [done]
+2026.07.24 15:09:13.539	2026.06.24 14:15:00   [TRTM][INFO ] Exits applied to ticket 27: TP 4107.76 SL none
+2026.07.24 15:09:13.539	2026.06.24 14:15:00   position modified [#28 buy 0.09 XAUUSD.s 4089.21 tp: 4107.76]
+2026.07.24 15:09:13.541	2026.06.24 14:15:00   CTrade::OrderSend: modify position #28 XAUUSD.s (sl: 0.00, tp: 4107.76) [done]
+2026.07.24 15:09:13.541	2026.06.24 14:15:00   [TRTM][INFO ] Exits applied to ticket 28: TP 4107.76 SL none
+2026.07.24 15:09:13.541	2026.06.24 14:15:00   position modified [#34 buy 0.1 XAUUSD.s 4077.44 tp: 4107.76]
+2026.07.24 15:09:13.543	2026.06.24 14:15:00   CTrade::OrderSend: modify position #34 XAUUSD.s (sl: 0.00, tp: 4107.76) [done]
+2026.07.24 15:09:13.543	2026.06.24 14:15:00   [TRTM][INFO ] Exits applied to ticket 34: TP 4107.76 SL none
+2026.07.24 15:09:13.543	2026.06.24 14:15:00   position modified [#35 buy 0.11 XAUUSD.s 4064.76 tp: 4107.76]
+2026.07.24 15:09:13.544	2026.06.24 14:15:00   CTrade::OrderSend: modify position #35 XAUUSD.s (sl: 0.00, tp: 4107.76) [done]
+2026.07.24 15:09:13.544	2026.06.24 14:15:00   [TRTM][INFO ] Exits applied to ticket 35: TP 4107.76 SL none
+2026.07.24 15:09:13.544	2026.06.24 14:15:00   position modified [#36 buy 0.12 XAUUSD.s 4046.04 tp: 4107.76]
+2026.07.24 15:09:13.546	2026.06.24 14:15:00   CTrade::OrderSend: modify position #36 XAUUSD.s (sl: 0.00, tp: 4107.76) [done]
+2026.07.24 15:09:13.546	2026.06.24 14:15:00   [TRTM][INFO ] Exits applied to ticket 36: TP 4107.76 SL none
+2026.07.24 15:09:17.367	2026.06.24 15:26:00   position stop out triggered at -240.81% [#20 buy 0.06 XAUUSD.s 4126.44 tp: 4107.76]
+2026.07.24 15:09:17.367	2026.06.24 15:26:00   deal #37 sell 0.06 XAUUSD.s at 4008.51 done (based on order #37)
+2026.07.24 15:09:17.367	2026.06.24 15:26:00   deal performed [#37 sell 0.06 XAUUSD.s at 4008.51]
+2026.07.24 15:09:17.367	2026.06.24 15:26:00   order performed sell 0.06 at 4008.51 [#37 sell 0.06 XAUUSD.s at 4008.51]
+2026.07.24 15:09:17.367	2026.06.24 15:26:00   position stop out triggered at -240.81% [#27 buy 0.08 XAUUSD.s 4099.93 tp: 4107.76]
+2026.07.24 15:09:17.367	2026.06.24 15:26:00   deal #38 sell 0.08 XAUUSD.s at 4008.51 done (based on order #38)
+2026.07.24 15:09:17.367	2026.06.24 15:26:00   deal performed [#38 sell 0.08 XAUUSD.s at 4008.51]
+2026.07.24 15:09:17.367	2026.06.24 15:26:00   order performed sell 0.08 at 4008.51 [#38 sell 0.08 XAUUSD.s at 4008.51]
+2026.07.24 15:09:17.367	2026.06.24 15:26:00   position stop out triggered at -240.81% [#34 buy 0.1 XAUUSD.s 4077.44 tp: 4107.76]
+2026.07.24 15:09:17.367	2026.06.24 15:26:00   deal #39 sell 0.1 XAUUSD.s at 4008.51 done (based on order #39)
+2026.07.24 15:09:17.367	2026.06.24 15:26:00   deal performed [#39 sell 0.1 XAUUSD.s at 4008.51]
+2026.07.24 15:09:17.367	2026.06.24 15:26:00   order performed sell 0.1 at 4008.51 [#39 sell 0.1 XAUUSD.s at 4008.51]
+2026.07.24 15:09:17.367	2026.06.24 15:26:00   position stop out triggered at -240.81% [#36 buy 0.12 XAUUSD.s 4046.04 tp: 4107.76]
+2026.07.24 15:09:17.367	2026.06.24 15:26:00   deal #40 sell 0.12 XAUUSD.s at 4008.51 done (based on order #40)
+2026.07.24 15:09:17.367	2026.06.24 15:26:00   deal performed [#40 sell 0.12 XAUUSD.s at 4008.51]
+2026.07.24 15:09:17.367	2026.06.24 15:26:00   order performed sell 0.12 at 4008.51 [#40 sell 0.12 XAUUSD.s at 4008.51]
+2026.07.24 15:09:17.367	2026.06.24 15:26:00   position closed due end of test at 4008.51 [#35 buy 0.11 XAUUSD.s 4064.76 tp: 4107.76]
+2026.07.24 15:09:17.367	2026.06.24 15:26:00   deal #41 sell 0.11 XAUUSD.s at 4008.51 done (based on order #41)
+2026.07.24 15:09:17.367	2026.06.24 15:26:00   deal performed [#41 sell 0.11 XAUUSD.s at 4008.51]
+2026.07.24 15:09:17.367	2026.06.24 15:26:00   order performed sell 0.11 at 4008.51 [#41 sell 0.11 XAUUSD.s at 4008.51]
+2026.07.24 15:09:17.367	2026.06.24 15:26:00   position closed due end of test at 4008.51 [#28 buy 0.09 XAUUSD.s 4089.21 tp: 4107.76]
+2026.07.24 15:09:17.367	2026.06.24 15:26:00   deal #42 sell 0.09 XAUUSD.s at 4008.51 done (based on order #42)
+2026.07.24 15:09:17.367	2026.06.24 15:26:00   deal performed [#42 sell 0.09 XAUUSD.s at 4008.51]
+2026.07.24 15:09:17.367	2026.06.24 15:26:00   order performed sell 0.09 at 4008.51 [#42 sell 0.09 XAUUSD.s at 4008.51]
+2026.07.24 15:09:17.367	2026.06.24 15:26:00   position closed due end of test at 4008.51 [#21 buy 0.07 XAUUSD.s 4116.23 tp: 4107.76]
+2026.07.24 15:09:17.367	2026.06.24 15:26:00   deal #43 sell 0.07 XAUUSD.s at 4008.51 done (based on order #43)
+2026.07.24 15:09:17.367	2026.06.24 15:26:00   deal performed [#43 sell 0.07 XAUUSD.s at 4008.51]
+2026.07.24 15:09:17.367	2026.06.24 15:26:00   order performed sell 0.07 at 4008.51 [#43 sell 0.07 XAUUSD.s at 4008.51]
+2026.07.24 15:09:17.367	final balance -1238.82 USD
+2026.07.24 15:09:17.368	2026.06.24 15:26:00   [TRTM][INFO ] Deinit (reason 1) - state saved (sequence alive)
+2026.07.24 15:09:17.371	stop out occurred on 24% of testing interval
+2026.07.24 15:09:17.371	XAUUSD.s,M15: 808499 ticks, 242 bars generated. Environment synchronized in 0:00:00.039. Test passed in 0:03:15.548 (including ticks preprocessing 0:00:00.078).
+2026.07.24 15:09:17.371	XAUUSD.s,M15: total time from login to stop testing 0:03:15.587 (including 0:00:00.039 for history data synchronization)
+2026.07.24 15:09:17.371	164 Mb memory used including 2 Mb of history data, 64 Mb of tick data
+2026.07.24 15:09:17.371	log file "C:\Users\jpesm\AppData\Roaming\MetaQuotes\Tester\D0E8209F77C8CF37AD8BF550E51FF075\Agent-127.0.0.1-3000\logs\20260724.log" written
+2026.07.24 15:09:17.371	test Experts\TRTM.ex5 on XAUUSD.s,M15 thread finished
+2026.07.24 15:09:17.457	prepare for shutdown
+2026.07.24 15:09:17.457	shutdown finished

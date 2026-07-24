@@ -138,6 +138,9 @@ K-1   RESTART (recompile / re-attach) mid-sequence with Tier 1 armed -> no persi
 K-2   KILL mid-FIRE (group partially closed, OnDeinit skipped)      -> on restart the liveness sweep reconciles g_state from live positions; realized-so-far is pure profit or a completed group (invariant held); the surviving anchor (if abort/kill mid-group) is just an open position Tier 1 targets again. No combined-loss realized by the interruption.
 K-3   State file SCHEMA unchanged (no new persisted key)            -> RunStateSelfTest byte-identical; MQL5 uninit-field trap N/A (no new struct field persisted). Tier 1 is fully DERIVED per pass.
 
+## Group G-M - LIVE-FINDING AMENDMENTS (post-seal, verify-audited)
+M-1   Whole-basket-in-group STAND-DOWN (live finding 2026-07-24, gold demo fire). -> When the group = the ENTIRE open basket (every non-anchor position profitable, so no underwater survivor would remain), Tier 1 STANDS DOWN instead of firing. Rationale: a full-basket close is NOT valving - it is the sequence's own exit's job (AvgTP-exceeded market close / BE / trail, all bank-at-market), and firing there pre-empts the sequence AvgTP at MinProfitPts < AvgTPPts, banking LESS than the sequence reaches unaided (observed live: fired +152.8 pts vs the +200 pt AvgTP). Guard = grp size >= openCount (grp always holds the anchor). MUST-NOT: fire when nothing underwater survives. MUST still fire when >=1 level stays underwater (a real partial valve - unchanged, all prior verified fires had grp < openCount). Invariant it protects: Tier 1 is ADDITIVE - never a worse exit than the baseline sequence. Decision (A) over (B) anchor-profitable-only: (A) also covers the anchor-sole-loser case (the likely live fire) and makes never-worse-than-baseline total. Build E4-b36.
+
 ## Out of scope
 E5 (Tier 2, percent-based) + E6 (Tier 3, partial-lot) - ZERO observed, need
 E7 R1/R2 first. E7 R3 (BUY sequence) SUPERSEDED for O4 (platform invariant).
@@ -147,6 +150,9 @@ sequence-anchor basis (sealed b34; E4 only REUSES its lot-weighted formula).
 ## Status
 SEALED rev 1 by Jeff 2026-07-24. Groups: G-T, G-A, G-G, G-H, G-O, G-D, G-X,
 G-P, G-C, G-R, G-K. 36 rows, 11 groups.
+AMENDMENT rev 2 SEALED by Jeff 2026-07-24: +G-M / M-1 (whole-basket stand-down,
+live finding 2026-07-24). Implemented + VERIFIED in E4-b36 (stand-down observed,
+sequence AvgTP owned the full close). 37 rows total. E4 CLOSED.
 MUST-NOT / must-not-fire rows: T-3, T-4, T-6, A-3, G-3, H-1, H-3, D-1, X-5,
 C-1, C-2, R-1, R-2, R-3, K-3.
 BUY + SELL laps: T-1/T-2 (and O4 direction-derived across G-X).

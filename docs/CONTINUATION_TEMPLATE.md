@@ -50,43 +50,37 @@ every money number before any PASS.
 
 ---
 
-## Current instance - pre-filled for the NEXT break (E4 Gate 3)
+## Current instance - pre-filled for the NEXT break (E4 SEALED; next item TBD)
 
 ```
 Resume TRTM. Run the section 0 resume protocol FIRST: git status +
 sha256_16 + wc -l of src/TRTM.mq5 AND the MT5 runtime copy, all compared
-to STATE.md (expect build E1-b34, aef5dc989609dc45, 4307 lines). Report
-aligned in one line, or STOP on mismatch. (No build since E1-b34 - E4 is
-still pre-code.)
+to STATE.md (expect build E4-b36, 7e14479c83d672a4, 4483 lines). Report
+aligned in one line, or STOP on mismatch.
 
-Then read docs/HANDOVER_2026-07-24_E4_gate2.md and STATE.md. E4 Gate 1
-(O1-O5) is locked and Gate 2 (docs/E4_MATRIX.md, rev 1, 36 rows) is SEALED;
-Gate 3 (confirmed code plan) is next.
+Then read docs/HANDOVER_2026-07-24_E4_b36_sealed.md and STATE.md. E4
+(Drawdown Reduction Tier 1) is SEALED and CLOSED at E4-b36 (matrix rev 2,
+37 rows). Do NOT re-open it.
 
-Resume E4 at Gate 3. The matrix is sealed - do NOT re-plan or re-open sealed
-rows or locked decisions. Produce the surgical code plan: touch points,
-insertion order, each step mapped to its matrix row(s). Expect it SMALL -
-reuse CloseSequenceAtMarket for the group close (O5); the re-arm is already
-address-based (ComputeRecoveryTrigger max+1, ComputeLevelLot by level) so
-C3/H-2 is a confirm not a rewrite. The ONE careful piece is H-6: the SL must
-re-anchor to the new lowest survivor when Tier 1 closes the oldest (the SL
-anchor). Also resolve the gold default for InpTier1MinProfitPts (plan-time,
-O2 rider). One question per message.
-
-This item is reverse-engineered from a reference EA (Shadow) - treat it as
-reference, never spec; each point is tagged OBSERVED or CHOSEN in
-docs/ENHANCEMENT_INPUT_2026-07-23_tier1.md.
+Start the NEXT backlog item at Gate 1 (locked decisions). Backlog, none
+started: E2 draggable exit lines; E3 auto-entry; E5/E6 (Tier 2 percent /
+Tier 3 partial-lot) which need E7 R1/R2 reference runs FIRST; E7 is research
+not a build. Tell me which item to open; then work its open sub-decisions
+ONE at a time, most foundational first. No matrix before locked decisions;
+no code before a confirmed plan.
 
 Gate order holds: locked decisions -> sealed matrix (money paths) ->
 confirmed plan -> build -> evidence-audited verification -> seal on my
 explicit word. One question per message, concrete numbers, your rec each;
 record every decision + rejected alternatives in STATE.md's locked-
-decisions log. No code before a confirmed plan. Do not touch the MT5 tree
-(deploy is my manual step); recompute every money number before any PASS.
+decisions log. Do not touch the MT5 tree (deploy is my manual step);
+recompute every money number before any PASS.
 
-Note: E1 is pushed (origin/main @ 864effe); this session's Gate 1/2 docs are
-committed locally (ahead of origin, not pushed). Open findings: F3 (guardrail
-= matrix X-5), F4 (design note).
+Note: E4-b36 committed locally, NOT pushed to origin (my call when to push).
+E1 pushed (origin/main @ 864effe). Open findings: none blocking (F3 closed
+= matrix X-5 verified; F4 design note). If the next item derives from the
+Shadow reference EA, treat it as reference never spec (OBSERVED/CHOSEN tags
+in docs/ENHANCEMENT_INPUT_*.md).
 ```
 
 > After each future break, replace this "Current instance" block with a

@@ -1,0 +1,1222 @@
+2026.07.24 11:20:08.674	MetaTester 5 started on 127.0.0.1:3000
+2026.07.24 11:20:08.678	cloud network mode is off
+2026.07.24 11:20:08.678	initialization finished
+2026.07.24 11:20:08.984	login (build 5833)
+2026.07.24 11:20:08.999	19576 bytes of account info loaded
+2026.07.24 11:20:08.999	1478 bytes of tester parameters loaded
+2026.07.24 11:20:08.999	26820 bytes of input parameters loaded
+2026.07.24 11:20:08.999	636 bytes of symbols list loaded (85 symbols)
+2026.07.24 11:20:08.999	expert file added: Experts\TRTM.ex5. 214902 bytes loaded
+2026.07.24 11:20:09.013	12374 Mb available, 154 blocks set for ticks generating
+2026.07.24 11:20:09.013	initial deposit 3000.00 USD, leverage 1:500
+2026.07.24 11:20:09.013	successfully initialized
+2026.07.24 11:20:09.013	213 Kb of total initialization data received
+2026.07.24 11:20:09.013	AMD Ryzen 5 9600X 6-Core, 31909 MB
+2026.07.24 11:20:09.038	GBPAUD.s: symbol to be synchronized
+2026.07.24 11:20:09.038	GBPAUD.s: symbol synchronized, 3720 bytes of symbol info received
+2026.07.24 11:20:09.038	GBPAUD.s: history synchronization started
+2026.07.24 11:20:09.039	GBPAUD.s: load 31 bytes of history data to synchronize in 0:00:00.000
+2026.07.24 11:20:09.039	GBPAUD.s: history synchronized from 2025.01.02 to 2026.07.03
+2026.07.24 11:20:09.039	GBPAUD.s: ticks synchronization started
+2026.07.24 11:20:09.039	GBPAUD.s: load 38 bytes of tick data to synchronize in 0:00:00.000
+2026.07.24 11:20:09.039	GBPAUD.s: history ticks synchronized from 2026.06.22 to 2026.07.02
+2026.07.24 11:20:09.060	GBPAUD.s,M15: history cache allocated for 37361 bars and contains 36469 bars from 2025.01.02 00:00 to 2026.06.19 23:45
+2026.07.24 11:20:09.060	GBPAUD.s,M15: history begins from 2025.01.02 00:00
+2026.07.24 11:20:09.065	GBPAUD.s,M15 (DooTechnology-Demo): generating based on real ticks
+2026.07.24 11:20:09.065	GBPAUD.s,M15: testing of Experts\TRTM.ex5 from 2026.06.22 00:00 to 2026.07.03 00:00 started with inputs:
+2026.07.24 11:20:09.065	  === Money Management - L1 Entry (Stage 5) ====
+2026.07.24 11:20:09.065	  InpMoneyMode=0
+2026.07.24 11:20:09.065	  InpEntryLotSize=0.01
+2026.07.24 11:20:09.065	  InpBalancePerLot=1000
+2026.07.24 11:20:09.065	  InpRiskPercent=1.0
+2026.07.24 11:20:09.065	  InpMagicNumber=0
+2026.07.24 11:20:09.065	  === Adoption (Stage 2) ====
+2026.07.24 11:20:09.065	  InpManageMobileTrades=false
+2026.07.24 11:20:09.065	  === Recovery Trade Management (Stage 4) ====
+2026.07.24 11:20:09.065	  InpEnableRecovery=true
+2026.07.24 11:20:09.065	  InpRecoveryMultMode=0
+2026.07.24 11:20:09.065	  InpIncrementStep=0.01
+2026.07.24 11:20:09.065	  InpFixedRecoveryLot=0.01
+2026.07.24 11:20:09.065	  InpMartingaleMult=2.0
+2026.07.24 11:20:09.065	  InpDeferredStep=2
+2026.07.24 11:20:09.065	  InpManualMultipliers=1,2,5,8,12
+2026.07.24 11:20:09.065	  InpRecoveryIntervalPts=250
+2026.07.24 11:20:09.065	  InpBarCloseEntry=true
+2026.07.24 11:20:09.065	  InpRecoveryTF=15
+2026.07.24 11:20:09.065	  InpMaxRecoveryTrades=0
+2026.07.24 11:20:09.065	  === Exit Rules (Stage 3 / Stage 6) ====
+2026.07.24 11:20:09.065	  InpInitialTPPts=300
+2026.07.24 11:20:09.065	  InpAvgTPPts=200
+2026.07.24 11:20:09.065	  InpStopLossPts=5000
+2026.07.24 11:20:09.065	  InpEnableBE=false
+2026.07.24 11:20:09.065	  InpBETriggerPts=130
+2026.07.24 11:20:09.065	  InpBEOffsetPts=30
+2026.07.24 11:20:09.065	  InpBEAutoAdjust=true
+2026.07.24 11:20:09.065	  InpEnableTrailing=false
+2026.07.24 11:20:09.065	  InpTrailDistPts=300
+2026.07.24 11:20:09.065	  InpTrailMode=0
+2026.07.24 11:20:09.065	  InpMinTrailStepPts=10
+2026.07.24 11:20:09.065	  InpTrailBarClose=false
+2026.07.24 11:20:09.065	  InpTrailTF=15
+2026.07.24 11:20:09.065	  === Drawdown Reduction - Tier 1 (E4) ====
+2026.07.24 11:20:09.065	  InpEnableTier1=true
+2026.07.24 11:20:09.065	  InpTier1MinTrades=4
+2026.07.24 11:20:09.065	  InpTier1MinProfitPts=150
+2026.07.24 11:20:09.065	  === Filters & Safety (Stage 7) ====
+2026.07.24 11:20:09.065	  InpSpreadFilter=true
+2026.07.24 11:20:09.065	  InpMaxSpreadPts=80
+2026.07.24 11:20:09.065	  InpDeviationFilter=true
+2026.07.24 11:20:09.065	  InpMaxDeviationPts=15
+2026.07.24 11:20:09.065	  InpEnableDDClose=false
+2026.07.24 11:20:09.065	  InpMaxDDPercent=0.0
+2026.07.24 11:20:09.065	  InpMaxDDUSD=0.0
+2026.07.24 11:20:09.065	  === Tester (Stage 9) ====
+2026.07.24 11:20:09.065	  InpTesterNudgePts=50
+2026.07.24 11:20:09.065	  === System (Stage 1) ====
+2026.07.24 11:20:09.065	  InpLogToFile=true
+2026.07.24 11:20:09.065	  InpRunSelfTest=true
+2026.07.24 11:20:09.065	  InpLogRetentionDays=14
+2026.07.24 11:20:09.082	2026.06.22 00:00:00   [TRTM][INFO ] === TRTM E4-b35 init === symbol=GBPAUDS (raw GBPAUD.s) magic=730053 stateFile=TRTM\state_GBPAUDS_730053.json
+2026.07.24 11:20:09.082	2026.06.22 00:00:00   [TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.07.24 11:20:09.084	2026.06.22 00:00:00   [TRTM][INFO ] State persistence self-test: PASS
+2026.07.24 11:20:09.084	2026.06.22 00:00:00   [TRTM][INFO ] Reconcile complete: FLAT
+2026.07.24 11:20:09.084	2026.06.22 00:00:00   [TRTM][INFO ] Broker exit geometry (at init): stops level 25 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 25 pts to price are DEFERRED until placeable
+2026.07.24 11:20:09.084	2026.06.22 00:00:00   [TRTM][INFO ] Init complete - E4-b35 (adoption, exits, recovery active)
+2026.07.24 11:20:09.084	2026.06.22 00:00:00   [TRTM][INFO ] [TESTER] Interactive mode active - OnTick polling 12 panel buttons (chart events do not fire in tester, build-confirmed). Pending nudge step = 50 pts (+/- buttons on the CONFIRM row)
+2026.07.24 11:20:09.130	GBPAUD.s : real ticks begin from 2026.06.22 00:00:00
+2026.07.24 11:20:10.648	2026.06.22 01:07:42   [TRTM][INFO ] [TESTER] Panel click via poll: TRTM_B_SELL (event channel inactive)
+2026.07.24 11:20:10.648	2026.06.22 01:07:42   [TRTM][INFO ] SELL ARMED: 0.01 lots (Fixed 0.01) - click CONFIRM within 10s to execute
+2026.07.24 11:20:15.559	2026.06.22 04:03:36   [TRTM][INFO ] [TESTER] Panel click via poll: TRTM_B_SELL (event channel inactive)
+2026.07.24 11:20:15.559	GBPUSD.s: symbol to be synchronized
+2026.07.24 11:20:15.561	GBPUSD.s: symbol synchronized, 3720 bytes of symbol info received
+2026.07.24 11:20:15.561	GBPUSD.s: history synchronization started
+2026.07.24 11:20:15.562	GBPUSD.s: load 31 bytes of history data to synchronize in 0:00:00.000
+2026.07.24 11:20:15.562	GBPUSD.s: history synchronized from 2025.01.02 to 2026.07.03
+2026.07.24 11:20:15.562	GBPUSD.s: ticks synchronization started
+2026.07.24 11:20:15.562	GBPUSD.s: load 38 bytes of tick data to synchronize in 0:00:00.000
+2026.07.24 11:20:15.562	GBPUSD.s: history ticks synchronized from 2026.06.22 to 2026.07.02
+2026.07.24 11:20:15.566	2026.06.22 04:03:36   market sell 0.01 GBPAUD.s (1.88566 / 1.88594)
+2026.07.24 11:20:15.566	AUDUSD.s: symbol to be synchronized
+2026.07.24 11:20:15.566	AUDUSD.s: symbol synchronized, 3720 bytes of symbol info received
+2026.07.24 11:20:15.567	AUDUSD.s: history synchronization started
+2026.07.24 11:20:15.567	AUDUSD.s: load 31 bytes of history data to synchronize in 0:00:00.000
+2026.07.24 11:20:15.567	AUDUSD.s: history synchronized from 2025.01.02 to 2026.07.03
+2026.07.24 11:20:15.567	AUDUSD.s: ticks synchronization started
+2026.07.24 11:20:15.567	AUDUSD.s: load 38 bytes of tick data to synchronize in 0:00:00.000
+2026.07.24 11:20:15.567	AUDUSD.s: history ticks synchronized from 2026.06.22 to 2026.07.02
+2026.07.24 11:20:15.571	2026.06.22 04:03:36   deal #2 sell 0.01 GBPAUD.s at 1.88566 done (based on order #2)
+2026.07.24 11:20:15.571	2026.06.22 04:03:36   deal performed [#2 sell 0.01 GBPAUD.s at 1.88566]
+2026.07.24 11:20:15.571	2026.06.22 04:03:36   order performed sell 0.01 at 1.88566 [#2 sell 0.01 GBPAUD.s at 1.88566]
+2026.07.24 11:20:15.573	2026.06.22 04:03:36   CTrade::OrderSend: market sell 0.01 GBPAUD.s [done at 1.88566]
+2026.07.24 11:20:15.573	2026.06.22 04:03:36   [TRTM][INFO ] L1 SELL OPENED via button: 0.01 lots @ 1.88566 (deal 2)
+2026.07.24 11:20:15.573	2026.06.22 04:03:36   [TRTM][INFO ] Structure: 1 level(s), 0.01 lots | projected at TP +2.10 | at SL -35.07
+2026.07.24 11:20:15.573	2026.06.22 04:03:36   [TRTM][INFO ] EA L1 REGISTERED: ticket 2 SELL 0.01 lots @ 1.88566. Exits apply next tick.
+2026.07.24 11:20:15.575	2026.06.22 04:03:36   position modified [#2 sell 0.01 GBPAUD.s 1.88566 sl: 1.93566 tp: 1.88266]
+2026.07.24 11:20:15.577	2026.06.22 04:03:36   CTrade::OrderSend: modify position #2 GBPAUD.s (sl: 1.93566, tp: 1.88266) [done]
+2026.07.24 11:20:15.577	2026.06.22 04:03:36   [TRTM][INFO ] Exits applied to ticket 2: TP 1.88266 SL 1.93566
+2026.07.24 11:20:15.609	AUDUSD.s : real ticks begin from 2026.06.22 00:00:00
+2026.07.24 11:20:15.644	GBPUSD.s : real ticks begin from 2026.06.22 00:00:00
+2026.07.24 11:20:15.661	2026.06.22 04:03:36  no prices for symbol AUDUSD.s (2026.06.22 04:03:36 0.00000, 0.00000)
+2026.07.24 11:20:15.661	2026.06.22 04:03:36  no prices for symbol AUDUSD.s (2026.06.22 04:03:36 0.00000, 0.00000)
+2026.07.24 11:20:15.661	2026.06.22 04:03:36  no prices for symbol AUDUSD.s (2026.06.22 04:03:36 0.00000, 0.00000)
+2026.07.24 11:20:15.661	2026.06.22 04:03:36  no prices for symbol AUDUSD.s (2026.06.22 04:03:36 0.00000, 0.00000)
+2026.07.24 11:20:15.661	2026.06.22 04:03:36  no prices for symbol AUDUSD.s (2026.06.22 04:03:36 0.00000, 0.00000)
+2026.07.24 11:20:15.661	2026.06.22 04:03:36  no prices for symbol AUDUSD.s (2026.06.22 04:03:36 0.00000, 0.00000)
+2026.07.24 11:20:15.661	2026.06.22 04:03:36  no prices for symbol AUDUSD.s (2026.06.22 04:03:36 0.00000, 0.00000)
+2026.07.24 11:20:15.661	2026.06.22 04:03:36  no prices for symbol AUDUSD.s (2026.06.22 04:03:36 0.00000, 0.00000)
+2026.07.24 11:20:15.661	2026.06.22 04:03:36  no prices for symbol AUDUSD.s (2026.06.22 04:03:36 0.00000, 0.00000)
+2026.07.24 11:20:15.661	2026.06.22 04:03:36  no prices for symbol AUDUSD.s (2026.06.22 04:03:36 0.00000, 0.00000)
+2026.07.24 11:20:15.661	2026.06.22 04:03:36  no prices for symbol AUDUSD.s (2026.06.22 04:03:36 0.00000, 0.00000)
+2026.07.24 11:20:15.661	2026.06.22 04:03:36  no prices for symbol AUDUSD.s (2026.06.22 04:03:36 0.00000, 0.00000)
+2026.07.24 11:20:15.667	2026.06.22 04:03:37  no prices for symbol AUDUSD.s (2026.06.22 04:03:36 0.00000, 0.00000)
+2026.07.24 11:20:15.667	2026.06.22 04:03:37  no prices for symbol AUDUSD.s (2026.06.22 04:03:36 0.00000, 0.00000)
+2026.07.24 11:20:15.667	2026.06.22 04:03:37  no prices for symbol AUDUSD.s (2026.06.22 04:03:36 0.00000, 0.00000)
+2026.07.24 11:20:15.667	2026.06.22 04:03:37  no prices for symbol AUDUSD.s (2026.06.22 04:03:36 0.00000, 0.00000)
+2026.07.24 11:20:15.667	2026.06.22 04:03:37  no prices for symbol AUDUSD.s (2026.06.22 04:03:36 0.00000, 0.00000)
+2026.07.24 11:20:15.667	2026.06.22 04:03:37  no prices for symbol AUDUSD.s (2026.06.22 04:03:36 0.00000, 0.00000)
+2026.07.24 11:20:15.667	2026.06.22 04:03:37  no prices for symbol AUDUSD.s (2026.06.22 04:03:36 0.00000, 0.00000)
+2026.07.24 11:20:15.667	2026.06.22 04:03:37  no prices for symbol AUDUSD.s (2026.06.22 04:03:36 0.00000, 0.00000)
+2026.07.24 11:20:15.667	2026.06.22 04:03:37  no prices for symbol AUDUSD.s (2026.06.22 04:03:36 0.00000, 0.00000)
+2026.07.24 11:20:15.667	2026.06.22 04:03:37  no prices for symbol AUDUSD.s (2026.06.22 04:03:36 0.00000, 0.00000)
+2026.07.24 11:20:15.667	2026.06.22 04:03:37  no prices for symbol AUDUSD.s (2026.06.22 04:03:36 0.00000, 0.00000)
+2026.07.24 11:20:15.667	2026.06.22 04:03:37  no prices for symbol AUDUSD.s (2026.06.22 04:03:36 0.00000, 0.00000)
+2026.07.24 11:20:15.667	2026.06.22 04:03:37  no prices for symbol AUDUSD.s (2026.06.22 04:03:36 0.00000, 0.00000)
+2026.07.24 11:20:15.667	2026.06.22 04:03:37  no prices for symbol AUDUSD.s (2026.06.22 04:03:36 0.00000, 0.00000)
+2026.07.24 11:20:15.667	2026.06.22 04:03:37  no prices for symbol AUDUSD.s (2026.06.22 04:03:36 0.00000, 0.00000)
+2026.07.24 11:20:15.667	2026.06.22 04:03:37  no prices for symbol AUDUSD.s (2026.06.22 04:03:36 0.00000, 0.00000)
+2026.07.24 11:20:15.668	2026.06.22 04:03:37  no prices for symbol AUDUSD.s (2026.06.22 04:03:36 0.00000, 0.00000)
+2026.07.24 11:20:15.668	2026.06.22 04:03:37  no prices for symbol AUDUSD.s (2026.06.22 04:03:36 0.00000, 0.00000)
+2026.07.24 11:20:15.668	2026.06.22 04:03:37  no prices for symbol AUDUSD.s (2026.06.22 04:03:36 0.00000, 0.00000)
+2026.07.24 11:20:15.668	2026.06.22 04:03:37  no prices for symbol AUDUSD.s (2026.06.22 04:03:36 0.00000, 0.00000)
+2026.07.24 11:20:15.668	2026.06.22 04:03:37  no prices for symbol AUDUSD.s (2026.06.22 04:03:37 0.00000, 0.00000)
+2026.07.24 11:20:15.668	2026.06.22 04:03:37  no prices for symbol AUDUSD.s (2026.06.22 04:03:37 0.00000, 0.00000)
+2026.07.24 11:20:15.668	2026.06.22 04:03:37  no prices for symbol AUDUSD.s (2026.06.22 04:03:37 0.00000, 0.00000)
+2026.07.24 11:20:15.668	2026.06.22 04:03:37  no prices for symbol AUDUSD.s (2026.06.22 04:03:37 0.00000, 0.00000)
+2026.07.24 11:20:15.668	2026.06.22 04:03:37  no prices for symbol AUDUSD.s (2026.06.22 04:03:37 0.00000, 0.00000)
+2026.07.24 11:20:15.668	2026.06.22 04:03:37  no prices for symbol AUDUSD.s (2026.06.22 04:03:37 0.00000, 0.00000)
+2026.07.24 11:20:15.668	2026.06.22 04:03:37  no prices for symbol AUDUSD.s (2026.06.22 04:03:37 0.00000, 0.00000)
+2026.07.24 11:20:15.668	2026.06.22 04:03:37  no prices for symbol AUDUSD.s (2026.06.22 04:03:37 0.00000, 0.00000)
+2026.07.24 11:20:15.668	2026.06.22 04:03:37  no prices for symbol AUDUSD.s (2026.06.22 04:03:37 0.00000, 0.00000)
+2026.07.24 11:20:15.668	2026.06.22 04:03:37  no prices for symbol AUDUSD.s (2026.06.22 04:03:37 0.00000, 0.00000)
+2026.07.24 11:20:15.668	2026.06.22 04:03:37  no prices for symbol AUDUSD.s (2026.06.22 04:03:37 0.00000, 0.00000)
+2026.07.24 11:20:15.668	2026.06.22 04:03:37  no prices for symbol AUDUSD.s (2026.06.22 04:03:37 0.00000, 0.00000)
+2026.07.24 11:20:34.258	2026.06.22 12:15:00   [TRTM][INFO ] Recovery signal: PERIOD_M15 bar closed 1.88871 vs trigger 1.88816 (worst entry 1.88566 + 250 pts)
+2026.07.24 11:20:34.258	2026.06.22 12:15:00   market sell 0.02 GBPAUD.s (1.88874 / 1.88902)
+2026.07.24 11:20:34.258	2026.06.22 12:15:00   deal #3 sell 0.02 GBPAUD.s at 1.88874 done (based on order #3)
+2026.07.24 11:20:34.258	2026.06.22 12:15:00   deal performed [#3 sell 0.02 GBPAUD.s at 1.88874]
+2026.07.24 11:20:34.258	2026.06.22 12:15:00   order performed sell 0.02 at 1.88874 [#3 sell 0.02 GBPAUD.s at 1.88874]
+2026.07.24 11:20:34.260	2026.06.22 12:15:00   CTrade::OrderSend: market sell 0.02 GBPAUD.s [done at 1.88874]
+2026.07.24 11:20:34.260	2026.06.22 12:15:00   [TRTM][INFO ] Recovery L2 OPENED: 0.02 lots SELL @ 1.88874 (deal 3)
+2026.07.24 11:20:34.260	2026.06.22 12:15:00   [TRTM][INFO ] Recovery L2 registered: ticket 3
+2026.07.24 11:20:34.260	2026.06.22 12:15:00   [TRTM][INFO ] Structure: 2 level(s), 0.03 lots | projected at TP +4.21 | at SL -100.69
+2026.07.24 11:20:34.261	2026.06.22 12:15:00   position modified [#2 sell 0.01 GBPAUD.s 1.88566 sl: 1.93566 tp: 1.88571]
+2026.07.24 11:20:34.263	2026.06.22 12:15:00   CTrade::OrderSend: modify position #2 GBPAUD.s (sl: 1.93566, tp: 1.88571) [done]
+2026.07.24 11:20:34.263	2026.06.22 12:15:00   [TRTM][INFO ] Exits applied to ticket 2: TP 1.88571 SL 1.93566
+2026.07.24 11:20:34.263	2026.06.22 12:15:00   position modified [#3 sell 0.02 GBPAUD.s 1.88874 sl: 1.93566 tp: 1.88571]
+2026.07.24 11:20:34.265	2026.06.22 12:15:00   CTrade::OrderSend: modify position #3 GBPAUD.s (sl: 1.93566, tp: 1.88571) [done]
+2026.07.24 11:20:34.265	2026.06.22 12:15:00   [TRTM][INFO ] Exits applied to ticket 3: TP 1.88571 SL 1.93566
+2026.07.24 11:20:43.659	2026.06.22 15:45:00   [TRTM][INFO ] Recovery signal: PERIOD_M15 bar closed 1.89254 vs trigger 1.89124 (worst entry 1.88874 + 250 pts)
+2026.07.24 11:20:43.659	2026.06.22 15:45:00   market sell 0.03 GBPAUD.s (1.89257 / 1.89291)
+2026.07.24 11:20:43.659	2026.06.22 15:45:00   deal #4 sell 0.03 GBPAUD.s at 1.89257 done (based on order #4)
+2026.07.24 11:20:43.659	2026.06.22 15:45:00   deal performed [#4 sell 0.03 GBPAUD.s at 1.89257]
+2026.07.24 11:20:43.659	2026.06.22 15:45:00   order performed sell 0.03 at 1.89257 [#4 sell 0.03 GBPAUD.s at 1.89257]
+2026.07.24 11:20:43.661	2026.06.22 15:45:00   CTrade::OrderSend: market sell 0.03 GBPAUD.s [done at 1.89257]
+2026.07.24 11:20:43.661	2026.06.22 15:45:00   [TRTM][INFO ] Recovery L3 OPENED: 0.03 lots SELL @ 1.89257 (deal 4)
+2026.07.24 11:20:43.661	2026.06.22 15:45:00   [TRTM][INFO ] Recovery L3 registered: ticket 4
+2026.07.24 11:20:43.661	2026.06.22 15:45:00   [TRTM][INFO ] Structure: 3 level(s), 0.06 lots | projected at TP +8.42 | at SL -191.46
+2026.07.24 11:20:43.662	2026.06.22 15:45:00   position modified [#2 sell 0.01 GBPAUD.s 1.88566 sl: 1.93566 tp: 1.88814]
+2026.07.24 11:20:43.664	2026.06.22 15:45:00   CTrade::OrderSend: modify position #2 GBPAUD.s (sl: 1.93566, tp: 1.88814) [done]
+2026.07.24 11:20:43.664	2026.06.22 15:45:00   [TRTM][INFO ] Exits applied to ticket 2: TP 1.88814 SL 1.93566
+2026.07.24 11:20:43.664	2026.06.22 15:45:00   position modified [#3 sell 0.02 GBPAUD.s 1.88874 sl: 1.93566 tp: 1.88814]
+2026.07.24 11:20:43.666	2026.06.22 15:45:00   CTrade::OrderSend: modify position #3 GBPAUD.s (sl: 1.93566, tp: 1.88814) [done]
+2026.07.24 11:20:43.666	2026.06.22 15:45:00   [TRTM][INFO ] Exits applied to ticket 3: TP 1.88814 SL 1.93566
+2026.07.24 11:20:43.666	2026.06.22 15:45:00   position modified [#4 sell 0.03 GBPAUD.s 1.89257 sl: 1.93566 tp: 1.88814]
+2026.07.24 11:20:43.668	2026.06.22 15:45:00   CTrade::OrderSend: modify position #4 GBPAUD.s (sl: 1.93566, tp: 1.88814) [done]
+2026.07.24 11:20:43.668	2026.06.22 15:45:00   [TRTM][INFO ] Exits applied to ticket 4: TP 1.88814 SL 1.93566
+2026.07.24 11:21:16.747	2026.06.23 03:30:00   [TRTM][INFO ] Recovery signal: PERIOD_M15 bar closed 1.89536 vs trigger 1.89507 (worst entry 1.89257 + 250 pts)
+2026.07.24 11:21:16.748	2026.06.23 03:30:00   market sell 0.04 GBPAUD.s (1.89536 / 1.89570)
+2026.07.24 11:21:16.748	2026.06.23 03:30:00   deal #5 sell 0.04 GBPAUD.s at 1.89536 done (based on order #5)
+2026.07.24 11:21:16.748	2026.06.23 03:30:00   deal performed [#5 sell 0.04 GBPAUD.s at 1.89536]
+2026.07.24 11:21:16.748	2026.06.23 03:30:00   order performed sell 0.04 at 1.89536 [#5 sell 0.04 GBPAUD.s at 1.89536]
+2026.07.24 11:21:16.750	2026.06.23 03:30:00   CTrade::OrderSend: market sell 0.04 GBPAUD.s [done at 1.89536]
+2026.07.24 11:21:16.750	2026.06.23 03:30:00   [TRTM][INFO ] Recovery L4 OPENED: 0.04 lots SELL @ 1.89536 (deal 5)
+2026.07.24 11:21:16.750	2026.06.23 03:30:00   [TRTM][INFO ] Recovery L4 registered: ticket 5
+2026.07.24 11:21:16.750	2026.06.23 03:30:00   [TRTM][INFO ] Structure: 4 level(s), 0.10 lots | projected at TP +13.96 | at SL -303.37
+2026.07.24 11:21:16.750	2026.06.23 03:30:00   position modified [#2 sell 0.01 GBPAUD.s 1.88566 sl: 1.93566 tp: 1.89023]
+2026.07.24 11:21:16.752	2026.06.23 03:30:00   CTrade::OrderSend: modify position #2 GBPAUD.s (sl: 1.93566, tp: 1.89023) [done]
+2026.07.24 11:21:16.752	2026.06.23 03:30:00   [TRTM][INFO ] Exits applied to ticket 2: TP 1.89023 SL 1.93566
+2026.07.24 11:21:16.752	2026.06.23 03:30:00   position modified [#3 sell 0.02 GBPAUD.s 1.88874 sl: 1.93566 tp: 1.89023]
+2026.07.24 11:21:16.754	2026.06.23 03:30:00   CTrade::OrderSend: modify position #3 GBPAUD.s (sl: 1.93566, tp: 1.89023) [done]
+2026.07.24 11:21:16.754	2026.06.23 03:30:00   [TRTM][INFO ] Exits applied to ticket 3: TP 1.89023 SL 1.93566
+2026.07.24 11:21:16.754	2026.06.23 03:30:00   position modified [#4 sell 0.03 GBPAUD.s 1.89257 sl: 1.93566 tp: 1.89023]
+2026.07.24 11:21:16.757	2026.06.23 03:30:00   CTrade::OrderSend: modify position #4 GBPAUD.s (sl: 1.93566, tp: 1.89023) [done]
+2026.07.24 11:21:16.757	2026.06.23 03:30:00   [TRTM][INFO ] Exits applied to ticket 4: TP 1.89023 SL 1.93566
+2026.07.24 11:21:16.757	2026.06.23 03:30:00   position modified [#5 sell 0.04 GBPAUD.s 1.89536 sl: 1.93566 tp: 1.89023]
+2026.07.24 11:21:16.759	2026.06.23 03:30:00   CTrade::OrderSend: modify position #5 GBPAUD.s (sl: 1.93566, tp: 1.89023) [done]
+2026.07.24 11:21:16.759	2026.06.23 03:30:00   [TRTM][INFO ] Exits applied to ticket 5: TP 1.89023 SL 1.93566
+2026.07.24 11:21:25.212	2026.06.23 06:00:00   [TRTM][INFO ] Recovery signal: PERIOD_M15 bar closed 1.89833 vs trigger 1.89786 (worst entry 1.89536 + 250 pts)
+2026.07.24 11:21:25.212	2026.06.23 06:00:00   market sell 0.05 GBPAUD.s (1.89833 / 1.89871)
+2026.07.24 11:21:25.212	2026.06.23 06:00:00   deal #6 sell 0.05 GBPAUD.s at 1.89833 done (based on order #6)
+2026.07.24 11:21:25.212	2026.06.23 06:00:00   deal performed [#6 sell 0.05 GBPAUD.s at 1.89833]
+2026.07.24 11:21:25.212	2026.06.23 06:00:00   order performed sell 0.05 at 1.89833 [#6 sell 0.05 GBPAUD.s at 1.89833]
+2026.07.24 11:21:25.215	2026.06.23 06:00:00   CTrade::OrderSend: market sell 0.05 GBPAUD.s [done at 1.89833]
+2026.07.24 11:21:25.215	2026.06.23 06:00:00   [TRTM][INFO ] Recovery L5 OPENED: 0.05 lots SELL @ 1.89833 (deal 6)
+2026.07.24 11:21:25.215	2026.06.23 06:00:00   [TRTM][INFO ] Recovery L5 registered: ticket 6
+2026.07.24 11:21:25.215	2026.06.23 06:00:00   [TRTM][INFO ] Structure: 5 level(s), 0.15 lots | projected at TP +20.95 | at SL -433.06
+2026.07.24 11:21:25.215	2026.06.23 06:00:00   position modified [#2 sell 0.01 GBPAUD.s 1.88566 sl: 1.93566 tp: 1.89226]
+2026.07.24 11:21:25.217	2026.06.23 06:00:00   CTrade::OrderSend: modify position #2 GBPAUD.s (sl: 1.93566, tp: 1.89226) [done]
+2026.07.24 11:21:25.217	2026.06.23 06:00:00   [TRTM][INFO ] Exits applied to ticket 2: TP 1.89226 SL 1.93566
+2026.07.24 11:21:25.217	2026.06.23 06:00:00   position modified [#3 sell 0.02 GBPAUD.s 1.88874 sl: 1.93566 tp: 1.89226]
+2026.07.24 11:21:25.219	2026.06.23 06:00:00   CTrade::OrderSend: modify position #3 GBPAUD.s (sl: 1.93566, tp: 1.89226) [done]
+2026.07.24 11:21:25.219	2026.06.23 06:00:00   [TRTM][INFO ] Exits applied to ticket 3: TP 1.89226 SL 1.93566
+2026.07.24 11:21:25.219	2026.06.23 06:00:00   position modified [#4 sell 0.03 GBPAUD.s 1.89257 sl: 1.93566 tp: 1.89226]
+2026.07.24 11:21:25.221	2026.06.23 06:00:00   CTrade::OrderSend: modify position #4 GBPAUD.s (sl: 1.93566, tp: 1.89226) [done]
+2026.07.24 11:21:25.221	2026.06.23 06:00:00   [TRTM][INFO ] Exits applied to ticket 4: TP 1.89226 SL 1.93566
+2026.07.24 11:21:25.221	2026.06.23 06:00:00   position modified [#5 sell 0.04 GBPAUD.s 1.89536 sl: 1.93566 tp: 1.89226]
+2026.07.24 11:21:25.223	2026.06.23 06:00:00   CTrade::OrderSend: modify position #5 GBPAUD.s (sl: 1.93566, tp: 1.89226) [done]
+2026.07.24 11:21:25.223	2026.06.23 06:00:00   [TRTM][INFO ] Exits applied to ticket 5: TP 1.89226 SL 1.93566
+2026.07.24 11:21:25.223	2026.06.23 06:00:00   position modified [#6 sell 0.05 GBPAUD.s 1.89833 sl: 1.93566 tp: 1.89226]
+2026.07.24 11:21:25.225	2026.06.23 06:00:00   CTrade::OrderSend: modify position #6 GBPAUD.s (sl: 1.93566, tp: 1.89226) [done]
+2026.07.24 11:21:25.225	2026.06.23 06:00:00   [TRTM][INFO ] Exits applied to ticket 6: TP 1.89226 SL 1.93566
+2026.07.24 11:21:35.699	2026.06.23 09:00:00   [TRTM][INFO ] Recovery signal: PERIOD_M15 bar closed 1.90157 vs trigger 1.90083 (worst entry 1.89833 + 250 pts)
+2026.07.24 11:21:35.699	2026.06.23 09:00:00   market sell 0.06 GBPAUD.s (1.90153 / 1.90183)
+2026.07.24 11:21:35.699	2026.06.23 09:00:00   deal #7 sell 0.06 GBPAUD.s at 1.90153 done (based on order #7)
+2026.07.24 11:21:35.699	2026.06.23 09:00:00   deal performed [#7 sell 0.06 GBPAUD.s at 1.90153]
+2026.07.24 11:21:35.699	2026.06.23 09:00:00   order performed sell 0.06 at 1.90153 [#7 sell 0.06 GBPAUD.s at 1.90153]
+2026.07.24 11:21:35.701	2026.06.23 09:00:00   CTrade::OrderSend: market sell 0.06 GBPAUD.s [done at 1.90153]
+2026.07.24 11:21:35.701	2026.06.23 09:00:00   [TRTM][INFO ] Recovery L6 OPENED: 0.06 lots SELL @ 1.90153 (deal 7)
+2026.07.24 11:21:35.701	2026.06.23 09:00:00   [TRTM][INFO ] Recovery L6 registered: ticket 7
+2026.07.24 11:21:35.701	2026.06.23 09:00:00   [TRTM][INFO ] Structure: 6 level(s), 0.21 lots | projected at TP +29.23 | at SL -574.95
+2026.07.24 11:21:35.702	2026.06.23 09:00:00   position modified [#2 sell 0.01 GBPAUD.s 1.88566 sl: 1.93566 tp: 1.89434]
+2026.07.24 11:21:35.704	2026.06.23 09:00:00   CTrade::OrderSend: modify position #2 GBPAUD.s (sl: 1.93566, tp: 1.89434) [done]
+2026.07.24 11:21:35.704	2026.06.23 09:00:00   [TRTM][INFO ] Exits applied to ticket 2: TP 1.89434 SL 1.93566
+2026.07.24 11:21:35.704	2026.06.23 09:00:00   position modified [#3 sell 0.02 GBPAUD.s 1.88874 sl: 1.93566 tp: 1.89434]
+2026.07.24 11:21:35.706	2026.06.23 09:00:00   CTrade::OrderSend: modify position #3 GBPAUD.s (sl: 1.93566, tp: 1.89434) [done]
+2026.07.24 11:21:35.706	2026.06.23 09:00:00   [TRTM][INFO ] Exits applied to ticket 3: TP 1.89434 SL 1.93566
+2026.07.24 11:21:35.706	2026.06.23 09:00:00   position modified [#4 sell 0.03 GBPAUD.s 1.89257 sl: 1.93566 tp: 1.89434]
+2026.07.24 11:21:35.708	2026.06.23 09:00:00   CTrade::OrderSend: modify position #4 GBPAUD.s (sl: 1.93566, tp: 1.89434) [done]
+2026.07.24 11:21:35.708	2026.06.23 09:00:00   [TRTM][INFO ] Exits applied to ticket 4: TP 1.89434 SL 1.93566
+2026.07.24 11:21:35.708	2026.06.23 09:00:00   position modified [#5 sell 0.04 GBPAUD.s 1.89536 sl: 1.93566 tp: 1.89434]
+2026.07.24 11:21:35.710	2026.06.23 09:00:00   CTrade::OrderSend: modify position #5 GBPAUD.s (sl: 1.93566, tp: 1.89434) [done]
+2026.07.24 11:21:35.710	2026.06.23 09:00:00   [TRTM][INFO ] Exits applied to ticket 5: TP 1.89434 SL 1.93566
+2026.07.24 11:21:35.710	2026.06.23 09:00:00   position modified [#6 sell 0.05 GBPAUD.s 1.89833 sl: 1.93566 tp: 1.89434]
+2026.07.24 11:21:35.712	2026.06.23 09:00:00   CTrade::OrderSend: modify position #6 GBPAUD.s (sl: 1.93566, tp: 1.89434) [done]
+2026.07.24 11:21:35.712	2026.06.23 09:00:00   [TRTM][INFO ] Exits applied to ticket 6: TP 1.89434 SL 1.93566
+2026.07.24 11:21:35.712	2026.06.23 09:00:00   position modified [#7 sell 0.06 GBPAUD.s 1.90153 sl: 1.93566 tp: 1.89434]
+2026.07.24 11:21:35.714	2026.06.23 09:00:00   CTrade::OrderSend: modify position #7 GBPAUD.s (sl: 1.93566, tp: 1.89434) [done]
+2026.07.24 11:21:35.714	2026.06.23 09:00:00   [TRTM][INFO ] Exits applied to ticket 7: TP 1.89434 SL 1.93566
+2026.07.24 11:21:56.650	2026.06.23 15:00:00   [TRTM][INFO ] Recovery signal: PERIOD_M15 bar closed 1.90516 vs trigger 1.90403 (worst entry 1.90153 + 250 pts)
+2026.07.24 11:21:56.650	2026.06.23 15:00:00   market sell 0.07 GBPAUD.s (1.90515 / 1.90543)
+2026.07.24 11:21:56.650	2026.06.23 15:00:00   deal #8 sell 0.07 GBPAUD.s at 1.90515 done (based on order #8)
+2026.07.24 11:21:56.650	2026.06.23 15:00:00   deal performed [#8 sell 0.07 GBPAUD.s at 1.90515]
+2026.07.24 11:21:56.650	2026.06.23 15:00:00   order performed sell 0.07 at 1.90515 [#8 sell 0.07 GBPAUD.s at 1.90515]
+2026.07.24 11:21:56.652	2026.06.23 15:00:00   CTrade::OrderSend: market sell 0.07 GBPAUD.s [done at 1.90515]
+2026.07.24 11:21:56.652	2026.06.23 15:00:00   [TRTM][INFO ] Recovery L7 OPENED: 0.07 lots SELL @ 1.90515 (deal 8)
+2026.07.24 11:21:56.652	2026.06.23 15:00:00   [TRTM][INFO ] Recovery L7 registered: ticket 8
+2026.07.24 11:21:56.652	2026.06.23 15:00:00   [TRTM][INFO ] Structure: 7 level(s), 0.28 lots | projected at TP +38.85 | at SL -720.40
+2026.07.24 11:21:56.653	2026.06.23 15:00:00   position modified [#2 sell 0.01 GBPAUD.s 1.88566 sl: 1.93566 tp: 1.89654]
+2026.07.24 11:21:56.655	2026.06.23 15:00:00   CTrade::OrderSend: modify position #2 GBPAUD.s (sl: 1.93566, tp: 1.89654) [done]
+2026.07.24 11:21:56.655	2026.06.23 15:00:00   [TRTM][INFO ] Exits applied to ticket 2: TP 1.89654 SL 1.93566
+2026.07.24 11:21:56.655	2026.06.23 15:00:00   position modified [#3 sell 0.02 GBPAUD.s 1.88874 sl: 1.93566 tp: 1.89654]
+2026.07.24 11:21:56.657	2026.06.23 15:00:00   CTrade::OrderSend: modify position #3 GBPAUD.s (sl: 1.93566, tp: 1.89654) [done]
+2026.07.24 11:21:56.657	2026.06.23 15:00:00   [TRTM][INFO ] Exits applied to ticket 3: TP 1.89654 SL 1.93566
+2026.07.24 11:21:56.657	2026.06.23 15:00:00   position modified [#4 sell 0.03 GBPAUD.s 1.89257 sl: 1.93566 tp: 1.89654]
+2026.07.24 11:21:56.659	2026.06.23 15:00:00   CTrade::OrderSend: modify position #4 GBPAUD.s (sl: 1.93566, tp: 1.89654) [done]
+2026.07.24 11:21:56.659	2026.06.23 15:00:00   [TRTM][INFO ] Exits applied to ticket 4: TP 1.89654 SL 1.93566
+2026.07.24 11:21:56.659	2026.06.23 15:00:00   position modified [#5 sell 0.04 GBPAUD.s 1.89536 sl: 1.93566 tp: 1.89654]
+2026.07.24 11:21:56.661	2026.06.23 15:00:00   CTrade::OrderSend: modify position #5 GBPAUD.s (sl: 1.93566, tp: 1.89654) [done]
+2026.07.24 11:21:56.661	2026.06.23 15:00:00   [TRTM][INFO ] Exits applied to ticket 5: TP 1.89654 SL 1.93566
+2026.07.24 11:21:56.661	2026.06.23 15:00:00   position modified [#6 sell 0.05 GBPAUD.s 1.89833 sl: 1.93566 tp: 1.89654]
+2026.07.24 11:21:56.663	2026.06.23 15:00:00   CTrade::OrderSend: modify position #6 GBPAUD.s (sl: 1.93566, tp: 1.89654) [done]
+2026.07.24 11:21:56.663	2026.06.23 15:00:00   [TRTM][INFO ] Exits applied to ticket 6: TP 1.89654 SL 1.93566
+2026.07.24 11:21:56.663	2026.06.23 15:00:00   position modified [#7 sell 0.06 GBPAUD.s 1.90153 sl: 1.93566 tp: 1.89654]
+2026.07.24 11:21:56.665	2026.06.23 15:00:00   CTrade::OrderSend: modify position #7 GBPAUD.s (sl: 1.93566, tp: 1.89654) [done]
+2026.07.24 11:21:56.665	2026.06.23 15:00:00   [TRTM][INFO ] Exits applied to ticket 7: TP 1.89654 SL 1.93566
+2026.07.24 11:21:56.665	2026.06.23 15:00:00   position modified [#8 sell 0.07 GBPAUD.s 1.90515 sl: 1.93566 tp: 1.89654]
+2026.07.24 11:21:56.667	2026.06.23 15:00:00   CTrade::OrderSend: modify position #8 GBPAUD.s (sl: 1.93566, tp: 1.89654) [done]
+2026.07.24 11:21:56.667	2026.06.23 15:00:00   [TRTM][INFO ] Exits applied to ticket 8: TP 1.89654 SL 1.93566
+2026.07.24 11:22:19.734	2026.06.23 21:30:00   [TRTM][INFO ] Recovery signal: PERIOD_M15 bar closed 1.90774 vs trigger 1.90765 (worst entry 1.90515 + 250 pts)
+2026.07.24 11:22:19.734	2026.06.23 21:30:00   market sell 0.08 GBPAUD.s (1.90774 / 1.90802)
+2026.07.24 11:22:19.734	2026.06.23 21:30:00   deal #9 sell 0.08 GBPAUD.s at 1.90774 done (based on order #9)
+2026.07.24 11:22:19.734	2026.06.23 21:30:00   deal performed [#9 sell 0.08 GBPAUD.s at 1.90774]
+2026.07.24 11:22:19.734	2026.06.23 21:30:00   order performed sell 0.08 at 1.90774 [#9 sell 0.08 GBPAUD.s at 1.90774]
+2026.07.24 11:22:19.736	2026.06.23 21:30:00   CTrade::OrderSend: market sell 0.08 GBPAUD.s [done at 1.90774]
+2026.07.24 11:22:19.736	2026.06.23 21:30:00   [TRTM][INFO ] Recovery L8 OPENED: 0.08 lots SELL @ 1.90774 (deal 9)
+2026.07.24 11:22:19.736	2026.06.23 21:30:00   [TRTM][INFO ] Recovery L8 registered: ticket 9
+2026.07.24 11:22:19.736	2026.06.23 21:30:00   [TRTM][INFO ] Structure: 8 level(s), 0.36 lots | projected at TP +49.65 | at SL -872.52
+2026.07.24 11:22:19.738	2026.06.23 21:30:00   position modified [#2 sell 0.01 GBPAUD.s 1.88566 sl: 1.93566 tp: 1.89859]
+2026.07.24 11:22:19.740	2026.06.23 21:30:00   CTrade::OrderSend: modify position #2 GBPAUD.s (sl: 1.93566, tp: 1.89859) [done]
+2026.07.24 11:22:19.740	2026.06.23 21:30:00   [TRTM][INFO ] Exits applied to ticket 2: TP 1.89859 SL 1.93566
+2026.07.24 11:22:19.740	2026.06.23 21:30:00   position modified [#3 sell 0.02 GBPAUD.s 1.88874 sl: 1.93566 tp: 1.89859]
+2026.07.24 11:22:19.742	2026.06.23 21:30:00   CTrade::OrderSend: modify position #3 GBPAUD.s (sl: 1.93566, tp: 1.89859) [done]
+2026.07.24 11:22:19.742	2026.06.23 21:30:00   [TRTM][INFO ] Exits applied to ticket 3: TP 1.89859 SL 1.93566
+2026.07.24 11:22:19.742	2026.06.23 21:30:00   position modified [#4 sell 0.03 GBPAUD.s 1.89257 sl: 1.93566 tp: 1.89859]
+2026.07.24 11:22:19.744	2026.06.23 21:30:00   CTrade::OrderSend: modify position #4 GBPAUD.s (sl: 1.93566, tp: 1.89859) [done]
+2026.07.24 11:22:19.744	2026.06.23 21:30:00   [TRTM][INFO ] Exits applied to ticket 4: TP 1.89859 SL 1.93566
+2026.07.24 11:22:19.744	2026.06.23 21:30:00   position modified [#5 sell 0.04 GBPAUD.s 1.89536 sl: 1.93566 tp: 1.89859]
+2026.07.24 11:22:19.746	2026.06.23 21:30:00   CTrade::OrderSend: modify position #5 GBPAUD.s (sl: 1.93566, tp: 1.89859) [done]
+2026.07.24 11:22:19.746	2026.06.23 21:30:00   [TRTM][INFO ] Exits applied to ticket 5: TP 1.89859 SL 1.93566
+2026.07.24 11:22:19.746	2026.06.23 21:30:00   position modified [#6 sell 0.05 GBPAUD.s 1.89833 sl: 1.93566 tp: 1.89859]
+2026.07.24 11:22:19.748	2026.06.23 21:30:00   CTrade::OrderSend: modify position #6 GBPAUD.s (sl: 1.93566, tp: 1.89859) [done]
+2026.07.24 11:22:19.748	2026.06.23 21:30:00   [TRTM][INFO ] Exits applied to ticket 6: TP 1.89859 SL 1.93566
+2026.07.24 11:22:19.748	2026.06.23 21:30:00   position modified [#7 sell 0.06 GBPAUD.s 1.90153 sl: 1.93566 tp: 1.89859]
+2026.07.24 11:22:19.750	2026.06.23 21:30:00   CTrade::OrderSend: modify position #7 GBPAUD.s (sl: 1.93566, tp: 1.89859) [done]
+2026.07.24 11:22:19.750	2026.06.23 21:30:00   [TRTM][INFO ] Exits applied to ticket 7: TP 1.89859 SL 1.93566
+2026.07.24 11:22:19.750	2026.06.23 21:30:00   position modified [#8 sell 0.07 GBPAUD.s 1.90515 sl: 1.93566 tp: 1.89859]
+2026.07.24 11:22:19.752	2026.06.23 21:30:00   CTrade::OrderSend: modify position #8 GBPAUD.s (sl: 1.93566, tp: 1.89859) [done]
+2026.07.24 11:22:19.752	2026.06.23 21:30:00   [TRTM][INFO ] Exits applied to ticket 8: TP 1.89859 SL 1.93566
+2026.07.24 11:22:19.752	2026.06.23 21:30:00   position modified [#9 sell 0.08 GBPAUD.s 1.90774 sl: 1.93566 tp: 1.89859]
+2026.07.24 11:22:19.754	2026.06.23 21:30:00   CTrade::OrderSend: modify position #9 GBPAUD.s (sl: 1.93566, tp: 1.89859) [done]
+2026.07.24 11:22:19.754	2026.06.23 21:30:00   [TRTM][INFO ] Exits applied to ticket 9: TP 1.89859 SL 1.93566
+2026.07.24 11:22:50.003	2026.06.24 06:00:00   [TRTM][INFO ] Recovery signal: PERIOD_M15 bar closed 1.91055 vs trigger 1.91024 (worst entry 1.90774 + 250 pts)
+2026.07.24 11:22:50.004	2026.06.24 06:00:00   market sell 0.09 GBPAUD.s (1.91055 / 1.91095)
+2026.07.24 11:22:50.004	2026.06.24 06:00:00   deal #10 sell 0.09 GBPAUD.s at 1.91055 done (based on order #10)
+2026.07.24 11:22:50.004	2026.06.24 06:00:00   deal performed [#10 sell 0.09 GBPAUD.s at 1.91055]
+2026.07.24 11:22:50.004	2026.06.24 06:00:00   order performed sell 0.09 at 1.91055 [#10 sell 0.09 GBPAUD.s at 1.91055]
+2026.07.24 11:22:50.006	2026.06.24 06:00:00   CTrade::OrderSend: market sell 0.09 GBPAUD.s [done at 1.91055]
+2026.07.24 11:22:50.006	2026.06.24 06:00:00   [TRTM][INFO ] Recovery L9 OPENED: 0.09 lots SELL @ 1.91055 (deal 10)
+2026.07.24 11:22:50.006	2026.06.24 06:00:00   [TRTM][INFO ] Recovery L9 registered: ticket 10
+2026.07.24 11:22:50.006	2026.06.24 06:00:00   [TRTM][INFO ] Structure: 9 level(s), 0.45 lots | projected at TP +62.08 | at SL -1027.59
+2026.07.24 11:22:50.009	2026.06.24 06:00:00   position modified [#2 sell 0.01 GBPAUD.s 1.88566 sl: 1.93566 tp: 1.90058]
+2026.07.24 11:22:50.011	2026.06.24 06:00:00   CTrade::OrderSend: modify position #2 GBPAUD.s (sl: 1.93566, tp: 1.90058) [done]
+2026.07.24 11:22:50.011	2026.06.24 06:00:00   [TRTM][INFO ] Exits applied to ticket 2: TP 1.90058 SL 1.93566
+2026.07.24 11:22:50.011	2026.06.24 06:00:00   position modified [#3 sell 0.02 GBPAUD.s 1.88874 sl: 1.93566 tp: 1.90058]
+2026.07.24 11:22:50.013	2026.06.24 06:00:00   CTrade::OrderSend: modify position #3 GBPAUD.s (sl: 1.93566, tp: 1.90058) [done]
+2026.07.24 11:22:50.013	2026.06.24 06:00:00   [TRTM][INFO ] Exits applied to ticket 3: TP 1.90058 SL 1.93566
+2026.07.24 11:22:50.013	2026.06.24 06:00:00   position modified [#4 sell 0.03 GBPAUD.s 1.89257 sl: 1.93566 tp: 1.90058]
+2026.07.24 11:22:50.015	2026.06.24 06:00:00   CTrade::OrderSend: modify position #4 GBPAUD.s (sl: 1.93566, tp: 1.90058) [done]
+2026.07.24 11:22:50.015	2026.06.24 06:00:00   [TRTM][INFO ] Exits applied to ticket 4: TP 1.90058 SL 1.93566
+2026.07.24 11:22:50.015	2026.06.24 06:00:00   position modified [#5 sell 0.04 GBPAUD.s 1.89536 sl: 1.93566 tp: 1.90058]
+2026.07.24 11:22:50.017	2026.06.24 06:00:00   CTrade::OrderSend: modify position #5 GBPAUD.s (sl: 1.93566, tp: 1.90058) [done]
+2026.07.24 11:22:50.017	2026.06.24 06:00:00   [TRTM][INFO ] Exits applied to ticket 5: TP 1.90058 SL 1.93566
+2026.07.24 11:22:50.017	2026.06.24 06:00:00   position modified [#6 sell 0.05 GBPAUD.s 1.89833 sl: 1.93566 tp: 1.90058]
+2026.07.24 11:22:50.019	2026.06.24 06:00:00   CTrade::OrderSend: modify position #6 GBPAUD.s (sl: 1.93566, tp: 1.90058) [done]
+2026.07.24 11:22:50.019	2026.06.24 06:00:00   [TRTM][INFO ] Exits applied to ticket 6: TP 1.90058 SL 1.93566
+2026.07.24 11:22:50.019	2026.06.24 06:00:00   position modified [#7 sell 0.06 GBPAUD.s 1.90153 sl: 1.93566 tp: 1.90058]
+2026.07.24 11:22:50.021	2026.06.24 06:00:00   CTrade::OrderSend: modify position #7 GBPAUD.s (sl: 1.93566, tp: 1.90058) [done]
+2026.07.24 11:22:50.021	2026.06.24 06:00:00   [TRTM][INFO ] Exits applied to ticket 7: TP 1.90058 SL 1.93566
+2026.07.24 11:22:50.021	2026.06.24 06:00:00   position modified [#8 sell 0.07 GBPAUD.s 1.90515 sl: 1.93566 tp: 1.90058]
+2026.07.24 11:22:50.023	2026.06.24 06:00:00   CTrade::OrderSend: modify position #8 GBPAUD.s (sl: 1.93566, tp: 1.90058) [done]
+2026.07.24 11:22:50.023	2026.06.24 06:00:00   [TRTM][INFO ] Exits applied to ticket 8: TP 1.90058 SL 1.93566
+2026.07.24 11:22:50.023	2026.06.24 06:00:00   position modified [#9 sell 0.08 GBPAUD.s 1.90774 sl: 1.93566 tp: 1.90058]
+2026.07.24 11:22:50.025	2026.06.24 06:00:00   CTrade::OrderSend: modify position #9 GBPAUD.s (sl: 1.93566, tp: 1.90058) [done]
+2026.07.24 11:22:50.025	2026.06.24 06:00:00   [TRTM][INFO ] Exits applied to ticket 9: TP 1.90058 SL 1.93566
+2026.07.24 11:22:50.025	2026.06.24 06:00:00   position modified [#10 sell 0.09 GBPAUD.s 1.91055 sl: 1.93566 tp: 1.90058]
+2026.07.24 11:22:50.027	2026.06.24 06:00:00   CTrade::OrderSend: modify position #10 GBPAUD.s (sl: 1.93566, tp: 1.90058) [done]
+2026.07.24 11:22:50.027	2026.06.24 06:00:00   [TRTM][INFO ] Exits applied to ticket 10: TP 1.90058 SL 1.93566
+2026.07.24 11:23:14.021	2026.06.24 12:15:00   [TRTM][INFO ] Recovery signal: PERIOD_M15 bar closed 1.91309 vs trigger 1.91305 (worst entry 1.91055 + 250 pts)
+2026.07.24 11:23:14.022	2026.06.24 12:15:00   market sell 0.1 GBPAUD.s (1.91309 / 1.91340)
+2026.07.24 11:23:14.022	2026.06.24 12:15:00   deal #11 sell 0.1 GBPAUD.s at 1.91309 done (based on order #11)
+2026.07.24 11:23:14.022	2026.06.24 12:15:00   deal performed [#11 sell 0.1 GBPAUD.s at 1.91309]
+2026.07.24 11:23:14.022	2026.06.24 12:15:00   order performed sell 0.1 at 1.91309 [#11 sell 0.1 GBPAUD.s at 1.91309]
+2026.07.24 11:23:14.024	2026.06.24 12:15:00   CTrade::OrderSend: market sell 0.10 GBPAUD.s [done at 1.91309]
+2026.07.24 11:23:14.024	2026.06.24 12:15:00   [TRTM][INFO ] Recovery L10 OPENED: 0.10 lots SELL @ 1.91309 (deal 11)
+2026.07.24 11:23:14.024	2026.06.24 12:15:00   [TRTM][INFO ] Recovery L10 registered: ticket 11
+2026.07.24 11:23:14.024	2026.06.24 12:15:00   [TRTM][INFO ] Structure: 10 level(s), 0.55 lots | projected at TP +75.82 | at SL -1181.85
+2026.07.24 11:23:14.024	2026.06.24 12:15:00   position modified [#2 sell 0.01 GBPAUD.s 1.88566 sl: 1.93566 tp: 1.90249]
+2026.07.24 11:23:14.026	2026.06.24 12:15:00   CTrade::OrderSend: modify position #2 GBPAUD.s (sl: 1.93566, tp: 1.90249) [done]
+2026.07.24 11:23:14.026	2026.06.24 12:15:00   [TRTM][INFO ] Exits applied to ticket 2: TP 1.90249 SL 1.93566
+2026.07.24 11:23:14.026	2026.06.24 12:15:00   position modified [#3 sell 0.02 GBPAUD.s 1.88874 sl: 1.93566 tp: 1.90249]
+2026.07.24 11:23:14.028	2026.06.24 12:15:00   CTrade::OrderSend: modify position #3 GBPAUD.s (sl: 1.93566, tp: 1.90249) [done]
+2026.07.24 11:23:14.028	2026.06.24 12:15:00   [TRTM][INFO ] Exits applied to ticket 3: TP 1.90249 SL 1.93566
+2026.07.24 11:23:14.028	2026.06.24 12:15:00   position modified [#4 sell 0.03 GBPAUD.s 1.89257 sl: 1.93566 tp: 1.90249]
+2026.07.24 11:23:14.030	2026.06.24 12:15:00   CTrade::OrderSend: modify position #4 GBPAUD.s (sl: 1.93566, tp: 1.90249) [done]
+2026.07.24 11:23:14.030	2026.06.24 12:15:00   [TRTM][INFO ] Exits applied to ticket 4: TP 1.90249 SL 1.93566
+2026.07.24 11:23:14.030	2026.06.24 12:15:00   position modified [#5 sell 0.04 GBPAUD.s 1.89536 sl: 1.93566 tp: 1.90249]
+2026.07.24 11:23:14.032	2026.06.24 12:15:00   CTrade::OrderSend: modify position #5 GBPAUD.s (sl: 1.93566, tp: 1.90249) [done]
+2026.07.24 11:23:14.032	2026.06.24 12:15:00   [TRTM][INFO ] Exits applied to ticket 5: TP 1.90249 SL 1.93566
+2026.07.24 11:23:14.032	2026.06.24 12:15:00   position modified [#6 sell 0.05 GBPAUD.s 1.89833 sl: 1.93566 tp: 1.90249]
+2026.07.24 11:23:14.034	2026.06.24 12:15:00   CTrade::OrderSend: modify position #6 GBPAUD.s (sl: 1.93566, tp: 1.90249) [done]
+2026.07.24 11:23:14.034	2026.06.24 12:15:00   [TRTM][INFO ] Exits applied to ticket 6: TP 1.90249 SL 1.93566
+2026.07.24 11:23:14.034	2026.06.24 12:15:00   position modified [#7 sell 0.06 GBPAUD.s 1.90153 sl: 1.93566 tp: 1.90249]
+2026.07.24 11:23:14.036	2026.06.24 12:15:00   CTrade::OrderSend: modify position #7 GBPAUD.s (sl: 1.93566, tp: 1.90249) [done]
+2026.07.24 11:23:14.036	2026.06.24 12:15:00   [TRTM][INFO ] Exits applied to ticket 7: TP 1.90249 SL 1.93566
+2026.07.24 11:23:14.036	2026.06.24 12:15:00   position modified [#8 sell 0.07 GBPAUD.s 1.90515 sl: 1.93566 tp: 1.90249]
+2026.07.24 11:23:14.038	2026.06.24 12:15:00   CTrade::OrderSend: modify position #8 GBPAUD.s (sl: 1.93566, tp: 1.90249) [done]
+2026.07.24 11:23:14.038	2026.06.24 12:15:00   [TRTM][INFO ] Exits applied to ticket 8: TP 1.90249 SL 1.93566
+2026.07.24 11:23:14.038	2026.06.24 12:15:00   position modified [#9 sell 0.08 GBPAUD.s 1.90774 sl: 1.93566 tp: 1.90249]
+2026.07.24 11:23:14.040	2026.06.24 12:15:00   CTrade::OrderSend: modify position #9 GBPAUD.s (sl: 1.93566, tp: 1.90249) [done]
+2026.07.24 11:23:14.040	2026.06.24 12:15:00   [TRTM][INFO ] Exits applied to ticket 9: TP 1.90249 SL 1.93566
+2026.07.24 11:23:14.040	2026.06.24 12:15:00   position modified [#10 sell 0.09 GBPAUD.s 1.91055 sl: 1.93566 tp: 1.90249]
+2026.07.24 11:23:14.042	2026.06.24 12:15:00   CTrade::OrderSend: modify position #10 GBPAUD.s (sl: 1.93566, tp: 1.90249) [done]
+2026.07.24 11:23:14.042	2026.06.24 12:15:00   [TRTM][INFO ] Exits applied to ticket 10: TP 1.90249 SL 1.93566
+2026.07.24 11:23:14.042	2026.06.24 12:15:00   position modified [#11 sell 0.1 GBPAUD.s 1.91309 sl: 1.93566 tp: 1.90249]
+2026.07.24 11:23:14.044	2026.06.24 12:15:00   CTrade::OrderSend: modify position #11 GBPAUD.s (sl: 1.93566, tp: 1.90249) [done]
+2026.07.24 11:23:14.044	2026.06.24 12:15:00   [TRTM][INFO ] Exits applied to ticket 11: TP 1.90249 SL 1.93566
+2026.07.24 11:23:19.719	2026.06.24 14:02:34   [TRTM][INFO ] Tier 1 FIRE: SELL group 3 leg(s) (anchor L1 + 2 profitable) | VWAP 1.91058 far 1.90907 margin 150.5 pts >= 150/lot
+2026.07.24 11:23:19.719	2026.06.24 14:02:34   market buy 0.1 GBPAUD.s, close #11 (1.90878 / 1.90907)
+2026.07.24 11:23:19.719	2026.06.24 14:02:34   deal #12 buy 0.1 GBPAUD.s at 1.90907 done (based on order #12)
+2026.07.24 11:23:19.720	2026.06.24 14:02:34   deal performed [#12 buy 0.1 GBPAUD.s at 1.90907]
+2026.07.24 11:23:19.720	2026.06.24 14:02:34   order performed buy 0.1 at 1.90907 [#12 buy 0.1 GBPAUD.s at 1.90907]
+2026.07.24 11:23:19.723	2026.06.24 14:02:34   CTrade::OrderSend: market buy 0.10 position #11 GBPAUD.s [done at 1.90907]
+2026.07.24 11:23:19.723	2026.06.24 14:02:34   [TRTM][INFO ] Closed L10 ticket 11 @ 1.90907
+2026.07.24 11:23:19.723	2026.06.24 14:02:34   market buy 0.09 GBPAUD.s, close #10 (1.90878 / 1.90907)
+2026.07.24 11:23:19.723	2026.06.24 14:02:34   deal #13 buy 0.09 GBPAUD.s at 1.90907 done (based on order #13)
+2026.07.24 11:23:19.723	2026.06.24 14:02:34   deal performed [#13 buy 0.09 GBPAUD.s at 1.90907]
+2026.07.24 11:23:19.723	2026.06.24 14:02:34   order performed buy 0.09 at 1.90907 [#13 buy 0.09 GBPAUD.s at 1.90907]
+2026.07.24 11:23:19.725	2026.06.24 14:02:34   CTrade::OrderSend: market buy 0.09 position #10 GBPAUD.s [done at 1.90907]
+2026.07.24 11:23:19.725	2026.06.24 14:02:34   [TRTM][INFO ] Closed L9 ticket 10 @ 1.90907
+2026.07.24 11:23:19.725	2026.06.24 14:02:34   market buy 0.01 GBPAUD.s, close #2 (1.90878 / 1.90907)
+2026.07.24 11:23:19.725	2026.06.24 14:02:34   deal #14 buy 0.01 GBPAUD.s at 1.90907 done (based on order #14)
+2026.07.24 11:23:19.725	2026.06.24 14:02:34   deal performed [#14 buy 0.01 GBPAUD.s at 1.90907]
+2026.07.24 11:23:19.725	2026.06.24 14:02:34   order performed buy 0.01 at 1.90907 [#14 buy 0.01 GBPAUD.s at 1.90907]
+2026.07.24 11:23:19.727	2026.06.24 14:02:34   CTrade::OrderSend: market buy 0.01 position #2 GBPAUD.s [done at 1.90907]
+2026.07.24 11:23:19.727	2026.06.24 14:02:34   [TRTM][INFO ] Closed L1 ticket 2 @ 1.90907
+2026.07.24 11:23:19.729	2026.06.24 14:02:34   [TRTM][INFO ] Liveness: L10 ticket 11 closed by EA (market close) - removed from sequence
+2026.07.24 11:23:19.729	2026.06.24 14:02:34   [TRTM][INFO ] Liveness: L9 ticket 10 closed by EA (market close) - removed from sequence
+2026.07.24 11:23:19.729	2026.06.24 14:02:34   [TRTM][INFO ] Liveness: L1 ticket 2 closed by EA (market close) - removed from sequence
+2026.07.24 11:23:19.729	2026.06.24 14:02:34   [TRTM][INFO ] Structure: 7 level(s), 0.35 lots | projected at TP +48.30 | at SL -910.00
+2026.07.24 11:23:19.729	2026.06.24 14:02:34   [TRTM][INFO ] SL re-anchored: L1 -> L2 (widened to 1.93874 per locked rule - boundaries move with the structure)
+2026.07.24 11:23:19.729	2026.06.24 14:02:34   position modified [#3 sell 0.02 GBPAUD.s 1.88874 sl: 1.93874 tp: 1.89901]
+2026.07.24 11:23:19.731	2026.06.24 14:02:34   CTrade::OrderSend: modify position #3 GBPAUD.s (sl: 1.93874, tp: 1.89901) [done]
+2026.07.24 11:23:19.731	2026.06.24 14:02:34   [TRTM][INFO ] Exits applied to ticket 3: TP 1.89901 SL 1.93874
+2026.07.24 11:23:19.731	2026.06.24 14:02:34   position modified [#4 sell 0.03 GBPAUD.s 1.89257 sl: 1.93874 tp: 1.89901]
+2026.07.24 11:23:19.733	2026.06.24 14:02:34   CTrade::OrderSend: modify position #4 GBPAUD.s (sl: 1.93874, tp: 1.89901) [done]
+2026.07.24 11:23:19.733	2026.06.24 14:02:34   [TRTM][INFO ] Exits applied to ticket 4: TP 1.89901 SL 1.93874
+2026.07.24 11:23:19.733	2026.06.24 14:02:34   position modified [#5 sell 0.04 GBPAUD.s 1.89536 sl: 1.93874 tp: 1.89901]
+2026.07.24 11:23:19.735	2026.06.24 14:02:34   CTrade::OrderSend: modify position #5 GBPAUD.s (sl: 1.93874, tp: 1.89901) [done]
+2026.07.24 11:23:19.735	2026.06.24 14:02:34   [TRTM][INFO ] Exits applied to ticket 5: TP 1.89901 SL 1.93874
+2026.07.24 11:23:19.735	2026.06.24 14:02:34   position modified [#6 sell 0.05 GBPAUD.s 1.89833 sl: 1.93874 tp: 1.89901]
+2026.07.24 11:23:19.737	2026.06.24 14:02:34   CTrade::OrderSend: modify position #6 GBPAUD.s (sl: 1.93874, tp: 1.89901) [done]
+2026.07.24 11:23:19.737	2026.06.24 14:02:34   [TRTM][INFO ] Exits applied to ticket 6: TP 1.89901 SL 1.93874
+2026.07.24 11:23:19.737	2026.06.24 14:02:34   position modified [#7 sell 0.06 GBPAUD.s 1.90153 sl: 1.93874 tp: 1.89901]
+2026.07.24 11:23:19.739	2026.06.24 14:02:34   CTrade::OrderSend: modify position #7 GBPAUD.s (sl: 1.93874, tp: 1.89901) [done]
+2026.07.24 11:23:19.739	2026.06.24 14:02:34   [TRTM][INFO ] Exits applied to ticket 7: TP 1.89901 SL 1.93874
+2026.07.24 11:23:19.739	2026.06.24 14:02:34   position modified [#8 sell 0.07 GBPAUD.s 1.90515 sl: 1.93874 tp: 1.89901]
+2026.07.24 11:23:19.741	2026.06.24 14:02:34   CTrade::OrderSend: modify position #8 GBPAUD.s (sl: 1.93874, tp: 1.89901) [done]
+2026.07.24 11:23:19.741	2026.06.24 14:02:34   [TRTM][INFO ] Exits applied to ticket 8: TP 1.89901 SL 1.93874
+2026.07.24 11:23:19.741	2026.06.24 14:02:34   position modified [#9 sell 0.08 GBPAUD.s 1.90774 sl: 1.93874 tp: 1.89901]
+2026.07.24 11:23:19.743	2026.06.24 14:02:34   CTrade::OrderSend: modify position #9 GBPAUD.s (sl: 1.93874, tp: 1.89901) [done]
+2026.07.24 11:23:19.743	2026.06.24 14:02:34   [TRTM][INFO ] Exits applied to ticket 9: TP 1.89901 SL 1.93874
+2026.07.24 11:23:45.327	2026.06.24 20:45:00   [TRTM][INFO ] Recovery signal: PERIOD_M15 bar closed 1.91037 vs trigger 1.91024 (worst entry 1.90774 + 250 pts)
+2026.07.24 11:23:45.327	2026.06.24 20:45:00   market sell 0.09 GBPAUD.s (1.91038 / 1.91066)
+2026.07.24 11:23:45.327	2026.06.24 20:45:00   deal #15 sell 0.09 GBPAUD.s at 1.91038 done (based on order #15)
+2026.07.24 11:23:45.327	2026.06.24 20:45:00   deal performed [#15 sell 0.09 GBPAUD.s at 1.91038]
+2026.07.24 11:23:45.327	2026.06.24 20:45:00   order performed sell 0.09 at 1.91038 [#15 sell 0.09 GBPAUD.s at 1.91038]
+2026.07.24 11:23:45.330	2026.06.24 20:45:00   CTrade::OrderSend: market sell 0.09 GBPAUD.s [done at 1.91038]
+2026.07.24 11:23:45.330	2026.06.24 20:45:00   [TRTM][INFO ] Recovery L9 OPENED: 0.09 lots SELL @ 1.91038 (deal 15)
+2026.07.24 11:23:45.330	2026.06.24 20:45:00   [TRTM][INFO ] Recovery L9 registered: ticket 15
+2026.07.24 11:23:45.330	2026.06.24 20:45:00   [TRTM][INFO ] Structure: 8 level(s), 0.44 lots | projected at TP +60.56 | at SL -1085.25
+2026.07.24 11:23:45.331	2026.06.24 20:45:00   position modified [#3 sell 0.02 GBPAUD.s 1.88874 sl: 1.93874 tp: 1.90093]
+2026.07.24 11:23:45.333	2026.06.24 20:45:00   CTrade::OrderSend: modify position #3 GBPAUD.s (sl: 1.93874, tp: 1.90093) [done]
+2026.07.24 11:23:45.333	2026.06.24 20:45:00   [TRTM][INFO ] Exits applied to ticket 3: TP 1.90093 SL 1.93874
+2026.07.24 11:23:45.333	2026.06.24 20:45:00   position modified [#4 sell 0.03 GBPAUD.s 1.89257 sl: 1.93874 tp: 1.90093]
+2026.07.24 11:23:45.335	2026.06.24 20:45:00   CTrade::OrderSend: modify position #4 GBPAUD.s (sl: 1.93874, tp: 1.90093) [done]
+2026.07.24 11:23:45.335	2026.06.24 20:45:00   [TRTM][INFO ] Exits applied to ticket 4: TP 1.90093 SL 1.93874
+2026.07.24 11:23:45.335	2026.06.24 20:45:00   position modified [#5 sell 0.04 GBPAUD.s 1.89536 sl: 1.93874 tp: 1.90093]
+2026.07.24 11:23:45.337	2026.06.24 20:45:00   CTrade::OrderSend: modify position #5 GBPAUD.s (sl: 1.93874, tp: 1.90093) [done]
+2026.07.24 11:23:45.337	2026.06.24 20:45:00   [TRTM][INFO ] Exits applied to ticket 5: TP 1.90093 SL 1.93874
+2026.07.24 11:23:45.337	2026.06.24 20:45:00   position modified [#6 sell 0.05 GBPAUD.s 1.89833 sl: 1.93874 tp: 1.90093]
+2026.07.24 11:23:45.339	2026.06.24 20:45:00   CTrade::OrderSend: modify position #6 GBPAUD.s (sl: 1.93874, tp: 1.90093) [done]
+2026.07.24 11:23:45.339	2026.06.24 20:45:00   [TRTM][INFO ] Exits applied to ticket 6: TP 1.90093 SL 1.93874
+2026.07.24 11:23:45.339	2026.06.24 20:45:00   position modified [#7 sell 0.06 GBPAUD.s 1.90153 sl: 1.93874 tp: 1.90093]
+2026.07.24 11:23:45.341	2026.06.24 20:45:00   CTrade::OrderSend: modify position #7 GBPAUD.s (sl: 1.93874, tp: 1.90093) [done]
+2026.07.24 11:23:45.341	2026.06.24 20:45:00   [TRTM][INFO ] Exits applied to ticket 7: TP 1.90093 SL 1.93874
+2026.07.24 11:23:45.341	2026.06.24 20:45:00   position modified [#8 sell 0.07 GBPAUD.s 1.90515 sl: 1.93874 tp: 1.90093]
+2026.07.24 11:23:45.343	2026.06.24 20:45:00   CTrade::OrderSend: modify position #8 GBPAUD.s (sl: 1.93874, tp: 1.90093) [done]
+2026.07.24 11:23:45.343	2026.06.24 20:45:00   [TRTM][INFO ] Exits applied to ticket 8: TP 1.90093 SL 1.93874
+2026.07.24 11:23:45.343	2026.06.24 20:45:00   position modified [#9 sell 0.08 GBPAUD.s 1.90774 sl: 1.93874 tp: 1.90093]
+2026.07.24 11:23:45.345	2026.06.24 20:45:00   CTrade::OrderSend: modify position #9 GBPAUD.s (sl: 1.93874, tp: 1.90093) [done]
+2026.07.24 11:23:45.345	2026.06.24 20:45:00   [TRTM][INFO ] Exits applied to ticket 9: TP 1.90093 SL 1.93874
+2026.07.24 11:23:45.345	2026.06.24 20:45:00   position modified [#15 sell 0.09 GBPAUD.s 1.91038 sl: 1.93874 tp: 1.90093]
+2026.07.24 11:23:45.347	2026.06.24 20:45:00   CTrade::OrderSend: modify position #15 GBPAUD.s (sl: 1.93874, tp: 1.90093) [done]
+2026.07.24 11:23:45.347	2026.06.24 20:45:00   [TRTM][INFO ] Exits applied to ticket 15: TP 1.90093 SL 1.93874
+2026.07.24 11:25:13.669	2026.06.25 17:00:00   [TRTM][INFO ] Recovery signal: PERIOD_M15 bar closed 1.91334 vs trigger 1.91288 (worst entry 1.91038 + 250 pts)
+2026.07.24 11:25:13.670	2026.06.25 17:00:00   market sell 0.1 GBPAUD.s (1.91334 / 1.91363)
+2026.07.24 11:25:13.670	2026.06.25 17:00:00   deal #16 sell 0.1 GBPAUD.s at 1.91334 done (based on order #16)
+2026.07.24 11:25:13.670	2026.06.25 17:00:00   deal performed [#16 sell 0.1 GBPAUD.s at 1.91334]
+2026.07.24 11:25:13.670	2026.06.25 17:00:00   order performed sell 0.1 at 1.91334 [#16 sell 0.1 GBPAUD.s at 1.91334]
+2026.07.24 11:25:13.672	2026.06.25 17:00:00   CTrade::OrderSend: market sell 0.10 GBPAUD.s [done at 1.91334]
+2026.07.24 11:25:13.672	2026.06.25 17:00:00   [TRTM][INFO ] Recovery L10 OPENED: 0.10 lots SELL @ 1.91334 (deal 16)
+2026.07.24 11:25:13.672	2026.06.25 17:00:00   [TRTM][INFO ] Recovery L10 registered: ticket 16
+2026.07.24 11:25:13.672	2026.06.25 17:00:00   [TRTM][INFO ] Structure: 9 level(s), 0.54 lots | projected at TP +74.30 | at SL -1261.05
+2026.07.24 11:25:13.672	2026.06.25 17:00:00   position modified [#3 sell 0.02 GBPAUD.s 1.88874 sl: 1.93874 tp: 1.90286]
+2026.07.24 11:25:13.674	2026.06.25 17:00:00   CTrade::OrderSend: modify position #3 GBPAUD.s (sl: 1.93874, tp: 1.90286) [done]
+2026.07.24 11:25:13.674	2026.06.25 17:00:00   [TRTM][INFO ] Exits applied to ticket 3: TP 1.90286 SL 1.93874
+2026.07.24 11:25:13.674	2026.06.25 17:00:00   position modified [#4 sell 0.03 GBPAUD.s 1.89257 sl: 1.93874 tp: 1.90286]
+2026.07.24 11:25:13.676	2026.06.25 17:00:00   CTrade::OrderSend: modify position #4 GBPAUD.s (sl: 1.93874, tp: 1.90286) [done]
+2026.07.24 11:25:13.676	2026.06.25 17:00:00   [TRTM][INFO ] Exits applied to ticket 4: TP 1.90286 SL 1.93874
+2026.07.24 11:25:13.676	2026.06.25 17:00:00   position modified [#5 sell 0.04 GBPAUD.s 1.89536 sl: 1.93874 tp: 1.90286]
+2026.07.24 11:25:13.678	2026.06.25 17:00:00   CTrade::OrderSend: modify position #5 GBPAUD.s (sl: 1.93874, tp: 1.90286) [done]
+2026.07.24 11:25:13.678	2026.06.25 17:00:00   [TRTM][INFO ] Exits applied to ticket 5: TP 1.90286 SL 1.93874
+2026.07.24 11:25:13.678	2026.06.25 17:00:00   position modified [#6 sell 0.05 GBPAUD.s 1.89833 sl: 1.93874 tp: 1.90286]
+2026.07.24 11:25:13.680	2026.06.25 17:00:00   CTrade::OrderSend: modify position #6 GBPAUD.s (sl: 1.93874, tp: 1.90286) [done]
+2026.07.24 11:25:13.680	2026.06.25 17:00:00   [TRTM][INFO ] Exits applied to ticket 6: TP 1.90286 SL 1.93874
+2026.07.24 11:25:13.680	2026.06.25 17:00:00   position modified [#7 sell 0.06 GBPAUD.s 1.90153 sl: 1.93874 tp: 1.90286]
+2026.07.24 11:25:13.682	2026.06.25 17:00:00   CTrade::OrderSend: modify position #7 GBPAUD.s (sl: 1.93874, tp: 1.90286) [done]
+2026.07.24 11:25:13.682	2026.06.25 17:00:00   [TRTM][INFO ] Exits applied to ticket 7: TP 1.90286 SL 1.93874
+2026.07.24 11:25:13.682	2026.06.25 17:00:00   position modified [#8 sell 0.07 GBPAUD.s 1.90515 sl: 1.93874 tp: 1.90286]
+2026.07.24 11:25:13.684	2026.06.25 17:00:00   CTrade::OrderSend: modify position #8 GBPAUD.s (sl: 1.93874, tp: 1.90286) [done]
+2026.07.24 11:25:13.684	2026.06.25 17:00:00   [TRTM][INFO ] Exits applied to ticket 8: TP 1.90286 SL 1.93874
+2026.07.24 11:25:13.684	2026.06.25 17:00:00   position modified [#9 sell 0.08 GBPAUD.s 1.90774 sl: 1.93874 tp: 1.90286]
+2026.07.24 11:25:13.686	2026.06.25 17:00:00   CTrade::OrderSend: modify position #9 GBPAUD.s (sl: 1.93874, tp: 1.90286) [done]
+2026.07.24 11:25:13.686	2026.06.25 17:00:00   [TRTM][INFO ] Exits applied to ticket 9: TP 1.90286 SL 1.93874
+2026.07.24 11:25:13.686	2026.06.25 17:00:00   position modified [#15 sell 0.09 GBPAUD.s 1.91038 sl: 1.93874 tp: 1.90286]
+2026.07.24 11:25:13.688	2026.06.25 17:00:00   CTrade::OrderSend: modify position #15 GBPAUD.s (sl: 1.93874, tp: 1.90286) [done]
+2026.07.24 11:25:13.688	2026.06.25 17:00:00   [TRTM][INFO ] Exits applied to ticket 15: TP 1.90286 SL 1.93874
+2026.07.24 11:25:13.688	2026.06.25 17:00:00   position modified [#16 sell 0.1 GBPAUD.s 1.91334 sl: 1.93874 tp: 1.90286]
+2026.07.24 11:25:13.690	2026.06.25 17:00:00   CTrade::OrderSend: modify position #16 GBPAUD.s (sl: 1.93874, tp: 1.90286) [done]
+2026.07.24 11:25:13.690	2026.06.25 17:00:00   [TRTM][INFO ] Exits applied to ticket 16: TP 1.90286 SL 1.93874
+2026.07.24 11:25:23.106	2026.06.25 19:18:28   [TRTM][INFO ] Tier 1 FIRE: SELL group 3 leg(s) (anchor L2 + 2 profitable) | VWAP 1.90973 far 1.90819 margin 153.9 pts >= 150/lot
+2026.07.24 11:25:23.106	2026.06.25 19:18:28   market buy 0.1 GBPAUD.s, close #16 (1.90779 / 1.90819)
+2026.07.24 11:25:23.106	2026.06.25 19:18:28   deal #17 buy 0.1 GBPAUD.s at 1.90819 done (based on order #17)
+2026.07.24 11:25:23.106	2026.06.25 19:18:28   deal performed [#17 buy 0.1 GBPAUD.s at 1.90819]
+2026.07.24 11:25:23.106	2026.06.25 19:18:28   order performed buy 0.1 at 1.90819 [#17 buy 0.1 GBPAUD.s at 1.90819]
+2026.07.24 11:25:23.108	2026.06.25 19:18:28   CTrade::OrderSend: market buy 0.10 position #16 GBPAUD.s [done at 1.90819]
+2026.07.24 11:25:23.108	2026.06.25 19:18:28   [TRTM][INFO ] Closed L10 ticket 16 @ 1.90819
+2026.07.24 11:25:23.108	2026.06.25 19:18:28   market buy 0.09 GBPAUD.s, close #15 (1.90779 / 1.90819)
+2026.07.24 11:25:23.108	2026.06.25 19:18:28   deal #18 buy 0.09 GBPAUD.s at 1.90819 done (based on order #18)
+2026.07.24 11:25:23.108	2026.06.25 19:18:28   deal performed [#18 buy 0.09 GBPAUD.s at 1.90819]
+2026.07.24 11:25:23.108	2026.06.25 19:18:28   order performed buy 0.09 at 1.90819 [#18 buy 0.09 GBPAUD.s at 1.90819]
+2026.07.24 11:25:23.110	2026.06.25 19:18:28   CTrade::OrderSend: market buy 0.09 position #15 GBPAUD.s [done at 1.90819]
+2026.07.24 11:25:23.110	2026.06.25 19:18:28   [TRTM][INFO ] Closed L9 ticket 15 @ 1.90819
+2026.07.24 11:25:23.110	2026.06.25 19:18:28   market buy 0.02 GBPAUD.s, close #3 (1.90779 / 1.90819)
+2026.07.24 11:25:23.110	2026.06.25 19:18:28   deal #19 buy 0.02 GBPAUD.s at 1.90819 done (based on order #19)
+2026.07.24 11:25:23.110	2026.06.25 19:18:28   deal performed [#19 buy 0.02 GBPAUD.s at 1.90819]
+2026.07.24 11:25:23.110	2026.06.25 19:18:28   order performed buy 0.02 at 1.90819 [#19 buy 0.02 GBPAUD.s at 1.90819]
+2026.07.24 11:25:23.112	2026.06.25 19:18:28   CTrade::OrderSend: market buy 0.02 position #3 GBPAUD.s [done at 1.90819]
+2026.07.24 11:25:23.112	2026.06.25 19:18:28   [TRTM][INFO ] Closed L2 ticket 3 @ 1.90819
+2026.07.24 11:25:23.112	2026.06.25 19:18:28   [TRTM][INFO ] Liveness: L10 ticket 16 closed by EA (market close) - removed from sequence
+2026.07.24 11:25:23.112	2026.06.25 19:18:28   [TRTM][INFO ] Liveness: L9 ticket 15 closed by EA (market close) - removed from sequence
+2026.07.24 11:25:23.112	2026.06.25 19:18:28   [TRTM][INFO ] Liveness: L2 ticket 3 closed by EA (market close) - removed from sequence
+2026.07.24 11:25:23.112	2026.06.25 19:18:28   [TRTM][INFO ] Structure: 6 level(s), 0.33 lots | projected at TP +45.62 | at SL -932.86
+2026.07.24 11:25:23.112	2026.06.25 19:18:28   [TRTM][INFO ] SL re-anchored: L2 -> L3 (widened to 1.94257 per locked rule - boundaries move with the structure)
+2026.07.24 11:25:23.112	2026.06.25 19:18:28   position modified [#4 sell 0.03 GBPAUD.s 1.89257 sl: 1.94257 tp: 1.89976]
+2026.07.24 11:25:23.114	2026.06.25 19:18:28   CTrade::OrderSend: modify position #4 GBPAUD.s (sl: 1.94257, tp: 1.89976) [done]
+2026.07.24 11:25:23.114	2026.06.25 19:18:28   [TRTM][INFO ] Exits applied to ticket 4: TP 1.89976 SL 1.94257
+2026.07.24 11:25:23.114	2026.06.25 19:18:28   position modified [#5 sell 0.04 GBPAUD.s 1.89536 sl: 1.94257 tp: 1.89976]
+2026.07.24 11:25:23.116	2026.06.25 19:18:28   CTrade::OrderSend: modify position #5 GBPAUD.s (sl: 1.94257, tp: 1.89976) [done]
+2026.07.24 11:25:23.116	2026.06.25 19:18:28   [TRTM][INFO ] Exits applied to ticket 5: TP 1.89976 SL 1.94257
+2026.07.24 11:25:23.116	2026.06.25 19:18:28   position modified [#6 sell 0.05 GBPAUD.s 1.89833 sl: 1.94257 tp: 1.89976]
+2026.07.24 11:25:23.118	2026.06.25 19:18:28   CTrade::OrderSend: modify position #6 GBPAUD.s (sl: 1.94257, tp: 1.89976) [done]
+2026.07.24 11:25:23.118	2026.06.25 19:18:28   [TRTM][INFO ] Exits applied to ticket 6: TP 1.89976 SL 1.94257
+2026.07.24 11:25:23.118	2026.06.25 19:18:28   position modified [#7 sell 0.06 GBPAUD.s 1.90153 sl: 1.94257 tp: 1.89976]
+2026.07.24 11:25:23.120	2026.06.25 19:18:28   CTrade::OrderSend: modify position #7 GBPAUD.s (sl: 1.94257, tp: 1.89976) [done]
+2026.07.24 11:25:23.120	2026.06.25 19:18:28   [TRTM][INFO ] Exits applied to ticket 7: TP 1.89976 SL 1.94257
+2026.07.24 11:25:23.120	2026.06.25 19:18:28   position modified [#8 sell 0.07 GBPAUD.s 1.90515 sl: 1.94257 tp: 1.89976]
+2026.07.24 11:25:23.122	2026.06.25 19:18:28   CTrade::OrderSend: modify position #8 GBPAUD.s (sl: 1.94257, tp: 1.89976) [done]
+2026.07.24 11:25:23.122	2026.06.25 19:18:28   [TRTM][INFO ] Exits applied to ticket 8: TP 1.89976 SL 1.94257
+2026.07.24 11:25:23.122	2026.06.25 19:18:28   position modified [#9 sell 0.08 GBPAUD.s 1.90774 sl: 1.94257 tp: 1.89976]
+2026.07.24 11:25:23.124	2026.06.25 19:18:28   CTrade::OrderSend: modify position #9 GBPAUD.s (sl: 1.94257, tp: 1.89976) [done]
+2026.07.24 11:25:23.124	2026.06.25 19:18:28   [TRTM][INFO ] Exits applied to ticket 9: TP 1.89976 SL 1.94257
+2026.07.24 11:25:47.507	2026.06.26 03:00:00   [TRTM][INFO ] Recovery signal: PERIOD_M15 bar closed 1.91094 vs trigger 1.91024 (worst entry 1.90774 + 250 pts)
+2026.07.24 11:25:47.507	2026.06.26 03:00:00   market sell 0.09 GBPAUD.s (1.91090 / 1.91134)
+2026.07.24 11:25:47.507	2026.06.26 03:00:00   deal #20 sell 0.09 GBPAUD.s at 1.91090 done (based on order #20)
+2026.07.24 11:25:47.507	2026.06.26 03:00:00   deal performed [#20 sell 0.09 GBPAUD.s at 1.91090]
+2026.07.24 11:25:47.507	2026.06.26 03:00:00   order performed sell 0.09 at 1.91090 [#20 sell 0.09 GBPAUD.s at 1.91090]
+2026.07.24 11:25:47.509	2026.06.26 03:00:00   CTrade::OrderSend: market sell 0.09 GBPAUD.s [done at 1.91090]
+2026.07.24 11:25:47.509	2026.06.26 03:00:00   [TRTM][INFO ] Recovery L9 OPENED: 0.09 lots SELL @ 1.91090 (deal 20)
+2026.07.24 11:25:47.509	2026.06.26 03:00:00   [TRTM][INFO ] Recovery L9 registered: ticket 20
+2026.07.24 11:25:47.509	2026.06.26 03:00:00   [TRTM][INFO ] Structure: 7 level(s), 0.42 lots | projected at TP +57.83 | at SL -1125.97
+2026.07.24 11:25:47.510	2026.06.26 03:00:00   position modified [#4 sell 0.03 GBPAUD.s 1.89257 sl: 1.94257 tp: 1.90172]
+2026.07.24 11:25:47.512	2026.06.26 03:00:00   CTrade::OrderSend: modify position #4 GBPAUD.s (sl: 1.94257, tp: 1.90172) [done]
+2026.07.24 11:25:47.512	2026.06.26 03:00:00   [TRTM][INFO ] Exits applied to ticket 4: TP 1.90172 SL 1.94257
+2026.07.24 11:25:47.512	2026.06.26 03:00:00   position modified [#5 sell 0.04 GBPAUD.s 1.89536 sl: 1.94257 tp: 1.90172]
+2026.07.24 11:25:47.514	2026.06.26 03:00:00   CTrade::OrderSend: modify position #5 GBPAUD.s (sl: 1.94257, tp: 1.90172) [done]
+2026.07.24 11:25:47.514	2026.06.26 03:00:00   [TRTM][INFO ] Exits applied to ticket 5: TP 1.90172 SL 1.94257
+2026.07.24 11:25:47.514	2026.06.26 03:00:00   position modified [#6 sell 0.05 GBPAUD.s 1.89833 sl: 1.94257 tp: 1.90172]
+2026.07.24 11:25:47.516	2026.06.26 03:00:00   CTrade::OrderSend: modify position #6 GBPAUD.s (sl: 1.94257, tp: 1.90172) [done]
+2026.07.24 11:25:47.516	2026.06.26 03:00:00   [TRTM][INFO ] Exits applied to ticket 6: TP 1.90172 SL 1.94257
+2026.07.24 11:25:47.516	2026.06.26 03:00:00   position modified [#7 sell 0.06 GBPAUD.s 1.90153 sl: 1.94257 tp: 1.90172]
+2026.07.24 11:25:47.518	2026.06.26 03:00:00   CTrade::OrderSend: modify position #7 GBPAUD.s (sl: 1.94257, tp: 1.90172) [done]
+2026.07.24 11:25:47.518	2026.06.26 03:00:00   [TRTM][INFO ] Exits applied to ticket 7: TP 1.90172 SL 1.94257
+2026.07.24 11:25:47.518	2026.06.26 03:00:00   position modified [#8 sell 0.07 GBPAUD.s 1.90515 sl: 1.94257 tp: 1.90172]
+2026.07.24 11:25:47.521	2026.06.26 03:00:00   CTrade::OrderSend: modify position #8 GBPAUD.s (sl: 1.94257, tp: 1.90172) [done]
+2026.07.24 11:25:47.521	2026.06.26 03:00:00   [TRTM][INFO ] Exits applied to ticket 8: TP 1.90172 SL 1.94257
+2026.07.24 11:25:47.521	2026.06.26 03:00:00   position modified [#9 sell 0.08 GBPAUD.s 1.90774 sl: 1.94257 tp: 1.90172]
+2026.07.24 11:25:47.523	2026.06.26 03:00:00   CTrade::OrderSend: modify position #9 GBPAUD.s (sl: 1.94257, tp: 1.90172) [done]
+2026.07.24 11:25:47.523	2026.06.26 03:00:00   [TRTM][INFO ] Exits applied to ticket 9: TP 1.90172 SL 1.94257
+2026.07.24 11:25:47.523	2026.06.26 03:00:00   position modified [#20 sell 0.09 GBPAUD.s 1.91090 sl: 1.94257 tp: 1.90172]
+2026.07.24 11:25:47.525	2026.06.26 03:00:00   CTrade::OrderSend: modify position #20 GBPAUD.s (sl: 1.94257, tp: 1.90172) [done]
+2026.07.24 11:25:47.525	2026.06.26 03:00:00   [TRTM][INFO ] Exits applied to ticket 20: TP 1.90172 SL 1.94257
+2026.07.24 11:25:53.476	2026.06.26 04:45:00   [TRTM][INFO ] Recovery signal: PERIOD_M15 bar closed 1.91381 vs trigger 1.91340 (worst entry 1.91090 + 250 pts)
+2026.07.24 11:25:53.476	2026.06.26 04:45:00   market sell 0.1 GBPAUD.s (1.91382 / 1.91413)
+2026.07.24 11:25:53.476	2026.06.26 04:45:00   deal #21 sell 0.1 GBPAUD.s at 1.91382 done (based on order #21)
+2026.07.24 11:25:53.476	2026.06.26 04:45:00   deal performed [#21 sell 0.1 GBPAUD.s at 1.91382]
+2026.07.24 11:25:53.476	2026.06.26 04:45:00   order performed sell 0.1 at 1.91382 [#21 sell 0.1 GBPAUD.s at 1.91382]
+2026.07.24 11:25:53.478	2026.06.26 04:45:00   CTrade::OrderSend: market sell 0.10 GBPAUD.s [done at 1.91382]
+2026.07.24 11:25:53.478	2026.06.26 04:45:00   [TRTM][INFO ] Recovery L10 OPENED: 0.10 lots SELL @ 1.91382 (deal 21)
+2026.07.24 11:25:53.478	2026.06.26 04:45:00   [TRTM][INFO ] Recovery L10 registered: ticket 21
+2026.07.24 11:25:53.478	2026.06.26 04:45:00   [TRTM][INFO ] Structure: 8 level(s), 0.52 lots | projected at TP +71.62 | at SL -1322.59
+2026.07.24 11:25:53.478	2026.06.26 04:45:00   position modified [#4 sell 0.03 GBPAUD.s 1.89257 sl: 1.94257 tp: 1.90366]
+2026.07.24 11:25:53.480	2026.06.26 04:45:00   CTrade::OrderSend: modify position #4 GBPAUD.s (sl: 1.94257, tp: 1.90366) [done]
+2026.07.24 11:25:53.480	2026.06.26 04:45:00   [TRTM][INFO ] Exits applied to ticket 4: TP 1.90366 SL 1.94257
+2026.07.24 11:25:53.480	2026.06.26 04:45:00   position modified [#5 sell 0.04 GBPAUD.s 1.89536 sl: 1.94257 tp: 1.90366]
+2026.07.24 11:25:53.481	2026.06.26 04:45:00   CTrade::OrderSend: modify position #5 GBPAUD.s (sl: 1.94257, tp: 1.90366) [done]
+2026.07.24 11:25:53.481	2026.06.26 04:45:00   [TRTM][INFO ] Exits applied to ticket 5: TP 1.90366 SL 1.94257
+2026.07.24 11:25:53.481	2026.06.26 04:45:00   position modified [#6 sell 0.05 GBPAUD.s 1.89833 sl: 1.94257 tp: 1.90366]
+2026.07.24 11:25:53.483	2026.06.26 04:45:00   CTrade::OrderSend: modify position #6 GBPAUD.s (sl: 1.94257, tp: 1.90366) [done]
+2026.07.24 11:25:53.483	2026.06.26 04:45:00   [TRTM][INFO ] Exits applied to ticket 6: TP 1.90366 SL 1.94257
+2026.07.24 11:25:53.483	2026.06.26 04:45:00   position modified [#7 sell 0.06 GBPAUD.s 1.90153 sl: 1.94257 tp: 1.90366]
+2026.07.24 11:25:53.485	2026.06.26 04:45:00   CTrade::OrderSend: modify position #7 GBPAUD.s (sl: 1.94257, tp: 1.90366) [done]
+2026.07.24 11:25:53.485	2026.06.26 04:45:00   [TRTM][INFO ] Exits applied to ticket 7: TP 1.90366 SL 1.94257
+2026.07.24 11:25:53.485	2026.06.26 04:45:00   position modified [#8 sell 0.07 GBPAUD.s 1.90515 sl: 1.94257 tp: 1.90366]
+2026.07.24 11:25:53.487	2026.06.26 04:45:00   CTrade::OrderSend: modify position #8 GBPAUD.s (sl: 1.94257, tp: 1.90366) [done]
+2026.07.24 11:25:53.487	2026.06.26 04:45:00   [TRTM][INFO ] Exits applied to ticket 8: TP 1.90366 SL 1.94257
+2026.07.24 11:25:53.487	2026.06.26 04:45:00   position modified [#9 sell 0.08 GBPAUD.s 1.90774 sl: 1.94257 tp: 1.90366]
+2026.07.24 11:25:53.489	2026.06.26 04:45:00   CTrade::OrderSend: modify position #9 GBPAUD.s (sl: 1.94257, tp: 1.90366) [done]
+2026.07.24 11:25:53.489	2026.06.26 04:45:00   [TRTM][INFO ] Exits applied to ticket 9: TP 1.90366 SL 1.94257
+2026.07.24 11:25:53.489	2026.06.26 04:45:00   position modified [#20 sell 0.09 GBPAUD.s 1.91090 sl: 1.94257 tp: 1.90366]
+2026.07.24 11:25:53.491	2026.06.26 04:45:00   CTrade::OrderSend: modify position #20 GBPAUD.s (sl: 1.94257, tp: 1.90366) [done]
+2026.07.24 11:25:53.491	2026.06.26 04:45:00   [TRTM][INFO ] Exits applied to ticket 20: TP 1.90366 SL 1.94257
+2026.07.24 11:25:53.491	2026.06.26 04:45:00   position modified [#21 sell 0.1 GBPAUD.s 1.91382 sl: 1.94257 tp: 1.90366]
+2026.07.24 11:25:53.493	2026.06.26 04:45:00   CTrade::OrderSend: modify position #21 GBPAUD.s (sl: 1.94257, tp: 1.90366) [done]
+2026.07.24 11:25:53.493	2026.06.26 04:45:00   [TRTM][INFO ] Exits applied to ticket 21: TP 1.90366 SL 1.94257
+2026.07.24 11:25:55.696	2026.06.26 05:30:00   [TRTM][INFO ] Recovery signal: PERIOD_M15 bar closed 1.91656 vs trigger 1.91632 (worst entry 1.91382 + 250 pts)
+2026.07.24 11:25:55.696	2026.06.26 05:30:00   market sell 0.11 GBPAUD.s (1.91657 / 1.91688)
+2026.07.24 11:25:55.696	2026.06.26 05:30:00   deal #22 sell 0.11 GBPAUD.s at 1.91657 done (based on order #22)
+2026.07.24 11:25:55.696	2026.06.26 05:30:00   deal performed [#22 sell 0.11 GBPAUD.s at 1.91657]
+2026.07.24 11:25:55.696	2026.06.26 05:30:00   order performed sell 0.11 at 1.91657 [#22 sell 0.11 GBPAUD.s at 1.91657]
+2026.07.24 11:25:55.698	2026.06.26 05:30:00   CTrade::OrderSend: market sell 0.11 GBPAUD.s [done at 1.91657]
+2026.07.24 11:25:55.698	2026.06.26 05:30:00   [TRTM][INFO ] Recovery L11 OPENED: 0.11 lots SELL @ 1.91657 (deal 22)
+2026.07.24 11:25:55.698	2026.06.26 05:30:00   [TRTM][INFO ] Recovery L11 registered: ticket 22
+2026.07.24 11:25:55.698	2026.06.26 05:30:00   [TRTM][INFO ] Structure: 9 level(s), 0.63 lots | projected at TP +86.82 | at SL -1516.67
+2026.07.24 11:25:55.698	2026.06.26 05:30:00   position modified [#4 sell 0.03 GBPAUD.s 1.89257 sl: 1.94257 tp: 1.90556]
+2026.07.24 11:25:55.701	2026.06.26 05:30:00   CTrade::OrderSend: modify position #4 GBPAUD.s (sl: 1.94257, tp: 1.90556) [done]
+2026.07.24 11:25:55.701	2026.06.26 05:30:00   [TRTM][INFO ] Exits applied to ticket 4: TP 1.90556 SL 1.94257
+2026.07.24 11:25:55.701	2026.06.26 05:30:00   position modified [#5 sell 0.04 GBPAUD.s 1.89536 sl: 1.94257 tp: 1.90556]
+2026.07.24 11:25:55.703	2026.06.26 05:30:00   CTrade::OrderSend: modify position #5 GBPAUD.s (sl: 1.94257, tp: 1.90556) [done]
+2026.07.24 11:25:55.703	2026.06.26 05:30:00   [TRTM][INFO ] Exits applied to ticket 5: TP 1.90556 SL 1.94257
+2026.07.24 11:25:55.703	2026.06.26 05:30:00   position modified [#6 sell 0.05 GBPAUD.s 1.89833 sl: 1.94257 tp: 1.90556]
+2026.07.24 11:25:55.705	2026.06.26 05:30:00   CTrade::OrderSend: modify position #6 GBPAUD.s (sl: 1.94257, tp: 1.90556) [done]
+2026.07.24 11:25:55.705	2026.06.26 05:30:00   [TRTM][INFO ] Exits applied to ticket 6: TP 1.90556 SL 1.94257
+2026.07.24 11:25:55.705	2026.06.26 05:30:00   position modified [#7 sell 0.06 GBPAUD.s 1.90153 sl: 1.94257 tp: 1.90556]
+2026.07.24 11:25:55.707	2026.06.26 05:30:00   CTrade::OrderSend: modify position #7 GBPAUD.s (sl: 1.94257, tp: 1.90556) [done]
+2026.07.24 11:25:55.707	2026.06.26 05:30:00   [TRTM][INFO ] Exits applied to ticket 7: TP 1.90556 SL 1.94257
+2026.07.24 11:25:55.707	2026.06.26 05:30:00   position modified [#8 sell 0.07 GBPAUD.s 1.90515 sl: 1.94257 tp: 1.90556]
+2026.07.24 11:25:55.709	2026.06.26 05:30:00   CTrade::OrderSend: modify position #8 GBPAUD.s (sl: 1.94257, tp: 1.90556) [done]
+2026.07.24 11:25:55.709	2026.06.26 05:30:00   [TRTM][INFO ] Exits applied to ticket 8: TP 1.90556 SL 1.94257
+2026.07.24 11:25:55.709	2026.06.26 05:30:00   position modified [#9 sell 0.08 GBPAUD.s 1.90774 sl: 1.94257 tp: 1.90556]
+2026.07.24 11:25:55.710	2026.06.26 05:30:00   CTrade::OrderSend: modify position #9 GBPAUD.s (sl: 1.94257, tp: 1.90556) [done]
+2026.07.24 11:25:55.710	2026.06.26 05:30:00   [TRTM][INFO ] Exits applied to ticket 9: TP 1.90556 SL 1.94257
+2026.07.24 11:25:55.710	2026.06.26 05:30:00   position modified [#20 sell 0.09 GBPAUD.s 1.91090 sl: 1.94257 tp: 1.90556]
+2026.07.24 11:25:55.712	2026.06.26 05:30:00   CTrade::OrderSend: modify position #20 GBPAUD.s (sl: 1.94257, tp: 1.90556) [done]
+2026.07.24 11:25:55.712	2026.06.26 05:30:00   [TRTM][INFO ] Exits applied to ticket 20: TP 1.90556 SL 1.94257
+2026.07.24 11:25:55.712	2026.06.26 05:30:00   position modified [#21 sell 0.1 GBPAUD.s 1.91382 sl: 1.94257 tp: 1.90556]
+2026.07.24 11:25:55.714	2026.06.26 05:30:00   CTrade::OrderSend: modify position #21 GBPAUD.s (sl: 1.94257, tp: 1.90556) [done]
+2026.07.24 11:25:55.714	2026.06.26 05:30:00   [TRTM][INFO ] Exits applied to ticket 21: TP 1.90556 SL 1.94257
+2026.07.24 11:25:55.714	2026.06.26 05:30:00   position modified [#22 sell 0.11 GBPAUD.s 1.91657 sl: 1.94257 tp: 1.90556]
+2026.07.24 11:25:55.716	2026.06.26 05:30:00   CTrade::OrderSend: modify position #22 GBPAUD.s (sl: 1.94257, tp: 1.90556) [done]
+2026.07.24 11:25:55.716	2026.06.26 05:30:00   [TRTM][INFO ] Exits applied to ticket 22: TP 1.90556 SL 1.94257
+2026.07.24 11:31:05.743	2026.06.29 16:15:00   [TRTM][INFO ] Recovery signal: PERIOD_M15 bar closed 1.91953 vs trigger 1.91907 (worst entry 1.91657 + 250 pts)
+2026.07.24 11:31:05.744	2026.06.29 16:15:00   market sell 0.12 GBPAUD.s (1.91951 / 1.91982)
+2026.07.24 11:31:05.744	2026.06.29 16:15:00   deal #23 sell 0.12 GBPAUD.s at 1.91951 done (based on order #23)
+2026.07.24 11:31:05.744	2026.06.29 16:15:00   deal performed [#23 sell 0.12 GBPAUD.s at 1.91951]
+2026.07.24 11:31:05.744	2026.06.29 16:15:00   order performed sell 0.12 at 1.91951 [#23 sell 0.12 GBPAUD.s at 1.91951]
+2026.07.24 11:31:05.746	2026.06.29 16:15:00   CTrade::OrderSend: market sell 0.12 GBPAUD.s [done at 1.91951]
+2026.07.24 11:31:05.746	2026.06.29 16:15:00   [TRTM][INFO ] Recovery L12 OPENED: 0.12 lots SELL @ 1.91951 (deal 23)
+2026.07.24 11:31:05.746	2026.06.29 16:15:00   [TRTM][INFO ] Recovery L12 registered: ticket 23
+2026.07.24 11:31:05.746	2026.06.29 16:15:00   [TRTM][INFO ] Structure: 10 level(s), 0.75 lots | projected at TP +103.18 | at SL -1711.39
+2026.07.24 11:31:05.746	2026.06.29 16:15:00   position modified [#4 sell 0.03 GBPAUD.s 1.89257 sl: 1.94257 tp: 1.90748]
+2026.07.24 11:31:05.748	2026.06.29 16:15:00   CTrade::OrderSend: modify position #4 GBPAUD.s (sl: 1.94257, tp: 1.90748) [done]
+2026.07.24 11:31:05.748	2026.06.29 16:15:00   [TRTM][INFO ] Exits applied to ticket 4: TP 1.90748 SL 1.94257
+2026.07.24 11:31:05.748	2026.06.29 16:15:00   position modified [#5 sell 0.04 GBPAUD.s 1.89536 sl: 1.94257 tp: 1.90748]
+2026.07.24 11:31:05.750	2026.06.29 16:15:00   CTrade::OrderSend: modify position #5 GBPAUD.s (sl: 1.94257, tp: 1.90748) [done]
+2026.07.24 11:31:05.750	2026.06.29 16:15:00   [TRTM][INFO ] Exits applied to ticket 5: TP 1.90748 SL 1.94257
+2026.07.24 11:31:05.750	2026.06.29 16:15:00   position modified [#6 sell 0.05 GBPAUD.s 1.89833 sl: 1.94257 tp: 1.90748]
+2026.07.24 11:31:05.752	2026.06.29 16:15:00   CTrade::OrderSend: modify position #6 GBPAUD.s (sl: 1.94257, tp: 1.90748) [done]
+2026.07.24 11:31:05.752	2026.06.29 16:15:00   [TRTM][INFO ] Exits applied to ticket 6: TP 1.90748 SL 1.94257
+2026.07.24 11:31:05.752	2026.06.29 16:15:00   position modified [#7 sell 0.06 GBPAUD.s 1.90153 sl: 1.94257 tp: 1.90748]
+2026.07.24 11:31:05.755	2026.06.29 16:15:00   CTrade::OrderSend: modify position #7 GBPAUD.s (sl: 1.94257, tp: 1.90748) [done]
+2026.07.24 11:31:05.755	2026.06.29 16:15:00   [TRTM][INFO ] Exits applied to ticket 7: TP 1.90748 SL 1.94257
+2026.07.24 11:31:05.755	2026.06.29 16:15:00   position modified [#8 sell 0.07 GBPAUD.s 1.90515 sl: 1.94257 tp: 1.90748]
+2026.07.24 11:31:05.757	2026.06.29 16:15:00   CTrade::OrderSend: modify position #8 GBPAUD.s (sl: 1.94257, tp: 1.90748) [done]
+2026.07.24 11:31:05.757	2026.06.29 16:15:00   [TRTM][INFO ] Exits applied to ticket 8: TP 1.90748 SL 1.94257
+2026.07.24 11:31:05.757	2026.06.29 16:15:00   position modified [#9 sell 0.08 GBPAUD.s 1.90774 sl: 1.94257 tp: 1.90748]
+2026.07.24 11:31:05.759	2026.06.29 16:15:00   CTrade::OrderSend: modify position #9 GBPAUD.s (sl: 1.94257, tp: 1.90748) [done]
+2026.07.24 11:31:05.759	2026.06.29 16:15:00   [TRTM][INFO ] Exits applied to ticket 9: TP 1.90748 SL 1.94257
+2026.07.24 11:31:05.759	2026.06.29 16:15:00   position modified [#20 sell 0.09 GBPAUD.s 1.91090 sl: 1.94257 tp: 1.90748]
+2026.07.24 11:31:05.761	2026.06.29 16:15:00   CTrade::OrderSend: modify position #20 GBPAUD.s (sl: 1.94257, tp: 1.90748) [done]
+2026.07.24 11:31:05.761	2026.06.29 16:15:00   [TRTM][INFO ] Exits applied to ticket 20: TP 1.90748 SL 1.94257
+2026.07.24 11:31:05.761	2026.06.29 16:15:00   position modified [#21 sell 0.1 GBPAUD.s 1.91382 sl: 1.94257 tp: 1.90748]
+2026.07.24 11:31:05.763	2026.06.29 16:15:00   CTrade::OrderSend: modify position #21 GBPAUD.s (sl: 1.94257, tp: 1.90748) [done]
+2026.07.24 11:31:05.763	2026.06.29 16:15:00   [TRTM][INFO ] Exits applied to ticket 21: TP 1.90748 SL 1.94257
+2026.07.24 11:31:05.763	2026.06.29 16:15:00   position modified [#22 sell 0.11 GBPAUD.s 1.91657 sl: 1.94257 tp: 1.90748]
+2026.07.24 11:31:05.765	2026.06.29 16:15:00   CTrade::OrderSend: modify position #22 GBPAUD.s (sl: 1.94257, tp: 1.90748) [done]
+2026.07.24 11:31:05.765	2026.06.29 16:15:00   [TRTM][INFO ] Exits applied to ticket 22: TP 1.90748 SL 1.94257
+2026.07.24 11:31:05.765	2026.06.29 16:15:00   position modified [#23 sell 0.12 GBPAUD.s 1.91951 sl: 1.94257 tp: 1.90748]
+2026.07.24 11:31:05.767	2026.06.29 16:15:00   CTrade::OrderSend: modify position #23 GBPAUD.s (sl: 1.94257, tp: 1.90748) [done]
+2026.07.24 11:31:05.767	2026.06.29 16:15:00   [TRTM][INFO ] Exits applied to ticket 23: TP 1.90748 SL 1.94257
+2026.07.24 11:31:08.479	2026.06.29 17:15:00   [TRTM][INFO ] Recovery signal: PERIOD_M15 bar closed 1.92332 vs trigger 1.92201 (worst entry 1.91951 + 250 pts)
+2026.07.24 11:31:08.479	2026.06.29 17:15:00   market sell 0.13 GBPAUD.s (1.92333 / 1.92368)
+2026.07.24 11:31:08.479	2026.06.29 17:15:00   deal #24 sell 0.13 GBPAUD.s at 1.92333 done (based on order #24)
+2026.07.24 11:31:08.479	2026.06.29 17:15:00   deal performed [#24 sell 0.13 GBPAUD.s at 1.92333]
+2026.07.24 11:31:08.479	2026.06.29 17:15:00   order performed sell 0.13 at 1.92333 [#24 sell 0.13 GBPAUD.s at 1.92333]
+2026.07.24 11:31:08.481	2026.06.29 17:15:00   CTrade::OrderSend: market sell 0.13 GBPAUD.s [done at 1.92333]
+2026.07.24 11:31:08.481	2026.06.29 17:15:00   [TRTM][INFO ] Recovery L13 OPENED: 0.13 lots SELL @ 1.92333 (deal 24)
+2026.07.24 11:31:08.481	2026.06.29 17:15:00   [TRTM][INFO ] Recovery L13 registered: ticket 24
+2026.07.24 11:31:08.481	2026.06.29 17:15:00   [TRTM][INFO ] Structure: 11 level(s), 0.88 lots | projected at TP +121.19 | at SL -1879.61
+2026.07.24 11:31:08.481	2026.06.29 17:15:00   position modified [#4 sell 0.03 GBPAUD.s 1.89257 sl: 1.94257 tp: 1.90952]
+2026.07.24 11:31:08.483	2026.06.29 17:15:00   CTrade::OrderSend: modify position #4 GBPAUD.s (sl: 1.94257, tp: 1.90952) [done]
+2026.07.24 11:31:08.483	2026.06.29 17:15:00   [TRTM][INFO ] Exits applied to ticket 4: TP 1.90952 SL 1.94257
+2026.07.24 11:31:08.483	2026.06.29 17:15:00   position modified [#5 sell 0.04 GBPAUD.s 1.89536 sl: 1.94257 tp: 1.90952]
+2026.07.24 11:31:08.485	2026.06.29 17:15:00   CTrade::OrderSend: modify position #5 GBPAUD.s (sl: 1.94257, tp: 1.90952) [done]
+2026.07.24 11:31:08.485	2026.06.29 17:15:00   [TRTM][INFO ] Exits applied to ticket 5: TP 1.90952 SL 1.94257
+2026.07.24 11:31:08.485	2026.06.29 17:15:00   position modified [#6 sell 0.05 GBPAUD.s 1.89833 sl: 1.94257 tp: 1.90952]
+2026.07.24 11:31:08.486	2026.06.29 17:15:00   CTrade::OrderSend: modify position #6 GBPAUD.s (sl: 1.94257, tp: 1.90952) [done]
+2026.07.24 11:31:08.486	2026.06.29 17:15:00   [TRTM][INFO ] Exits applied to ticket 6: TP 1.90952 SL 1.94257
+2026.07.24 11:31:08.486	2026.06.29 17:15:00   position modified [#7 sell 0.06 GBPAUD.s 1.90153 sl: 1.94257 tp: 1.90952]
+2026.07.24 11:31:08.488	2026.06.29 17:15:00   CTrade::OrderSend: modify position #7 GBPAUD.s (sl: 1.94257, tp: 1.90952) [done]
+2026.07.24 11:31:08.488	2026.06.29 17:15:00   [TRTM][INFO ] Exits applied to ticket 7: TP 1.90952 SL 1.94257
+2026.07.24 11:31:08.488	2026.06.29 17:15:00   position modified [#8 sell 0.07 GBPAUD.s 1.90515 sl: 1.94257 tp: 1.90952]
+2026.07.24 11:31:08.490	2026.06.29 17:15:00   CTrade::OrderSend: modify position #8 GBPAUD.s (sl: 1.94257, tp: 1.90952) [done]
+2026.07.24 11:31:08.490	2026.06.29 17:15:00   [TRTM][INFO ] Exits applied to ticket 8: TP 1.90952 SL 1.94257
+2026.07.24 11:31:08.490	2026.06.29 17:15:00   position modified [#9 sell 0.08 GBPAUD.s 1.90774 sl: 1.94257 tp: 1.90952]
+2026.07.24 11:31:08.492	2026.06.29 17:15:00   CTrade::OrderSend: modify position #9 GBPAUD.s (sl: 1.94257, tp: 1.90952) [done]
+2026.07.24 11:31:08.492	2026.06.29 17:15:00   [TRTM][INFO ] Exits applied to ticket 9: TP 1.90952 SL 1.94257
+2026.07.24 11:31:08.492	2026.06.29 17:15:00   position modified [#20 sell 0.09 GBPAUD.s 1.91090 sl: 1.94257 tp: 1.90952]
+2026.07.24 11:31:08.495	2026.06.29 17:15:00   CTrade::OrderSend: modify position #20 GBPAUD.s (sl: 1.94257, tp: 1.90952) [done]
+2026.07.24 11:31:08.495	2026.06.29 17:15:00   [TRTM][INFO ] Exits applied to ticket 20: TP 1.90952 SL 1.94257
+2026.07.24 11:31:08.495	2026.06.29 17:15:00   position modified [#21 sell 0.1 GBPAUD.s 1.91382 sl: 1.94257 tp: 1.90952]
+2026.07.24 11:31:08.497	2026.06.29 17:15:00   CTrade::OrderSend: modify position #21 GBPAUD.s (sl: 1.94257, tp: 1.90952) [done]
+2026.07.24 11:31:08.497	2026.06.29 17:15:00   [TRTM][INFO ] Exits applied to ticket 21: TP 1.90952 SL 1.94257
+2026.07.24 11:31:08.497	2026.06.29 17:15:00   position modified [#22 sell 0.11 GBPAUD.s 1.91657 sl: 1.94257 tp: 1.90952]
+2026.07.24 11:31:08.499	2026.06.29 17:15:00   CTrade::OrderSend: modify position #22 GBPAUD.s (sl: 1.94257, tp: 1.90952) [done]
+2026.07.24 11:31:08.499	2026.06.29 17:15:00   [TRTM][INFO ] Exits applied to ticket 22: TP 1.90952 SL 1.94257
+2026.07.24 11:31:08.499	2026.06.29 17:15:00   position modified [#23 sell 0.12 GBPAUD.s 1.91951 sl: 1.94257 tp: 1.90952]
+2026.07.24 11:31:08.501	2026.06.29 17:15:00   CTrade::OrderSend: modify position #23 GBPAUD.s (sl: 1.94257, tp: 1.90952) [done]
+2026.07.24 11:31:08.501	2026.06.29 17:15:00   [TRTM][INFO ] Exits applied to ticket 23: TP 1.90952 SL 1.94257
+2026.07.24 11:31:08.501	2026.06.29 17:15:00   position modified [#24 sell 0.13 GBPAUD.s 1.92333 sl: 1.94257 tp: 1.90952]
+2026.07.24 11:31:08.503	2026.06.29 17:15:00   CTrade::OrderSend: modify position #24 GBPAUD.s (sl: 1.94257, tp: 1.90952) [done]
+2026.07.24 11:31:08.503	2026.06.29 17:15:00   [TRTM][INFO ] Exits applied to ticket 24: TP 1.90952 SL 1.94257
+2026.07.24 11:31:32.978	2026.06.30 03:15:00   [TRTM][INFO ] Recovery signal: PERIOD_M15 bar closed 1.92695 vs trigger 1.92583 (worst entry 1.92333 + 250 pts)
+2026.07.24 11:31:32.979	2026.06.30 03:15:00   market sell 0.14 GBPAUD.s (1.92696 / 1.92732)
+2026.07.24 11:31:32.979	2026.06.30 03:15:00   deal #25 sell 0.14 GBPAUD.s at 1.92696 done (based on order #25)
+2026.07.24 11:31:32.979	2026.06.30 03:15:00   deal performed [#25 sell 0.14 GBPAUD.s at 1.92696]
+2026.07.24 11:31:32.979	2026.06.30 03:15:00   order performed sell 0.14 at 1.92696 [#25 sell 0.14 GBPAUD.s at 1.92696]
+2026.07.24 11:31:32.981	2026.06.30 03:15:00   CTrade::OrderSend: market sell 0.14 GBPAUD.s [done at 1.92696]
+2026.07.24 11:31:32.981	2026.06.30 03:15:00   [TRTM][INFO ] Recovery L14 OPENED: 0.14 lots SELL @ 1.92696 (deal 25)
+2026.07.24 11:31:32.981	2026.06.30 03:15:00   [TRTM][INFO ] Recovery L14 registered: ticket 25
+2026.07.24 11:31:32.981	2026.06.30 03:15:00   [TRTM][INFO ] Structure: 12 level(s), 1.02 lots | projected at TP +140.31 | at SL -2028.65
+2026.07.24 11:31:32.981	2026.06.30 03:15:00   position modified [#4 sell 0.03 GBPAUD.s 1.89257 sl: 1.94257 tp: 1.91164]
+2026.07.24 11:31:32.983	2026.06.30 03:15:00   CTrade::OrderSend: modify position #4 GBPAUD.s (sl: 1.94257, tp: 1.91164) [done]
+2026.07.24 11:31:32.983	2026.06.30 03:15:00   [TRTM][INFO ] Exits applied to ticket 4: TP 1.91164 SL 1.94257
+2026.07.24 11:31:32.983	2026.06.30 03:15:00   position modified [#5 sell 0.04 GBPAUD.s 1.89536 sl: 1.94257 tp: 1.91164]
+2026.07.24 11:31:32.985	2026.06.30 03:15:00   CTrade::OrderSend: modify position #5 GBPAUD.s (sl: 1.94257, tp: 1.91164) [done]
+2026.07.24 11:31:32.985	2026.06.30 03:15:00   [TRTM][INFO ] Exits applied to ticket 5: TP 1.91164 SL 1.94257
+2026.07.24 11:31:32.985	2026.06.30 03:15:00   position modified [#6 sell 0.05 GBPAUD.s 1.89833 sl: 1.94257 tp: 1.91164]
+2026.07.24 11:31:32.987	2026.06.30 03:15:00   CTrade::OrderSend: modify position #6 GBPAUD.s (sl: 1.94257, tp: 1.91164) [done]
+2026.07.24 11:31:32.987	2026.06.30 03:15:00   [TRTM][INFO ] Exits applied to ticket 6: TP 1.91164 SL 1.94257
+2026.07.24 11:31:32.987	2026.06.30 03:15:00   position modified [#7 sell 0.06 GBPAUD.s 1.90153 sl: 1.94257 tp: 1.91164]
+2026.07.24 11:31:32.989	2026.06.30 03:15:00   CTrade::OrderSend: modify position #7 GBPAUD.s (sl: 1.94257, tp: 1.91164) [done]
+2026.07.24 11:31:32.989	2026.06.30 03:15:00   [TRTM][INFO ] Exits applied to ticket 7: TP 1.91164 SL 1.94257
+2026.07.24 11:31:32.989	2026.06.30 03:15:00   position modified [#8 sell 0.07 GBPAUD.s 1.90515 sl: 1.94257 tp: 1.91164]
+2026.07.24 11:31:32.991	2026.06.30 03:15:00   CTrade::OrderSend: modify position #8 GBPAUD.s (sl: 1.94257, tp: 1.91164) [done]
+2026.07.24 11:31:32.991	2026.06.30 03:15:00   [TRTM][INFO ] Exits applied to ticket 8: TP 1.91164 SL 1.94257
+2026.07.24 11:31:32.991	2026.06.30 03:15:00   position modified [#9 sell 0.08 GBPAUD.s 1.90774 sl: 1.94257 tp: 1.91164]
+2026.07.24 11:31:32.993	2026.06.30 03:15:00   CTrade::OrderSend: modify position #9 GBPAUD.s (sl: 1.94257, tp: 1.91164) [done]
+2026.07.24 11:31:32.993	2026.06.30 03:15:00   [TRTM][INFO ] Exits applied to ticket 9: TP 1.91164 SL 1.94257
+2026.07.24 11:31:32.993	2026.06.30 03:15:00   position modified [#20 sell 0.09 GBPAUD.s 1.91090 sl: 1.94257 tp: 1.91164]
+2026.07.24 11:31:32.995	2026.06.30 03:15:00   CTrade::OrderSend: modify position #20 GBPAUD.s (sl: 1.94257, tp: 1.91164) [done]
+2026.07.24 11:31:32.995	2026.06.30 03:15:00   [TRTM][INFO ] Exits applied to ticket 20: TP 1.91164 SL 1.94257
+2026.07.24 11:31:32.995	2026.06.30 03:15:00   position modified [#21 sell 0.1 GBPAUD.s 1.91382 sl: 1.94257 tp: 1.91164]
+2026.07.24 11:31:32.996	2026.06.30 03:15:00   CTrade::OrderSend: modify position #21 GBPAUD.s (sl: 1.94257, tp: 1.91164) [done]
+2026.07.24 11:31:32.996	2026.06.30 03:15:00   [TRTM][INFO ] Exits applied to ticket 21: TP 1.91164 SL 1.94257
+2026.07.24 11:31:32.996	2026.06.30 03:15:00   position modified [#22 sell 0.11 GBPAUD.s 1.91657 sl: 1.94257 tp: 1.91164]
+2026.07.24 11:31:32.998	2026.06.30 03:15:00   CTrade::OrderSend: modify position #22 GBPAUD.s (sl: 1.94257, tp: 1.91164) [done]
+2026.07.24 11:31:32.998	2026.06.30 03:15:00   [TRTM][INFO ] Exits applied to ticket 22: TP 1.91164 SL 1.94257
+2026.07.24 11:31:32.998	2026.06.30 03:15:00   position modified [#23 sell 0.12 GBPAUD.s 1.91951 sl: 1.94257 tp: 1.91164]
+2026.07.24 11:31:33.000	2026.06.30 03:15:00   CTrade::OrderSend: modify position #23 GBPAUD.s (sl: 1.94257, tp: 1.91164) [done]
+2026.07.24 11:31:33.000	2026.06.30 03:15:00   [TRTM][INFO ] Exits applied to ticket 23: TP 1.91164 SL 1.94257
+2026.07.24 11:31:33.000	2026.06.30 03:15:00   position modified [#24 sell 0.13 GBPAUD.s 1.92333 sl: 1.94257 tp: 1.91164]
+2026.07.24 11:31:33.002	2026.06.30 03:15:00   CTrade::OrderSend: modify position #24 GBPAUD.s (sl: 1.94257, tp: 1.91164) [done]
+2026.07.24 11:31:33.002	2026.06.30 03:15:00   [TRTM][INFO ] Exits applied to ticket 24: TP 1.91164 SL 1.94257
+2026.07.24 11:31:33.002	2026.06.30 03:15:00   position modified [#25 sell 0.14 GBPAUD.s 1.92696 sl: 1.94257 tp: 1.91164]
+2026.07.24 11:31:33.004	2026.06.30 03:15:00   CTrade::OrderSend: modify position #25 GBPAUD.s (sl: 1.94257, tp: 1.91164) [done]
+2026.07.24 11:31:33.004	2026.06.30 03:15:00   [TRTM][INFO ] Exits applied to ticket 25: TP 1.91164 SL 1.94257
+2026.07.24 11:32:06.091	2026.06.30 14:13:30   [TRTM][INFO ] Tier 1 FIRE: SELL group 3 leg(s) (anchor L3 + 2 profitable) | VWAP 1.92195 far 1.92038 margin 156.8 pts >= 150/lot
+2026.07.24 11:32:06.091	2026.06.30 14:13:30   market buy 0.14 GBPAUD.s, close #25 (1.92010 / 1.92038)
+2026.07.24 11:32:06.091	2026.06.30 14:13:30   deal #26 buy 0.14 GBPAUD.s at 1.92038 done (based on order #26)
+2026.07.24 11:32:06.091	2026.06.30 14:13:30   deal performed [#26 buy 0.14 GBPAUD.s at 1.92038]
+2026.07.24 11:32:06.091	2026.06.30 14:13:30   order performed buy 0.14 at 1.92038 [#26 buy 0.14 GBPAUD.s at 1.92038]
+2026.07.24 11:32:06.093	2026.06.30 14:13:30   CTrade::OrderSend: market buy 0.14 position #25 GBPAUD.s [done at 1.92038]
+2026.07.24 11:32:06.093	2026.06.30 14:13:30   [TRTM][INFO ] Closed L14 ticket 25 @ 1.92038
+2026.07.24 11:32:06.093	2026.06.30 14:13:30   market buy 0.13 GBPAUD.s, close #24 (1.92010 / 1.92038)
+2026.07.24 11:32:06.093	2026.06.30 14:13:30   deal #27 buy 0.13 GBPAUD.s at 1.92038 done (based on order #27)
+2026.07.24 11:32:06.093	2026.06.30 14:13:30   deal performed [#27 buy 0.13 GBPAUD.s at 1.92038]
+2026.07.24 11:32:06.093	2026.06.30 14:13:30   order performed buy 0.13 at 1.92038 [#27 buy 0.13 GBPAUD.s at 1.92038]
+2026.07.24 11:32:06.095	2026.06.30 14:13:30   CTrade::OrderSend: market buy 0.13 position #24 GBPAUD.s [done at 1.92038]
+2026.07.24 11:32:06.095	2026.06.30 14:13:30   [TRTM][INFO ] Closed L13 ticket 24 @ 1.92038
+2026.07.24 11:32:06.095	2026.06.30 14:13:30   market buy 0.03 GBPAUD.s, close #4 (1.92010 / 1.92038)
+2026.07.24 11:32:06.095	2026.06.30 14:13:30   deal #28 buy 0.03 GBPAUD.s at 1.92038 done (based on order #28)
+2026.07.24 11:32:06.095	2026.06.30 14:13:30   deal performed [#28 buy 0.03 GBPAUD.s at 1.92038]
+2026.07.24 11:32:06.095	2026.06.30 14:13:30   order performed buy 0.03 at 1.92038 [#28 buy 0.03 GBPAUD.s at 1.92038]
+2026.07.24 11:32:06.097	2026.06.30 14:13:30   CTrade::OrderSend: market buy 0.03 position #4 GBPAUD.s [done at 1.92038]
+2026.07.24 11:32:06.097	2026.06.30 14:13:30   [TRTM][INFO ] Closed L3 ticket 4 @ 1.92038
+2026.07.24 11:32:06.097	2026.06.30 14:13:30   [TRTM][INFO ] Liveness: L14 ticket 25 closed by EA (market close) - removed from sequence
+2026.07.24 11:32:06.097	2026.06.30 14:13:30   [TRTM][INFO ] Liveness: L13 ticket 24 closed by EA (market close) - removed from sequence
+2026.07.24 11:32:06.097	2026.06.30 14:13:30   [TRTM][INFO ] Liveness: L3 ticket 4 closed by EA (market close) - removed from sequence
+2026.07.24 11:32:06.097	2026.06.30 14:13:30   [TRTM][INFO ] Structure: 9 level(s), 0.72 lots | projected at TP +99.17 | at SL -1744.82
+2026.07.24 11:32:06.097	2026.06.30 14:13:30   [TRTM][INFO ] SL re-anchored: L3 -> L4 (widened to 1.94536 per locked rule - boundaries move with the structure)
+2026.07.24 11:32:06.097	2026.06.30 14:13:30   position modified [#5 sell 0.04 GBPAUD.s 1.89536 sl: 1.94536 tp: 1.90818]
+2026.07.24 11:32:06.099	2026.06.30 14:13:30   CTrade::OrderSend: modify position #5 GBPAUD.s (sl: 1.94536, tp: 1.90818) [done]
+2026.07.24 11:32:06.099	2026.06.30 14:13:30   [TRTM][INFO ] Exits applied to ticket 5: TP 1.90818 SL 1.94536
+2026.07.24 11:32:06.099	2026.06.30 14:13:30   position modified [#6 sell 0.05 GBPAUD.s 1.89833 sl: 1.94536 tp: 1.90818]
+2026.07.24 11:32:06.101	2026.06.30 14:13:30   CTrade::OrderSend: modify position #6 GBPAUD.s (sl: 1.94536, tp: 1.90818) [done]
+2026.07.24 11:32:06.101	2026.06.30 14:13:30   [TRTM][INFO ] Exits applied to ticket 6: TP 1.90818 SL 1.94536
+2026.07.24 11:32:06.101	2026.06.30 14:13:30   position modified [#7 sell 0.06 GBPAUD.s 1.90153 sl: 1.94536 tp: 1.90818]
+2026.07.24 11:32:06.103	2026.06.30 14:13:30   CTrade::OrderSend: modify position #7 GBPAUD.s (sl: 1.94536, tp: 1.90818) [done]
+2026.07.24 11:32:06.103	2026.06.30 14:13:30   [TRTM][INFO ] Exits applied to ticket 7: TP 1.90818 SL 1.94536
+2026.07.24 11:32:06.103	2026.06.30 14:13:30   position modified [#8 sell 0.07 GBPAUD.s 1.90515 sl: 1.94536 tp: 1.90818]
+2026.07.24 11:32:06.105	2026.06.30 14:13:30   CTrade::OrderSend: modify position #8 GBPAUD.s (sl: 1.94536, tp: 1.90818) [done]
+2026.07.24 11:32:06.105	2026.06.30 14:13:30   [TRTM][INFO ] Exits applied to ticket 8: TP 1.90818 SL 1.94536
+2026.07.24 11:32:06.105	2026.06.30 14:13:30   position modified [#9 sell 0.08 GBPAUD.s 1.90774 sl: 1.94536 tp: 1.90818]
+2026.07.24 11:32:06.108	2026.06.30 14:13:30   CTrade::OrderSend: modify position #9 GBPAUD.s (sl: 1.94536, tp: 1.90818) [done]
+2026.07.24 11:32:06.108	2026.06.30 14:13:30   [TRTM][INFO ] Exits applied to ticket 9: TP 1.90818 SL 1.94536
+2026.07.24 11:32:06.108	2026.06.30 14:13:30   position modified [#20 sell 0.09 GBPAUD.s 1.91090 sl: 1.94536 tp: 1.90818]
+2026.07.24 11:32:06.110	2026.06.30 14:13:30   CTrade::OrderSend: modify position #20 GBPAUD.s (sl: 1.94536, tp: 1.90818) [done]
+2026.07.24 11:32:06.110	2026.06.30 14:13:30   [TRTM][INFO ] Exits applied to ticket 20: TP 1.90818 SL 1.94536
+2026.07.24 11:32:06.110	2026.06.30 14:13:30   position modified [#21 sell 0.1 GBPAUD.s 1.91382 sl: 1.94536 tp: 1.90818]
+2026.07.24 11:32:06.112	2026.06.30 14:13:30   CTrade::OrderSend: modify position #21 GBPAUD.s (sl: 1.94536, tp: 1.90818) [done]
+2026.07.24 11:32:06.112	2026.06.30 14:13:30   [TRTM][INFO ] Exits applied to ticket 21: TP 1.90818 SL 1.94536
+2026.07.24 11:32:06.112	2026.06.30 14:13:30   position modified [#22 sell 0.11 GBPAUD.s 1.91657 sl: 1.94536 tp: 1.90818]
+2026.07.24 11:32:06.114	2026.06.30 14:13:30   CTrade::OrderSend: modify position #22 GBPAUD.s (sl: 1.94536, tp: 1.90818) [done]
+2026.07.24 11:32:06.114	2026.06.30 14:13:30   [TRTM][INFO ] Exits applied to ticket 22: TP 1.90818 SL 1.94536
+2026.07.24 11:32:06.114	2026.06.30 14:13:30   position modified [#23 sell 0.12 GBPAUD.s 1.91951 sl: 1.94536 tp: 1.90818]
+2026.07.24 11:32:06.116	2026.06.30 14:13:30   CTrade::OrderSend: modify position #23 GBPAUD.s (sl: 1.94536, tp: 1.90818) [done]
+2026.07.24 11:32:06.116	2026.06.30 14:13:30   [TRTM][INFO ] Exits applied to ticket 23: TP 1.90818 SL 1.94536
+2026.07.24 11:32:55.636	2026.07.01 05:15:00   [TRTM][INFO ] Recovery signal: PERIOD_M15 bar closed 1.92205 vs trigger 1.92201 (worst entry 1.91951 + 250 pts)
+2026.07.24 11:32:55.637	2026.07.01 05:15:00   market sell 0.13 GBPAUD.s (1.92205 / 1.92249)
+2026.07.24 11:32:55.637	2026.07.01 05:15:00   deal #29 sell 0.13 GBPAUD.s at 1.92205 done (based on order #29)
+2026.07.24 11:32:55.637	2026.07.01 05:15:00   deal performed [#29 sell 0.13 GBPAUD.s at 1.92205]
+2026.07.24 11:32:55.637	2026.07.01 05:15:00   order performed sell 0.13 at 1.92205 [#29 sell 0.13 GBPAUD.s at 1.92205]
+2026.07.24 11:32:55.639	2026.07.01 05:15:00   CTrade::OrderSend: market sell 0.13 GBPAUD.s [done at 1.92205]
+2026.07.24 11:32:55.639	2026.07.01 05:15:00   [TRTM][INFO ] Recovery L13 OPENED: 0.13 lots SELL @ 1.92205 (deal 29)
+2026.07.24 11:32:55.639	2026.07.01 05:15:00   [TRTM][INFO ] Recovery L13 registered: ticket 29
+2026.07.24 11:32:55.639	2026.07.01 05:15:00   [TRTM][INFO ] Structure: 10 level(s), 0.85 lots | projected at TP +116.77 | at SL -1952.80
+2026.07.24 11:32:55.639	2026.07.01 05:15:01   position modified [#5 sell 0.04 GBPAUD.s 1.89536 sl: 1.94536 tp: 1.91000]
+2026.07.24 11:32:55.641	2026.07.01 05:15:01   CTrade::OrderSend: modify position #5 GBPAUD.s (sl: 1.94536, tp: 1.91000) [done]
+2026.07.24 11:32:55.641	2026.07.01 05:15:01   [TRTM][INFO ] Exits applied to ticket 5: TP 1.91000 SL 1.94536
+2026.07.24 11:32:55.641	2026.07.01 05:15:01   position modified [#6 sell 0.05 GBPAUD.s 1.89833 sl: 1.94536 tp: 1.91000]
+2026.07.24 11:32:55.643	2026.07.01 05:15:01   CTrade::OrderSend: modify position #6 GBPAUD.s (sl: 1.94536, tp: 1.91000) [done]
+2026.07.24 11:32:55.643	2026.07.01 05:15:01   [TRTM][INFO ] Exits applied to ticket 6: TP 1.91000 SL 1.94536
+2026.07.24 11:32:55.643	2026.07.01 05:15:01   position modified [#7 sell 0.06 GBPAUD.s 1.90153 sl: 1.94536 tp: 1.91000]
+2026.07.24 11:32:55.645	2026.07.01 05:15:01   CTrade::OrderSend: modify position #7 GBPAUD.s (sl: 1.94536, tp: 1.91000) [done]
+2026.07.24 11:32:55.645	2026.07.01 05:15:01   [TRTM][INFO ] Exits applied to ticket 7: TP 1.91000 SL 1.94536
+2026.07.24 11:32:55.645	2026.07.01 05:15:01   position modified [#8 sell 0.07 GBPAUD.s 1.90515 sl: 1.94536 tp: 1.91000]
+2026.07.24 11:32:55.646	2026.07.01 05:15:01   CTrade::OrderSend: modify position #8 GBPAUD.s (sl: 1.94536, tp: 1.91000) [done]
+2026.07.24 11:32:55.646	2026.07.01 05:15:01   [TRTM][INFO ] Exits applied to ticket 8: TP 1.91000 SL 1.94536
+2026.07.24 11:32:55.646	2026.07.01 05:15:01   position modified [#9 sell 0.08 GBPAUD.s 1.90774 sl: 1.94536 tp: 1.91000]
+2026.07.24 11:32:55.648	2026.07.01 05:15:01   CTrade::OrderSend: modify position #9 GBPAUD.s (sl: 1.94536, tp: 1.91000) [done]
+2026.07.24 11:32:55.648	2026.07.01 05:15:01   [TRTM][INFO ] Exits applied to ticket 9: TP 1.91000 SL 1.94536
+2026.07.24 11:32:55.648	2026.07.01 05:15:01   position modified [#20 sell 0.09 GBPAUD.s 1.91090 sl: 1.94536 tp: 1.91000]
+2026.07.24 11:32:55.650	2026.07.01 05:15:01   CTrade::OrderSend: modify position #20 GBPAUD.s (sl: 1.94536, tp: 1.91000) [done]
+2026.07.24 11:32:55.650	2026.07.01 05:15:01   [TRTM][INFO ] Exits applied to ticket 20: TP 1.91000 SL 1.94536
+2026.07.24 11:32:55.650	2026.07.01 05:15:01   position modified [#21 sell 0.1 GBPAUD.s 1.91382 sl: 1.94536 tp: 1.91000]
+2026.07.24 11:32:55.652	2026.07.01 05:15:01   CTrade::OrderSend: modify position #21 GBPAUD.s (sl: 1.94536, tp: 1.91000) [done]
+2026.07.24 11:32:55.652	2026.07.01 05:15:01   [TRTM][INFO ] Exits applied to ticket 21: TP 1.91000 SL 1.94536
+2026.07.24 11:32:55.652	2026.07.01 05:15:01   position modified [#22 sell 0.11 GBPAUD.s 1.91657 sl: 1.94536 tp: 1.91000]
+2026.07.24 11:32:55.654	2026.07.01 05:15:01   CTrade::OrderSend: modify position #22 GBPAUD.s (sl: 1.94536, tp: 1.91000) [done]
+2026.07.24 11:32:55.654	2026.07.01 05:15:01   [TRTM][INFO ] Exits applied to ticket 22: TP 1.91000 SL 1.94536
+2026.07.24 11:32:55.654	2026.07.01 05:15:01   position modified [#23 sell 0.12 GBPAUD.s 1.91951 sl: 1.94536 tp: 1.91000]
+2026.07.24 11:32:55.656	2026.07.01 05:15:01   CTrade::OrderSend: modify position #23 GBPAUD.s (sl: 1.94536, tp: 1.91000) [done]
+2026.07.24 11:32:55.656	2026.07.01 05:15:01   [TRTM][INFO ] Exits applied to ticket 23: TP 1.91000 SL 1.94536
+2026.07.24 11:32:55.656	2026.07.01 05:15:01   position modified [#29 sell 0.13 GBPAUD.s 1.92205 sl: 1.94536 tp: 1.91000]
+2026.07.24 11:32:55.659	2026.07.01 05:15:01   CTrade::OrderSend: modify position #29 GBPAUD.s (sl: 1.94536, tp: 1.91000) [done]
+2026.07.24 11:32:55.659	2026.07.01 05:15:01   [TRTM][INFO ] Exits applied to ticket 29: TP 1.91000 SL 1.94536
+2026.07.24 11:33:40.726	2026.07.01 20:15:01   [TRTM][INFO ] Recovery signal: PERIOD_M15 bar closed 1.92489 vs trigger 1.92455 (worst entry 1.92205 + 250 pts)
+2026.07.24 11:33:40.726	2026.07.01 20:15:01   market sell 0.14 GBPAUD.s (1.92489 / 1.92521)
+2026.07.24 11:33:40.726	2026.07.01 20:15:01   deal #30 sell 0.14 GBPAUD.s at 1.92489 done (based on order #30)
+2026.07.24 11:33:40.727	2026.07.01 20:15:01   deal performed [#30 sell 0.14 GBPAUD.s at 1.92489]
+2026.07.24 11:33:40.727	2026.07.01 20:15:01   order performed sell 0.14 at 1.92489 [#30 sell 0.14 GBPAUD.s at 1.92489]
+2026.07.24 11:33:40.729	2026.07.01 20:15:01   CTrade::OrderSend: market sell 0.14 GBPAUD.s [done at 1.92489]
+2026.07.24 11:33:40.729	2026.07.01 20:15:01   [TRTM][INFO ] Recovery L14 OPENED: 0.14 lots SELL @ 1.92489 (deal 30)
+2026.07.24 11:33:40.729	2026.07.01 20:15:01   [TRTM][INFO ] Recovery L14 registered: ticket 30
+2026.07.24 11:33:40.729	2026.07.01 20:15:01   [TRTM][INFO ] Structure: 11 level(s), 0.99 lots | projected at TP +136.49 | at SL -2154.09
+2026.07.24 11:33:40.730	2026.07.01 20:15:02   position modified [#5 sell 0.04 GBPAUD.s 1.89536 sl: 1.94536 tp: 1.91182]
+2026.07.24 11:33:40.732	2026.07.01 20:15:02   CTrade::OrderSend: modify position #5 GBPAUD.s (sl: 1.94536, tp: 1.91182) [done]
+2026.07.24 11:33:40.732	2026.07.01 20:15:02   [TRTM][INFO ] Exits applied to ticket 5: TP 1.91182 SL 1.94536
+2026.07.24 11:33:40.732	2026.07.01 20:15:02   position modified [#6 sell 0.05 GBPAUD.s 1.89833 sl: 1.94536 tp: 1.91182]
+2026.07.24 11:33:40.734	2026.07.01 20:15:02   CTrade::OrderSend: modify position #6 GBPAUD.s (sl: 1.94536, tp: 1.91182) [done]
+2026.07.24 11:33:40.734	2026.07.01 20:15:02   [TRTM][INFO ] Exits applied to ticket 6: TP 1.91182 SL 1.94536
+2026.07.24 11:33:40.734	2026.07.01 20:15:02   position modified [#7 sell 0.06 GBPAUD.s 1.90153 sl: 1.94536 tp: 1.91182]
+2026.07.24 11:33:40.736	2026.07.01 20:15:02   CTrade::OrderSend: modify position #7 GBPAUD.s (sl: 1.94536, tp: 1.91182) [done]
+2026.07.24 11:33:40.736	2026.07.01 20:15:02   [TRTM][INFO ] Exits applied to ticket 7: TP 1.91182 SL 1.94536
+2026.07.24 11:33:40.736	2026.07.01 20:15:02   position modified [#8 sell 0.07 GBPAUD.s 1.90515 sl: 1.94536 tp: 1.91182]
+2026.07.24 11:33:40.737	2026.07.01 20:15:02   CTrade::OrderSend: modify position #8 GBPAUD.s (sl: 1.94536, tp: 1.91182) [done]
+2026.07.24 11:33:40.737	2026.07.01 20:15:02   [TRTM][INFO ] Exits applied to ticket 8: TP 1.91182 SL 1.94536
+2026.07.24 11:33:40.737	2026.07.01 20:15:02   position modified [#9 sell 0.08 GBPAUD.s 1.90774 sl: 1.94536 tp: 1.91182]
+2026.07.24 11:33:40.739	2026.07.01 20:15:02   CTrade::OrderSend: modify position #9 GBPAUD.s (sl: 1.94536, tp: 1.91182) [done]
+2026.07.24 11:33:40.739	2026.07.01 20:15:02   [TRTM][INFO ] Exits applied to ticket 9: TP 1.91182 SL 1.94536
+2026.07.24 11:33:40.739	2026.07.01 20:15:02   position modified [#20 sell 0.09 GBPAUD.s 1.91090 sl: 1.94536 tp: 1.91182]
+2026.07.24 11:33:40.741	2026.07.01 20:15:02   CTrade::OrderSend: modify position #20 GBPAUD.s (sl: 1.94536, tp: 1.91182) [done]
+2026.07.24 11:33:40.741	2026.07.01 20:15:02   [TRTM][INFO ] Exits applied to ticket 20: TP 1.91182 SL 1.94536
+2026.07.24 11:33:40.741	2026.07.01 20:15:02   position modified [#21 sell 0.1 GBPAUD.s 1.91382 sl: 1.94536 tp: 1.91182]
+2026.07.24 11:33:40.743	2026.07.01 20:15:02   CTrade::OrderSend: modify position #21 GBPAUD.s (sl: 1.94536, tp: 1.91182) [done]
+2026.07.24 11:33:40.743	2026.07.01 20:15:02   [TRTM][INFO ] Exits applied to ticket 21: TP 1.91182 SL 1.94536
+2026.07.24 11:33:40.743	2026.07.01 20:15:02   position modified [#22 sell 0.11 GBPAUD.s 1.91657 sl: 1.94536 tp: 1.91182]
+2026.07.24 11:33:40.745	2026.07.01 20:15:02   CTrade::OrderSend: modify position #22 GBPAUD.s (sl: 1.94536, tp: 1.91182) [done]
+2026.07.24 11:33:40.745	2026.07.01 20:15:02   [TRTM][INFO ] Exits applied to ticket 22: TP 1.91182 SL 1.94536
+2026.07.24 11:33:40.745	2026.07.01 20:15:02   position modified [#23 sell 0.12 GBPAUD.s 1.91951 sl: 1.94536 tp: 1.91182]
+2026.07.24 11:33:40.747	2026.07.01 20:15:02   CTrade::OrderSend: modify position #23 GBPAUD.s (sl: 1.94536, tp: 1.91182) [done]
+2026.07.24 11:33:40.747	2026.07.01 20:15:02   [TRTM][INFO ] Exits applied to ticket 23: TP 1.91182 SL 1.94536
+2026.07.24 11:33:40.747	2026.07.01 20:15:02   position modified [#29 sell 0.13 GBPAUD.s 1.92205 sl: 1.94536 tp: 1.91182]
+2026.07.24 11:33:40.750	2026.07.01 20:15:02   CTrade::OrderSend: modify position #29 GBPAUD.s (sl: 1.94536, tp: 1.91182) [done]
+2026.07.24 11:33:40.750	2026.07.01 20:15:02   [TRTM][INFO ] Exits applied to ticket 29: TP 1.91182 SL 1.94536
+2026.07.24 11:33:40.750	2026.07.01 20:15:02   position modified [#30 sell 0.14 GBPAUD.s 1.92489 sl: 1.94536 tp: 1.91182]
+2026.07.24 11:33:40.752	2026.07.01 20:15:02   CTrade::OrderSend: modify position #30 GBPAUD.s (sl: 1.94536, tp: 1.91182) [done]
+2026.07.24 11:33:40.752	2026.07.01 20:15:02   [TRTM][INFO ] Exits applied to ticket 30: TP 1.91182 SL 1.94536
+2026.07.24 11:33:58.679	2026.07.02 03:15:00   [TRTM][INFO ] Recovery signal: PERIOD_M15 bar closed 1.92861 vs trigger 1.92739 (worst entry 1.92489 + 250 pts)
+2026.07.24 11:33:58.680	2026.07.02 03:15:00   market sell 0.15 GBPAUD.s (1.92861 / 1.92892)
+2026.07.24 11:33:58.680	2026.07.02 03:15:00   deal #31 sell 0.15 GBPAUD.s at 1.92861 done (based on order #31)
+2026.07.24 11:33:58.680	2026.07.02 03:15:00   deal performed [#31 sell 0.15 GBPAUD.s at 1.92861]
+2026.07.24 11:33:58.680	2026.07.02 03:15:00   order performed sell 0.15 at 1.92861 [#31 sell 0.15 GBPAUD.s at 1.92861]
+2026.07.24 11:33:58.682	2026.07.02 03:15:00   CTrade::OrderSend: market sell 0.15 GBPAUD.s [done at 1.92861]
+2026.07.24 11:33:58.682	2026.07.02 03:15:00   [TRTM][INFO ] Recovery L15 OPENED: 0.15 lots SELL @ 1.92861 (deal 31)
+2026.07.24 11:33:58.682	2026.07.02 03:15:00   [TRTM][INFO ] Recovery L15 registered: ticket 31
+2026.07.24 11:33:58.682	2026.07.02 03:15:00   [TRTM][INFO ] Structure: 12 level(s), 1.14 lots | projected at TP +157.35 | at SL -2322.79
+2026.07.24 11:33:58.683	2026.07.02 03:15:00   position modified [#5 sell 0.04 GBPAUD.s 1.89536 sl: 1.94536 tp: 1.91376]
+2026.07.24 11:33:58.685	2026.07.02 03:15:00   CTrade::OrderSend: modify position #5 GBPAUD.s (sl: 1.94536, tp: 1.91376) [done]
+2026.07.24 11:33:58.685	2026.07.02 03:15:00   [TRTM][INFO ] Exits applied to ticket 5: TP 1.91376 SL 1.94536
+2026.07.24 11:33:58.685	2026.07.02 03:15:00   position modified [#6 sell 0.05 GBPAUD.s 1.89833 sl: 1.94536 tp: 1.91376]
+2026.07.24 11:33:58.687	2026.07.02 03:15:00   CTrade::OrderSend: modify position #6 GBPAUD.s (sl: 1.94536, tp: 1.91376) [done]
+2026.07.24 11:33:58.687	2026.07.02 03:15:00   [TRTM][INFO ] Exits applied to ticket 6: TP 1.91376 SL 1.94536
+2026.07.24 11:33:58.687	2026.07.02 03:15:00   position modified [#7 sell 0.06 GBPAUD.s 1.90153 sl: 1.94536 tp: 1.91376]
+2026.07.24 11:33:58.689	2026.07.02 03:15:00   CTrade::OrderSend: modify position #7 GBPAUD.s (sl: 1.94536, tp: 1.91376) [done]
+2026.07.24 11:33:58.689	2026.07.02 03:15:00   [TRTM][INFO ] Exits applied to ticket 7: TP 1.91376 SL 1.94536
+2026.07.24 11:33:58.689	2026.07.02 03:15:00   position modified [#8 sell 0.07 GBPAUD.s 1.90515 sl: 1.94536 tp: 1.91376]
+2026.07.24 11:33:58.691	2026.07.02 03:15:00   CTrade::OrderSend: modify position #8 GBPAUD.s (sl: 1.94536, tp: 1.91376) [done]
+2026.07.24 11:33:58.691	2026.07.02 03:15:00   [TRTM][INFO ] Exits applied to ticket 8: TP 1.91376 SL 1.94536
+2026.07.24 11:33:58.691	2026.07.02 03:15:00   position modified [#9 sell 0.08 GBPAUD.s 1.90774 sl: 1.94536 tp: 1.91376]
+2026.07.24 11:33:58.693	2026.07.02 03:15:00   CTrade::OrderSend: modify position #9 GBPAUD.s (sl: 1.94536, tp: 1.91376) [done]
+2026.07.24 11:33:58.693	2026.07.02 03:15:00   [TRTM][INFO ] Exits applied to ticket 9: TP 1.91376 SL 1.94536
+2026.07.24 11:33:58.693	2026.07.02 03:15:00   position modified [#20 sell 0.09 GBPAUD.s 1.91090 sl: 1.94536 tp: 1.91376]
+2026.07.24 11:33:58.694	2026.07.02 03:15:00   CTrade::OrderSend: modify position #20 GBPAUD.s (sl: 1.94536, tp: 1.91376) [done]
+2026.07.24 11:33:58.694	2026.07.02 03:15:00   [TRTM][INFO ] Exits applied to ticket 20: TP 1.91376 SL 1.94536
+2026.07.24 11:33:58.694	2026.07.02 03:15:00   position modified [#21 sell 0.1 GBPAUD.s 1.91382 sl: 1.94536 tp: 1.91376]
+2026.07.24 11:33:58.696	2026.07.02 03:15:00   CTrade::OrderSend: modify position #21 GBPAUD.s (sl: 1.94536, tp: 1.91376) [done]
+2026.07.24 11:33:58.696	2026.07.02 03:15:00   [TRTM][INFO ] Exits applied to ticket 21: TP 1.91376 SL 1.94536
+2026.07.24 11:33:58.696	2026.07.02 03:15:00   position modified [#22 sell 0.11 GBPAUD.s 1.91657 sl: 1.94536 tp: 1.91376]
+2026.07.24 11:33:58.698	2026.07.02 03:15:00   CTrade::OrderSend: modify position #22 GBPAUD.s (sl: 1.94536, tp: 1.91376) [done]
+2026.07.24 11:33:58.698	2026.07.02 03:15:00   [TRTM][INFO ] Exits applied to ticket 22: TP 1.91376 SL 1.94536
+2026.07.24 11:33:58.698	2026.07.02 03:15:00   position modified [#23 sell 0.12 GBPAUD.s 1.91951 sl: 1.94536 tp: 1.91376]
+2026.07.24 11:33:58.700	2026.07.02 03:15:00   CTrade::OrderSend: modify position #23 GBPAUD.s (sl: 1.94536, tp: 1.91376) [done]
+2026.07.24 11:33:58.700	2026.07.02 03:15:00   [TRTM][INFO ] Exits applied to ticket 23: TP 1.91376 SL 1.94536
+2026.07.24 11:33:58.700	2026.07.02 03:15:00   position modified [#29 sell 0.13 GBPAUD.s 1.92205 sl: 1.94536 tp: 1.91376]
+2026.07.24 11:33:58.702	2026.07.02 03:15:00   CTrade::OrderSend: modify position #29 GBPAUD.s (sl: 1.94536, tp: 1.91376) [done]
+2026.07.24 11:33:58.702	2026.07.02 03:15:00   [TRTM][INFO ] Exits applied to ticket 29: TP 1.91376 SL 1.94536
+2026.07.24 11:33:58.702	2026.07.02 03:15:00   position modified [#30 sell 0.14 GBPAUD.s 1.92489 sl: 1.94536 tp: 1.91376]
+2026.07.24 11:33:58.704	2026.07.02 03:15:00   CTrade::OrderSend: modify position #30 GBPAUD.s (sl: 1.94536, tp: 1.91376) [done]
+2026.07.24 11:33:58.704	2026.07.02 03:15:00   [TRTM][INFO ] Exits applied to ticket 30: TP 1.91376 SL 1.94536
+2026.07.24 11:33:58.704	2026.07.02 03:15:00   position modified [#31 sell 0.15 GBPAUD.s 1.92861 sl: 1.94536 tp: 1.91376]
+2026.07.24 11:33:58.706	2026.07.02 03:15:00   CTrade::OrderSend: modify position #31 GBPAUD.s (sl: 1.94536, tp: 1.91376) [done]
+2026.07.24 11:33:58.706	2026.07.02 03:15:00   [TRTM][INFO ] Exits applied to ticket 31: TP 1.91376 SL 1.94536
+2026.07.24 11:34:18.943	2026.07.02 10:30:00   [TRTM][INFO ] Recovery signal: PERIOD_M15 bar closed 1.93217 vs trigger 1.93111 (worst entry 1.92861 + 250 pts)
+2026.07.24 11:34:18.943	2026.07.02 10:30:00   market sell 0.16 GBPAUD.s (1.93219 / 1.93247)
+2026.07.24 11:34:18.943	2026.07.02 10:30:00   deal #32 sell 0.16 GBPAUD.s at 1.93219 done (based on order #32)
+2026.07.24 11:34:18.943	2026.07.02 10:30:00   deal performed [#32 sell 0.16 GBPAUD.s at 1.93219]
+2026.07.24 11:34:18.943	2026.07.02 10:30:00   order performed sell 0.16 at 1.93219 [#32 sell 0.16 GBPAUD.s at 1.93219]
+2026.07.24 11:34:18.945	2026.07.02 10:30:00   CTrade::OrderSend: market sell 0.16 GBPAUD.s [done at 1.93219]
+2026.07.24 11:34:18.945	2026.07.02 10:30:00   [TRTM][INFO ] Recovery L16 OPENED: 0.16 lots SELL @ 1.93219 (deal 32)
+2026.07.24 11:34:18.945	2026.07.02 10:30:00   [TRTM][INFO ] Recovery L16 registered: ticket 32
+2026.07.24 11:34:18.945	2026.07.02 10:30:00   [TRTM][INFO ] Structure: 13 level(s), 1.30 lots | projected at TP +178.91 | at SL -2471.02
+2026.07.24 11:34:18.946	2026.07.02 10:30:00   position modified [#5 sell 0.04 GBPAUD.s 1.89536 sl: 1.94536 tp: 1.91579]
+2026.07.24 11:34:18.949	2026.07.02 10:30:00   CTrade::OrderSend: modify position #5 GBPAUD.s (sl: 1.94536, tp: 1.91579) [done]
+2026.07.24 11:34:18.949	2026.07.02 10:30:00   [TRTM][INFO ] Exits applied to ticket 5: TP 1.91579 SL 1.94536
+2026.07.24 11:34:18.949	2026.07.02 10:30:00   position modified [#6 sell 0.05 GBPAUD.s 1.89833 sl: 1.94536 tp: 1.91579]
+2026.07.24 11:34:18.951	2026.07.02 10:30:00   CTrade::OrderSend: modify position #6 GBPAUD.s (sl: 1.94536, tp: 1.91579) [done]
+2026.07.24 11:34:18.951	2026.07.02 10:30:00   [TRTM][INFO ] Exits applied to ticket 6: TP 1.91579 SL 1.94536
+2026.07.24 11:34:18.951	2026.07.02 10:30:00   position modified [#7 sell 0.06 GBPAUD.s 1.90153 sl: 1.94536 tp: 1.91579]
+2026.07.24 11:34:18.953	2026.07.02 10:30:00   CTrade::OrderSend: modify position #7 GBPAUD.s (sl: 1.94536, tp: 1.91579) [done]
+2026.07.24 11:34:18.953	2026.07.02 10:30:00   [TRTM][INFO ] Exits applied to ticket 7: TP 1.91579 SL 1.94536
+2026.07.24 11:34:18.953	2026.07.02 10:30:00   position modified [#8 sell 0.07 GBPAUD.s 1.90515 sl: 1.94536 tp: 1.91579]
+2026.07.24 11:34:18.955	2026.07.02 10:30:00   CTrade::OrderSend: modify position #8 GBPAUD.s (sl: 1.94536, tp: 1.91579) [done]
+2026.07.24 11:34:18.955	2026.07.02 10:30:00   [TRTM][INFO ] Exits applied to ticket 8: TP 1.91579 SL 1.94536
+2026.07.24 11:34:18.955	2026.07.02 10:30:00   position modified [#9 sell 0.08 GBPAUD.s 1.90774 sl: 1.94536 tp: 1.91579]
+2026.07.24 11:34:18.957	2026.07.02 10:30:00   CTrade::OrderSend: modify position #9 GBPAUD.s (sl: 1.94536, tp: 1.91579) [done]
+2026.07.24 11:34:18.957	2026.07.02 10:30:00   [TRTM][INFO ] Exits applied to ticket 9: TP 1.91579 SL 1.94536
+2026.07.24 11:34:18.957	2026.07.02 10:30:00   position modified [#20 sell 0.09 GBPAUD.s 1.91090 sl: 1.94536 tp: 1.91579]
+2026.07.24 11:34:18.958	2026.07.02 10:30:00   CTrade::OrderSend: modify position #20 GBPAUD.s (sl: 1.94536, tp: 1.91579) [done]
+2026.07.24 11:34:18.958	2026.07.02 10:30:00   [TRTM][INFO ] Exits applied to ticket 20: TP 1.91579 SL 1.94536
+2026.07.24 11:34:18.958	2026.07.02 10:30:00   position modified [#21 sell 0.1 GBPAUD.s 1.91382 sl: 1.94536 tp: 1.91579]
+2026.07.24 11:34:18.960	2026.07.02 10:30:00   CTrade::OrderSend: modify position #21 GBPAUD.s (sl: 1.94536, tp: 1.91579) [done]
+2026.07.24 11:34:18.960	2026.07.02 10:30:00   [TRTM][INFO ] Exits applied to ticket 21: TP 1.91579 SL 1.94536
+2026.07.24 11:34:18.960	2026.07.02 10:30:00   position modified [#22 sell 0.11 GBPAUD.s 1.91657 sl: 1.94536 tp: 1.91579]
+2026.07.24 11:34:18.962	2026.07.02 10:30:00   CTrade::OrderSend: modify position #22 GBPAUD.s (sl: 1.94536, tp: 1.91579) [done]
+2026.07.24 11:34:18.962	2026.07.02 10:30:00   [TRTM][INFO ] Exits applied to ticket 22: TP 1.91579 SL 1.94536
+2026.07.24 11:34:18.962	2026.07.02 10:30:00   position modified [#23 sell 0.12 GBPAUD.s 1.91951 sl: 1.94536 tp: 1.91579]
+2026.07.24 11:34:18.964	2026.07.02 10:30:00   CTrade::OrderSend: modify position #23 GBPAUD.s (sl: 1.94536, tp: 1.91579) [done]
+2026.07.24 11:34:18.964	2026.07.02 10:30:00   [TRTM][INFO ] Exits applied to ticket 23: TP 1.91579 SL 1.94536
+2026.07.24 11:34:18.964	2026.07.02 10:30:00   position modified [#29 sell 0.13 GBPAUD.s 1.92205 sl: 1.94536 tp: 1.91579]
+2026.07.24 11:34:18.966	2026.07.02 10:30:00   CTrade::OrderSend: modify position #29 GBPAUD.s (sl: 1.94536, tp: 1.91579) [done]
+2026.07.24 11:34:18.966	2026.07.02 10:30:00   [TRTM][INFO ] Exits applied to ticket 29: TP 1.91579 SL 1.94536
+2026.07.24 11:34:18.966	2026.07.02 10:30:00   position modified [#30 sell 0.14 GBPAUD.s 1.92489 sl: 1.94536 tp: 1.91579]
+2026.07.24 11:34:18.968	2026.07.02 10:30:00   CTrade::OrderSend: modify position #30 GBPAUD.s (sl: 1.94536, tp: 1.91579) [done]
+2026.07.24 11:34:18.968	2026.07.02 10:30:00   [TRTM][INFO ] Exits applied to ticket 30: TP 1.91579 SL 1.94536
+2026.07.24 11:34:18.968	2026.07.02 10:30:00   position modified [#31 sell 0.15 GBPAUD.s 1.92861 sl: 1.94536 tp: 1.91579]
+2026.07.24 11:34:18.970	2026.07.02 10:30:00   CTrade::OrderSend: modify position #31 GBPAUD.s (sl: 1.94536, tp: 1.91579) [done]
+2026.07.24 11:34:18.970	2026.07.02 10:30:00   [TRTM][INFO ] Exits applied to ticket 31: TP 1.91579 SL 1.94536
+2026.07.24 11:34:18.970	2026.07.02 10:30:00   position modified [#32 sell 0.16 GBPAUD.s 1.93219 sl: 1.94536 tp: 1.91579]
+2026.07.24 11:34:18.972	2026.07.02 10:30:00   CTrade::OrderSend: modify position #32 GBPAUD.s (sl: 1.94536, tp: 1.91579) [done]
+2026.07.24 11:34:18.972	2026.07.02 10:30:00   [TRTM][INFO ] Exits applied to ticket 32: TP 1.91579 SL 1.94536
+2026.07.24 11:34:20.344	2026.07.02 11:00:00   [TRTM][INFO ] Recovery signal: PERIOD_M15 bar closed 1.93542 vs trigger 1.93469 (worst entry 1.93219 + 250 pts)
+2026.07.24 11:34:20.344	2026.07.02 11:00:00   market sell 0.17 GBPAUD.s (1.93542 / 1.93572)
+2026.07.24 11:34:20.344	2026.07.02 11:00:00   deal #33 sell 0.17 GBPAUD.s at 1.93542 done (based on order #33)
+2026.07.24 11:34:20.344	2026.07.02 11:00:00   deal performed [#33 sell 0.17 GBPAUD.s at 1.93542]
+2026.07.24 11:34:20.344	2026.07.02 11:00:00   order performed sell 0.17 at 1.93542 [#33 sell 0.17 GBPAUD.s at 1.93542]
+2026.07.24 11:34:20.346	2026.07.02 11:00:00   CTrade::OrderSend: market sell 0.17 GBPAUD.s [done at 1.93542]
+2026.07.24 11:34:20.346	2026.07.02 11:00:00   [TRTM][INFO ] Recovery L17 OPENED: 0.17 lots SELL @ 1.93542 (deal 33)
+2026.07.24 11:34:20.346	2026.07.02 11:00:00   [TRTM][INFO ] Recovery L17 registered: ticket 33
+2026.07.24 11:34:20.346	2026.07.02 11:00:00   [TRTM][INFO ] Structure: 14 level(s), 1.47 lots | projected at TP +202.11 | at SL -2586.01
+2026.07.24 11:34:20.346	2026.07.02 11:00:00   position modified [#5 sell 0.04 GBPAUD.s 1.89536 sl: 1.94536 tp: 1.91783]
+2026.07.24 11:34:20.348	2026.07.02 11:00:00   CTrade::OrderSend: modify position #5 GBPAUD.s (sl: 1.94536, tp: 1.91783) [done]
+2026.07.24 11:34:20.348	2026.07.02 11:00:00   [TRTM][INFO ] Exits applied to ticket 5: TP 1.91783 SL 1.94536
+2026.07.24 11:34:20.348	2026.07.02 11:00:00   position modified [#6 sell 0.05 GBPAUD.s 1.89833 sl: 1.94536 tp: 1.91783]
+2026.07.24 11:34:20.350	2026.07.02 11:00:00   CTrade::OrderSend: modify position #6 GBPAUD.s (sl: 1.94536, tp: 1.91783) [done]
+2026.07.24 11:34:20.350	2026.07.02 11:00:00   [TRTM][INFO ] Exits applied to ticket 6: TP 1.91783 SL 1.94536
+2026.07.24 11:34:20.350	2026.07.02 11:00:00   position modified [#7 sell 0.06 GBPAUD.s 1.90153 sl: 1.94536 tp: 1.91783]
+2026.07.24 11:34:20.352	2026.07.02 11:00:00   CTrade::OrderSend: modify position #7 GBPAUD.s (sl: 1.94536, tp: 1.91783) [done]
+2026.07.24 11:34:20.352	2026.07.02 11:00:00   [TRTM][INFO ] Exits applied to ticket 7: TP 1.91783 SL 1.94536
+2026.07.24 11:34:20.352	2026.07.02 11:00:00   position modified [#8 sell 0.07 GBPAUD.s 1.90515 sl: 1.94536 tp: 1.91783]
+2026.07.24 11:34:20.354	2026.07.02 11:00:00   CTrade::OrderSend: modify position #8 GBPAUD.s (sl: 1.94536, tp: 1.91783) [done]
+2026.07.24 11:34:20.354	2026.07.02 11:00:00   [TRTM][INFO ] Exits applied to ticket 8: TP 1.91783 SL 1.94536
+2026.07.24 11:34:20.354	2026.07.02 11:00:00   position modified [#9 sell 0.08 GBPAUD.s 1.90774 sl: 1.94536 tp: 1.91783]
+2026.07.24 11:34:20.356	2026.07.02 11:00:00   CTrade::OrderSend: modify position #9 GBPAUD.s (sl: 1.94536, tp: 1.91783) [done]
+2026.07.24 11:34:20.356	2026.07.02 11:00:00   [TRTM][INFO ] Exits applied to ticket 9: TP 1.91783 SL 1.94536
+2026.07.24 11:34:20.356	2026.07.02 11:00:00   position modified [#20 sell 0.09 GBPAUD.s 1.91090 sl: 1.94536 tp: 1.91783]
+2026.07.24 11:34:20.358	2026.07.02 11:00:00   CTrade::OrderSend: modify position #20 GBPAUD.s (sl: 1.94536, tp: 1.91783) [done]
+2026.07.24 11:34:20.358	2026.07.02 11:00:00   [TRTM][INFO ] Exits applied to ticket 20: TP 1.91783 SL 1.94536
+2026.07.24 11:34:20.358	2026.07.02 11:00:00   position modified [#21 sell 0.1 GBPAUD.s 1.91382 sl: 1.94536 tp: 1.91783]
+2026.07.24 11:34:20.360	2026.07.02 11:00:00   CTrade::OrderSend: modify position #21 GBPAUD.s (sl: 1.94536, tp: 1.91783) [done]
+2026.07.24 11:34:20.360	2026.07.02 11:00:00   [TRTM][INFO ] Exits applied to ticket 21: TP 1.91783 SL 1.94536
+2026.07.24 11:34:20.360	2026.07.02 11:00:00   position modified [#22 sell 0.11 GBPAUD.s 1.91657 sl: 1.94536 tp: 1.91783]
+2026.07.24 11:34:20.362	2026.07.02 11:00:00   CTrade::OrderSend: modify position #22 GBPAUD.s (sl: 1.94536, tp: 1.91783) [done]
+2026.07.24 11:34:20.362	2026.07.02 11:00:00   [TRTM][INFO ] Exits applied to ticket 22: TP 1.91783 SL 1.94536
+2026.07.24 11:34:20.362	2026.07.02 11:00:00   position modified [#23 sell 0.12 GBPAUD.s 1.91951 sl: 1.94536 tp: 1.91783]
+2026.07.24 11:34:20.364	2026.07.02 11:00:00   CTrade::OrderSend: modify position #23 GBPAUD.s (sl: 1.94536, tp: 1.91783) [done]
+2026.07.24 11:34:20.364	2026.07.02 11:00:00   [TRTM][INFO ] Exits applied to ticket 23: TP 1.91783 SL 1.94536
+2026.07.24 11:34:20.364	2026.07.02 11:00:00   position modified [#29 sell 0.13 GBPAUD.s 1.92205 sl: 1.94536 tp: 1.91783]
+2026.07.24 11:34:20.366	2026.07.02 11:00:00   CTrade::OrderSend: modify position #29 GBPAUD.s (sl: 1.94536, tp: 1.91783) [done]
+2026.07.24 11:34:20.366	2026.07.02 11:00:00   [TRTM][INFO ] Exits applied to ticket 29: TP 1.91783 SL 1.94536
+2026.07.24 11:34:20.366	2026.07.02 11:00:00   position modified [#30 sell 0.14 GBPAUD.s 1.92489 sl: 1.94536 tp: 1.91783]
+2026.07.24 11:34:20.368	2026.07.02 11:00:00   CTrade::OrderSend: modify position #30 GBPAUD.s (sl: 1.94536, tp: 1.91783) [done]
+2026.07.24 11:34:20.368	2026.07.02 11:00:00   [TRTM][INFO ] Exits applied to ticket 30: TP 1.91783 SL 1.94536
+2026.07.24 11:34:20.368	2026.07.02 11:00:00   position modified [#31 sell 0.15 GBPAUD.s 1.92861 sl: 1.94536 tp: 1.91783]
+2026.07.24 11:34:20.370	2026.07.02 11:00:00   CTrade::OrderSend: modify position #31 GBPAUD.s (sl: 1.94536, tp: 1.91783) [done]
+2026.07.24 11:34:20.370	2026.07.02 11:00:00   [TRTM][INFO ] Exits applied to ticket 31: TP 1.91783 SL 1.94536
+2026.07.24 11:34:20.370	2026.07.02 11:00:00   position modified [#32 sell 0.16 GBPAUD.s 1.93219 sl: 1.94536 tp: 1.91783]
+2026.07.24 11:34:20.372	2026.07.02 11:00:00   CTrade::OrderSend: modify position #32 GBPAUD.s (sl: 1.94536, tp: 1.91783) [done]
+2026.07.24 11:34:20.372	2026.07.02 11:00:00   [TRTM][INFO ] Exits applied to ticket 32: TP 1.91783 SL 1.94536
+2026.07.24 11:34:20.372	2026.07.02 11:00:00   position modified [#33 sell 0.17 GBPAUD.s 1.93542 sl: 1.94536 tp: 1.91783]
+2026.07.24 11:34:20.374	2026.07.02 11:00:00   CTrade::OrderSend: modify position #33 GBPAUD.s (sl: 1.94536, tp: 1.91783) [done]
+2026.07.24 11:34:20.374	2026.07.02 11:00:00   [TRTM][INFO ] Exits applied to ticket 33: TP 1.91783 SL 1.94536
+2026.07.24 11:34:32.436	2026.07.02 15:30:36   [TRTM][INFO ] Tier 1 FIRE: SELL group 4 leg(s) (anchor L4 + 3 profitable) | VWAP 1.92938 far 1.92784 margin 154.0 pts >= 150/lot
+2026.07.24 11:34:32.436	2026.07.02 15:30:36   market buy 0.17 GBPAUD.s, close #33 (1.92751 / 1.92784)
+2026.07.24 11:34:32.436	2026.07.02 15:30:36   deal #34 buy 0.17 GBPAUD.s at 1.92784 done (based on order #34)
+2026.07.24 11:34:32.436	2026.07.02 15:30:36   deal performed [#34 buy 0.17 GBPAUD.s at 1.92784]
+2026.07.24 11:34:32.436	2026.07.02 15:30:36   order performed buy 0.17 at 1.92784 [#34 buy 0.17 GBPAUD.s at 1.92784]
+2026.07.24 11:34:32.439	2026.07.02 15:30:36   CTrade::OrderSend: market buy 0.17 position #33 GBPAUD.s [done at 1.92784]
+2026.07.24 11:34:32.439	2026.07.02 15:30:36   [TRTM][INFO ] Closed L17 ticket 33 @ 1.92784
+2026.07.24 11:34:32.439	2026.07.02 15:30:36   market buy 0.16 GBPAUD.s, close #32 (1.92751 / 1.92784)
+2026.07.24 11:34:32.439	2026.07.02 15:30:36   deal #35 buy 0.16 GBPAUD.s at 1.92784 done (based on order #35)
+2026.07.24 11:34:32.439	2026.07.02 15:30:36   deal performed [#35 buy 0.16 GBPAUD.s at 1.92784]
+2026.07.24 11:34:32.439	2026.07.02 15:30:36   order performed buy 0.16 at 1.92784 [#35 buy 0.16 GBPAUD.s at 1.92784]
+2026.07.24 11:34:32.441	2026.07.02 15:30:36   CTrade::OrderSend: market buy 0.16 position #32 GBPAUD.s [done at 1.92784]
+2026.07.24 11:34:32.441	2026.07.02 15:30:36   [TRTM][INFO ] Closed L16 ticket 32 @ 1.92784
+2026.07.24 11:34:32.441	2026.07.02 15:30:36   market buy 0.15 GBPAUD.s, close #31 (1.92751 / 1.92784)
+2026.07.24 11:34:32.441	2026.07.02 15:30:36   deal #36 buy 0.15 GBPAUD.s at 1.92784 done (based on order #36)
+2026.07.24 11:34:32.441	2026.07.02 15:30:36   deal performed [#36 buy 0.15 GBPAUD.s at 1.92784]
+2026.07.24 11:34:32.441	2026.07.02 15:30:36   order performed buy 0.15 at 1.92784 [#36 buy 0.15 GBPAUD.s at 1.92784]
+2026.07.24 11:34:32.443	2026.07.02 15:30:36   CTrade::OrderSend: market buy 0.15 position #31 GBPAUD.s [done at 1.92784]
+2026.07.24 11:34:32.443	2026.07.02 15:30:36   [TRTM][INFO ] Closed L15 ticket 31 @ 1.92784
+2026.07.24 11:34:32.443	2026.07.02 15:30:36   market buy 0.04 GBPAUD.s, close #5 (1.92751 / 1.92784)
+2026.07.24 11:34:32.443	2026.07.02 15:30:36   deal #37 buy 0.04 GBPAUD.s at 1.92784 done (based on order #37)
+2026.07.24 11:34:32.443	2026.07.02 15:30:36   deal performed [#37 buy 0.04 GBPAUD.s at 1.92784]
+2026.07.24 11:34:32.443	2026.07.02 15:30:36   order performed buy 0.04 at 1.92784 [#37 buy 0.04 GBPAUD.s at 1.92784]
+2026.07.24 11:34:32.445	2026.07.02 15:30:36   CTrade::OrderSend: market buy 0.04 position #5 GBPAUD.s [done at 1.92784]
+2026.07.24 11:34:32.445	2026.07.02 15:30:36   [TRTM][INFO ] Closed L4 ticket 5 @ 1.92784
+2026.07.24 11:34:32.445	2026.07.02 15:30:36   [TRTM][INFO ] Liveness: L17 ticket 33 closed by EA (market close) - removed from sequence
+2026.07.24 11:34:32.445	2026.07.02 15:30:36   [TRTM][INFO ] Liveness: L16 ticket 32 closed by EA (market close) - removed from sequence
+2026.07.24 11:34:32.445	2026.07.02 15:30:36   [TRTM][INFO ] Liveness: L15 ticket 31 closed by EA (market close) - removed from sequence
+2026.07.24 11:34:32.445	2026.07.02 15:30:36   [TRTM][INFO ] Liveness: L4 ticket 5 closed by EA (market close) - removed from sequence
+2026.07.24 11:34:32.445	2026.07.02 15:30:36   [TRTM][INFO ] Structure: 10 level(s), 0.95 lots | projected at TP +131.23 | at SL -2218.14
+2026.07.24 11:34:32.445	2026.07.02 15:30:36   [TRTM][INFO ] SL re-anchored: L4 -> L5 (widened to 1.94833 per locked rule - boundaries move with the structure)
+2026.07.24 11:34:32.445	2026.07.02 15:30:36   position modified [#6 sell 0.05 GBPAUD.s 1.89833 sl: 1.94833 tp: 1.91260]
+2026.07.24 11:34:32.447	2026.07.02 15:30:36   CTrade::OrderSend: modify position #6 GBPAUD.s (sl: 1.94833, tp: 1.91260) [done]
+2026.07.24 11:34:32.447	2026.07.02 15:30:36   [TRTM][INFO ] Exits applied to ticket 6: TP 1.91260 SL 1.94833
+2026.07.24 11:34:32.447	2026.07.02 15:30:36   position modified [#7 sell 0.06 GBPAUD.s 1.90153 sl: 1.94833 tp: 1.91260]
+2026.07.24 11:34:32.449	2026.07.02 15:30:36   CTrade::OrderSend: modify position #7 GBPAUD.s (sl: 1.94833, tp: 1.91260) [done]
+2026.07.24 11:34:32.449	2026.07.02 15:30:36   [TRTM][INFO ] Exits applied to ticket 7: TP 1.91260 SL 1.94833
+2026.07.24 11:34:32.449	2026.07.02 15:30:36   position modified [#8 sell 0.07 GBPAUD.s 1.90515 sl: 1.94833 tp: 1.91260]
+2026.07.24 11:34:32.451	2026.07.02 15:30:36   CTrade::OrderSend: modify position #8 GBPAUD.s (sl: 1.94833, tp: 1.91260) [done]
+2026.07.24 11:34:32.451	2026.07.02 15:30:36   [TRTM][INFO ] Exits applied to ticket 8: TP 1.91260 SL 1.94833
+2026.07.24 11:34:32.451	2026.07.02 15:30:36   position modified [#9 sell 0.08 GBPAUD.s 1.90774 sl: 1.94833 tp: 1.91260]
+2026.07.24 11:34:32.453	2026.07.02 15:30:36   CTrade::OrderSend: modify position #9 GBPAUD.s (sl: 1.94833, tp: 1.91260) [done]
+2026.07.24 11:34:32.453	2026.07.02 15:30:36   [TRTM][INFO ] Exits applied to ticket 9: TP 1.91260 SL 1.94833
+2026.07.24 11:34:32.453	2026.07.02 15:30:36   position modified [#20 sell 0.09 GBPAUD.s 1.91090 sl: 1.94833 tp: 1.91260]
+2026.07.24 11:34:32.455	2026.07.02 15:30:36   CTrade::OrderSend: modify position #20 GBPAUD.s (sl: 1.94833, tp: 1.91260) [done]
+2026.07.24 11:34:32.455	2026.07.02 15:30:36   [TRTM][INFO ] Exits applied to ticket 20: TP 1.91260 SL 1.94833
+2026.07.24 11:34:32.455	2026.07.02 15:30:36   position modified [#21 sell 0.1 GBPAUD.s 1.91382 sl: 1.94833 tp: 1.91260]
+2026.07.24 11:34:32.457	2026.07.02 15:30:36   CTrade::OrderSend: modify position #21 GBPAUD.s (sl: 1.94833, tp: 1.91260) [done]
+2026.07.24 11:34:32.457	2026.07.02 15:30:36   [TRTM][INFO ] Exits applied to ticket 21: TP 1.91260 SL 1.94833
+2026.07.24 11:34:32.457	2026.07.02 15:30:36   position modified [#22 sell 0.11 GBPAUD.s 1.91657 sl: 1.94833 tp: 1.91260]
+2026.07.24 11:34:32.459	2026.07.02 15:30:36   CTrade::OrderSend: modify position #22 GBPAUD.s (sl: 1.94833, tp: 1.91260) [done]
+2026.07.24 11:34:32.459	2026.07.02 15:30:36   [TRTM][INFO ] Exits applied to ticket 22: TP 1.91260 SL 1.94833
+2026.07.24 11:34:32.459	2026.07.02 15:30:36   position modified [#23 sell 0.12 GBPAUD.s 1.91951 sl: 1.94833 tp: 1.91260]
+2026.07.24 11:34:32.461	2026.07.02 15:30:36   CTrade::OrderSend: modify position #23 GBPAUD.s (sl: 1.94833, tp: 1.91260) [done]
+2026.07.24 11:34:32.461	2026.07.02 15:30:36   [TRTM][INFO ] Exits applied to ticket 23: TP 1.91260 SL 1.94833
+2026.07.24 11:34:32.461	2026.07.02 15:30:36   position modified [#29 sell 0.13 GBPAUD.s 1.92205 sl: 1.94833 tp: 1.91260]
+2026.07.24 11:34:32.463	2026.07.02 15:30:36   CTrade::OrderSend: modify position #29 GBPAUD.s (sl: 1.94833, tp: 1.91260) [done]
+2026.07.24 11:34:32.463	2026.07.02 15:30:36   [TRTM][INFO ] Exits applied to ticket 29: TP 1.91260 SL 1.94833
+2026.07.24 11:34:32.463	2026.07.02 15:30:36   position modified [#30 sell 0.14 GBPAUD.s 1.92489 sl: 1.94833 tp: 1.91260]
+2026.07.24 11:34:32.465	2026.07.02 15:30:36   CTrade::OrderSend: modify position #30 GBPAUD.s (sl: 1.94833, tp: 1.91260) [done]
+2026.07.24 11:34:32.465	2026.07.02 15:30:36   [TRTM][INFO ] Exits applied to ticket 30: TP 1.91260 SL 1.94833
+2026.07.24 11:34:33.134	2026.07.02 15:45:00   [TRTM][INFO ] Recovery signal: PERIOD_M15 bar closed 1.92789 vs trigger 1.92739 (worst entry 1.92489 + 250 pts)
+2026.07.24 11:34:33.134	2026.07.02 15:45:00   market sell 0.15 GBPAUD.s (1.92792 / 1.92822)
+2026.07.24 11:34:33.134	2026.07.02 15:45:00   deal #38 sell 0.15 GBPAUD.s at 1.92792 done (based on order #38)
+2026.07.24 11:34:33.134	2026.07.02 15:45:00   deal performed [#38 sell 0.15 GBPAUD.s at 1.92792]
+2026.07.24 11:34:33.134	2026.07.02 15:45:00   order performed sell 0.15 at 1.92792 [#38 sell 0.15 GBPAUD.s at 1.92792]
+2026.07.24 11:34:33.136	2026.07.02 15:45:00   CTrade::OrderSend: market sell 0.15 GBPAUD.s [done at 1.92792]
+2026.07.24 11:34:33.136	2026.07.02 15:45:00   [TRTM][INFO ] Recovery L15 OPENED: 0.15 lots SELL @ 1.92792 (deal 38)
+2026.07.24 11:34:33.136	2026.07.02 15:45:00   [TRTM][INFO ] Recovery L15 registered: ticket 38
+2026.07.24 11:34:33.136	2026.07.02 15:45:00   [TRTM][INFO ] Structure: 11 level(s), 1.10 lots | projected at TP +152.86 | at SL -2436.11
+2026.07.24 11:34:33.136	2026.07.02 15:45:00   position modified [#6 sell 0.05 GBPAUD.s 1.89833 sl: 1.94833 tp: 1.91441]
+2026.07.24 11:34:33.138	2026.07.02 15:45:00   CTrade::OrderSend: modify position #6 GBPAUD.s (sl: 1.94833, tp: 1.91441) [done]
+2026.07.24 11:34:33.138	2026.07.02 15:45:00   [TRTM][INFO ] Exits applied to ticket 6: TP 1.91441 SL 1.94833
+2026.07.24 11:34:33.138	2026.07.02 15:45:00   position modified [#7 sell 0.06 GBPAUD.s 1.90153 sl: 1.94833 tp: 1.91441]
+2026.07.24 11:34:33.139	2026.07.02 15:45:00   CTrade::OrderSend: modify position #7 GBPAUD.s (sl: 1.94833, tp: 1.91441) [done]
+2026.07.24 11:34:33.139	2026.07.02 15:45:00   [TRTM][INFO ] Exits applied to ticket 7: TP 1.91441 SL 1.94833
+2026.07.24 11:34:33.139	2026.07.02 15:45:00   position modified [#8 sell 0.07 GBPAUD.s 1.90515 sl: 1.94833 tp: 1.91441]
+2026.07.24 11:34:33.141	2026.07.02 15:45:00   CTrade::OrderSend: modify position #8 GBPAUD.s (sl: 1.94833, tp: 1.91441) [done]
+2026.07.24 11:34:33.141	2026.07.02 15:45:00   [TRTM][INFO ] Exits applied to ticket 8: TP 1.91441 SL 1.94833
+2026.07.24 11:34:33.141	2026.07.02 15:45:00   position modified [#9 sell 0.08 GBPAUD.s 1.90774 sl: 1.94833 tp: 1.91441]
+2026.07.24 11:34:33.143	2026.07.02 15:45:00   CTrade::OrderSend: modify position #9 GBPAUD.s (sl: 1.94833, tp: 1.91441) [done]
+2026.07.24 11:34:33.143	2026.07.02 15:45:00   [TRTM][INFO ] Exits applied to ticket 9: TP 1.91441 SL 1.94833
+2026.07.24 11:34:33.143	2026.07.02 15:45:00   position modified [#20 sell 0.09 GBPAUD.s 1.91090 sl: 1.94833 tp: 1.91441]
+2026.07.24 11:34:33.145	2026.07.02 15:45:00   CTrade::OrderSend: modify position #20 GBPAUD.s (sl: 1.94833, tp: 1.91441) [done]
+2026.07.24 11:34:33.145	2026.07.02 15:45:00   [TRTM][INFO ] Exits applied to ticket 20: TP 1.91441 SL 1.94833
+2026.07.24 11:34:33.145	2026.07.02 15:45:00   position modified [#21 sell 0.1 GBPAUD.s 1.91382 sl: 1.94833 tp: 1.91441]
+2026.07.24 11:34:33.147	2026.07.02 15:45:00   CTrade::OrderSend: modify position #21 GBPAUD.s (sl: 1.94833, tp: 1.91441) [done]
+2026.07.24 11:34:33.147	2026.07.02 15:45:00   [TRTM][INFO ] Exits applied to ticket 21: TP 1.91441 SL 1.94833
+2026.07.24 11:34:33.147	2026.07.02 15:45:00   position modified [#22 sell 0.11 GBPAUD.s 1.91657 sl: 1.94833 tp: 1.91441]
+2026.07.24 11:34:33.148	2026.07.02 15:45:00   CTrade::OrderSend: modify position #22 GBPAUD.s (sl: 1.94833, tp: 1.91441) [done]
+2026.07.24 11:34:33.148	2026.07.02 15:45:00   [TRTM][INFO ] Exits applied to ticket 22: TP 1.91441 SL 1.94833
+2026.07.24 11:34:33.148	2026.07.02 15:45:00   position modified [#23 sell 0.12 GBPAUD.s 1.91951 sl: 1.94833 tp: 1.91441]
+2026.07.24 11:34:33.150	2026.07.02 15:45:00   CTrade::OrderSend: modify position #23 GBPAUD.s (sl: 1.94833, tp: 1.91441) [done]
+2026.07.24 11:34:33.150	2026.07.02 15:45:00   [TRTM][INFO ] Exits applied to ticket 23: TP 1.91441 SL 1.94833
+2026.07.24 11:34:33.150	2026.07.02 15:45:00   position modified [#29 sell 0.13 GBPAUD.s 1.92205 sl: 1.94833 tp: 1.91441]
+2026.07.24 11:34:33.152	2026.07.02 15:45:00   CTrade::OrderSend: modify position #29 GBPAUD.s (sl: 1.94833, tp: 1.91441) [done]
+2026.07.24 11:34:33.152	2026.07.02 15:45:00   [TRTM][INFO ] Exits applied to ticket 29: TP 1.91441 SL 1.94833
+2026.07.24 11:34:33.152	2026.07.02 15:45:00   position modified [#30 sell 0.14 GBPAUD.s 1.92489 sl: 1.94833 tp: 1.91441]
+2026.07.24 11:34:33.154	2026.07.02 15:45:00   CTrade::OrderSend: modify position #30 GBPAUD.s (sl: 1.94833, tp: 1.91441) [done]
+2026.07.24 11:34:33.154	2026.07.02 15:45:00   [TRTM][INFO ] Exits applied to ticket 30: TP 1.91441 SL 1.94833
+2026.07.24 11:34:33.154	2026.07.02 15:45:00   position modified [#38 sell 0.15 GBPAUD.s 1.92792 sl: 1.94833 tp: 1.91441]
+2026.07.24 11:34:33.156	2026.07.02 15:45:00   CTrade::OrderSend: modify position #38 GBPAUD.s (sl: 1.94833, tp: 1.91441) [done]
+2026.07.24 11:34:33.156	2026.07.02 15:45:00   [TRTM][INFO ] Exits applied to ticket 38: TP 1.91441 SL 1.94833
+2026.07.24 11:34:57.961	2026.07.02 23:59:58   position closed due end of test at 1.92884 [#38 sell 0.15 GBPAUD.s 1.92792 sl: 1.94833 tp: 1.91441]
+2026.07.24 11:34:57.961	2026.07.02 23:59:58   deal #39 buy 0.15 GBPAUD.s at 1.92884 done (based on order #39)
+2026.07.24 11:34:57.961	2026.07.02 23:59:58   deal performed [#39 buy 0.15 GBPAUD.s at 1.92884]
+2026.07.24 11:34:57.961	2026.07.02 23:59:58   order performed buy 0.15 at 1.92884 [#39 buy 0.15 GBPAUD.s at 1.92884]
+2026.07.24 11:34:57.961	2026.07.02 23:59:58   position closed due end of test at 1.92884 [#30 sell 0.14 GBPAUD.s 1.92489 sl: 1.94833 tp: 1.91441]
+2026.07.24 11:34:57.961	2026.07.02 23:59:58   deal #40 buy 0.14 GBPAUD.s at 1.92884 done (based on order #40)
+2026.07.24 11:34:57.961	2026.07.02 23:59:58   deal performed [#40 buy 0.14 GBPAUD.s at 1.92884]
+2026.07.24 11:34:57.961	2026.07.02 23:59:58   order performed buy 0.14 at 1.92884 [#40 buy 0.14 GBPAUD.s at 1.92884]
+2026.07.24 11:34:57.961	2026.07.02 23:59:58   position closed due end of test at 1.92884 [#29 sell 0.13 GBPAUD.s 1.92205 sl: 1.94833 tp: 1.91441]
+2026.07.24 11:34:57.961	2026.07.02 23:59:58   deal #41 buy 0.13 GBPAUD.s at 1.92884 done (based on order #41)
+2026.07.24 11:34:57.961	2026.07.02 23:59:58   deal performed [#41 buy 0.13 GBPAUD.s at 1.92884]
+2026.07.24 11:34:57.961	2026.07.02 23:59:58   order performed buy 0.13 at 1.92884 [#41 buy 0.13 GBPAUD.s at 1.92884]
+2026.07.24 11:34:57.961	2026.07.02 23:59:58   position closed due end of test at 1.92884 [#23 sell 0.12 GBPAUD.s 1.91951 sl: 1.94833 tp: 1.91441]
+2026.07.24 11:34:57.961	2026.07.02 23:59:58   deal #42 buy 0.12 GBPAUD.s at 1.92884 done (based on order #42)
+2026.07.24 11:34:57.961	2026.07.02 23:59:58   deal performed [#42 buy 0.12 GBPAUD.s at 1.92884]
+2026.07.24 11:34:57.961	2026.07.02 23:59:58   order performed buy 0.12 at 1.92884 [#42 buy 0.12 GBPAUD.s at 1.92884]
+2026.07.24 11:34:57.961	2026.07.02 23:59:58   position closed due end of test at 1.92884 [#22 sell 0.11 GBPAUD.s 1.91657 sl: 1.94833 tp: 1.91441]
+2026.07.24 11:34:57.961	2026.07.02 23:59:58   deal #43 buy 0.11 GBPAUD.s at 1.92884 done (based on order #43)
+2026.07.24 11:34:57.961	2026.07.02 23:59:58   deal performed [#43 buy 0.11 GBPAUD.s at 1.92884]
+2026.07.24 11:34:57.961	2026.07.02 23:59:58   order performed buy 0.11 at 1.92884 [#43 buy 0.11 GBPAUD.s at 1.92884]
+2026.07.24 11:34:57.961	2026.07.02 23:59:58   position closed due end of test at 1.92884 [#21 sell 0.1 GBPAUD.s 1.91382 sl: 1.94833 tp: 1.91441]
+2026.07.24 11:34:57.961	2026.07.02 23:59:58   deal #44 buy 0.1 GBPAUD.s at 1.92884 done (based on order #44)
+2026.07.24 11:34:57.961	2026.07.02 23:59:58   deal performed [#44 buy 0.1 GBPAUD.s at 1.92884]
+2026.07.24 11:34:57.961	2026.07.02 23:59:58   order performed buy 0.1 at 1.92884 [#44 buy 0.1 GBPAUD.s at 1.92884]
+2026.07.24 11:34:57.961	2026.07.02 23:59:58   position closed due end of test at 1.92884 [#20 sell 0.09 GBPAUD.s 1.91090 sl: 1.94833 tp: 1.91441]
+2026.07.24 11:34:57.962	2026.07.02 23:59:58   deal #45 buy 0.09 GBPAUD.s at 1.92884 done (based on order #45)
+2026.07.24 11:34:57.962	2026.07.02 23:59:58   deal performed [#45 buy 0.09 GBPAUD.s at 1.92884]
+2026.07.24 11:34:57.962	2026.07.02 23:59:58   order performed buy 0.09 at 1.92884 [#45 buy 0.09 GBPAUD.s at 1.92884]
+2026.07.24 11:34:57.962	2026.07.02 23:59:58   position closed due end of test at 1.92884 [#9 sell 0.08 GBPAUD.s 1.90774 sl: 1.94833 tp: 1.91441]
+2026.07.24 11:34:57.962	2026.07.02 23:59:58   deal #46 buy 0.08 GBPAUD.s at 1.92884 done (based on order #46)
+2026.07.24 11:34:57.962	2026.07.02 23:59:58   deal performed [#46 buy 0.08 GBPAUD.s at 1.92884]
+2026.07.24 11:34:57.962	2026.07.02 23:59:58   order performed buy 0.08 at 1.92884 [#46 buy 0.08 GBPAUD.s at 1.92884]
+2026.07.24 11:34:57.962	2026.07.02 23:59:58   position closed due end of test at 1.92884 [#8 sell 0.07 GBPAUD.s 1.90515 sl: 1.94833 tp: 1.91441]
+2026.07.24 11:34:57.962	2026.07.02 23:59:58   deal #47 buy 0.07 GBPAUD.s at 1.92884 done (based on order #47)
+2026.07.24 11:34:57.962	2026.07.02 23:59:58   deal performed [#47 buy 0.07 GBPAUD.s at 1.92884]
+2026.07.24 11:34:57.962	2026.07.02 23:59:58   order performed buy 0.07 at 1.92884 [#47 buy 0.07 GBPAUD.s at 1.92884]
+2026.07.24 11:34:57.962	2026.07.02 23:59:58   position closed due end of test at 1.92884 [#7 sell 0.06 GBPAUD.s 1.90153 sl: 1.94833 tp: 1.91441]
+2026.07.24 11:34:57.962	2026.07.02 23:59:58   deal #48 buy 0.06 GBPAUD.s at 1.92884 done (based on order #48)
+2026.07.24 11:34:57.962	2026.07.02 23:59:58   deal performed [#48 buy 0.06 GBPAUD.s at 1.92884]
+2026.07.24 11:34:57.962	2026.07.02 23:59:58   order performed buy 0.06 at 1.92884 [#48 buy 0.06 GBPAUD.s at 1.92884]
+2026.07.24 11:34:57.962	2026.07.02 23:59:58   position closed due end of test at 1.92884 [#6 sell 0.05 GBPAUD.s 1.89833 sl: 1.94833 tp: 1.91441]
+2026.07.24 11:34:57.962	2026.07.02 23:59:58   deal #49 buy 0.05 GBPAUD.s at 1.92884 done (based on order #49)
+2026.07.24 11:34:57.962	2026.07.02 23:59:58   deal performed [#49 buy 0.05 GBPAUD.s at 1.92884]
+2026.07.24 11:34:57.962	2026.07.02 23:59:58   order performed buy 0.05 at 1.92884 [#49 buy 0.05 GBPAUD.s at 1.92884]
+2026.07.24 11:34:57.962	final balance 2166.59 USD
+2026.07.24 11:34:57.962	2026.07.02 23:59:58   [TRTM][INFO ] Deinit (reason 1) - state saved (sequence alive)
+2026.07.24 11:34:57.966	GBPAUD.s,M15: 1416488 ticks, 864 bars generated. Environment synchronized in 0:00:00.050. Test passed in 0:14:48.936 (including ticks preprocessing 0:00:00.094).
+2026.07.24 11:34:57.966	GBPAUD.s,M15: total time from login to stop testing 0:14:48.986 (including 0:00:00.050 for history data synchronization)
+2026.07.24 11:34:57.966	3465920 total ticks for all symbols
+2026.07.24 11:34:57.966	AUDUSD.s: generate 1004344 ticks in 0:00:00.032, passed to tester 991650 ticks
+2026.07.24 11:34:57.966	GBPAUD.s: generate 1416490 ticks in 0:00:00.031, passed to tester 1416488 ticks
+2026.07.24 11:34:57.966	GBPUSD.s: generate 1071400 ticks in 0:00:00.031, passed to tester 1057782 ticks
+2026.07.24 11:34:57.966	214 Mb memory used including 2 Mb of history data, 128 Mb of tick data
+2026.07.24 11:34:57.966	log file "C:\Users\jpesm\AppData\Roaming\MetaQuotes\Tester\D0E8209F77C8CF37AD8BF550E51FF075\Agent-127.0.0.1-3000\logs\20260724.log" written
+2026.07.24 11:34:57.966	test Experts\TRTM.ex5 on GBPAUD.s,M15 thread finished
+2026.07.24 11:34:58.055	prepare for shutdown
+2026.07.24 11:34:58.055	shutdown finished

@@ -4,11 +4,11 @@
 # runtime copy, all compared to this manifest. Match = aligned in one
 # line. Disk + git are truth, never conversation or auto memory.
 
-build: E1-b34
+build: E4-b36
 file: TRTM.mq5
-sha256_16: aef5dc989609dc45
-lines: 4307
-date: 2026-07-23
+sha256_16: 7e14479c83d672a4
+lines: 4483
+date: 2026-07-24
 
 ## Environment note
 ALL charts are DEMO; multi-symbol attachments are test surface.
@@ -792,6 +792,83 @@ depth-scaling term (no 150 + K*(count-MinTrades)).
   symbol-relative. Shadow's 150 was GBPAUD.s (5-digit); on XAUUSD.s (_Point
   0.01) 150 pts = a $1.50 move - the DEFAULT value for gold must be chosen
   deliberately at plan time, independent of flat-vs-scaled.
+
+2026-07-24 E4 O2 PLAN-TIME RIDER RESOLVED (Gate 3): InpTier1MinProfitPts
+DEFAULT = 150 points. ONE input, in POINTS, symbol-relative, per-chart
+overridable - the EA does NOT branch on symbol (same as the existing
+InpRecoveryIntervalPts / InpAvgTPPts defaults).
+  RATIONALE (Jeff 2026-07-24): TRTM's PRIMARY use is FOREX recovery-trade
+  management; XAUUSD.s is only a fast TEST surface (volatility reaches levels
+  faster). The shipped default therefore targets the primary use, not gold.
+  150 is the forex-native number (Shadow's GBPAUD.s value) and is kept ON
+  MERIT for forex, not as a coincidental gold point-count. A gold user
+  overrides per chart.
+  Rejected: 200 pts (parity with InpAvgTPPts, a GOLD-framed rec I proposed
+  before the forex-primary framing was corrected) and 300 pts (one full
+  recovery interval) - both were gold-centric and do not fit the forex
+  primary use. Reversible per chart at any time (it is an input, not a
+  constant).
+
+2026-07-24 E4 H-6 SL RE-ANCHOR IMPLEMENTATION = CONFIRM EXISTING PATH +
+FIRE-THEN-RETURN (Gate 3; Jeff confirmed 2026-07-24). NO new SL code. On a
+Tier 1 fire, EvaluateTier1 returns from the tick (no recovery add that tick);
+the NEXT tick CheckSequenceLiveness prunes the EA-closed anchor and
+ComputeTargets recomputes minLvl = new lowest survivor, re-anchoring the SL
+through the EXISTING path (EnforceExits:1511) - the same mechanism a manual L1
+close already uses.
+  RATIONALE: ComputeTargets already anchors SL to the lowest surviving level
+  and skips missing tickets; the re-anchor is not new behavior. Fire-then-return
+  is the only guard needed (H-5 atomicity - no higher rung added before the
+  prune+re-anchor settles). Mid-fire the survivors hold their old (tighter,
+  protective) broker-side SL; the basket is NEVER left unprotected. Preserves
+  the "EnforceExits is the single SL writer" invariant.
+  Rejected: explicit synchronous re-anchor inside EvaluateTier1 - adds a SECOND
+  SL writer, touches the sealed exit path more heavily, and risks the async gap
+  where the just-closed anchor is still PositionSelectByTicket-visible for a
+  tick (wrong-anchor read). H-6 remains a VERIFY-time proof obligation (SL moves
+  to new oldest, never references a closed ticket, never unprotected mid-fire,
+  BUY+SELL laps), not a code rewrite.
+
+2026-07-24 E4 M-1 WHOLE-BASKET STAND-DOWN (live finding -> matrix rev 2 amendment;
+build E4-b36). Jeff confirmed 2026-07-24. When the Tier 1 group would close the
+ENTIRE open basket (no underwater survivor remains), Tier 1 STANDS DOWN instead
+of firing. Guard: grp size >= openCount (grp always contains the anchor, so this
+means every non-anchor position is profitable).
+  FINDING (live gold demo, 2026-07-24 16:02): a 4-level all-in-group fire closed
+  the whole basket at group margin 152.8 pts, PRE-EMPTING the sequence's own
+  AvgTP (200 pts, projected +19.98). Because group==basket, Tier 1's VWAP == the
+  sequence VWAP, so with MinProfitPts(150) < AvgTPPts(200) Tier 1 always fires
+  first and banks LESS than the sequence would unaided. Spec-compliant with G-1
+  but not traced in the sealed matrix (which assumed partial valving on a deep
+  underwater basket).
+  DECISION (A) chosen over (B): (A) stand down whenever group==whole basket (no
+  survivor); (B) stand down only when the anchor itself is profitable. (A) makes
+  Tier 1 NEVER worse than the baseline sequence exit (the finding's core concern)
+  and covers the anchor-sole-loser case (the likely live fire); (B) leaves that
+  case still clipping the TP. Give-back objection answered: standing down hands
+  the full close to the sequence's OWN AvgTP-exceeded market close (bank-at-market,
+  give-back-averse, banks the higher +200) - deferral to a better guaranteed exit,
+  not hoping.
+  SCOPE: inert on every partial valve (grp < openCount) - all prior VERIFIED fires
+  (GBPAUD SELL x4, gold BUY x5, GBPAUD fire1) had grp < openCount, so they are
+  unchanged. Only the whole-basket case flips from fire to stand-down.
+  Rejected: (B) anchor-profitable-only (partial fix); accept-as-is (leaves Tier 1
+  strictly worse than Tier1-off on green baskets); scaling MinProfit vs AvgTP by
+  guidance only (relies on the trader tuning, does not fix the interaction).
+  VERIFY BEFORE RE-SEAL: reproduce the whole-basket case -> now logs "Tier 1
+  stands down ... (M-1)" and the sequence AvgTP banks the full close; confirm a
+  PARTIAL fire still fires byte-identical (regression vs the verified runs).
+
+2026-07-24 E4-b36 SEALED by Jeff. Full evidence-audited verification complete
+(see docs/E4_VERIFY_CHECKLIST.md). Matrix rev 2 (36 rows + M-1) SEALED. Every
+money-path row recomputed to the cent: fire path BOTH directions (SELL GBPAUD.s
+tester, BUY XAUUSD.s tester), re-arm (H-2/H-4/O-1/O-2), dormancy (D-1 observed),
+H-6 SL re-anchor (SELL x4 exact; BUY reasoning + direction-signed), X-2/X-3 abort
+(reasoning), K-1/K-2/K-3 restart (LIVE demo kill+reconcile), C-1/C-2/H-1, P1
+no-fire byte-identity, M-1 whole-basket stand-down (observed: sequence AvgTP
+banked +2500 vs Tier1 +500, validated (A) over (B) on the anchor-sole-loser case),
+gate zero b36. Build E4-b36 sha256_16 7e14479c83d672a4 / 4483 lines. E4 (Drawdown
+Reduction Tier 1) is CLOSED. Deploy to MT5 tree is Jeff's manual step.
 
 2026-07-23 E1 ANCHOR BASIS = LOT-WEIGHTED, ALL THREE PATHS (Gate 1
 LOCKED; matrix + plan still required before any code). Decision: replace
