@@ -1,0 +1,1084 @@
+2026.07.25 06:51:55.811	MetaTester 5 started on 127.0.0.1:3000
+2026.07.25 06:51:55.815	cloud network mode is off
+2026.07.25 06:51:55.815	initialization finished
+2026.07.25 06:51:56.075	login (build 5833)
+2026.07.25 06:51:56.109	19576 bytes of account info loaded
+2026.07.25 06:51:56.109	1478 bytes of tester parameters loaded
+2026.07.25 06:51:56.109	30916 bytes of input parameters loaded
+2026.07.25 06:51:56.109	636 bytes of symbols list loaded (85 symbols)
+2026.07.25 06:51:56.111	expert file added: Experts\Shadow Trade Manager PROv3.21 Licensed.ex5. 687073 bytes loaded
+2026.07.25 06:51:56.124	7773 Mb available, 96 blocks set for ticks generating
+2026.07.25 06:51:56.124	initial deposit 3000.00 USD, leverage 1:500
+2026.07.25 06:51:56.125	successfully initialized
+2026.07.25 06:51:56.125	306 Kb of total initialization data received
+2026.07.25 06:51:56.125	AMD Ryzen 5 9600X 6-Core, 31909 MB
+2026.07.25 06:51:56.150	GBPAUD.s: symbol to be synchronized
+2026.07.25 06:51:56.150	GBPAUD.s: symbol synchronized, 3720 bytes of symbol info received
+2026.07.25 06:51:56.151	GBPAUD.s: history synchronization started
+2026.07.25 06:51:56.152	GBPAUD.s: load 31 bytes of history data to synchronize in 0:00:00.000
+2026.07.25 06:51:56.152	GBPAUD.s: history synchronized from 2025.01.02 to 2026.07.03
+2026.07.25 06:51:56.152	GBPAUD.s: ticks synchronization started
+2026.07.25 06:51:56.152	GBPAUD.s: load 38 bytes of tick data to synchronize in 0:00:00.000
+2026.07.25 06:51:56.152	GBPAUD.s: history ticks synchronized from 2026.06.22 to 2026.07.02
+2026.07.25 06:51:56.175	GBPAUD.s,M15: history cache allocated for 37361 bars and contains 36469 bars from 2025.01.02 00:00 to 2026.06.19 23:45
+2026.07.25 06:51:56.175	GBPAUD.s,M15: history begins from 2025.01.02 00:00
+2026.07.25 06:51:56.181	GBPAUD.s,M15 (DooTechnology-Demo): generating based on real ticks
+2026.07.25 06:51:56.181	GBPAUD.s,M15: testing of Experts\Shadow Trade Manager PROv3.21 Licensed.ex5 from 2026.06.22 00:00 to 2026.07.03 00:00 started with inputs:
+2026.07.25 06:51:56.181	  ---------------S.T.MANAGER ACTIVATION----------=
+2026.07.25 06:51:56.181	  InpLicensingBaseUrl=https://flow.tradersph.com/webhook/tph/verifyLicense
+2026.07.25 06:51:56.181	  InpActivationKey=019f53fa-3a3c-746a-9f9e-26b9b0ff47a0
+2026.07.25 06:51:56.181	  ---------------MANUAL PICKUP----------=
+2026.07.25 06:51:56.181	  InpPickupMobileTrades=false
+2026.07.25 06:51:56.181	  ---------------ENTRY----------=
+2026.07.25 06:51:56.181	  UInpMoneyManagementMode=0
+2026.07.25 06:51:56.181	  UInpEntryLotSize=0.01
+2026.07.25 06:51:56.181	  InpLotsPerBalance=10000.0
+2026.07.25 06:51:56.181	  InpRiskPercent=0.1
+2026.07.25 06:51:56.181	  InpCustomComment=
+2026.07.25 06:51:56.181	  InpMagicNumber=0
+2026.07.25 06:51:56.181	  InpPendingOrderDistance=200
+2026.07.25 06:51:56.181	  ------------RECOVERY TRADE MANAGEMENT----------=
+2026.07.25 06:51:56.181	  UInpEnableRecovery=true
+2026.07.25 06:51:56.181	  UInpRecoveryMode=1
+2026.07.25 06:51:56.181	  InpMartingaleMultiplier=2.0
+2026.07.25 06:51:56.181	  InpManualMultiplierSeries=1,1,2,2,3,3,4,4
+2026.07.25 06:51:56.181	  UInpRecoveryPointInterval=200
+2026.07.25 06:51:56.181	  InpAutoAdjustInterval=true
+2026.07.25 06:51:56.181	  InpRecoveryBarCloseEntry=true
+2026.07.25 06:51:56.181	  InpRecoveryEntryTimeframe=15
+2026.07.25 06:51:56.181	  UInpMaxTrades=0
+2026.07.25 06:51:56.181	  ---------------EXIT----------=
+2026.07.25 06:51:56.181	  InpInitialTakeProfitPoints=300
+2026.07.25 06:51:56.181	  InpRecoveryTakeProfitPoints=200
+2026.07.25 06:51:56.181	  InpStopLossPoints=0
+2026.07.25 06:51:56.181	  InpEnableBreakEven=false
+2026.07.25 06:51:56.181	  InpBreakEvenTriggerPoints=200
+2026.07.25 06:51:56.181	  InpBreakEvenPointsToAdd=10
+2026.07.25 06:51:56.181	  InpEnableTrailingStop=true
+2026.07.25 06:51:56.181	  InpTrailingStopStartPoints=200
+2026.07.25 06:51:56.181	  InpTrailingStopDistPoints=100
+2026.07.25 06:51:56.181	  InpTrailingStopMode=0
+2026.07.25 06:51:56.181	  InpTrailingStopStep=10
+2026.07.25 06:51:56.181	  InpTrailingBarClose=false
+2026.07.25 06:51:56.181	  InpTrailingTimeframe=15
+2026.07.25 06:51:56.181	  InpEnableDDAutoclose=false
+2026.07.25 06:51:56.181	  InpMaxDDMoney=0.0
+2026.07.25 06:51:56.181	  InpMaxDDPercent=0.0
+2026.07.25 06:51:56.181	  ---------------FILTERS AND SAFETY----------=
+2026.07.25 06:51:56.181	  InpEnableMaxSpreadFilter=true
+2026.07.25 06:51:56.181	  InpMaxAllowedSpreadPoints=80
+2026.07.25 06:51:56.181	  InpEnableSlippageFilter=true
+2026.07.25 06:51:56.181	  InpMaxAllowedSlippagePoints=15
+2026.07.25 06:51:56.181	  ---------------DRAWDOWN REDUCTION (PARTIAL CLOSE)----------=
+2026.07.25 06:51:56.181	  InpEnablePartialClose1=true
+2026.07.25 06:51:56.181	  InpPC1_MinTrades=4
+2026.07.25 06:51:56.181	  InpPC1_MinProfitPoints=150
+2026.07.25 06:51:56.181	  InpEnablePartialClose2=true
+2026.07.25 06:51:56.181	  InpPC2_MinTrades=4
+2026.07.25 06:51:56.181	  InpPC2_ProfitPercent=1.0
+2026.07.25 06:51:56.181	  InpEnablePartialClose3=true
+2026.07.25 06:51:56.181	  InpPC3_MinTrades=4
+2026.07.25 06:51:56.181	  InpPC3_MinLots=0.02
+2026.07.25 06:51:56.181	  InpPC3_MinProfitPoints=200
+2026.07.25 06:51:56.181	  InpPC3_ClosePercent=50.0
+2026.07.25 06:51:56.181	  ---------------GUI SETTINGS----------=
+2026.07.25 06:51:56.181	  InpGuiFontSize=15
+2026.07.25 06:51:56.181	  InpMacOSCompatibility=0
+2026.07.25 06:51:56.199	2026.06.22 00:00:00   Auto-Adjust: Symbol 'GBPAUD.s' detected. Recovery Interval changed from 200 → 350 points.
+2026.07.25 06:51:56.199	2026.06.22 00:00:00   Native Windows environment confirmed. Using standard ARGB mode.
+2026.07.25 06:51:56.205	2026.06.22 00:00:00   New Instance: Created Magic Number 100001 in file: ShadowTM_Magic_GBPAUD.s_123.txt
+2026.07.25 06:51:56.205	2026.06.22 00:00:00   Shadow Trade Manager PRO instance is now using Magic Number: 100001
+2026.07.25 06:51:56.205	2026.06.22 00:00:00   Please ensure the following URL is added to Tools > Options > Expert Advisors > 'Allow WebRequest for listed URL':
+2026.07.25 06:51:56.205	2026.06.22 00:00:00   https://flow.tradersph.com/webhook/tph/verifyLicense
+2026.07.25 06:51:56.205	2026.06.22 00:00:00   ValidateLicense: Strategy Tester detected. Bypassing WebRequest.
+2026.07.25 06:51:56.205	2026.06.22 00:00:00   License Validated Successfully. EA is Active.
+2026.07.25 06:51:56.205	2026.06.22 00:00:00   OnInit: Starting initialization (v3.21) for GBPAUD.s...
+2026.07.25 06:51:56.205	2026.06.22 00:00:00   OnInit: Inputs checked.
+2026.07.25 06:51:56.205	2026.06.22 00:00:00   OnInit: Magic Number 100001 appears unique.
+2026.07.25 06:51:56.205	2026.06.22 00:00:00   OnInit: Symbol props fetched. Point=0.00001 Digits=5 StopsLevel=25.0
+2026.07.25 06:51:56.205	2026.06.22 00:00:00   OnInit: Slippage filter enabled. Max deviation set to 15 points.
+2026.07.25 06:51:56.205	2026.06.22 00:00:00   OnInit: Spread filter enabled. Max allowed spread set to 80 points.
+2026.07.25 06:51:56.205	2026.06.22 00:00:00   OnInit: Trading object initialized with Magic Number: 100001
+2026.07.25 06:51:56.205	2026.06.22 00:00:00   OnInit: Checking for existing positions to restore recovery state...
+2026.07.25 06:51:56.205	2026.06.22 00:00:00   OnInit: Position check complete. Found Buys: 0, Found Sells: 0
+2026.07.25 06:51:56.205	2026.06.22 00:00:00   OnInit: No existing Buy or Sell positions found for this EA instance. Starting fresh.
+2026.07.25 06:51:56.205	2026.06.22 00:00:00   OnInit: CreateControls() returned true.
+2026.07.25 06:51:56.205	2026.06.22 00:00:00   OnInit: Attempting to redraw Unified TP Line if sequence is active...
+2026.07.25 06:51:56.205	2026.06.22 00:00:00   ApplyInputParameterChangesToOpenTrades: Checking for TP adjustments for instance 100001 on GBPAUD.s
+2026.07.25 06:51:56.206	2026.06.22 00:00:00   GV Cleanup: No orphaned Global Variables found.
+2026.07.25 06:51:56.206	2026.06.22 00:00:00   Shadow Trade Manager PRO v3.21 Initialized Successfully.
+2026.07.25 06:51:56.253	GBPAUD.s : real ticks begin from 2026.06.22 00:00:00
+2026.07.25 06:51:57.759	2026.06.22 00:47:54   MM Mode: Fixed Lot. Using lot size: 0.01
+2026.07.25 06:51:57.759	2026.06.22 00:47:54   Final validated lot size: 0.01
+2026.07.25 06:51:57.759	GBPUSD.s: symbol to be synchronized
+2026.07.25 06:51:57.762	GBPUSD.s: symbol synchronized, 3720 bytes of symbol info received
+2026.07.25 06:51:57.763	GBPUSD.s: history synchronization started
+2026.07.25 06:51:57.765	GBPUSD.s: load 31 bytes of history data to synchronize in 0:00:00.000
+2026.07.25 06:51:57.765	GBPUSD.s: history synchronized from 2025.01.02 to 2026.07.03
+2026.07.25 06:51:57.765	GBPUSD.s: ticks synchronization started
+2026.07.25 06:51:58.779	GBPUSD.s: load 38 bytes of tick data to synchronize in 0:00:01.016
+2026.07.25 06:51:58.779	GBPUSD.s: history ticks synchronized from 2026.06.22 to 2026.07.02
+2026.07.25 06:51:58.783	2026.06.22 00:47:54   market sell 0.01 GBPAUD.s tp: 1.87970 (1.88270 / 1.88341)
+2026.07.25 06:51:58.783	AUDUSD.s: symbol to be synchronized
+2026.07.25 06:51:58.784	AUDUSD.s: symbol synchronized, 3720 bytes of symbol info received
+2026.07.25 06:51:58.784	AUDUSD.s: history synchronization started
+2026.07.25 06:51:58.786	AUDUSD.s: load 31 bytes of history data to synchronize in 0:00:00.000
+2026.07.25 06:51:58.786	AUDUSD.s: history synchronized from 2025.01.02 to 2026.07.03
+2026.07.25 06:51:58.787	AUDUSD.s: ticks synchronization started
+2026.07.25 06:51:58.787	AUDUSD.s: load 38 bytes of tick data to synchronize in 0:00:00.000
+2026.07.25 06:51:58.787	AUDUSD.s: history ticks synchronized from 2026.06.22 to 2026.07.02
+2026.07.25 06:51:58.791	2026.06.22 00:47:54   deal #2 sell 0.01 GBPAUD.s at 1.88270 done (based on order #2)
+2026.07.25 06:51:58.791	2026.06.22 00:47:54   deal performed [#2 sell 0.01 GBPAUD.s at 1.88270]
+2026.07.25 06:51:58.791	2026.06.22 00:47:54   order performed sell 0.01 at 1.88270 [#2 sell 0.01 GBPAUD.s at 1.88270]
+2026.07.25 06:51:58.793	2026.06.22 00:47:54   CTrade::OrderSend: market sell 0.01 GBPAUD.s tp: 1.87970 [done at 1.88270]
+2026.07.25 06:51:58.793	2026.06.22 00:47:54   ExecuteTrade: Trade executed successfully. Order ID: 2
+2026.07.25 06:51:58.796	2026.06.22 00:47:54   Unified TP Line 'ShadowTM_UnifiedTP_Sell created/updated at price 1.87970
+2026.07.25 06:51:58.796	2026.06.22 00:47:54   Initializing SELL recovery sequence...
+2026.07.25 06:51:58.796	2026.06.22 00:47:54   Sell Recovery State Init: Level=0, Price=1.88270, Lot=0.01
+2026.07.25 06:51:58.796	2026.06.22 00:47:54   ExecuteTrade Blocked: Cannot place new initial Sell trade. Position(s) already exist for MagicID 100001 on GBPAUD.s
+2026.07.25 06:51:58.796	2026.06.22 00:47:54   Alert: Cannot open new initial trade.
+Position(s) already exist for this EA instance.
+2026.07.25 06:51:58.832	AUDUSD.s : real ticks begin from 2026.06.22 00:00:00
+2026.07.25 06:51:58.877	GBPUSD.s : real ticks begin from 2026.06.22 00:00:00
+2026.07.25 06:51:58.883	2026.06.22 00:47:54   OnTradeTransaction: Confirmed initial deal #2. Position count is 1. No TP modification needed yet.
+2026.07.25 06:51:58.895	2026.06.22 00:47:56  no prices for symbol AUDUSD.s (2026.06.22 00:47:55 0.00000, 0.00000)
+2026.07.25 06:51:58.895	2026.06.22 00:47:56  no prices for symbol AUDUSD.s (2026.06.22 00:47:55 0.00000, 0.00000)
+2026.07.25 06:51:58.895	2026.06.22 00:47:56  no prices for symbol AUDUSD.s (2026.06.22 00:47:55 0.00000, 0.00000)
+2026.07.25 06:51:58.895	2026.06.22 00:47:56  no prices for symbol AUDUSD.s (2026.06.22 00:47:55 0.00000, 0.00000)
+2026.07.25 06:51:59.369	2026.06.22 00:59:42   ExecuteTrade Blocked: Cannot place new initial Sell trade. Position(s) already exist for MagicID 100001 on GBPAUD.s
+2026.07.25 06:51:59.369	2026.06.22 00:59:42   Alert: Cannot open new initial trade.
+Position(s) already exist for this EA instance.
+2026.07.25 06:51:59.369	2026.06.22 00:59:42   ExecuteTrade Blocked: Cannot place new initial Sell trade. Position(s) already exist for MagicID 100001 on GBPAUD.s
+2026.07.25 06:51:59.369	2026.06.22 00:59:42   Alert: Cannot open new initial trade.
+Position(s) already exist for this EA instance.
+2026.07.25 06:52:04.425	2026.06.22 03:00:00   CalculateRecoveryLot: Auto-Healed & Locked Base Lot: 0.01 Magic: 100001
+2026.07.25 06:52:04.425	2026.06.22 03:00:00   CalculateRecoveryLot: Final Validated Lot=0.02
+2026.07.25 06:52:04.425	2026.06.22 03:00:00   market sell 0.02 GBPAUD.s (1.88594 / 1.88626)
+2026.07.25 06:52:04.425	2026.06.22 03:00:00   deal #3 sell 0.02 GBPAUD.s at 1.88594 done (based on order #3)
+2026.07.25 06:52:04.425	2026.06.22 03:00:00   deal performed [#3 sell 0.02 GBPAUD.s at 1.88594]
+2026.07.25 06:52:04.425	2026.06.22 03:00:00   order performed sell 0.02 at 1.88594 [#3 sell 0.02 GBPAUD.s at 1.88594]
+2026.07.25 06:52:04.427	2026.06.22 03:00:00   CTrade::OrderSend: market sell 0.02 GBPAUD.s [done at 1.88594]
+2026.07.25 06:52:04.427	2026.06.22 03:00:00   ExecuteRecoveryTrade: Sell recovery trade request sent successfully. Order ID: 3
+2026.07.25 06:52:04.427	2026.06.22 03:00:00   Sell Recovery State Updated: Level=1, LastPrice=1.88594, LastLot=0.02
+2026.07.25 06:52:04.427	2026.06.22 03:00:00   OnTradeTransaction: Confirmed recovery deal #3. Position count is now 2. Triggering TP modification.
+2026.07.25 06:52:04.427	2026.06.22 03:00:00   ModifySequenceTP: Calculating average TP for SELL sequence on GBPAUD.s
+2026.07.25 06:52:04.427	2026.06.22 03:00:00   ModifySequenceTP: Avg Entry Price = 1.88486 Total Vol = 0.03 Count = 2
+2026.07.25 06:52:04.427	2026.06.22 03:00:00   ModifySequenceTP: Calculated Avg TP Price = 1.88286
+2026.07.25 06:52:04.427	2026.06.22 03:00:00   position modified [#3 sell 0.02 GBPAUD.s 1.88594 tp: 1.88286]
+2026.07.25 06:52:04.429	2026.06.22 03:00:00   CTrade::OrderSend: modify position #3 GBPAUD.s (sl: 0.00000, tp: 1.88286) [done]
+2026.07.25 06:52:04.429	2026.06.22 03:00:00   position modified [#2 sell 0.01 GBPAUD.s 1.88270 tp: 1.88286]
+2026.07.25 06:52:04.431	2026.06.22 03:00:00   CTrade::OrderSend: modify position #2 GBPAUD.s (sl: 0.00000, tp: 1.88286) [done]
+2026.07.25 06:52:04.431	2026.06.22 03:00:00   ModifySequenceTP: Attempted TP modification for 2/2 positions.
+2026.07.25 06:52:04.431	2026.06.22 03:00:00   Unified TP Line 'ShadowTM_UnifiedTP_Sell created/updated at price 1.88286
+2026.07.25 06:52:43.015	2026.06.22 12:45:00   CalculateRecoveryLot: Retrieved Locked Base Lot: 0.01 Magic: 100001
+2026.07.25 06:52:43.015	2026.06.22 12:45:00   CalculateRecoveryLot: Final Validated Lot=0.03
+2026.07.25 06:52:43.015	2026.06.22 12:45:00   market sell 0.03 GBPAUD.s (1.88917 / 1.88945)
+2026.07.25 06:52:43.015	2026.06.22 12:45:00   deal #4 sell 0.03 GBPAUD.s at 1.88917 done (based on order #4)
+2026.07.25 06:52:43.015	2026.06.22 12:45:00   deal performed [#4 sell 0.03 GBPAUD.s at 1.88917]
+2026.07.25 06:52:43.015	2026.06.22 12:45:00   order performed sell 0.03 at 1.88917 [#4 sell 0.03 GBPAUD.s at 1.88917]
+2026.07.25 06:52:43.017	2026.06.22 12:45:00   CTrade::OrderSend: market sell 0.03 GBPAUD.s [done at 1.88917]
+2026.07.25 06:52:43.017	2026.06.22 12:45:00   ExecuteRecoveryTrade: Sell recovery trade request sent successfully. Order ID: 4
+2026.07.25 06:52:43.017	2026.06.22 12:45:00   Sell Recovery State Updated: Level=2, LastPrice=1.88917, LastLot=0.03
+2026.07.25 06:52:43.017	2026.06.22 12:45:00   OnTradeTransaction: Confirmed recovery deal #4. Position count is now 3. Triggering TP modification.
+2026.07.25 06:52:43.017	2026.06.22 12:45:00   ModifySequenceTP: Calculating average TP for SELL sequence on GBPAUD.s
+2026.07.25 06:52:43.017	2026.06.22 12:45:00   ModifySequenceTP: Avg Entry Price = 1.88701 Total Vol = 0.06 Count = 3
+2026.07.25 06:52:43.017	2026.06.22 12:45:00   ModifySequenceTP: Calculated Avg TP Price = 1.88502
+2026.07.25 06:52:43.017	2026.06.22 12:45:00   position modified [#4 sell 0.03 GBPAUD.s 1.88917 tp: 1.88502]
+2026.07.25 06:52:43.019	2026.06.22 12:45:00   CTrade::OrderSend: modify position #4 GBPAUD.s (sl: 0.00000, tp: 1.88502) [done]
+2026.07.25 06:52:43.019	2026.06.22 12:45:00   position modified [#3 sell 0.02 GBPAUD.s 1.88594 tp: 1.88502]
+2026.07.25 06:52:43.021	2026.06.22 12:45:00   CTrade::OrderSend: modify position #3 GBPAUD.s (sl: 0.00000, tp: 1.88502) [done]
+2026.07.25 06:52:43.021	2026.06.22 12:45:00   position modified [#2 sell 0.01 GBPAUD.s 1.88270 tp: 1.88502]
+2026.07.25 06:52:43.023	2026.06.22 12:45:00   CTrade::OrderSend: modify position #2 GBPAUD.s (sl: 0.00000, tp: 1.88502) [done]
+2026.07.25 06:52:43.023	2026.06.22 12:45:00   ModifySequenceTP: Attempted TP modification for 3/3 positions.
+2026.07.25 06:52:43.023	2026.06.22 12:45:00   Unified TP Line 'ShadowTM_UnifiedTP_Sell created/updated at price 1.88502
+2026.07.25 06:52:56.723	2026.06.22 15:45:00   CalculateRecoveryLot: Retrieved Locked Base Lot: 0.01 Magic: 100001
+2026.07.25 06:52:56.723	2026.06.22 15:45:00   CalculateRecoveryLot: Final Validated Lot=0.04
+2026.07.25 06:52:56.723	2026.06.22 15:45:00   market sell 0.04 GBPAUD.s (1.89257 / 1.89291)
+2026.07.25 06:52:56.723	2026.06.22 15:45:00   deal #5 sell 0.04 GBPAUD.s at 1.89257 done (based on order #5)
+2026.07.25 06:52:56.723	2026.06.22 15:45:00   deal performed [#5 sell 0.04 GBPAUD.s at 1.89257]
+2026.07.25 06:52:56.723	2026.06.22 15:45:00   order performed sell 0.04 at 1.89257 [#5 sell 0.04 GBPAUD.s at 1.89257]
+2026.07.25 06:52:56.725	2026.06.22 15:45:00   CTrade::OrderSend: market sell 0.04 GBPAUD.s [done at 1.89257]
+2026.07.25 06:52:56.725	2026.06.22 15:45:00   ExecuteRecoveryTrade: Sell recovery trade request sent successfully. Order ID: 5
+2026.07.25 06:52:56.725	2026.06.22 15:45:00   Sell Recovery State Updated: Level=3, LastPrice=1.89257, LastLot=0.04
+2026.07.25 06:52:56.725	2026.06.22 15:45:00   OnTradeTransaction: Confirmed recovery deal #5. Position count is now 4. Triggering TP modification.
+2026.07.25 06:52:56.725	2026.06.22 15:45:00   ModifySequenceTP: Calculating average TP for SELL sequence on GBPAUD.s
+2026.07.25 06:52:56.725	2026.06.22 15:45:00   ModifySequenceTP: Avg Entry Price = 1.88924 Total Vol = 0.10 Count = 4
+2026.07.25 06:52:56.725	2026.06.22 15:45:00   ModifySequenceTP: Calculated Avg TP Price = 1.88724
+2026.07.25 06:52:56.725	2026.06.22 15:45:00   position modified [#5 sell 0.04 GBPAUD.s 1.89257 tp: 1.88724]
+2026.07.25 06:52:56.727	2026.06.22 15:45:00   CTrade::OrderSend: modify position #5 GBPAUD.s (sl: 0.00000, tp: 1.88724) [done]
+2026.07.25 06:52:56.727	2026.06.22 15:45:00   position modified [#4 sell 0.03 GBPAUD.s 1.88917 tp: 1.88724]
+2026.07.25 06:52:56.729	2026.06.22 15:45:00   CTrade::OrderSend: modify position #4 GBPAUD.s (sl: 0.00000, tp: 1.88724) [done]
+2026.07.25 06:52:56.729	2026.06.22 15:45:00   position modified [#3 sell 0.02 GBPAUD.s 1.88594 tp: 1.88724]
+2026.07.25 06:52:56.731	2026.06.22 15:45:00   CTrade::OrderSend: modify position #3 GBPAUD.s (sl: 0.00000, tp: 1.88724) [done]
+2026.07.25 06:52:56.731	2026.06.22 15:45:00   position modified [#2 sell 0.01 GBPAUD.s 1.88270 tp: 1.88724]
+2026.07.25 06:52:56.733	2026.06.22 15:45:00   CTrade::OrderSend: modify position #2 GBPAUD.s (sl: 0.00000, tp: 1.88724) [done]
+2026.07.25 06:52:56.733	2026.06.22 15:45:00   ModifySequenceTP: Attempted TP modification for 4/4 positions.
+2026.07.25 06:52:56.733	2026.06.22 15:45:00   Unified TP Line 'ShadowTM_UnifiedTP_Sell created/updated at price 1.88724
+2026.07.25 06:54:04.758	2026.06.23 04:45:00   CalculateRecoveryLot: Retrieved Locked Base Lot: 0.01 Magic: 100001
+2026.07.25 06:54:04.758	2026.06.23 04:45:00   CalculateRecoveryLot: Final Validated Lot=0.05
+2026.07.25 06:54:04.758	2026.06.23 04:45:00   market sell 0.05 GBPAUD.s (1.89610 / 1.89638)
+2026.07.25 06:54:04.758	2026.06.23 04:45:00   deal #6 sell 0.05 GBPAUD.s at 1.89610 done (based on order #6)
+2026.07.25 06:54:04.758	2026.06.23 04:45:00   deal performed [#6 sell 0.05 GBPAUD.s at 1.89610]
+2026.07.25 06:54:04.758	2026.06.23 04:45:00   order performed sell 0.05 at 1.89610 [#6 sell 0.05 GBPAUD.s at 1.89610]
+2026.07.25 06:54:04.760	2026.06.23 04:45:00   CTrade::OrderSend: market sell 0.05 GBPAUD.s [done at 1.89610]
+2026.07.25 06:54:04.760	2026.06.23 04:45:00   ExecuteRecoveryTrade: Sell recovery trade request sent successfully. Order ID: 6
+2026.07.25 06:54:04.760	2026.06.23 04:45:00   Sell Recovery State Updated: Level=4, LastPrice=1.8961000000000001, LastLot=0.05
+2026.07.25 06:54:04.760	2026.06.23 04:45:00   OnTradeTransaction: Confirmed recovery deal #6. Position count is now 5. Triggering TP modification.
+2026.07.25 06:54:04.760	2026.06.23 04:45:00   ModifySequenceTP: Calculating average TP for SELL sequence on GBPAUD.s
+2026.07.25 06:54:04.760	2026.06.23 04:45:00   ModifySequenceTP: Avg Entry Price = 1.89152 Total Vol = 0.15 Count = 5
+2026.07.25 06:54:04.760	2026.06.23 04:45:00   ModifySequenceTP: Calculated Avg TP Price = 1.88952
+2026.07.25 06:54:04.760	2026.06.23 04:45:00   position modified [#6 sell 0.05 GBPAUD.s 1.89610 tp: 1.88952]
+2026.07.25 06:54:04.762	2026.06.23 04:45:00   CTrade::OrderSend: modify position #6 GBPAUD.s (sl: 0.00000, tp: 1.88952) [done]
+2026.07.25 06:54:04.762	2026.06.23 04:45:00   position modified [#5 sell 0.04 GBPAUD.s 1.89257 tp: 1.88952]
+2026.07.25 06:54:04.764	2026.06.23 04:45:00   CTrade::OrderSend: modify position #5 GBPAUD.s (sl: 0.00000, tp: 1.88952) [done]
+2026.07.25 06:54:04.764	2026.06.23 04:45:00   position modified [#4 sell 0.03 GBPAUD.s 1.88917 tp: 1.88952]
+2026.07.25 06:54:04.766	2026.06.23 04:45:00   CTrade::OrderSend: modify position #4 GBPAUD.s (sl: 0.00000, tp: 1.88952) [done]
+2026.07.25 06:54:04.766	2026.06.23 04:45:00   position modified [#3 sell 0.02 GBPAUD.s 1.88594 tp: 1.88952]
+2026.07.25 06:54:04.768	2026.06.23 04:45:00   CTrade::OrderSend: modify position #3 GBPAUD.s (sl: 0.00000, tp: 1.88952) [done]
+2026.07.25 06:54:04.768	2026.06.23 04:45:00   position modified [#2 sell 0.01 GBPAUD.s 1.88270 tp: 1.88952]
+2026.07.25 06:54:04.770	2026.06.23 04:45:00   CTrade::OrderSend: modify position #2 GBPAUD.s (sl: 0.00000, tp: 1.88952) [done]
+2026.07.25 06:54:04.770	2026.06.23 04:45:00   ModifySequenceTP: Attempted TP modification for 5/5 positions.
+2026.07.25 06:54:04.773	2026.06.23 04:45:00   Unified TP Line 'ShadowTM_UnifiedTP_Sell created/updated at price 1.88952
+2026.07.25 06:54:22.872	2026.06.23 08:00:00   CalculateRecoveryLot: Retrieved Locked Base Lot: 0.01 Magic: 100001
+2026.07.25 06:54:22.872	2026.06.23 08:00:00   CalculateRecoveryLot: Final Validated Lot=0.06
+2026.07.25 06:54:22.872	2026.06.23 08:00:00   market sell 0.06 GBPAUD.s (1.89973 / 1.90006)
+2026.07.25 06:54:22.872	2026.06.23 08:00:00   deal #7 sell 0.06 GBPAUD.s at 1.89973 done (based on order #7)
+2026.07.25 06:54:22.872	2026.06.23 08:00:00   deal performed [#7 sell 0.06 GBPAUD.s at 1.89973]
+2026.07.25 06:54:22.872	2026.06.23 08:00:00   order performed sell 0.06 at 1.89973 [#7 sell 0.06 GBPAUD.s at 1.89973]
+2026.07.25 06:54:22.874	2026.06.23 08:00:00   CTrade::OrderSend: market sell 0.06 GBPAUD.s [done at 1.89973]
+2026.07.25 06:54:22.874	2026.06.23 08:00:00   ExecuteRecoveryTrade: Sell recovery trade request sent successfully. Order ID: 7
+2026.07.25 06:54:22.874	2026.06.23 08:00:00   Sell Recovery State Updated: Level=5, LastPrice=1.89973, LastLot=0.06
+2026.07.25 06:54:22.874	2026.06.23 08:00:00   OnTradeTransaction: Confirmed recovery deal #7. Position count is now 6. Triggering TP modification.
+2026.07.25 06:54:22.874	2026.06.23 08:00:00   ModifySequenceTP: Calculating average TP for SELL sequence on GBPAUD.s
+2026.07.25 06:54:22.874	2026.06.23 08:00:00   ModifySequenceTP: Avg Entry Price = 1.89387 Total Vol = 0.21 Count = 6
+2026.07.25 06:54:22.874	2026.06.23 08:00:00   ModifySequenceTP: Calculated Avg TP Price = 1.89187
+2026.07.25 06:54:22.874	2026.06.23 08:00:00   position modified [#7 sell 0.06 GBPAUD.s 1.89973 tp: 1.89187]
+2026.07.25 06:54:22.876	2026.06.23 08:00:00   CTrade::OrderSend: modify position #7 GBPAUD.s (sl: 0.00000, tp: 1.89187) [done]
+2026.07.25 06:54:22.876	2026.06.23 08:00:00   position modified [#6 sell 0.05 GBPAUD.s 1.89610 tp: 1.89187]
+2026.07.25 06:54:22.878	2026.06.23 08:00:00   CTrade::OrderSend: modify position #6 GBPAUD.s (sl: 0.00000, tp: 1.89187) [done]
+2026.07.25 06:54:22.878	2026.06.23 08:00:00   position modified [#5 sell 0.04 GBPAUD.s 1.89257 tp: 1.89187]
+2026.07.25 06:54:22.880	2026.06.23 08:00:00   CTrade::OrderSend: modify position #5 GBPAUD.s (sl: 0.00000, tp: 1.89187) [done]
+2026.07.25 06:54:22.880	2026.06.23 08:00:00   position modified [#4 sell 0.03 GBPAUD.s 1.88917 tp: 1.89187]
+2026.07.25 06:54:22.882	2026.06.23 08:00:00   CTrade::OrderSend: modify position #4 GBPAUD.s (sl: 0.00000, tp: 1.89187) [done]
+2026.07.25 06:54:22.882	2026.06.23 08:00:00   position modified [#3 sell 0.02 GBPAUD.s 1.88594 tp: 1.89187]
+2026.07.25 06:54:22.884	2026.06.23 08:00:00   CTrade::OrderSend: modify position #3 GBPAUD.s (sl: 0.00000, tp: 1.89187) [done]
+2026.07.25 06:54:22.884	2026.06.23 08:00:00   position modified [#2 sell 0.01 GBPAUD.s 1.88270 tp: 1.89187]
+2026.07.25 06:54:22.886	2026.06.23 08:00:00   CTrade::OrderSend: modify position #2 GBPAUD.s (sl: 0.00000, tp: 1.89187) [done]
+2026.07.25 06:54:22.886	2026.06.23 08:00:00   ModifySequenceTP: Attempted TP modification for 6/6 positions.
+2026.07.25 06:54:22.886	2026.06.23 08:00:00   Unified TP Line 'ShadowTM_UnifiedTP_Sell created/updated at price 1.89187
+2026.07.25 06:54:32.259	2026.06.23 09:30:00   CalculateRecoveryLot: Retrieved Locked Base Lot: 0.01 Magic: 100001
+2026.07.25 06:54:32.259	2026.06.23 09:30:00   CalculateRecoveryLot: Final Validated Lot=0.07
+2026.07.25 06:54:32.259	2026.06.23 09:30:00   market sell 0.07 GBPAUD.s (1.90297 / 1.90325)
+2026.07.25 06:54:32.259	2026.06.23 09:30:00   deal #8 sell 0.07 GBPAUD.s at 1.90297 done (based on order #8)
+2026.07.25 06:54:32.259	2026.06.23 09:30:00   deal performed [#8 sell 0.07 GBPAUD.s at 1.90297]
+2026.07.25 06:54:32.259	2026.06.23 09:30:00   order performed sell 0.07 at 1.90297 [#8 sell 0.07 GBPAUD.s at 1.90297]
+2026.07.25 06:54:32.261	2026.06.23 09:30:00   CTrade::OrderSend: market sell 0.07 GBPAUD.s [done at 1.90297]
+2026.07.25 06:54:32.261	2026.06.23 09:30:00   ExecuteRecoveryTrade: Sell recovery trade request sent successfully. Order ID: 8
+2026.07.25 06:54:32.261	2026.06.23 09:30:00   Sell Recovery State Updated: Level=6, LastPrice=1.90297, LastLot=0.07
+2026.07.25 06:54:32.261	2026.06.23 09:30:00   OnTradeTransaction: Confirmed recovery deal #8. Position count is now 7. Triggering TP modification.
+2026.07.25 06:54:32.261	2026.06.23 09:30:00   ModifySequenceTP: Calculating average TP for SELL sequence on GBPAUD.s
+2026.07.25 06:54:32.261	2026.06.23 09:30:00   ModifySequenceTP: Avg Entry Price = 1.89614 Total Vol = 0.28 Count = 7
+2026.07.25 06:54:32.261	2026.06.23 09:30:00   ModifySequenceTP: Calculated Avg TP Price = 1.89414
+2026.07.25 06:54:32.261	2026.06.23 09:30:00   position modified [#8 sell 0.07 GBPAUD.s 1.90297 tp: 1.89414]
+2026.07.25 06:54:32.263	2026.06.23 09:30:00   CTrade::OrderSend: modify position #8 GBPAUD.s (sl: 0.00000, tp: 1.89414) [done]
+2026.07.25 06:54:32.263	2026.06.23 09:30:00   position modified [#7 sell 0.06 GBPAUD.s 1.89973 tp: 1.89414]
+2026.07.25 06:54:32.265	2026.06.23 09:30:00   CTrade::OrderSend: modify position #7 GBPAUD.s (sl: 0.00000, tp: 1.89414) [done]
+2026.07.25 06:54:32.265	2026.06.23 09:30:00   position modified [#6 sell 0.05 GBPAUD.s 1.89610 tp: 1.89414]
+2026.07.25 06:54:32.267	2026.06.23 09:30:00   CTrade::OrderSend: modify position #6 GBPAUD.s (sl: 0.00000, tp: 1.89414) [done]
+2026.07.25 06:54:32.267	2026.06.23 09:30:00   position modified [#5 sell 0.04 GBPAUD.s 1.89257 tp: 1.89414]
+2026.07.25 06:54:32.269	2026.06.23 09:30:00   CTrade::OrderSend: modify position #5 GBPAUD.s (sl: 0.00000, tp: 1.89414) [done]
+2026.07.25 06:54:32.269	2026.06.23 09:30:00   position modified [#4 sell 0.03 GBPAUD.s 1.88917 tp: 1.89414]
+2026.07.25 06:54:32.271	2026.06.23 09:30:00   CTrade::OrderSend: modify position #4 GBPAUD.s (sl: 0.00000, tp: 1.89414) [done]
+2026.07.25 06:54:32.271	2026.06.23 09:30:00   position modified [#3 sell 0.02 GBPAUD.s 1.88594 tp: 1.89414]
+2026.07.25 06:54:32.273	2026.06.23 09:30:00   CTrade::OrderSend: modify position #3 GBPAUD.s (sl: 0.00000, tp: 1.89414) [done]
+2026.07.25 06:54:32.273	2026.06.23 09:30:00   position modified [#2 sell 0.01 GBPAUD.s 1.88270 tp: 1.89414]
+2026.07.25 06:54:32.275	2026.06.23 09:30:00   CTrade::OrderSend: modify position #2 GBPAUD.s (sl: 0.00000, tp: 1.89414) [done]
+2026.07.25 06:54:32.275	2026.06.23 09:30:00   ModifySequenceTP: Attempted TP modification for 7/7 positions.
+2026.07.25 06:54:32.275	2026.06.23 09:30:00   Unified TP Line 'ShadowTM_UnifiedTP_Sell created/updated at price 1.89414
+2026.07.25 06:55:39.930	2026.06.23 20:15:00   CalculateRecoveryLot: Retrieved Locked Base Lot: 0.01 Magic: 100001
+2026.07.25 06:55:39.930	2026.06.23 20:15:00   CalculateRecoveryLot: Final Validated Lot=0.08
+2026.07.25 06:55:39.930	2026.06.23 20:15:00   market sell 0.08 GBPAUD.s (1.90620 / 1.90652)
+2026.07.25 06:55:39.930	2026.06.23 20:15:00   deal #9 sell 0.08 GBPAUD.s at 1.90620 done (based on order #9)
+2026.07.25 06:55:39.930	2026.06.23 20:15:00   deal performed [#9 sell 0.08 GBPAUD.s at 1.90620]
+2026.07.25 06:55:39.930	2026.06.23 20:15:00   order performed sell 0.08 at 1.90620 [#9 sell 0.08 GBPAUD.s at 1.90620]
+2026.07.25 06:55:39.932	2026.06.23 20:15:00   CTrade::OrderSend: market sell 0.08 GBPAUD.s [done at 1.90620]
+2026.07.25 06:55:39.932	2026.06.23 20:15:00   ExecuteRecoveryTrade: Sell recovery trade request sent successfully. Order ID: 9
+2026.07.25 06:55:39.932	2026.06.23 20:15:00   Sell Recovery State Updated: Level=7, LastPrice=1.9062000000000001, LastLot=0.08
+2026.07.25 06:55:39.932	2026.06.23 20:15:00   OnTradeTransaction: Confirmed recovery deal #9. Position count is now 8. Triggering TP modification.
+2026.07.25 06:55:39.932	2026.06.23 20:15:00   ModifySequenceTP: Calculating average TP for SELL sequence on GBPAUD.s
+2026.07.25 06:55:39.932	2026.06.23 20:15:00   ModifySequenceTP: Avg Entry Price = 1.89838 Total Vol = 0.36 Count = 8
+2026.07.25 06:55:39.932	2026.06.23 20:15:00   ModifySequenceTP: Calculated Avg TP Price = 1.89638
+2026.07.25 06:55:39.932	2026.06.23 20:15:00   position modified [#9 sell 0.08 GBPAUD.s 1.90620 tp: 1.89638]
+2026.07.25 06:55:39.934	2026.06.23 20:15:00   CTrade::OrderSend: modify position #9 GBPAUD.s (sl: 0.00000, tp: 1.89638) [done]
+2026.07.25 06:55:39.934	2026.06.23 20:15:00   position modified [#8 sell 0.07 GBPAUD.s 1.90297 tp: 1.89638]
+2026.07.25 06:55:39.936	2026.06.23 20:15:00   CTrade::OrderSend: modify position #8 GBPAUD.s (sl: 0.00000, tp: 1.89638) [done]
+2026.07.25 06:55:39.936	2026.06.23 20:15:00   position modified [#7 sell 0.06 GBPAUD.s 1.89973 tp: 1.89638]
+2026.07.25 06:55:39.938	2026.06.23 20:15:00   CTrade::OrderSend: modify position #7 GBPAUD.s (sl: 0.00000, tp: 1.89638) [done]
+2026.07.25 06:55:39.938	2026.06.23 20:15:00   position modified [#6 sell 0.05 GBPAUD.s 1.89610 tp: 1.89638]
+2026.07.25 06:55:39.940	2026.06.23 20:15:00   CTrade::OrderSend: modify position #6 GBPAUD.s (sl: 0.00000, tp: 1.89638) [done]
+2026.07.25 06:55:39.940	2026.06.23 20:15:00   position modified [#5 sell 0.04 GBPAUD.s 1.89257 tp: 1.89638]
+2026.07.25 06:55:39.942	2026.06.23 20:15:00   CTrade::OrderSend: modify position #5 GBPAUD.s (sl: 0.00000, tp: 1.89638) [done]
+2026.07.25 06:55:39.942	2026.06.23 20:15:00   position modified [#4 sell 0.03 GBPAUD.s 1.88917 tp: 1.89638]
+2026.07.25 06:55:39.944	2026.06.23 20:15:00   CTrade::OrderSend: modify position #4 GBPAUD.s (sl: 0.00000, tp: 1.89638) [done]
+2026.07.25 06:55:39.944	2026.06.23 20:15:00   position modified [#3 sell 0.02 GBPAUD.s 1.88594 tp: 1.89638]
+2026.07.25 06:55:39.946	2026.06.23 20:15:00   CTrade::OrderSend: modify position #3 GBPAUD.s (sl: 0.00000, tp: 1.89638) [done]
+2026.07.25 06:55:39.946	2026.06.23 20:15:00   position modified [#2 sell 0.01 GBPAUD.s 1.88270 tp: 1.89638]
+2026.07.25 06:55:39.948	2026.06.23 20:15:00   CTrade::OrderSend: modify position #2 GBPAUD.s (sl: 0.00000, tp: 1.89638) [done]
+2026.07.25 06:55:39.948	2026.06.23 20:15:00   ModifySequenceTP: Attempted TP modification for 8/8 positions.
+2026.07.25 06:55:39.948	2026.06.23 20:15:00   Unified TP Line 'ShadowTM_UnifiedTP_Sell created/updated at price 1.89638
+2026.07.25 06:56:20.760	2026.06.24 02:45:01   CalculateRecoveryLot: Retrieved Locked Base Lot: 0.01 Magic: 100001
+2026.07.25 06:56:20.760	2026.06.24 02:45:01   CalculateRecoveryLot: Final Validated Lot=0.09
+2026.07.25 06:56:20.760	2026.06.24 02:45:01   market sell 0.09 GBPAUD.s (1.90975 / 1.91008)
+2026.07.25 06:56:20.760	2026.06.24 02:45:01   deal #10 sell 0.09 GBPAUD.s at 1.90975 done (based on order #10)
+2026.07.25 06:56:20.760	2026.06.24 02:45:01   deal performed [#10 sell 0.09 GBPAUD.s at 1.90975]
+2026.07.25 06:56:20.760	2026.06.24 02:45:01   order performed sell 0.09 at 1.90975 [#10 sell 0.09 GBPAUD.s at 1.90975]
+2026.07.25 06:56:20.762	2026.06.24 02:45:01   CTrade::OrderSend: market sell 0.09 GBPAUD.s [done at 1.90975]
+2026.07.25 06:56:20.762	2026.06.24 02:45:01   ExecuteRecoveryTrade: Sell recovery trade request sent successfully. Order ID: 10
+2026.07.25 06:56:20.762	2026.06.24 02:45:01   Sell Recovery State Updated: Level=8, LastPrice=1.9097499999999998, LastLot=0.09
+2026.07.25 06:56:20.762	2026.06.24 02:45:01   OnTradeTransaction: Confirmed recovery deal #10. Position count is now 9. Triggering TP modification.
+2026.07.25 06:56:20.762	2026.06.24 02:45:01   ModifySequenceTP: Calculating average TP for SELL sequence on GBPAUD.s
+2026.07.25 06:56:20.762	2026.06.24 02:45:01   ModifySequenceTP: Avg Entry Price = 1.90065 Total Vol = 0.45 Count = 9
+2026.07.25 06:56:20.762	2026.06.24 02:45:01   ModifySequenceTP: Calculated Avg TP Price = 1.89865
+2026.07.25 06:56:20.762	2026.06.24 02:45:01   position modified [#10 sell 0.09 GBPAUD.s 1.90975 tp: 1.89865]
+2026.07.25 06:56:20.764	2026.06.24 02:45:01   CTrade::OrderSend: modify position #10 GBPAUD.s (sl: 0.00000, tp: 1.89865) [done]
+2026.07.25 06:56:20.764	2026.06.24 02:45:01   position modified [#9 sell 0.08 GBPAUD.s 1.90620 tp: 1.89865]
+2026.07.25 06:56:20.766	2026.06.24 02:45:01   CTrade::OrderSend: modify position #9 GBPAUD.s (sl: 0.00000, tp: 1.89865) [done]
+2026.07.25 06:56:20.766	2026.06.24 02:45:01   position modified [#8 sell 0.07 GBPAUD.s 1.90297 tp: 1.89865]
+2026.07.25 06:56:20.768	2026.06.24 02:45:01   CTrade::OrderSend: modify position #8 GBPAUD.s (sl: 0.00000, tp: 1.89865) [done]
+2026.07.25 06:56:20.768	2026.06.24 02:45:01   position modified [#7 sell 0.06 GBPAUD.s 1.89973 tp: 1.89865]
+2026.07.25 06:56:20.770	2026.06.24 02:45:01   CTrade::OrderSend: modify position #7 GBPAUD.s (sl: 0.00000, tp: 1.89865) [done]
+2026.07.25 06:56:20.770	2026.06.24 02:45:01   position modified [#6 sell 0.05 GBPAUD.s 1.89610 tp: 1.89865]
+2026.07.25 06:56:20.772	2026.06.24 02:45:01   CTrade::OrderSend: modify position #6 GBPAUD.s (sl: 0.00000, tp: 1.89865) [done]
+2026.07.25 06:56:20.772	2026.06.24 02:45:01   position modified [#5 sell 0.04 GBPAUD.s 1.89257 tp: 1.89865]
+2026.07.25 06:56:20.774	2026.06.24 02:45:01   CTrade::OrderSend: modify position #5 GBPAUD.s (sl: 0.00000, tp: 1.89865) [done]
+2026.07.25 06:56:20.774	2026.06.24 02:45:01   position modified [#4 sell 0.03 GBPAUD.s 1.88917 tp: 1.89865]
+2026.07.25 06:56:20.776	2026.06.24 02:45:01   CTrade::OrderSend: modify position #4 GBPAUD.s (sl: 0.00000, tp: 1.89865) [done]
+2026.07.25 06:56:20.776	2026.06.24 02:45:01   position modified [#3 sell 0.02 GBPAUD.s 1.88594 tp: 1.89865]
+2026.07.25 06:56:20.778	2026.06.24 02:45:01   CTrade::OrderSend: modify position #3 GBPAUD.s (sl: 0.00000, tp: 1.89865) [done]
+2026.07.25 06:56:20.778	2026.06.24 02:45:01   position modified [#2 sell 0.01 GBPAUD.s 1.88270 tp: 1.89865]
+2026.07.25 06:56:20.780	2026.06.24 02:45:01   CTrade::OrderSend: modify position #2 GBPAUD.s (sl: 0.00000, tp: 1.89865) [done]
+2026.07.25 06:56:20.780	2026.06.24 02:45:01   ModifySequenceTP: Attempted TP modification for 9/9 positions.
+2026.07.25 06:56:20.780	2026.06.24 02:45:01   Unified TP Line 'ShadowTM_UnifiedTP_Sell created/updated at price 1.89865
+2026.07.25 06:57:21.910	2026.06.24 12:15:00   CalculateRecoveryLot: Retrieved Locked Base Lot: 0.01 Magic: 100001
+2026.07.25 06:57:21.910	2026.06.24 12:15:00   CalculateRecoveryLot: Final Validated Lot=0.1
+2026.07.25 06:57:21.910	2026.06.24 12:15:00   market sell 0.1 GBPAUD.s (1.91309 / 1.91340)
+2026.07.25 06:57:21.910	2026.06.24 12:15:00   deal #11 sell 0.1 GBPAUD.s at 1.91309 done (based on order #11)
+2026.07.25 06:57:21.910	2026.06.24 12:15:00   deal performed [#11 sell 0.1 GBPAUD.s at 1.91309]
+2026.07.25 06:57:21.910	2026.06.24 12:15:00   order performed sell 0.1 at 1.91309 [#11 sell 0.1 GBPAUD.s at 1.91309]
+2026.07.25 06:57:21.912	2026.06.24 12:15:00   CTrade::OrderSend: market sell 0.10 GBPAUD.s [done at 1.91309]
+2026.07.25 06:57:21.912	2026.06.24 12:15:00   ExecuteRecoveryTrade: Sell recovery trade request sent successfully. Order ID: 11
+2026.07.25 06:57:21.912	2026.06.24 12:15:00   Sell Recovery State Updated: Level=9, LastPrice=1.91309, LastLot=0.1
+2026.07.25 06:57:21.912	2026.06.24 12:15:00   OnTradeTransaction: Confirmed recovery deal #11. Position count is now 10. Triggering TP modification.
+2026.07.25 06:57:21.912	2026.06.24 12:15:00   ModifySequenceTP: Calculating average TP for SELL sequence on GBPAUD.s
+2026.07.25 06:57:21.912	2026.06.24 12:15:00   ModifySequenceTP: Avg Entry Price = 1.90291 Total Vol = 0.55 Count = 10
+2026.07.25 06:57:21.912	2026.06.24 12:15:00   ModifySequenceTP: Calculated Avg TP Price = 1.90091
+2026.07.25 06:57:21.912	2026.06.24 12:15:00   position modified [#11 sell 0.1 GBPAUD.s 1.91309 tp: 1.90091]
+2026.07.25 06:57:21.914	2026.06.24 12:15:00   CTrade::OrderSend: modify position #11 GBPAUD.s (sl: 0.00000, tp: 1.90091) [done]
+2026.07.25 06:57:21.914	2026.06.24 12:15:00   position modified [#10 sell 0.09 GBPAUD.s 1.90975 tp: 1.90091]
+2026.07.25 06:57:21.916	2026.06.24 12:15:00   CTrade::OrderSend: modify position #10 GBPAUD.s (sl: 0.00000, tp: 1.90091) [done]
+2026.07.25 06:57:21.916	2026.06.24 12:15:00   position modified [#9 sell 0.08 GBPAUD.s 1.90620 tp: 1.90091]
+2026.07.25 06:57:21.918	2026.06.24 12:15:00   CTrade::OrderSend: modify position #9 GBPAUD.s (sl: 0.00000, tp: 1.90091) [done]
+2026.07.25 06:57:21.918	2026.06.24 12:15:00   position modified [#8 sell 0.07 GBPAUD.s 1.90297 tp: 1.90091]
+2026.07.25 06:57:21.920	2026.06.24 12:15:00   CTrade::OrderSend: modify position #8 GBPAUD.s (sl: 0.00000, tp: 1.90091) [done]
+2026.07.25 06:57:21.920	2026.06.24 12:15:00   position modified [#7 sell 0.06 GBPAUD.s 1.89973 tp: 1.90091]
+2026.07.25 06:57:21.922	2026.06.24 12:15:00   CTrade::OrderSend: modify position #7 GBPAUD.s (sl: 0.00000, tp: 1.90091) [done]
+2026.07.25 06:57:21.922	2026.06.24 12:15:00   position modified [#6 sell 0.05 GBPAUD.s 1.89610 tp: 1.90091]
+2026.07.25 06:57:21.924	2026.06.24 12:15:00   CTrade::OrderSend: modify position #6 GBPAUD.s (sl: 0.00000, tp: 1.90091) [done]
+2026.07.25 06:57:21.924	2026.06.24 12:15:00   position modified [#5 sell 0.04 GBPAUD.s 1.89257 tp: 1.90091]
+2026.07.25 06:57:21.926	2026.06.24 12:15:00   CTrade::OrderSend: modify position #5 GBPAUD.s (sl: 0.00000, tp: 1.90091) [done]
+2026.07.25 06:57:21.926	2026.06.24 12:15:00   position modified [#4 sell 0.03 GBPAUD.s 1.88917 tp: 1.90091]
+2026.07.25 06:57:21.928	2026.06.24 12:15:00   CTrade::OrderSend: modify position #4 GBPAUD.s (sl: 0.00000, tp: 1.90091) [done]
+2026.07.25 06:57:21.928	2026.06.24 12:15:00   position modified [#3 sell 0.02 GBPAUD.s 1.88594 tp: 1.90091]
+2026.07.25 06:57:21.930	2026.06.24 12:15:00   CTrade::OrderSend: modify position #3 GBPAUD.s (sl: 0.00000, tp: 1.90091) [done]
+2026.07.25 06:57:21.930	2026.06.24 12:15:00   position modified [#2 sell 0.01 GBPAUD.s 1.88270 tp: 1.90091]
+2026.07.25 06:57:21.932	2026.06.24 12:15:00   CTrade::OrderSend: modify position #2 GBPAUD.s (sl: 0.00000, tp: 1.90091) [done]
+2026.07.25 06:57:21.932	2026.06.24 12:15:00   ModifySequenceTP: Attempted TP modification for 10/10 positions.
+2026.07.25 06:57:21.932	2026.06.24 12:15:00   Unified TP Line 'ShadowTM_UnifiedTP_Sell created/updated at price 1.90091
+2026.07.25 06:57:39.994	2026.06.24 14:57:39   === DRAWDOWN REDUCTION TIER 1 TRIGGERED ===
+2026.07.25 06:57:39.994	2026.06.24 14:57:39   Basket VWAP: 1.91007 | Basket Vol: 0.20 | Min Profit: 150 pts
+2026.07.25 06:57:39.994	2026.06.24 14:57:39   market buy 0.01 GBPAUD.s, close #2 (1.90820 / 1.90853)
+2026.07.25 06:57:39.994	2026.06.24 14:57:39   deal #12 buy 0.01 GBPAUD.s at 1.90853 done (based on order #12)
+2026.07.25 06:57:39.994	2026.06.24 14:57:39   deal performed [#12 buy 0.01 GBPAUD.s at 1.90853]
+2026.07.25 06:57:39.994	2026.06.24 14:57:39   order performed buy 0.01 at 1.90853 [#12 buy 0.01 GBPAUD.s at 1.90853]
+2026.07.25 06:57:39.996	2026.06.24 14:57:39   CTrade::OrderSend: market buy 0.01 position #2 GBPAUD.s [done at 1.90853]
+2026.07.25 06:57:39.996	2026.06.24 14:57:39   Tier 1: Anchor #2 closed. Entry: 1.88270 Vol: 0.01
+2026.07.25 06:57:39.996	2026.06.24 14:57:39   market buy 0.1 GBPAUD.s, close #11 (1.90820 / 1.90853)
+2026.07.25 06:57:39.996	2026.06.24 14:57:39   deal #13 buy 0.1 GBPAUD.s at 1.90853 done (based on order #13)
+2026.07.25 06:57:39.996	2026.06.24 14:57:39   deal performed [#13 buy 0.1 GBPAUD.s at 1.90853]
+2026.07.25 06:57:39.996	2026.06.24 14:57:39   order performed buy 0.1 at 1.90853 [#13 buy 0.1 GBPAUD.s at 1.90853]
+2026.07.25 06:57:39.998	2026.06.24 14:57:39   CTrade::OrderSend: market buy 0.10 position #11 GBPAUD.s [done at 1.90853]
+2026.07.25 06:57:39.998	2026.06.24 14:57:39   Tier 1: Profitable #11 closed. Entry: 1.91309 Vol: 0.10
+2026.07.25 06:57:39.998	2026.06.24 14:57:39   market buy 0.09 GBPAUD.s, close #10 (1.90820 / 1.90853)
+2026.07.25 06:57:39.998	2026.06.24 14:57:39   deal #14 buy 0.09 GBPAUD.s at 1.90853 done (based on order #14)
+2026.07.25 06:57:39.998	2026.06.24 14:57:39   deal performed [#14 buy 0.09 GBPAUD.s at 1.90853]
+2026.07.25 06:57:39.998	2026.06.24 14:57:39   order performed buy 0.09 at 1.90853 [#14 buy 0.09 GBPAUD.s at 1.90853]
+2026.07.25 06:57:40.000	2026.06.24 14:57:39   CTrade::OrderSend: market buy 0.09 position #10 GBPAUD.s [done at 1.90853]
+2026.07.25 06:57:40.000	2026.06.24 14:57:39   Tier 1: Profitable #10 closed. Entry: 1.90975 Vol: 0.09
+2026.07.25 06:57:40.000	2026.06.24 14:57:39   === TIER 1 COMPLETE: 3 positions closed. Recovery suppressed for 3s. ===
+2026.07.25 06:57:40.000	2026.06.24 14:57:39   OnTradeTransaction: Confirmed initial deal #12. Position count is 0. No TP modification needed yet.
+2026.07.25 06:57:40.000	2026.06.24 14:57:39   OnTradeTransaction: Confirmed initial deal #13. Position count is 0. No TP modification needed yet.
+2026.07.25 06:57:40.000	2026.06.24 14:57:39   OnTradeTransaction: Confirmed initial deal #14. Position count is 0. No TP modification needed yet.
+2026.07.25 06:57:40.006	2026.06.24 14:57:39   ModifySequenceTP: Calculating average TP for SELL sequence on GBPAUD.s
+2026.07.25 06:57:40.006	2026.06.24 14:57:39   ModifySequenceTP: Avg Entry Price = 1.89883 Total Vol = 0.35 Count = 7
+2026.07.25 06:57:40.006	2026.06.24 14:57:39   ModifySequenceTP: Calculated Avg TP Price = 1.89683
+2026.07.25 06:57:40.006	2026.06.24 14:57:39   position modified [#9 sell 0.08 GBPAUD.s 1.90620 tp: 1.89683]
+2026.07.25 06:57:40.008	2026.06.24 14:57:39   CTrade::OrderSend: modify position #9 GBPAUD.s (sl: 0.00000, tp: 1.89683) [done]
+2026.07.25 06:57:40.008	2026.06.24 14:57:39   position modified [#8 sell 0.07 GBPAUD.s 1.90297 tp: 1.89683]
+2026.07.25 06:57:40.010	2026.06.24 14:57:39   CTrade::OrderSend: modify position #8 GBPAUD.s (sl: 0.00000, tp: 1.89683) [done]
+2026.07.25 06:57:40.010	2026.06.24 14:57:39   position modified [#7 sell 0.06 GBPAUD.s 1.89973 tp: 1.89683]
+2026.07.25 06:57:40.012	2026.06.24 14:57:39   CTrade::OrderSend: modify position #7 GBPAUD.s (sl: 0.00000, tp: 1.89683) [done]
+2026.07.25 06:57:40.012	2026.06.24 14:57:39   position modified [#6 sell 0.05 GBPAUD.s 1.89610 tp: 1.89683]
+2026.07.25 06:57:40.014	2026.06.24 14:57:39   CTrade::OrderSend: modify position #6 GBPAUD.s (sl: 0.00000, tp: 1.89683) [done]
+2026.07.25 06:57:40.014	2026.06.24 14:57:39   position modified [#5 sell 0.04 GBPAUD.s 1.89257 tp: 1.89683]
+2026.07.25 06:57:40.016	2026.06.24 14:57:39   CTrade::OrderSend: modify position #5 GBPAUD.s (sl: 0.00000, tp: 1.89683) [done]
+2026.07.25 06:57:40.016	2026.06.24 14:57:39   position modified [#4 sell 0.03 GBPAUD.s 1.88917 tp: 1.89683]
+2026.07.25 06:57:40.018	2026.06.24 14:57:39   CTrade::OrderSend: modify position #4 GBPAUD.s (sl: 0.00000, tp: 1.89683) [done]
+2026.07.25 06:57:40.018	2026.06.24 14:57:39   position modified [#3 sell 0.02 GBPAUD.s 1.88594 tp: 1.89683]
+2026.07.25 06:57:40.020	2026.06.24 14:57:39   CTrade::OrderSend: modify position #3 GBPAUD.s (sl: 0.00000, tp: 1.89683) [done]
+2026.07.25 06:57:40.020	2026.06.24 14:57:39   ModifySequenceTP: Attempted TP modification for 7/7 positions.
+2026.07.25 06:57:40.020	2026.06.24 14:57:39   Unified TP Line 'ShadowTM_UnifiedTP_Sell created/updated at price 1.89683
+2026.07.25 06:57:40.023	2026.06.24 14:57:39   RefreshRecoveryState: Updating SELL sequence state due to trade changes.
+2026.07.25 06:57:40.023	2026.06.24 14:57:39   Refreshed SELL State: Level=6, LastPrice=1.90620, LastLot=0.08 (Pos Ticket:9)
+2026.07.25 06:58:15.244	2026.06.24 20:30:00   CalculateRecoveryLot: Retrieved Locked Base Lot: 0.01 Magic: 100001
+2026.07.25 06:58:15.244	2026.06.24 20:30:00   CalculateRecoveryLot: Final Validated Lot=0.08
+2026.07.25 06:58:15.244	2026.06.24 20:30:00   market sell 0.08 GBPAUD.s (1.90957 / 1.90988)
+2026.07.25 06:58:15.244	2026.06.24 20:30:00   deal #15 sell 0.08 GBPAUD.s at 1.90957 done (based on order #15)
+2026.07.25 06:58:15.244	2026.06.24 20:30:00   deal performed [#15 sell 0.08 GBPAUD.s at 1.90957]
+2026.07.25 06:58:15.244	2026.06.24 20:30:00   order performed sell 0.08 at 1.90957 [#15 sell 0.08 GBPAUD.s at 1.90957]
+2026.07.25 06:58:15.246	2026.06.24 20:30:00   CTrade::OrderSend: market sell 0.08 GBPAUD.s [done at 1.90957]
+2026.07.25 06:58:15.246	2026.06.24 20:30:00   ExecuteRecoveryTrade: Sell recovery trade request sent successfully. Order ID: 15
+2026.07.25 06:58:15.246	2026.06.24 20:30:00   Sell Recovery State Updated: Level=7, LastPrice=1.90957, LastLot=0.08
+2026.07.25 06:58:15.246	2026.06.24 20:30:00   OnTradeTransaction: Confirmed recovery deal #15. Position count is now 8. Triggering TP modification.
+2026.07.25 06:58:15.246	2026.06.24 20:30:00   ModifySequenceTP: Calculating average TP for SELL sequence on GBPAUD.s
+2026.07.25 06:58:15.246	2026.06.24 20:30:00   ModifySequenceTP: Avg Entry Price = 1.90083 Total Vol = 0.43 Count = 8
+2026.07.25 06:58:15.246	2026.06.24 20:30:00   ModifySequenceTP: Calculated Avg TP Price = 1.89883
+2026.07.25 06:58:15.246	2026.06.24 20:30:00   position modified [#15 sell 0.08 GBPAUD.s 1.90957 tp: 1.89883]
+2026.07.25 06:58:15.248	2026.06.24 20:30:00   CTrade::OrderSend: modify position #15 GBPAUD.s (sl: 0.00000, tp: 1.89883) [done]
+2026.07.25 06:58:15.248	2026.06.24 20:30:00   position modified [#9 sell 0.08 GBPAUD.s 1.90620 tp: 1.89883]
+2026.07.25 06:58:15.250	2026.06.24 20:30:00   CTrade::OrderSend: modify position #9 GBPAUD.s (sl: 0.00000, tp: 1.89883) [done]
+2026.07.25 06:58:15.250	2026.06.24 20:30:00   position modified [#8 sell 0.07 GBPAUD.s 1.90297 tp: 1.89883]
+2026.07.25 06:58:15.252	2026.06.24 20:30:00   CTrade::OrderSend: modify position #8 GBPAUD.s (sl: 0.00000, tp: 1.89883) [done]
+2026.07.25 06:58:15.252	2026.06.24 20:30:00   position modified [#7 sell 0.06 GBPAUD.s 1.89973 tp: 1.89883]
+2026.07.25 06:58:15.254	2026.06.24 20:30:00   CTrade::OrderSend: modify position #7 GBPAUD.s (sl: 0.00000, tp: 1.89883) [done]
+2026.07.25 06:58:15.254	2026.06.24 20:30:00   position modified [#6 sell 0.05 GBPAUD.s 1.89610 tp: 1.89883]
+2026.07.25 06:58:15.256	2026.06.24 20:30:00   CTrade::OrderSend: modify position #6 GBPAUD.s (sl: 0.00000, tp: 1.89883) [done]
+2026.07.25 06:58:15.256	2026.06.24 20:30:00   position modified [#5 sell 0.04 GBPAUD.s 1.89257 tp: 1.89883]
+2026.07.25 06:58:15.258	2026.06.24 20:30:00   CTrade::OrderSend: modify position #5 GBPAUD.s (sl: 0.00000, tp: 1.89883) [done]
+2026.07.25 06:58:15.258	2026.06.24 20:30:00   position modified [#4 sell 0.03 GBPAUD.s 1.88917 tp: 1.89883]
+2026.07.25 06:58:15.260	2026.06.24 20:30:00   CTrade::OrderSend: modify position #4 GBPAUD.s (sl: 0.00000, tp: 1.89883) [done]
+2026.07.25 06:58:15.260	2026.06.24 20:30:00   position modified [#3 sell 0.02 GBPAUD.s 1.88594 tp: 1.89883]
+2026.07.25 06:58:15.262	2026.06.24 20:30:00   CTrade::OrderSend: modify position #3 GBPAUD.s (sl: 0.00000, tp: 1.89883) [done]
+2026.07.25 06:58:15.262	2026.06.24 20:30:00   ModifySequenceTP: Attempted TP modification for 8/8 positions.
+2026.07.25 06:58:15.262	2026.06.24 20:30:00   Unified TP Line 'ShadowTM_UnifiedTP_Sell created/updated at price 1.89883
+2026.07.25 06:59:15.385	2026.06.25 05:45:00   CalculateRecoveryLot: Retrieved Locked Base Lot: 0.01 Magic: 100001
+2026.07.25 06:59:15.385	2026.06.25 05:45:00   CalculateRecoveryLot: Final Validated Lot=0.09
+2026.07.25 06:59:15.385	2026.06.25 05:45:00   market sell 0.09 GBPAUD.s (1.91286 / 1.91314)
+2026.07.25 06:59:15.385	2026.06.25 05:45:00   deal #16 sell 0.09 GBPAUD.s at 1.91286 done (based on order #16)
+2026.07.25 06:59:15.385	2026.06.25 05:45:00   deal performed [#16 sell 0.09 GBPAUD.s at 1.91286]
+2026.07.25 06:59:15.385	2026.06.25 05:45:00   order performed sell 0.09 at 1.91286 [#16 sell 0.09 GBPAUD.s at 1.91286]
+2026.07.25 06:59:15.387	2026.06.25 05:45:00   CTrade::OrderSend: market sell 0.09 GBPAUD.s [done at 1.91286]
+2026.07.25 06:59:15.387	2026.06.25 05:45:00   ExecuteRecoveryTrade: Sell recovery trade request sent successfully. Order ID: 16
+2026.07.25 06:59:15.387	2026.06.25 05:45:00   Sell Recovery State Updated: Level=8, LastPrice=1.91286, LastLot=0.09
+2026.07.25 06:59:15.387	2026.06.25 05:45:00   OnTradeTransaction: Confirmed recovery deal #16. Position count is now 9. Triggering TP modification.
+2026.07.25 06:59:15.388	2026.06.25 05:45:00   ModifySequenceTP: Calculating average TP for SELL sequence on GBPAUD.s
+2026.07.25 06:59:15.388	2026.06.25 05:45:00   ModifySequenceTP: Avg Entry Price = 1.90291 Total Vol = 0.52 Count = 9
+2026.07.25 06:59:15.388	2026.06.25 05:45:00   ModifySequenceTP: Calculated Avg TP Price = 1.90091
+2026.07.25 06:59:15.388	2026.06.25 05:45:00   position modified [#16 sell 0.09 GBPAUD.s 1.91286 tp: 1.90091]
+2026.07.25 06:59:15.390	2026.06.25 05:45:00   CTrade::OrderSend: modify position #16 GBPAUD.s (sl: 0.00000, tp: 1.90091) [done]
+2026.07.25 06:59:15.390	2026.06.25 05:45:00   position modified [#15 sell 0.08 GBPAUD.s 1.90957 tp: 1.90091]
+2026.07.25 06:59:15.392	2026.06.25 05:45:00   CTrade::OrderSend: modify position #15 GBPAUD.s (sl: 0.00000, tp: 1.90091) [done]
+2026.07.25 06:59:15.392	2026.06.25 05:45:00   position modified [#9 sell 0.08 GBPAUD.s 1.90620 tp: 1.90091]
+2026.07.25 06:59:15.394	2026.06.25 05:45:00   CTrade::OrderSend: modify position #9 GBPAUD.s (sl: 0.00000, tp: 1.90091) [done]
+2026.07.25 06:59:15.394	2026.06.25 05:45:00   position modified [#8 sell 0.07 GBPAUD.s 1.90297 tp: 1.90091]
+2026.07.25 06:59:15.396	2026.06.25 05:45:00   CTrade::OrderSend: modify position #8 GBPAUD.s (sl: 0.00000, tp: 1.90091) [done]
+2026.07.25 06:59:15.396	2026.06.25 05:45:00   position modified [#7 sell 0.06 GBPAUD.s 1.89973 tp: 1.90091]
+2026.07.25 06:59:15.398	2026.06.25 05:45:00   CTrade::OrderSend: modify position #7 GBPAUD.s (sl: 0.00000, tp: 1.90091) [done]
+2026.07.25 06:59:15.398	2026.06.25 05:45:00   position modified [#6 sell 0.05 GBPAUD.s 1.89610 tp: 1.90091]
+2026.07.25 06:59:15.400	2026.06.25 05:45:00   CTrade::OrderSend: modify position #6 GBPAUD.s (sl: 0.00000, tp: 1.90091) [done]
+2026.07.25 06:59:15.400	2026.06.25 05:45:00   position modified [#5 sell 0.04 GBPAUD.s 1.89257 tp: 1.90091]
+2026.07.25 06:59:15.402	2026.06.25 05:45:00   CTrade::OrderSend: modify position #5 GBPAUD.s (sl: 0.00000, tp: 1.90091) [done]
+2026.07.25 06:59:15.402	2026.06.25 05:45:00   position modified [#4 sell 0.03 GBPAUD.s 1.88917 tp: 1.90091]
+2026.07.25 06:59:15.404	2026.06.25 05:45:00   CTrade::OrderSend: modify position #4 GBPAUD.s (sl: 0.00000, tp: 1.90091) [done]
+2026.07.25 06:59:15.404	2026.06.25 05:45:00   position modified [#3 sell 0.02 GBPAUD.s 1.88594 tp: 1.90091]
+2026.07.25 06:59:15.406	2026.06.25 05:45:00   CTrade::OrderSend: modify position #3 GBPAUD.s (sl: 0.00000, tp: 1.90091) [done]
+2026.07.25 06:59:15.406	2026.06.25 05:45:00   ModifySequenceTP: Attempted TP modification for 9/9 positions.
+2026.07.25 06:59:15.406	2026.06.25 05:45:00   Unified TP Line 'ShadowTM_UnifiedTP_Sell created/updated at price 1.90091
+2026.07.25 07:00:01.785	2026.06.25 15:47:58   === DRAWDOWN REDUCTION TIER 3 TRIGGERED ===
+2026.07.25 07:00:01.785	2026.06.25 15:47:58   Basket VWAP (sliced anchor): 1.90990 | Full anchor vol: 0.02 | Slice vol: 0.01 | Remaining: 0.01
+2026.07.25 07:00:01.785	2026.06.25 15:47:58   market buy 0.01 GBPAUD.s, close #3 (1.90756 / 1.90784)
+2026.07.25 07:00:01.785	2026.06.25 15:47:58   deal #17 buy 0.01 GBPAUD.s at 1.90784 done (based on order #17)
+2026.07.25 07:00:01.785	2026.06.25 15:47:58   deal performed [#17 buy 0.01 GBPAUD.s at 1.90784]
+2026.07.25 07:00:01.786	2026.06.25 15:47:58   order performed buy 0.01 at 1.90784 [#17 buy 0.01 GBPAUD.s at 1.90784]
+2026.07.25 07:00:01.788	2026.06.25 15:47:58   CTrade::OrderSend: market buy 0.01 position #3 GBPAUD.s [done at 1.90784]
+2026.07.25 07:00:01.788	2026.06.25 15:47:58   Tier 3: Anchor #3 partially closed. Sliced: 0.01 | Remaining: 0.01
+2026.07.25 07:00:01.788	2026.06.25 15:47:58   market buy 0.09 GBPAUD.s, close #16 (1.90756 / 1.90784)
+2026.07.25 07:00:01.788	2026.06.25 15:47:58   deal #18 buy 0.09 GBPAUD.s at 1.90784 done (based on order #18)
+2026.07.25 07:00:01.788	2026.06.25 15:47:58   deal performed [#18 buy 0.09 GBPAUD.s at 1.90784]
+2026.07.25 07:00:01.788	2026.06.25 15:47:58   order performed buy 0.09 at 1.90784 [#18 buy 0.09 GBPAUD.s at 1.90784]
+2026.07.25 07:00:01.790	2026.06.25 15:47:58   CTrade::OrderSend: market buy 0.09 position #16 GBPAUD.s [done at 1.90784]
+2026.07.25 07:00:01.790	2026.06.25 15:47:58   Tier 3: Profitable #16 closed fully.
+2026.07.25 07:00:01.790	2026.06.25 15:47:58   market buy 0.08 GBPAUD.s, close #15 (1.90756 / 1.90784)
+2026.07.25 07:00:01.790	2026.06.25 15:47:58   deal #19 buy 0.08 GBPAUD.s at 1.90784 done (based on order #19)
+2026.07.25 07:00:01.790	2026.06.25 15:47:58   deal performed [#19 buy 0.08 GBPAUD.s at 1.90784]
+2026.07.25 07:00:01.790	2026.06.25 15:47:58   order performed buy 0.08 at 1.90784 [#19 buy 0.08 GBPAUD.s at 1.90784]
+2026.07.25 07:00:01.792	2026.06.25 15:47:58   CTrade::OrderSend: market buy 0.08 position #15 GBPAUD.s [done at 1.90784]
+2026.07.25 07:00:01.792	2026.06.25 15:47:58   Tier 3: Profitable #15 closed fully.
+2026.07.25 07:00:01.792	2026.06.25 15:47:58   === TIER 3 COMPLETE: 2 positions closed + anchor sliced. ===
+2026.07.25 07:00:01.792	2026.06.25 15:47:58   OnTradeTransaction: Confirmed initial deal #17. Position count is 0. No TP modification needed yet.
+2026.07.25 07:00:01.792	2026.06.25 15:47:58   OnTradeTransaction: Confirmed initial deal #18. Position count is 0. No TP modification needed yet.
+2026.07.25 07:00:01.792	2026.06.25 15:47:58   OnTradeTransaction: Confirmed initial deal #19. Position count is 0. No TP modification needed yet.
+2026.07.25 07:00:01.796	2026.06.25 15:47:58   ModifySequenceTP: Calculating average TP for SELL sequence on GBPAUD.s
+2026.07.25 07:00:01.796	2026.06.25 15:47:58   ModifySequenceTP: Avg Entry Price = 1.89921 Total Vol = 0.34 Count = 7
+2026.07.25 07:00:01.796	2026.06.25 15:47:58   ModifySequenceTP: Calculated Avg TP Price = 1.89721
+2026.07.25 07:00:01.796	2026.06.25 15:47:58   position modified [#9 sell 0.08 GBPAUD.s 1.90620 tp: 1.89721]
+2026.07.25 07:00:01.798	2026.06.25 15:47:58   CTrade::OrderSend: modify position #9 GBPAUD.s (sl: 0.00000, tp: 1.89721) [done]
+2026.07.25 07:00:01.798	2026.06.25 15:47:58   position modified [#8 sell 0.07 GBPAUD.s 1.90297 tp: 1.89721]
+2026.07.25 07:00:01.800	2026.06.25 15:47:58   CTrade::OrderSend: modify position #8 GBPAUD.s (sl: 0.00000, tp: 1.89721) [done]
+2026.07.25 07:00:01.800	2026.06.25 15:47:58   position modified [#7 sell 0.06 GBPAUD.s 1.89973 tp: 1.89721]
+2026.07.25 07:00:01.802	2026.06.25 15:47:58   CTrade::OrderSend: modify position #7 GBPAUD.s (sl: 0.00000, tp: 1.89721) [done]
+2026.07.25 07:00:01.802	2026.06.25 15:47:58   position modified [#6 sell 0.05 GBPAUD.s 1.89610 tp: 1.89721]
+2026.07.25 07:00:01.804	2026.06.25 15:47:58   CTrade::OrderSend: modify position #6 GBPAUD.s (sl: 0.00000, tp: 1.89721) [done]
+2026.07.25 07:00:01.804	2026.06.25 15:47:58   position modified [#5 sell 0.04 GBPAUD.s 1.89257 tp: 1.89721]
+2026.07.25 07:00:01.806	2026.06.25 15:47:58   CTrade::OrderSend: modify position #5 GBPAUD.s (sl: 0.00000, tp: 1.89721) [done]
+2026.07.25 07:00:01.806	2026.06.25 15:47:58   position modified [#4 sell 0.03 GBPAUD.s 1.88917 tp: 1.89721]
+2026.07.25 07:00:01.808	2026.06.25 15:47:58   CTrade::OrderSend: modify position #4 GBPAUD.s (sl: 0.00000, tp: 1.89721) [done]
+2026.07.25 07:00:01.808	2026.06.25 15:47:58   position modified [#3 sell 0.01 GBPAUD.s 1.88594 tp: 1.89721]
+2026.07.25 07:00:01.810	2026.06.25 15:47:58   CTrade::OrderSend: modify position #3 GBPAUD.s (sl: 0.00000, tp: 1.89721) [done]
+2026.07.25 07:00:01.810	2026.06.25 15:47:58   ModifySequenceTP: Attempted TP modification for 7/7 positions.
+2026.07.25 07:00:01.810	2026.06.25 15:47:58   Unified TP Line 'ShadowTM_UnifiedTP_Sell created/updated at price 1.89721
+2026.07.25 07:00:02.136	2026.06.25 15:51:48   RefreshRecoveryState: Updating SELL sequence state due to trade changes.
+2026.07.25 07:00:02.136	2026.06.25 15:51:48   Refreshed SELL State: Level=6, LastPrice=1.90620, LastLot=0.08 (Pos Ticket:9)
+2026.07.25 07:00:04.776	2026.06.25 16:25:56   CalculateRecoveryLot: Retrieved Locked Base Lot: 0.01 Magic: 100001
+2026.07.25 07:00:04.776	2026.06.25 16:25:56   CalculateRecoveryLot: Final Validated Lot=0.08
+2026.07.25 07:00:04.776	2026.06.25 16:25:56   market sell 0.08 GBPAUD.s (1.90979 / 1.91014)
+2026.07.25 07:00:04.776	2026.06.25 16:25:56   deal #20 sell 0.08 GBPAUD.s at 1.90979 done (based on order #20)
+2026.07.25 07:00:04.776	2026.06.25 16:25:56   deal performed [#20 sell 0.08 GBPAUD.s at 1.90979]
+2026.07.25 07:00:04.776	2026.06.25 16:25:56   order performed sell 0.08 at 1.90979 [#20 sell 0.08 GBPAUD.s at 1.90979]
+2026.07.25 07:00:04.778	2026.06.25 16:25:56   CTrade::OrderSend: market sell 0.08 GBPAUD.s [done at 1.90979]
+2026.07.25 07:00:04.778	2026.06.25 16:25:56   ExecuteRecoveryTrade: Sell recovery trade request sent successfully. Order ID: 20
+2026.07.25 07:00:04.778	2026.06.25 16:25:56   Sell Recovery State Updated: Level=7, LastPrice=1.90979, LastLot=0.08
+2026.07.25 07:00:04.778	2026.06.25 16:25:56   OnTradeTransaction: Confirmed recovery deal #20. Position count is now 8. Triggering TP modification.
+2026.07.25 07:00:04.781	2026.06.25 16:25:56   ModifySequenceTP: Calculating average TP for SELL sequence on GBPAUD.s
+2026.07.25 07:00:04.781	2026.06.25 16:25:56   ModifySequenceTP: Avg Entry Price = 1.90122 Total Vol = 0.42 Count = 8
+2026.07.25 07:00:04.781	2026.06.25 16:25:56   ModifySequenceTP: Calculated Avg TP Price = 1.89922
+2026.07.25 07:00:04.781	2026.06.25 16:25:56   position modified [#20 sell 0.08 GBPAUD.s 1.90979 tp: 1.89922]
+2026.07.25 07:00:04.783	2026.06.25 16:25:56   CTrade::OrderSend: modify position #20 GBPAUD.s (sl: 0.00000, tp: 1.89922) [done]
+2026.07.25 07:00:04.783	2026.06.25 16:25:56   position modified [#9 sell 0.08 GBPAUD.s 1.90620 tp: 1.89922]
+2026.07.25 07:00:04.785	2026.06.25 16:25:56   CTrade::OrderSend: modify position #9 GBPAUD.s (sl: 0.00000, tp: 1.89922) [done]
+2026.07.25 07:00:04.785	2026.06.25 16:25:56   position modified [#8 sell 0.07 GBPAUD.s 1.90297 tp: 1.89922]
+2026.07.25 07:00:04.787	2026.06.25 16:25:56   CTrade::OrderSend: modify position #8 GBPAUD.s (sl: 0.00000, tp: 1.89922) [done]
+2026.07.25 07:00:04.787	2026.06.25 16:25:56   position modified [#7 sell 0.06 GBPAUD.s 1.89973 tp: 1.89922]
+2026.07.25 07:00:04.789	2026.06.25 16:25:56   CTrade::OrderSend: modify position #7 GBPAUD.s (sl: 0.00000, tp: 1.89922) [done]
+2026.07.25 07:00:04.789	2026.06.25 16:25:56   position modified [#6 sell 0.05 GBPAUD.s 1.89610 tp: 1.89922]
+2026.07.25 07:00:04.791	2026.06.25 16:25:56   CTrade::OrderSend: modify position #6 GBPAUD.s (sl: 0.00000, tp: 1.89922) [done]
+2026.07.25 07:00:04.791	2026.06.25 16:25:56   position modified [#5 sell 0.04 GBPAUD.s 1.89257 tp: 1.89922]
+2026.07.25 07:00:04.793	2026.06.25 16:25:56   CTrade::OrderSend: modify position #5 GBPAUD.s (sl: 0.00000, tp: 1.89922) [done]
+2026.07.25 07:00:04.793	2026.06.25 16:25:56   position modified [#4 sell 0.03 GBPAUD.s 1.88917 tp: 1.89922]
+2026.07.25 07:00:04.795	2026.06.25 16:25:56   CTrade::OrderSend: modify position #4 GBPAUD.s (sl: 0.00000, tp: 1.89922) [done]
+2026.07.25 07:00:04.795	2026.06.25 16:25:56   position modified [#3 sell 0.01 GBPAUD.s 1.88594 tp: 1.89922]
+2026.07.25 07:00:04.797	2026.06.25 16:25:56   CTrade::OrderSend: modify position #3 GBPAUD.s (sl: 0.00000, tp: 1.89922) [done]
+2026.07.25 07:00:04.797	2026.06.25 16:25:56   ModifySequenceTP: Attempted TP modification for 8/8 positions.
+2026.07.25 07:00:04.797	2026.06.25 16:25:56   Unified TP Line 'ShadowTM_UnifiedTP_Sell created/updated at price 1.89922
+2026.07.25 07:00:53.068	2026.06.26 04:45:00   CalculateRecoveryLot: Retrieved Locked Base Lot: 0.01 Magic: 100001
+2026.07.25 07:00:53.068	2026.06.26 04:45:00   CalculateRecoveryLot: Final Validated Lot=0.09
+2026.07.25 07:00:53.068	2026.06.26 04:45:00   market sell 0.09 GBPAUD.s (1.91382 / 1.91413)
+2026.07.25 07:00:53.068	2026.06.26 04:45:00   deal #21 sell 0.09 GBPAUD.s at 1.91382 done (based on order #21)
+2026.07.25 07:00:53.068	2026.06.26 04:45:00   deal performed [#21 sell 0.09 GBPAUD.s at 1.91382]
+2026.07.25 07:00:53.068	2026.06.26 04:45:00   order performed sell 0.09 at 1.91382 [#21 sell 0.09 GBPAUD.s at 1.91382]
+2026.07.25 07:00:53.070	2026.06.26 04:45:00   CTrade::OrderSend: market sell 0.09 GBPAUD.s [done at 1.91382]
+2026.07.25 07:00:53.070	2026.06.26 04:45:00   ExecuteRecoveryTrade: Sell recovery trade request sent successfully. Order ID: 21
+2026.07.25 07:00:53.070	2026.06.26 04:45:00   Sell Recovery State Updated: Level=8, LastPrice=1.9138199999999999, LastLot=0.09
+2026.07.25 07:00:53.070	2026.06.26 04:45:00   OnTradeTransaction: Confirmed recovery deal #21. Position count is now 9. Triggering TP modification.
+2026.07.25 07:00:53.070	2026.06.26 04:45:00   ModifySequenceTP: Calculating average TP for SELL sequence on GBPAUD.s
+2026.07.25 07:00:53.070	2026.06.26 04:45:00   ModifySequenceTP: Avg Entry Price = 1.90345 Total Vol = 0.51 Count = 9
+2026.07.25 07:00:53.070	2026.06.26 04:45:00   ModifySequenceTP: Calculated Avg TP Price = 1.90145
+2026.07.25 07:00:53.070	2026.06.26 04:45:00   position modified [#21 sell 0.09 GBPAUD.s 1.91382 tp: 1.90145]
+2026.07.25 07:00:53.072	2026.06.26 04:45:00   CTrade::OrderSend: modify position #21 GBPAUD.s (sl: 0.00000, tp: 1.90145) [done]
+2026.07.25 07:00:53.072	2026.06.26 04:45:00   position modified [#20 sell 0.08 GBPAUD.s 1.90979 tp: 1.90145]
+2026.07.25 07:00:53.074	2026.06.26 04:45:00   CTrade::OrderSend: modify position #20 GBPAUD.s (sl: 0.00000, tp: 1.90145) [done]
+2026.07.25 07:00:53.074	2026.06.26 04:45:00   position modified [#9 sell 0.08 GBPAUD.s 1.90620 tp: 1.90145]
+2026.07.25 07:00:53.076	2026.06.26 04:45:00   CTrade::OrderSend: modify position #9 GBPAUD.s (sl: 0.00000, tp: 1.90145) [done]
+2026.07.25 07:00:53.076	2026.06.26 04:45:00   position modified [#8 sell 0.07 GBPAUD.s 1.90297 tp: 1.90145]
+2026.07.25 07:00:53.078	2026.06.26 04:45:00   CTrade::OrderSend: modify position #8 GBPAUD.s (sl: 0.00000, tp: 1.90145) [done]
+2026.07.25 07:00:53.078	2026.06.26 04:45:00   position modified [#7 sell 0.06 GBPAUD.s 1.89973 tp: 1.90145]
+2026.07.25 07:00:53.080	2026.06.26 04:45:00   CTrade::OrderSend: modify position #7 GBPAUD.s (sl: 0.00000, tp: 1.90145) [done]
+2026.07.25 07:00:53.080	2026.06.26 04:45:00   position modified [#6 sell 0.05 GBPAUD.s 1.89610 tp: 1.90145]
+2026.07.25 07:00:53.082	2026.06.26 04:45:00   CTrade::OrderSend: modify position #6 GBPAUD.s (sl: 0.00000, tp: 1.90145) [done]
+2026.07.25 07:00:53.082	2026.06.26 04:45:00   position modified [#5 sell 0.04 GBPAUD.s 1.89257 tp: 1.90145]
+2026.07.25 07:00:53.084	2026.06.26 04:45:00   CTrade::OrderSend: modify position #5 GBPAUD.s (sl: 0.00000, tp: 1.90145) [done]
+2026.07.25 07:00:53.084	2026.06.26 04:45:00   position modified [#4 sell 0.03 GBPAUD.s 1.88917 tp: 1.90145]
+2026.07.25 07:00:53.086	2026.06.26 04:45:00   CTrade::OrderSend: modify position #4 GBPAUD.s (sl: 0.00000, tp: 1.90145) [done]
+2026.07.25 07:00:53.086	2026.06.26 04:45:00   position modified [#3 sell 0.01 GBPAUD.s 1.88594 tp: 1.90145]
+2026.07.25 07:00:53.088	2026.06.26 04:45:00   CTrade::OrderSend: modify position #3 GBPAUD.s (sl: 0.00000, tp: 1.90145) [done]
+2026.07.25 07:00:53.088	2026.06.26 04:45:00   ModifySequenceTP: Attempted TP modification for 9/9 positions.
+2026.07.25 07:00:53.088	2026.06.26 04:45:00   Unified TP Line 'ShadowTM_UnifiedTP_Sell created/updated at price 1.90145
+2026.07.25 07:03:29.963	2026.06.29 04:15:00   CalculateRecoveryLot: Retrieved Locked Base Lot: 0.01 Magic: 100001
+2026.07.25 07:03:29.963	2026.06.29 04:15:00   CalculateRecoveryLot: Final Validated Lot=0.1
+2026.07.25 07:03:29.963	2026.06.29 04:15:00   market sell 0.1 GBPAUD.s (1.91738 / 1.91769)
+2026.07.25 07:03:29.963	2026.06.29 04:15:00   deal #22 sell 0.1 GBPAUD.s at 1.91738 done (based on order #22)
+2026.07.25 07:03:29.963	2026.06.29 04:15:00   deal performed [#22 sell 0.1 GBPAUD.s at 1.91738]
+2026.07.25 07:03:29.963	2026.06.29 04:15:00   order performed sell 0.1 at 1.91738 [#22 sell 0.1 GBPAUD.s at 1.91738]
+2026.07.25 07:03:29.965	2026.06.29 04:15:00   CTrade::OrderSend: market sell 0.10 GBPAUD.s [done at 1.91738]
+2026.07.25 07:03:29.965	2026.06.29 04:15:00   ExecuteRecoveryTrade: Sell recovery trade request sent successfully. Order ID: 22
+2026.07.25 07:03:29.965	2026.06.29 04:15:00   Sell Recovery State Updated: Level=9, LastPrice=1.91738, LastLot=0.1
+2026.07.25 07:03:29.965	2026.06.29 04:15:00   OnTradeTransaction: Confirmed recovery deal #22. Position count is now 10. Triggering TP modification.
+2026.07.25 07:03:29.965	2026.06.29 04:15:00   ModifySequenceTP: Calculating average TP for SELL sequence on GBPAUD.s
+2026.07.25 07:03:29.965	2026.06.29 04:15:00   ModifySequenceTP: Avg Entry Price = 1.90573 Total Vol = 0.61 Count = 10
+2026.07.25 07:03:29.965	2026.06.29 04:15:00   ModifySequenceTP: Calculated Avg TP Price = 1.90373
+2026.07.25 07:03:29.965	2026.06.29 04:15:00   position modified [#22 sell 0.1 GBPAUD.s 1.91738 tp: 1.90373]
+2026.07.25 07:03:29.981	2026.06.29 04:15:00   CTrade::OrderSend: modify position #22 GBPAUD.s (sl: 0.00000, tp: 1.90373) [done]
+2026.07.25 07:03:29.981	2026.06.29 04:15:00   position modified [#21 sell 0.09 GBPAUD.s 1.91382 tp: 1.90373]
+2026.07.25 07:03:29.996	2026.06.29 04:15:00   CTrade::OrderSend: modify position #21 GBPAUD.s (sl: 0.00000, tp: 1.90373) [done]
+2026.07.25 07:03:29.996	2026.06.29 04:15:00   position modified [#20 sell 0.08 GBPAUD.s 1.90979 tp: 1.90373]
+2026.07.25 07:03:30.011	2026.06.29 04:15:00   CTrade::OrderSend: modify position #20 GBPAUD.s (sl: 0.00000, tp: 1.90373) [done]
+2026.07.25 07:03:30.011	2026.06.29 04:15:00   position modified [#9 sell 0.08 GBPAUD.s 1.90620 tp: 1.90373]
+2026.07.25 07:03:30.027	2026.06.29 04:15:00   CTrade::OrderSend: modify position #9 GBPAUD.s (sl: 0.00000, tp: 1.90373) [done]
+2026.07.25 07:03:30.027	2026.06.29 04:15:00   position modified [#8 sell 0.07 GBPAUD.s 1.90297 tp: 1.90373]
+2026.07.25 07:03:30.043	2026.06.29 04:15:00   CTrade::OrderSend: modify position #8 GBPAUD.s (sl: 0.00000, tp: 1.90373) [done]
+2026.07.25 07:03:30.043	2026.06.29 04:15:00   position modified [#7 sell 0.06 GBPAUD.s 1.89973 tp: 1.90373]
+2026.07.25 07:03:30.059	2026.06.29 04:15:00   CTrade::OrderSend: modify position #7 GBPAUD.s (sl: 0.00000, tp: 1.90373) [done]
+2026.07.25 07:03:30.059	2026.06.29 04:15:00   position modified [#6 sell 0.05 GBPAUD.s 1.89610 tp: 1.90373]
+2026.07.25 07:03:30.075	2026.06.29 04:15:00   CTrade::OrderSend: modify position #6 GBPAUD.s (sl: 0.00000, tp: 1.90373) [done]
+2026.07.25 07:03:30.075	2026.06.29 04:15:00   position modified [#5 sell 0.04 GBPAUD.s 1.89257 tp: 1.90373]
+2026.07.25 07:03:30.090	2026.06.29 04:15:00   CTrade::OrderSend: modify position #5 GBPAUD.s (sl: 0.00000, tp: 1.90373) [done]
+2026.07.25 07:03:30.090	2026.06.29 04:15:00   position modified [#4 sell 0.03 GBPAUD.s 1.88917 tp: 1.90373]
+2026.07.25 07:03:30.105	2026.06.29 04:15:00   CTrade::OrderSend: modify position #4 GBPAUD.s (sl: 0.00000, tp: 1.90373) [done]
+2026.07.25 07:03:30.105	2026.06.29 04:15:00   position modified [#3 sell 0.01 GBPAUD.s 1.88594 tp: 1.90373]
+2026.07.25 07:03:30.121	2026.06.29 04:15:00   CTrade::OrderSend: modify position #3 GBPAUD.s (sl: 0.00000, tp: 1.90373) [done]
+2026.07.25 07:03:30.121	2026.06.29 04:15:00   ModifySequenceTP: Attempted TP modification for 10/10 positions.
+2026.07.25 07:03:30.121	2026.06.29 04:15:00   Unified TP Line 'ShadowTM_UnifiedTP_Sell created/updated at price 1.90373
+2026.07.25 07:03:33.974	2026.06.29 17:00:00   CalculateRecoveryLot: Retrieved Locked Base Lot: 0.01 Magic: 100001
+2026.07.25 07:03:33.974	2026.06.29 17:00:00   CalculateRecoveryLot: Final Validated Lot=0.11
+2026.07.25 07:03:33.974	2026.06.29 17:00:00   market sell 0.11 GBPAUD.s (1.92132 / 1.92166)
+2026.07.25 07:03:33.974	2026.06.29 17:00:00   deal #23 sell 0.11 GBPAUD.s at 1.92132 done (based on order #23)
+2026.07.25 07:03:33.974	2026.06.29 17:00:00   deal performed [#23 sell 0.11 GBPAUD.s at 1.92132]
+2026.07.25 07:03:33.974	2026.06.29 17:00:00   order performed sell 0.11 at 1.92132 [#23 sell 0.11 GBPAUD.s at 1.92132]
+2026.07.25 07:03:33.984	2026.06.29 17:00:00   CTrade::OrderSend: market sell 0.11 GBPAUD.s [done at 1.92132]
+2026.07.25 07:03:33.984	2026.06.29 17:00:00   ExecuteRecoveryTrade: Sell recovery trade request sent successfully. Order ID: 23
+2026.07.25 07:03:33.984	2026.06.29 17:00:00   Sell Recovery State Updated: Level=10, LastPrice=1.9213200000000001, LastLot=0.11
+2026.07.25 07:03:33.984	2026.06.29 17:00:00   OnTradeTransaction: Confirmed recovery deal #23. Position count is now 11. Triggering TP modification.
+2026.07.25 07:03:33.984	2026.06.29 17:00:00   ModifySequenceTP: Calculating average TP for SELL sequence on GBPAUD.s
+2026.07.25 07:03:33.984	2026.06.29 17:00:00   ModifySequenceTP: Avg Entry Price = 1.90811 Total Vol = 0.72 Count = 11
+2026.07.25 07:03:33.984	2026.06.29 17:00:00   ModifySequenceTP: Calculated Avg TP Price = 1.90611
+2026.07.25 07:03:33.984	2026.06.29 17:00:00   position modified [#23 sell 0.11 GBPAUD.s 1.92132 tp: 1.90611]
+2026.07.25 07:03:34.000	2026.06.29 17:00:00   CTrade::OrderSend: modify position #23 GBPAUD.s (sl: 0.00000, tp: 1.90611) [done]
+2026.07.25 07:03:34.000	2026.06.29 17:00:00   position modified [#22 sell 0.1 GBPAUD.s 1.91738 tp: 1.90611]
+2026.07.25 07:03:34.016	2026.06.29 17:00:00   CTrade::OrderSend: modify position #22 GBPAUD.s (sl: 0.00000, tp: 1.90611) [done]
+2026.07.25 07:03:34.016	2026.06.29 17:00:00   position modified [#21 sell 0.09 GBPAUD.s 1.91382 tp: 1.90611]
+2026.07.25 07:03:34.031	2026.06.29 17:00:00   CTrade::OrderSend: modify position #21 GBPAUD.s (sl: 0.00000, tp: 1.90611) [done]
+2026.07.25 07:03:34.031	2026.06.29 17:00:00   position modified [#20 sell 0.08 GBPAUD.s 1.90979 tp: 1.90611]
+2026.07.25 07:03:34.047	2026.06.29 17:00:00   CTrade::OrderSend: modify position #20 GBPAUD.s (sl: 0.00000, tp: 1.90611) [done]
+2026.07.25 07:03:34.047	2026.06.29 17:00:00   position modified [#9 sell 0.08 GBPAUD.s 1.90620 tp: 1.90611]
+2026.07.25 07:03:34.063	2026.06.29 17:00:00   CTrade::OrderSend: modify position #9 GBPAUD.s (sl: 0.00000, tp: 1.90611) [done]
+2026.07.25 07:03:34.063	2026.06.29 17:00:00   position modified [#8 sell 0.07 GBPAUD.s 1.90297 tp: 1.90611]
+2026.07.25 07:03:34.079	2026.06.29 17:00:00   CTrade::OrderSend: modify position #8 GBPAUD.s (sl: 0.00000, tp: 1.90611) [done]
+2026.07.25 07:03:34.079	2026.06.29 17:00:00   position modified [#7 sell 0.06 GBPAUD.s 1.89973 tp: 1.90611]
+2026.07.25 07:03:34.095	2026.06.29 17:00:00   CTrade::OrderSend: modify position #7 GBPAUD.s (sl: 0.00000, tp: 1.90611) [done]
+2026.07.25 07:03:34.095	2026.06.29 17:00:00   position modified [#6 sell 0.05 GBPAUD.s 1.89610 tp: 1.90611]
+2026.07.25 07:03:34.111	2026.06.29 17:00:00   CTrade::OrderSend: modify position #6 GBPAUD.s (sl: 0.00000, tp: 1.90611) [done]
+2026.07.25 07:03:34.111	2026.06.29 17:00:00   position modified [#5 sell 0.04 GBPAUD.s 1.89257 tp: 1.90611]
+2026.07.25 07:03:34.127	2026.06.29 17:00:00   CTrade::OrderSend: modify position #5 GBPAUD.s (sl: 0.00000, tp: 1.90611) [done]
+2026.07.25 07:03:34.127	2026.06.29 17:00:00   position modified [#4 sell 0.03 GBPAUD.s 1.88917 tp: 1.90611]
+2026.07.25 07:03:34.143	2026.06.29 17:00:00   CTrade::OrderSend: modify position #4 GBPAUD.s (sl: 0.00000, tp: 1.90611) [done]
+2026.07.25 07:03:34.143	2026.06.29 17:00:00   position modified [#3 sell 0.01 GBPAUD.s 1.88594 tp: 1.90611]
+2026.07.25 07:03:34.159	2026.06.29 17:00:00   CTrade::OrderSend: modify position #3 GBPAUD.s (sl: 0.00000, tp: 1.90611) [done]
+2026.07.25 07:03:34.159	2026.06.29 17:00:00   ModifySequenceTP: Attempted TP modification for 11/11 positions.
+2026.07.25 07:03:34.159	2026.06.29 17:00:00   Unified TP Line 'ShadowTM_UnifiedTP_Sell created/updated at price 1.90611
+2026.07.25 07:03:36.980	2026.06.30 01:41:56   CalculateRecoveryLot: Retrieved Locked Base Lot: 0.01 Magic: 100001
+2026.07.25 07:03:36.980	2026.06.30 01:41:56   CalculateRecoveryLot: Final Validated Lot=0.12
+2026.07.25 07:03:36.980	2026.06.30 01:41:56   market sell 0.12 GBPAUD.s (1.92512 / 1.92544)
+2026.07.25 07:03:36.980	2026.06.30 01:41:56   deal #24 sell 0.12 GBPAUD.s at 1.92512 done (based on order #24)
+2026.07.25 07:03:36.980	2026.06.30 01:41:56   deal performed [#24 sell 0.12 GBPAUD.s at 1.92512]
+2026.07.25 07:03:36.980	2026.06.30 01:41:56   order performed sell 0.12 at 1.92512 [#24 sell 0.12 GBPAUD.s at 1.92512]
+2026.07.25 07:03:36.992	2026.06.30 01:41:56   CTrade::OrderSend: market sell 0.12 GBPAUD.s [done at 1.92512]
+2026.07.25 07:03:36.992	2026.06.30 01:41:56   ExecuteRecoveryTrade: Sell recovery trade request sent successfully. Order ID: 24
+2026.07.25 07:03:36.992	2026.06.30 01:41:56   Sell Recovery State Updated: Level=11, LastPrice=1.9251200000000002, LastLot=0.12
+2026.07.25 07:03:36.992	2026.06.30 01:41:56   OnTradeTransaction: Confirmed recovery deal #24. Position count is now 12. Triggering TP modification.
+2026.07.25 07:03:36.992	2026.06.30 01:41:56   ModifySequenceTP: Calculating average TP for SELL sequence on GBPAUD.s
+2026.07.25 07:03:36.992	2026.06.30 01:41:56   ModifySequenceTP: Avg Entry Price = 1.91054 Total Vol = 0.84 Count = 12
+2026.07.25 07:03:36.992	2026.06.30 01:41:56   ModifySequenceTP: Calculated Avg TP Price = 1.90854
+2026.07.25 07:03:36.992	2026.06.30 01:41:56   position modified [#24 sell 0.12 GBPAUD.s 1.92512 tp: 1.90854]
+2026.07.25 07:03:37.008	2026.06.30 01:41:56   CTrade::OrderSend: modify position #24 GBPAUD.s (sl: 0.00000, tp: 1.90854) [done]
+2026.07.25 07:03:37.008	2026.06.30 01:41:56   position modified [#23 sell 0.11 GBPAUD.s 1.92132 tp: 1.90854]
+2026.07.25 07:03:37.023	2026.06.30 01:41:56   CTrade::OrderSend: modify position #23 GBPAUD.s (sl: 0.00000, tp: 1.90854) [done]
+2026.07.25 07:03:37.023	2026.06.30 01:41:56   position modified [#22 sell 0.1 GBPAUD.s 1.91738 tp: 1.90854]
+2026.07.25 07:03:37.039	2026.06.30 01:41:56   CTrade::OrderSend: modify position #22 GBPAUD.s (sl: 0.00000, tp: 1.90854) [done]
+2026.07.25 07:03:37.039	2026.06.30 01:41:56   position modified [#21 sell 0.09 GBPAUD.s 1.91382 tp: 1.90854]
+2026.07.25 07:03:37.055	2026.06.30 01:41:56   CTrade::OrderSend: modify position #21 GBPAUD.s (sl: 0.00000, tp: 1.90854) [done]
+2026.07.25 07:03:37.055	2026.06.30 01:41:56   position modified [#20 sell 0.08 GBPAUD.s 1.90979 tp: 1.90854]
+2026.07.25 07:03:37.070	2026.06.30 01:41:56   CTrade::OrderSend: modify position #20 GBPAUD.s (sl: 0.00000, tp: 1.90854) [done]
+2026.07.25 07:03:37.070	2026.06.30 01:41:56   position modified [#9 sell 0.08 GBPAUD.s 1.90620 tp: 1.90854]
+2026.07.25 07:03:37.086	2026.06.30 01:41:56   CTrade::OrderSend: modify position #9 GBPAUD.s (sl: 0.00000, tp: 1.90854) [done]
+2026.07.25 07:03:37.086	2026.06.30 01:41:56   position modified [#8 sell 0.07 GBPAUD.s 1.90297 tp: 1.90854]
+2026.07.25 07:03:37.102	2026.06.30 01:41:56   CTrade::OrderSend: modify position #8 GBPAUD.s (sl: 0.00000, tp: 1.90854) [done]
+2026.07.25 07:03:37.102	2026.06.30 01:41:56   position modified [#7 sell 0.06 GBPAUD.s 1.89973 tp: 1.90854]
+2026.07.25 07:03:37.118	2026.06.30 01:41:56   CTrade::OrderSend: modify position #7 GBPAUD.s (sl: 0.00000, tp: 1.90854) [done]
+2026.07.25 07:03:37.118	2026.06.30 01:41:56   position modified [#6 sell 0.05 GBPAUD.s 1.89610 tp: 1.90854]
+2026.07.25 07:03:37.134	2026.06.30 01:41:56   CTrade::OrderSend: modify position #6 GBPAUD.s (sl: 0.00000, tp: 1.90854) [done]
+2026.07.25 07:03:37.134	2026.06.30 01:41:56   position modified [#5 sell 0.04 GBPAUD.s 1.89257 tp: 1.90854]
+2026.07.25 07:03:37.150	2026.06.30 01:41:56   CTrade::OrderSend: modify position #5 GBPAUD.s (sl: 0.00000, tp: 1.90854) [done]
+2026.07.25 07:03:37.150	2026.06.30 01:41:56   position modified [#4 sell 0.03 GBPAUD.s 1.88917 tp: 1.90854]
+2026.07.25 07:03:37.166	2026.06.30 01:41:56   CTrade::OrderSend: modify position #4 GBPAUD.s (sl: 0.00000, tp: 1.90854) [done]
+2026.07.25 07:03:37.166	2026.06.30 01:41:56   position modified [#3 sell 0.01 GBPAUD.s 1.88594 tp: 1.90854]
+2026.07.25 07:03:37.182	2026.06.30 01:41:56   CTrade::OrderSend: modify position #3 GBPAUD.s (sl: 0.00000, tp: 1.90854) [done]
+2026.07.25 07:03:37.182	2026.06.30 01:41:56   ModifySequenceTP: Attempted TP modification for 12/12 positions.
+2026.07.25 07:03:37.182	2026.06.30 01:41:56   Unified TP Line 'ShadowTM_UnifiedTP_Sell created/updated at price 1.90854
+2026.07.25 07:03:45.766	2026.06.30 14:16:10   === DRAWDOWN REDUCTION TIER 1 TRIGGERED ===
+2026.07.25 07:03:45.766	2026.06.30 14:16:10   Basket VWAP: 1.92175 | Basket Vol: 0.24 | Min Profit: 150 pts
+2026.07.25 07:03:45.766	2026.06.30 14:16:10   market buy 0.01 GBPAUD.s, close #3 (1.91993 / 1.92021)
+2026.07.25 07:03:45.766	2026.06.30 14:16:10   deal #25 buy 0.01 GBPAUD.s at 1.92021 done (based on order #25)
+2026.07.25 07:03:45.766	2026.06.30 14:16:10   deal performed [#25 buy 0.01 GBPAUD.s at 1.92021]
+2026.07.25 07:03:45.766	2026.06.30 14:16:10   order performed buy 0.01 at 1.92021 [#25 buy 0.01 GBPAUD.s at 1.92021]
+2026.07.25 07:03:45.768	2026.06.30 14:16:10   CTrade::OrderSend: market buy 0.01 position #3 GBPAUD.s [done at 1.92021]
+2026.07.25 07:03:45.768	2026.06.30 14:16:10   Tier 1: Anchor #3 closed. Entry: 1.88594 Vol: 0.01
+2026.07.25 07:03:45.768	2026.06.30 14:16:10   market buy 0.12 GBPAUD.s, close #24 (1.91993 / 1.92021)
+2026.07.25 07:03:45.768	2026.06.30 14:16:10   deal #26 buy 0.12 GBPAUD.s at 1.92021 done (based on order #26)
+2026.07.25 07:03:45.768	2026.06.30 14:16:10   deal performed [#26 buy 0.12 GBPAUD.s at 1.92021]
+2026.07.25 07:03:45.768	2026.06.30 14:16:10   order performed buy 0.12 at 1.92021 [#26 buy 0.12 GBPAUD.s at 1.92021]
+2026.07.25 07:03:45.770	2026.06.30 14:16:10   CTrade::OrderSend: market buy 0.12 position #24 GBPAUD.s [done at 1.92021]
+2026.07.25 07:03:45.770	2026.06.30 14:16:10   Tier 1: Profitable #24 closed. Entry: 1.92512 Vol: 0.12
+2026.07.25 07:03:45.770	2026.06.30 14:16:10   market buy 0.11 GBPAUD.s, close #23 (1.91993 / 1.92021)
+2026.07.25 07:03:45.770	2026.06.30 14:16:10   deal #27 buy 0.11 GBPAUD.s at 1.92021 done (based on order #27)
+2026.07.25 07:03:45.770	2026.06.30 14:16:10   deal performed [#27 buy 0.11 GBPAUD.s at 1.92021]
+2026.07.25 07:03:45.770	2026.06.30 14:16:10   order performed buy 0.11 at 1.92021 [#27 buy 0.11 GBPAUD.s at 1.92021]
+2026.07.25 07:03:45.772	2026.06.30 14:16:10   CTrade::OrderSend: market buy 0.11 position #23 GBPAUD.s [done at 1.92021]
+2026.07.25 07:03:45.772	2026.06.30 14:16:10   Tier 1: Profitable #23 closed. Entry: 1.92132 Vol: 0.11
+2026.07.25 07:03:45.772	2026.06.30 14:16:10   === TIER 1 COMPLETE: 3 positions closed. Recovery suppressed for 3s. ===
+2026.07.25 07:03:45.772	2026.06.30 14:16:10   OnTradeTransaction: Confirmed initial deal #25. Position count is 0. No TP modification needed yet.
+2026.07.25 07:03:45.772	2026.06.30 14:16:10   OnTradeTransaction: Confirmed initial deal #26. Position count is 0. No TP modification needed yet.
+2026.07.25 07:03:45.772	2026.06.30 14:16:10   OnTradeTransaction: Confirmed initial deal #27. Position count is 0. No TP modification needed yet.
+2026.07.25 07:03:45.773	2026.06.30 14:16:10   ModifySequenceTP: Calculating average TP for SELL sequence on GBPAUD.s
+2026.07.25 07:03:45.773	2026.06.30 14:16:10   ModifySequenceTP: Avg Entry Price = 1.90606 Total Vol = 0.60 Count = 9
+2026.07.25 07:03:45.773	2026.06.30 14:16:10   ModifySequenceTP: Calculated Avg TP Price = 1.90406
+2026.07.25 07:03:45.773	2026.06.30 14:16:10   position modified [#22 sell 0.1 GBPAUD.s 1.91738 tp: 1.90406]
+2026.07.25 07:03:45.775	2026.06.30 14:16:10   CTrade::OrderSend: modify position #22 GBPAUD.s (sl: 0.00000, tp: 1.90406) [done]
+2026.07.25 07:03:45.775	2026.06.30 14:16:10   position modified [#21 sell 0.09 GBPAUD.s 1.91382 tp: 1.90406]
+2026.07.25 07:03:45.777	2026.06.30 14:16:10   CTrade::OrderSend: modify position #21 GBPAUD.s (sl: 0.00000, tp: 1.90406) [done]
+2026.07.25 07:03:45.777	2026.06.30 14:16:10   position modified [#20 sell 0.08 GBPAUD.s 1.90979 tp: 1.90406]
+2026.07.25 07:03:45.779	2026.06.30 14:16:10   CTrade::OrderSend: modify position #20 GBPAUD.s (sl: 0.00000, tp: 1.90406) [done]
+2026.07.25 07:03:45.779	2026.06.30 14:16:10   position modified [#9 sell 0.08 GBPAUD.s 1.90620 tp: 1.90406]
+2026.07.25 07:03:45.781	2026.06.30 14:16:10   CTrade::OrderSend: modify position #9 GBPAUD.s (sl: 0.00000, tp: 1.90406) [done]
+2026.07.25 07:03:45.781	2026.06.30 14:16:10   position modified [#8 sell 0.07 GBPAUD.s 1.90297 tp: 1.90406]
+2026.07.25 07:03:45.783	2026.06.30 14:16:10   CTrade::OrderSend: modify position #8 GBPAUD.s (sl: 0.00000, tp: 1.90406) [done]
+2026.07.25 07:03:45.783	2026.06.30 14:16:10   position modified [#7 sell 0.06 GBPAUD.s 1.89973 tp: 1.90406]
+2026.07.25 07:03:45.785	2026.06.30 14:16:10   CTrade::OrderSend: modify position #7 GBPAUD.s (sl: 0.00000, tp: 1.90406) [done]
+2026.07.25 07:03:45.785	2026.06.30 14:16:10   position modified [#6 sell 0.05 GBPAUD.s 1.89610 tp: 1.90406]
+2026.07.25 07:03:45.787	2026.06.30 14:16:10   CTrade::OrderSend: modify position #6 GBPAUD.s (sl: 0.00000, tp: 1.90406) [done]
+2026.07.25 07:03:45.787	2026.06.30 14:16:10   position modified [#5 sell 0.04 GBPAUD.s 1.89257 tp: 1.90406]
+2026.07.25 07:03:45.789	2026.06.30 14:16:10   CTrade::OrderSend: modify position #5 GBPAUD.s (sl: 0.00000, tp: 1.90406) [done]
+2026.07.25 07:03:45.789	2026.06.30 14:16:10   position modified [#4 sell 0.03 GBPAUD.s 1.88917 tp: 1.90406]
+2026.07.25 07:03:45.791	2026.06.30 14:16:10   CTrade::OrderSend: modify position #4 GBPAUD.s (sl: 0.00000, tp: 1.90406) [done]
+2026.07.25 07:03:45.791	2026.06.30 14:16:10   ModifySequenceTP: Attempted TP modification for 9/9 positions.
+2026.07.25 07:03:45.791	2026.06.30 14:16:10   Unified TP Line 'ShadowTM_UnifiedTP_Sell created/updated at price 1.90406
+2026.07.25 07:03:45.793	2026.06.30 14:16:38   RefreshRecoveryState: Updating SELL sequence state due to trade changes.
+2026.07.25 07:03:45.793	2026.06.30 14:16:38   Refreshed SELL State: Level=8, LastPrice=1.91738, LastLot=0.10 (Pos Ticket:22)
+2026.07.25 07:04:42.710	2026.07.01 05:00:00   CalculateRecoveryLot: Retrieved Locked Base Lot: 0.01 Magic: 100001
+2026.07.25 07:04:42.710	2026.07.01 05:00:00   CalculateRecoveryLot: Final Validated Lot=0.1
+2026.07.25 07:04:42.710	2026.07.01 05:00:00   market sell 0.1 GBPAUD.s (1.92062 / 1.92092)
+2026.07.25 07:04:42.711	2026.07.01 05:00:00   deal #28 sell 0.1 GBPAUD.s at 1.92062 done (based on order #28)
+2026.07.25 07:04:42.711	2026.07.01 05:00:00   deal performed [#28 sell 0.1 GBPAUD.s at 1.92062]
+2026.07.25 07:04:42.711	2026.07.01 05:00:00   order performed sell 0.1 at 1.92062 [#28 sell 0.1 GBPAUD.s at 1.92062]
+2026.07.25 07:04:42.713	2026.07.01 05:00:00   CTrade::OrderSend: market sell 0.10 GBPAUD.s [done at 1.92062]
+2026.07.25 07:04:42.713	2026.07.01 05:00:00   ExecuteRecoveryTrade: Sell recovery trade request sent successfully. Order ID: 28
+2026.07.25 07:04:42.713	2026.07.01 05:00:00   Sell Recovery State Updated: Level=9, LastPrice=1.92062, LastLot=0.1
+2026.07.25 07:04:42.713	2026.07.01 05:00:00   OnTradeTransaction: Confirmed recovery deal #28. Position count is now 10. Triggering TP modification.
+2026.07.25 07:04:42.713	2026.07.01 05:00:00   ModifySequenceTP: Calculating average TP for SELL sequence on GBPAUD.s
+2026.07.25 07:04:42.713	2026.07.01 05:00:00   ModifySequenceTP: Avg Entry Price = 1.90814 Total Vol = 0.70 Count = 10
+2026.07.25 07:04:42.713	2026.07.01 05:00:00   ModifySequenceTP: Calculated Avg TP Price = 1.90614
+2026.07.25 07:04:42.713	2026.07.01 05:00:00   position modified [#28 sell 0.1 GBPAUD.s 1.92062 tp: 1.90614]
+2026.07.25 07:04:42.715	2026.07.01 05:00:00   CTrade::OrderSend: modify position #28 GBPAUD.s (sl: 0.00000, tp: 1.90614) [done]
+2026.07.25 07:04:42.715	2026.07.01 05:00:00   position modified [#22 sell 0.1 GBPAUD.s 1.91738 tp: 1.90614]
+2026.07.25 07:04:42.717	2026.07.01 05:00:00   CTrade::OrderSend: modify position #22 GBPAUD.s (sl: 0.00000, tp: 1.90614) [done]
+2026.07.25 07:04:42.717	2026.07.01 05:00:00   position modified [#21 sell 0.09 GBPAUD.s 1.91382 tp: 1.90614]
+2026.07.25 07:04:42.719	2026.07.01 05:00:00   CTrade::OrderSend: modify position #21 GBPAUD.s (sl: 0.00000, tp: 1.90614) [done]
+2026.07.25 07:04:42.719	2026.07.01 05:00:00   position modified [#20 sell 0.08 GBPAUD.s 1.90979 tp: 1.90614]
+2026.07.25 07:04:42.721	2026.07.01 05:00:00   CTrade::OrderSend: modify position #20 GBPAUD.s (sl: 0.00000, tp: 1.90614) [done]
+2026.07.25 07:04:42.721	2026.07.01 05:00:00   position modified [#9 sell 0.08 GBPAUD.s 1.90620 tp: 1.90614]
+2026.07.25 07:04:42.723	2026.07.01 05:00:00   CTrade::OrderSend: modify position #9 GBPAUD.s (sl: 0.00000, tp: 1.90614) [done]
+2026.07.25 07:04:42.723	2026.07.01 05:00:00   position modified [#8 sell 0.07 GBPAUD.s 1.90297 tp: 1.90614]
+2026.07.25 07:04:42.725	2026.07.01 05:00:00   CTrade::OrderSend: modify position #8 GBPAUD.s (sl: 0.00000, tp: 1.90614) [done]
+2026.07.25 07:04:42.725	2026.07.01 05:00:00   position modified [#7 sell 0.06 GBPAUD.s 1.89973 tp: 1.90614]
+2026.07.25 07:04:42.727	2026.07.01 05:00:00   CTrade::OrderSend: modify position #7 GBPAUD.s (sl: 0.00000, tp: 1.90614) [done]
+2026.07.25 07:04:42.727	2026.07.01 05:00:00   position modified [#6 sell 0.05 GBPAUD.s 1.89610 tp: 1.90614]
+2026.07.25 07:04:42.729	2026.07.01 05:00:00   CTrade::OrderSend: modify position #6 GBPAUD.s (sl: 0.00000, tp: 1.90614) [done]
+2026.07.25 07:04:42.729	2026.07.01 05:00:00   position modified [#5 sell 0.04 GBPAUD.s 1.89257 tp: 1.90614]
+2026.07.25 07:04:42.731	2026.07.01 05:00:00   CTrade::OrderSend: modify position #5 GBPAUD.s (sl: 0.00000, tp: 1.90614) [done]
+2026.07.25 07:04:42.731	2026.07.01 05:00:00   position modified [#4 sell 0.03 GBPAUD.s 1.88917 tp: 1.90614]
+2026.07.25 07:04:42.733	2026.07.01 05:00:00   CTrade::OrderSend: modify position #4 GBPAUD.s (sl: 0.00000, tp: 1.90614) [done]
+2026.07.25 07:04:42.733	2026.07.01 05:00:00   ModifySequenceTP: Attempted TP modification for 10/10 positions.
+2026.07.25 07:04:42.733	2026.07.01 05:00:00   Unified TP Line 'ShadowTM_UnifiedTP_Sell created/updated at price 1.90614
+2026.07.25 07:05:34.736	2026.07.01 19:15:00   CalculateRecoveryLot: Retrieved Locked Base Lot: 0.01 Magic: 100001
+2026.07.25 07:05:34.736	2026.07.01 19:15:00   CalculateRecoveryLot: Final Validated Lot=0.11
+2026.07.25 07:05:34.736	2026.07.01 19:15:00   market sell 0.11 GBPAUD.s (1.92419 / 1.92447)
+2026.07.25 07:05:34.736	2026.07.01 19:15:00   deal #29 sell 0.11 GBPAUD.s at 1.92419 done (based on order #29)
+2026.07.25 07:05:34.736	2026.07.01 19:15:00   deal performed [#29 sell 0.11 GBPAUD.s at 1.92419]
+2026.07.25 07:05:34.736	2026.07.01 19:15:00   order performed sell 0.11 at 1.92419 [#29 sell 0.11 GBPAUD.s at 1.92419]
+2026.07.25 07:05:34.738	2026.07.01 19:15:00   CTrade::OrderSend: market sell 0.11 GBPAUD.s [done at 1.92419]
+2026.07.25 07:05:34.738	2026.07.01 19:15:00   ExecuteRecoveryTrade: Sell recovery trade request sent successfully. Order ID: 29
+2026.07.25 07:05:34.738	2026.07.01 19:15:00   Sell Recovery State Updated: Level=10, LastPrice=1.9241899999999998, LastLot=0.11
+2026.07.25 07:05:34.738	2026.07.01 19:15:00   OnTradeTransaction: Confirmed recovery deal #29. Position count is now 11. Triggering TP modification.
+2026.07.25 07:05:34.738	2026.07.01 19:15:00   ModifySequenceTP: Calculating average TP for SELL sequence on GBPAUD.s
+2026.07.25 07:05:34.738	2026.07.01 19:15:00   ModifySequenceTP: Avg Entry Price = 1.91032 Total Vol = 0.81 Count = 11
+2026.07.25 07:05:34.738	2026.07.01 19:15:00   ModifySequenceTP: Calculated Avg TP Price = 1.90832
+2026.07.25 07:05:34.738	2026.07.01 19:15:00   position modified [#29 sell 0.11 GBPAUD.s 1.92419 tp: 1.90832]
+2026.07.25 07:05:34.740	2026.07.01 19:15:00   CTrade::OrderSend: modify position #29 GBPAUD.s (sl: 0.00000, tp: 1.90832) [done]
+2026.07.25 07:05:34.740	2026.07.01 19:15:00   position modified [#28 sell 0.1 GBPAUD.s 1.92062 tp: 1.90832]
+2026.07.25 07:05:34.742	2026.07.01 19:15:00   CTrade::OrderSend: modify position #28 GBPAUD.s (sl: 0.00000, tp: 1.90832) [done]
+2026.07.25 07:05:34.742	2026.07.01 19:15:00   position modified [#22 sell 0.1 GBPAUD.s 1.91738 tp: 1.90832]
+2026.07.25 07:05:34.744	2026.07.01 19:15:00   CTrade::OrderSend: modify position #22 GBPAUD.s (sl: 0.00000, tp: 1.90832) [done]
+2026.07.25 07:05:34.744	2026.07.01 19:15:00   position modified [#21 sell 0.09 GBPAUD.s 1.91382 tp: 1.90832]
+2026.07.25 07:05:34.746	2026.07.01 19:15:00   CTrade::OrderSend: modify position #21 GBPAUD.s (sl: 0.00000, tp: 1.90832) [done]
+2026.07.25 07:05:34.746	2026.07.01 19:15:00   position modified [#20 sell 0.08 GBPAUD.s 1.90979 tp: 1.90832]
+2026.07.25 07:05:34.748	2026.07.01 19:15:00   CTrade::OrderSend: modify position #20 GBPAUD.s (sl: 0.00000, tp: 1.90832) [done]
+2026.07.25 07:05:34.748	2026.07.01 19:15:00   position modified [#9 sell 0.08 GBPAUD.s 1.90620 tp: 1.90832]
+2026.07.25 07:05:34.750	2026.07.01 19:15:00   CTrade::OrderSend: modify position #9 GBPAUD.s (sl: 0.00000, tp: 1.90832) [done]
+2026.07.25 07:05:34.750	2026.07.01 19:15:00   position modified [#8 sell 0.07 GBPAUD.s 1.90297 tp: 1.90832]
+2026.07.25 07:05:34.752	2026.07.01 19:15:00   CTrade::OrderSend: modify position #8 GBPAUD.s (sl: 0.00000, tp: 1.90832) [done]
+2026.07.25 07:05:34.752	2026.07.01 19:15:00   position modified [#7 sell 0.06 GBPAUD.s 1.89973 tp: 1.90832]
+2026.07.25 07:05:34.754	2026.07.01 19:15:00   CTrade::OrderSend: modify position #7 GBPAUD.s (sl: 0.00000, tp: 1.90832) [done]
+2026.07.25 07:05:34.754	2026.07.01 19:15:00   position modified [#6 sell 0.05 GBPAUD.s 1.89610 tp: 1.90832]
+2026.07.25 07:05:34.756	2026.07.01 19:15:00   CTrade::OrderSend: modify position #6 GBPAUD.s (sl: 0.00000, tp: 1.90832) [done]
+2026.07.25 07:05:34.756	2026.07.01 19:15:00   position modified [#5 sell 0.04 GBPAUD.s 1.89257 tp: 1.90832]
+2026.07.25 07:05:34.758	2026.07.01 19:15:00   CTrade::OrderSend: modify position #5 GBPAUD.s (sl: 0.00000, tp: 1.90832) [done]
+2026.07.25 07:05:34.758	2026.07.01 19:15:00   position modified [#4 sell 0.03 GBPAUD.s 1.88917 tp: 1.90832]
+2026.07.25 07:05:34.760	2026.07.01 19:15:00   CTrade::OrderSend: modify position #4 GBPAUD.s (sl: 0.00000, tp: 1.90832) [done]
+2026.07.25 07:05:34.760	2026.07.01 19:15:00   ModifySequenceTP: Attempted TP modification for 11/11 positions.
+2026.07.25 07:05:34.760	2026.07.01 19:15:00   Unified TP Line 'ShadowTM_UnifiedTP_Sell created/updated at price 1.90832
+2026.07.25 07:06:02.559	2026.07.02 03:15:00   CalculateRecoveryLot: Retrieved Locked Base Lot: 0.01 Magic: 100001
+2026.07.25 07:06:02.559	2026.07.02 03:15:00   CalculateRecoveryLot: Final Validated Lot=0.12
+2026.07.25 07:06:02.559	2026.07.02 03:15:00   market sell 0.12 GBPAUD.s (1.92861 / 1.92892)
+2026.07.25 07:06:02.559	2026.07.02 03:15:00   deal #30 sell 0.12 GBPAUD.s at 1.92861 done (based on order #30)
+2026.07.25 07:06:02.559	2026.07.02 03:15:00   deal performed [#30 sell 0.12 GBPAUD.s at 1.92861]
+2026.07.25 07:06:02.559	2026.07.02 03:15:00   order performed sell 0.12 at 1.92861 [#30 sell 0.12 GBPAUD.s at 1.92861]
+2026.07.25 07:06:02.561	2026.07.02 03:15:00   CTrade::OrderSend: market sell 0.12 GBPAUD.s [done at 1.92861]
+2026.07.25 07:06:02.561	2026.07.02 03:15:00   ExecuteRecoveryTrade: Sell recovery trade request sent successfully. Order ID: 30
+2026.07.25 07:06:02.561	2026.07.02 03:15:00   Sell Recovery State Updated: Level=11, LastPrice=1.92861, LastLot=0.12
+2026.07.25 07:06:02.561	2026.07.02 03:15:00   OnTradeTransaction: Confirmed recovery deal #30. Position count is now 12. Triggering TP modification.
+2026.07.25 07:06:02.561	2026.07.02 03:15:00   ModifySequenceTP: Calculating average TP for SELL sequence on GBPAUD.s
+2026.07.25 07:06:02.561	2026.07.02 03:15:00   ModifySequenceTP: Avg Entry Price = 1.91268 Total Vol = 0.93 Count = 12
+2026.07.25 07:06:02.561	2026.07.02 03:15:00   ModifySequenceTP: Calculated Avg TP Price = 1.91068
+2026.07.25 07:06:02.561	2026.07.02 03:15:00   position modified [#30 sell 0.12 GBPAUD.s 1.92861 tp: 1.91068]
+2026.07.25 07:06:02.563	2026.07.02 03:15:00   CTrade::OrderSend: modify position #30 GBPAUD.s (sl: 0.00000, tp: 1.91068) [done]
+2026.07.25 07:06:02.563	2026.07.02 03:15:00   position modified [#29 sell 0.11 GBPAUD.s 1.92419 tp: 1.91068]
+2026.07.25 07:06:02.565	2026.07.02 03:15:00   CTrade::OrderSend: modify position #29 GBPAUD.s (sl: 0.00000, tp: 1.91068) [done]
+2026.07.25 07:06:02.565	2026.07.02 03:15:00   position modified [#28 sell 0.1 GBPAUD.s 1.92062 tp: 1.91068]
+2026.07.25 07:06:02.567	2026.07.02 03:15:00   CTrade::OrderSend: modify position #28 GBPAUD.s (sl: 0.00000, tp: 1.91068) [done]
+2026.07.25 07:06:02.567	2026.07.02 03:15:00   position modified [#22 sell 0.1 GBPAUD.s 1.91738 tp: 1.91068]
+2026.07.25 07:06:02.569	2026.07.02 03:15:00   CTrade::OrderSend: modify position #22 GBPAUD.s (sl: 0.00000, tp: 1.91068) [done]
+2026.07.25 07:06:02.569	2026.07.02 03:15:00   position modified [#21 sell 0.09 GBPAUD.s 1.91382 tp: 1.91068]
+2026.07.25 07:06:02.571	2026.07.02 03:15:00   CTrade::OrderSend: modify position #21 GBPAUD.s (sl: 0.00000, tp: 1.91068) [done]
+2026.07.25 07:06:02.571	2026.07.02 03:15:00   position modified [#20 sell 0.08 GBPAUD.s 1.90979 tp: 1.91068]
+2026.07.25 07:06:02.573	2026.07.02 03:15:00   CTrade::OrderSend: modify position #20 GBPAUD.s (sl: 0.00000, tp: 1.91068) [done]
+2026.07.25 07:06:02.573	2026.07.02 03:15:00   position modified [#9 sell 0.08 GBPAUD.s 1.90620 tp: 1.91068]
+2026.07.25 07:06:02.575	2026.07.02 03:15:00   CTrade::OrderSend: modify position #9 GBPAUD.s (sl: 0.00000, tp: 1.91068) [done]
+2026.07.25 07:06:02.575	2026.07.02 03:15:00   position modified [#8 sell 0.07 GBPAUD.s 1.90297 tp: 1.91068]
+2026.07.25 07:06:02.577	2026.07.02 03:15:00   CTrade::OrderSend: modify position #8 GBPAUD.s (sl: 0.00000, tp: 1.91068) [done]
+2026.07.25 07:06:02.577	2026.07.02 03:15:00   position modified [#7 sell 0.06 GBPAUD.s 1.89973 tp: 1.91068]
+2026.07.25 07:06:02.579	2026.07.02 03:15:00   CTrade::OrderSend: modify position #7 GBPAUD.s (sl: 0.00000, tp: 1.91068) [done]
+2026.07.25 07:06:02.579	2026.07.02 03:15:00   position modified [#6 sell 0.05 GBPAUD.s 1.89610 tp: 1.91068]
+2026.07.25 07:06:02.581	2026.07.02 03:15:00   CTrade::OrderSend: modify position #6 GBPAUD.s (sl: 0.00000, tp: 1.91068) [done]
+2026.07.25 07:06:02.581	2026.07.02 03:15:00   position modified [#5 sell 0.04 GBPAUD.s 1.89257 tp: 1.91068]
+2026.07.25 07:06:02.583	2026.07.02 03:15:00   CTrade::OrderSend: modify position #5 GBPAUD.s (sl: 0.00000, tp: 1.91068) [done]
+2026.07.25 07:06:02.583	2026.07.02 03:15:00   position modified [#4 sell 0.03 GBPAUD.s 1.88917 tp: 1.91068]
+2026.07.25 07:06:02.585	2026.07.02 03:15:00   CTrade::OrderSend: modify position #4 GBPAUD.s (sl: 0.00000, tp: 1.91068) [done]
+2026.07.25 07:06:02.585	2026.07.02 03:15:00   ModifySequenceTP: Attempted TP modification for 12/12 positions.
+2026.07.25 07:06:02.585	2026.07.02 03:15:00   Unified TP Line 'ShadowTM_UnifiedTP_Sell created/updated at price 1.91068
+2026.07.25 07:06:22.605	2026.07.02 10:30:00   CalculateRecoveryLot: Retrieved Locked Base Lot: 0.01 Magic: 100001
+2026.07.25 07:06:22.605	2026.07.02 10:30:00   CalculateRecoveryLot: Final Validated Lot=0.13
+2026.07.25 07:06:22.605	2026.07.02 10:30:00   market sell 0.13 GBPAUD.s (1.93219 / 1.93247)
+2026.07.25 07:06:22.605	2026.07.02 10:30:00   deal #31 sell 0.13 GBPAUD.s at 1.93219 done (based on order #31)
+2026.07.25 07:06:22.605	2026.07.02 10:30:00   deal performed [#31 sell 0.13 GBPAUD.s at 1.93219]
+2026.07.25 07:06:22.605	2026.07.02 10:30:00   order performed sell 0.13 at 1.93219 [#31 sell 0.13 GBPAUD.s at 1.93219]
+2026.07.25 07:06:22.613	2026.07.02 10:30:00   CTrade::OrderSend: market sell 0.13 GBPAUD.s [done at 1.93219]
+2026.07.25 07:06:22.613	2026.07.02 10:30:00   ExecuteRecoveryTrade: Sell recovery trade request sent successfully. Order ID: 31
+2026.07.25 07:06:22.613	2026.07.02 10:30:00   Sell Recovery State Updated: Level=12, LastPrice=1.9321899999999999, LastLot=0.13
+2026.07.25 07:06:22.613	2026.07.02 10:30:00   OnTradeTransaction: Confirmed recovery deal #31. Position count is now 13. Triggering TP modification.
+2026.07.25 07:06:22.613	2026.07.02 10:30:00   ModifySequenceTP: Calculating average TP for SELL sequence on GBPAUD.s
+2026.07.25 07:06:22.613	2026.07.02 10:30:00   ModifySequenceTP: Avg Entry Price = 1.91507 Total Vol = 1.06 Count = 13
+2026.07.25 07:06:22.613	2026.07.02 10:30:00   ModifySequenceTP: Calculated Avg TP Price = 1.91307
+2026.07.25 07:06:22.613	2026.07.02 10:30:00   position modified [#31 sell 0.13 GBPAUD.s 1.93219 tp: 1.91307]
+2026.07.25 07:06:22.629	2026.07.02 10:30:00   CTrade::OrderSend: modify position #31 GBPAUD.s (sl: 0.00000, tp: 1.91307) [done]
+2026.07.25 07:06:22.629	2026.07.02 10:30:00   position modified [#30 sell 0.12 GBPAUD.s 1.92861 tp: 1.91307]
+2026.07.25 07:06:22.645	2026.07.02 10:30:00   CTrade::OrderSend: modify position #30 GBPAUD.s (sl: 0.00000, tp: 1.91307) [done]
+2026.07.25 07:06:22.645	2026.07.02 10:30:00   position modified [#29 sell 0.11 GBPAUD.s 1.92419 tp: 1.91307]
+2026.07.25 07:06:22.661	2026.07.02 10:30:00   CTrade::OrderSend: modify position #29 GBPAUD.s (sl: 0.00000, tp: 1.91307) [done]
+2026.07.25 07:06:22.661	2026.07.02 10:30:00   position modified [#28 sell 0.1 GBPAUD.s 1.92062 tp: 1.91307]
+2026.07.25 07:06:22.676	2026.07.02 10:30:00   CTrade::OrderSend: modify position #28 GBPAUD.s (sl: 0.00000, tp: 1.91307) [done]
+2026.07.25 07:06:22.676	2026.07.02 10:30:00   position modified [#22 sell 0.1 GBPAUD.s 1.91738 tp: 1.91307]
+2026.07.25 07:06:22.692	2026.07.02 10:30:00   CTrade::OrderSend: modify position #22 GBPAUD.s (sl: 0.00000, tp: 1.91307) [done]
+2026.07.25 07:06:22.692	2026.07.02 10:30:00   position modified [#21 sell 0.09 GBPAUD.s 1.91382 tp: 1.91307]
+2026.07.25 07:06:22.708	2026.07.02 10:30:00   CTrade::OrderSend: modify position #21 GBPAUD.s (sl: 0.00000, tp: 1.91307) [done]
+2026.07.25 07:06:22.708	2026.07.02 10:30:00   position modified [#20 sell 0.08 GBPAUD.s 1.90979 tp: 1.91307]
+2026.07.25 07:06:22.723	2026.07.02 10:30:00   CTrade::OrderSend: modify position #20 GBPAUD.s (sl: 0.00000, tp: 1.91307) [done]
+2026.07.25 07:06:22.723	2026.07.02 10:30:00   position modified [#9 sell 0.08 GBPAUD.s 1.90620 tp: 1.91307]
+2026.07.25 07:06:22.739	2026.07.02 10:30:00   CTrade::OrderSend: modify position #9 GBPAUD.s (sl: 0.00000, tp: 1.91307) [done]
+2026.07.25 07:06:22.739	2026.07.02 10:30:00   position modified [#8 sell 0.07 GBPAUD.s 1.90297 tp: 1.91307]
+2026.07.25 07:06:22.755	2026.07.02 10:30:00   CTrade::OrderSend: modify position #8 GBPAUD.s (sl: 0.00000, tp: 1.91307) [done]
+2026.07.25 07:06:22.755	2026.07.02 10:30:00   position modified [#7 sell 0.06 GBPAUD.s 1.89973 tp: 1.91307]
+2026.07.25 07:06:22.770	2026.07.02 10:30:00   CTrade::OrderSend: modify position #7 GBPAUD.s (sl: 0.00000, tp: 1.91307) [done]
+2026.07.25 07:06:22.770	2026.07.02 10:30:00   position modified [#6 sell 0.05 GBPAUD.s 1.89610 tp: 1.91307]
+2026.07.25 07:06:22.786	2026.07.02 10:30:00   CTrade::OrderSend: modify position #6 GBPAUD.s (sl: 0.00000, tp: 1.91307) [done]
+2026.07.25 07:06:22.786	2026.07.02 10:30:00   position modified [#5 sell 0.04 GBPAUD.s 1.89257 tp: 1.91307]
+2026.07.25 07:06:22.802	2026.07.02 10:30:00   CTrade::OrderSend: modify position #5 GBPAUD.s (sl: 0.00000, tp: 1.91307) [done]
+2026.07.25 07:06:22.802	2026.07.02 10:30:00   position modified [#4 sell 0.03 GBPAUD.s 1.88917 tp: 1.91307]
+2026.07.25 07:06:22.817	2026.07.02 10:30:00   CTrade::OrderSend: modify position #4 GBPAUD.s (sl: 0.00000, tp: 1.91307) [done]
+2026.07.25 07:06:22.833	2026.07.02 10:30:00   ModifySequenceTP: Attempted TP modification for 13/13 positions.
+2026.07.25 07:06:22.833	2026.07.02 10:30:00   Unified TP Line 'ShadowTM_UnifiedTP_Sell created/updated at price 1.91307
+2026.07.25 07:06:24.263	2026.07.02 15:31:07   === DRAWDOWN REDUCTION TIER 3 TRIGGERED ===
+2026.07.25 07:06:24.263	2026.07.02 15:31:07   Basket VWAP (sliced anchor): 1.92888 | Full anchor vol: 0.03 | Slice vol: 0.01 | Remaining: 0.02
+2026.07.25 07:06:24.263	2026.07.02 15:31:07   market buy 0.01 GBPAUD.s, close #4 (1.92653 / 1.92682)
+2026.07.25 07:06:24.263	2026.07.02 15:31:07   deal #32 buy 0.01 GBPAUD.s at 1.92682 done (based on order #32)
+2026.07.25 07:06:24.263	2026.07.02 15:31:07   deal performed [#32 buy 0.01 GBPAUD.s at 1.92682]
+2026.07.25 07:06:24.263	2026.07.02 15:31:07   order performed buy 0.01 at 1.92682 [#32 buy 0.01 GBPAUD.s at 1.92682]
+2026.07.25 07:06:24.277	2026.07.02 15:31:07   CTrade::OrderSend: market buy 0.01 position #4 GBPAUD.s [done at 1.92682]
+2026.07.25 07:06:24.277	2026.07.02 15:31:07   Tier 3: Anchor #4 partially closed. Sliced: 0.01 | Remaining: 0.02
+2026.07.25 07:06:24.277	2026.07.02 15:31:07   market buy 0.13 GBPAUD.s, close #31 (1.92653 / 1.92682)
+2026.07.25 07:06:24.277	2026.07.02 15:31:07   deal #33 buy 0.13 GBPAUD.s at 1.92682 done (based on order #33)
+2026.07.25 07:06:24.277	2026.07.02 15:31:07   deal performed [#33 buy 0.13 GBPAUD.s at 1.92682]
+2026.07.25 07:06:24.277	2026.07.02 15:31:07   order performed buy 0.13 at 1.92682 [#33 buy 0.13 GBPAUD.s at 1.92682]
+2026.07.25 07:06:24.293	2026.07.02 15:31:07   CTrade::OrderSend: market buy 0.13 position #31 GBPAUD.s [done at 1.92682]
+2026.07.25 07:06:24.293	2026.07.02 15:31:07   Tier 3: Profitable #31 closed fully.
+2026.07.25 07:06:24.293	2026.07.02 15:31:07   market buy 0.12 GBPAUD.s, close #30 (1.92653 / 1.92682)
+2026.07.25 07:06:24.293	2026.07.02 15:31:07   deal #34 buy 0.12 GBPAUD.s at 1.92682 done (based on order #34)
+2026.07.25 07:06:24.293	2026.07.02 15:31:07   deal performed [#34 buy 0.12 GBPAUD.s at 1.92682]
+2026.07.25 07:06:24.293	2026.07.02 15:31:07   order performed buy 0.12 at 1.92682 [#34 buy 0.12 GBPAUD.s at 1.92682]
+2026.07.25 07:06:24.308	2026.07.02 15:31:07   CTrade::OrderSend: market buy 0.12 position #30 GBPAUD.s [done at 1.92682]
+2026.07.25 07:06:24.308	2026.07.02 15:31:07   Tier 3: Profitable #30 closed fully.
+2026.07.25 07:06:24.308	2026.07.02 15:31:07   === TIER 3 COMPLETE: 2 positions closed + anchor sliced. ===
+2026.07.25 07:06:24.308	2026.07.02 15:31:07   OnTradeTransaction: Confirmed initial deal #32. Position count is 0. No TP modification needed yet.
+2026.07.25 07:06:24.308	2026.07.02 15:31:07   OnTradeTransaction: Confirmed initial deal #33. Position count is 0. No TP modification needed yet.
+2026.07.25 07:06:24.308	2026.07.02 15:31:07   OnTradeTransaction: Confirmed initial deal #34. Position count is 0. No TP modification needed yet.
+2026.07.25 07:06:24.309	2026.07.02 15:31:07   ModifySequenceTP: Calculating average TP for SELL sequence on GBPAUD.s
+2026.07.25 07:06:24.309	2026.07.02 15:31:07   ModifySequenceTP: Avg Entry Price = 1.91058 Total Vol = 0.80 Count = 11
+2026.07.25 07:06:24.309	2026.07.02 15:31:07   ModifySequenceTP: Calculated Avg TP Price = 1.90858
+2026.07.25 07:06:24.309	2026.07.02 15:31:07   position modified [#29 sell 0.11 GBPAUD.s 1.92419 tp: 1.90858]
+2026.07.25 07:06:24.323	2026.07.02 15:31:07   CTrade::OrderSend: modify position #29 GBPAUD.s (sl: 0.00000, tp: 1.90858) [done]
+2026.07.25 07:06:24.323	2026.07.02 15:31:07   position modified [#28 sell 0.1 GBPAUD.s 1.92062 tp: 1.90858]
+2026.07.25 07:06:24.339	2026.07.02 15:31:07   CTrade::OrderSend: modify position #28 GBPAUD.s (sl: 0.00000, tp: 1.90858) [done]
+2026.07.25 07:06:24.339	2026.07.02 15:31:07   position modified [#22 sell 0.1 GBPAUD.s 1.91738 tp: 1.90858]
+2026.07.25 07:06:24.354	2026.07.02 15:31:07   CTrade::OrderSend: modify position #22 GBPAUD.s (sl: 0.00000, tp: 1.90858) [done]
+2026.07.25 07:06:24.354	2026.07.02 15:31:07   position modified [#21 sell 0.09 GBPAUD.s 1.91382 tp: 1.90858]
+2026.07.25 07:06:24.370	2026.07.02 15:31:07   CTrade::OrderSend: modify position #21 GBPAUD.s (sl: 0.00000, tp: 1.90858) [done]
+2026.07.25 07:06:24.370	2026.07.02 15:31:07   position modified [#20 sell 0.08 GBPAUD.s 1.90979 tp: 1.90858]
+2026.07.25 07:06:24.386	2026.07.02 15:31:07   CTrade::OrderSend: modify position #20 GBPAUD.s (sl: 0.00000, tp: 1.90858) [done]
+2026.07.25 07:06:24.386	2026.07.02 15:31:07   position modified [#9 sell 0.08 GBPAUD.s 1.90620 tp: 1.90858]
+2026.07.25 07:06:24.402	2026.07.02 15:31:07   CTrade::OrderSend: modify position #9 GBPAUD.s (sl: 0.00000, tp: 1.90858) [done]
+2026.07.25 07:06:24.402	2026.07.02 15:31:07   position modified [#8 sell 0.07 GBPAUD.s 1.90297 tp: 1.90858]
+2026.07.25 07:06:24.418	2026.07.02 15:31:07   CTrade::OrderSend: modify position #8 GBPAUD.s (sl: 0.00000, tp: 1.90858) [done]
+2026.07.25 07:06:24.418	2026.07.02 15:31:07   position modified [#7 sell 0.06 GBPAUD.s 1.89973 tp: 1.90858]
+2026.07.25 07:06:24.434	2026.07.02 15:31:07   CTrade::OrderSend: modify position #7 GBPAUD.s (sl: 0.00000, tp: 1.90858) [done]
+2026.07.25 07:06:24.434	2026.07.02 15:31:07   position modified [#6 sell 0.05 GBPAUD.s 1.89610 tp: 1.90858]
+2026.07.25 07:06:24.450	2026.07.02 15:31:07   CTrade::OrderSend: modify position #6 GBPAUD.s (sl: 0.00000, tp: 1.90858) [done]
+2026.07.25 07:06:24.450	2026.07.02 15:31:07   position modified [#5 sell 0.04 GBPAUD.s 1.89257 tp: 1.90858]
+2026.07.25 07:06:24.465	2026.07.02 15:31:07   CTrade::OrderSend: modify position #5 GBPAUD.s (sl: 0.00000, tp: 1.90858) [done]
+2026.07.25 07:06:24.465	2026.07.02 15:31:07   position modified [#4 sell 0.02 GBPAUD.s 1.88917 tp: 1.90858]
+2026.07.25 07:06:24.480	2026.07.02 15:31:07   CTrade::OrderSend: modify position #4 GBPAUD.s (sl: 0.00000, tp: 1.90858) [done]
+2026.07.25 07:06:24.480	2026.07.02 15:31:07   ModifySequenceTP: Attempted TP modification for 11/11 positions.
+2026.07.25 07:06:24.480	2026.07.02 15:31:07   Unified TP Line 'ShadowTM_UnifiedTP_Sell created/updated at price 1.90858
+2026.07.25 07:06:24.512	2026.07.02 15:31:07   RefreshRecoveryState: Updating SELL sequence state due to trade changes.
+2026.07.25 07:06:24.512	2026.07.02 15:31:07   Refreshed SELL State: Level=10, LastPrice=1.92419, LastLot=0.11 (Pos Ticket:29)
+2026.07.25 07:06:27.309	2026.07.02 23:04:59   CalculateRecoveryLot: Retrieved Locked Base Lot: 0.01 Magic: 100001
+2026.07.25 07:06:27.309	2026.07.02 23:04:59   CalculateRecoveryLot: Final Validated Lot=0.12
+2026.07.25 07:06:27.309	2026.07.02 23:04:59   market sell 0.12 GBPAUD.s (1.92839 / 1.92867)
+2026.07.25 07:06:27.309	2026.07.02 23:04:59   deal #35 sell 0.12 GBPAUD.s at 1.92839 done (based on order #35)
+2026.07.25 07:06:27.309	2026.07.02 23:04:59   deal performed [#35 sell 0.12 GBPAUD.s at 1.92839]
+2026.07.25 07:06:27.309	2026.07.02 23:04:59   order performed sell 0.12 at 1.92839 [#35 sell 0.12 GBPAUD.s at 1.92839]
+2026.07.25 07:06:27.311	2026.07.02 23:04:59   CTrade::OrderSend: market sell 0.12 GBPAUD.s [done at 1.92839]
+2026.07.25 07:06:27.311	2026.07.02 23:04:59   ExecuteRecoveryTrade: Sell recovery trade request sent successfully. Order ID: 35
+2026.07.25 07:06:27.311	2026.07.02 23:04:59   Sell Recovery State Updated: Level=11, LastPrice=1.92839, LastLot=0.12
+2026.07.25 07:06:27.311	2026.07.02 23:04:59   OnTradeTransaction: Confirmed recovery deal #35. Position count is now 12. Triggering TP modification.
+2026.07.25 07:06:27.312	2026.07.02 23:04:59   ModifySequenceTP: Calculating average TP for SELL sequence on GBPAUD.s
+2026.07.25 07:06:27.312	2026.07.02 23:04:59   ModifySequenceTP: Avg Entry Price = 1.91291 Total Vol = 0.92 Count = 12
+2026.07.25 07:06:27.312	2026.07.02 23:04:59   ModifySequenceTP: Calculated Avg TP Price = 1.91091
+2026.07.25 07:06:27.312	2026.07.02 23:04:59   position modified [#35 sell 0.12 GBPAUD.s 1.92839 tp: 1.91091]
+2026.07.25 07:06:27.314	2026.07.02 23:04:59   CTrade::OrderSend: modify position #35 GBPAUD.s (sl: 0.00000, tp: 1.91091) [done]
+2026.07.25 07:06:27.314	2026.07.02 23:04:59   position modified [#29 sell 0.11 GBPAUD.s 1.92419 tp: 1.91091]
+2026.07.25 07:06:27.316	2026.07.02 23:04:59   CTrade::OrderSend: modify position #29 GBPAUD.s (sl: 0.00000, tp: 1.91091) [done]
+2026.07.25 07:06:27.316	2026.07.02 23:04:59   position modified [#28 sell 0.1 GBPAUD.s 1.92062 tp: 1.91091]
+2026.07.25 07:06:27.318	2026.07.02 23:04:59   CTrade::OrderSend: modify position #28 GBPAUD.s (sl: 0.00000, tp: 1.91091) [done]
+2026.07.25 07:06:27.318	2026.07.02 23:04:59   position modified [#22 sell 0.1 GBPAUD.s 1.91738 tp: 1.91091]
+2026.07.25 07:06:27.320	2026.07.02 23:04:59   CTrade::OrderSend: modify position #22 GBPAUD.s (sl: 0.00000, tp: 1.91091) [done]
+2026.07.25 07:06:27.320	2026.07.02 23:04:59   position modified [#21 sell 0.09 GBPAUD.s 1.91382 tp: 1.91091]
+2026.07.25 07:06:27.322	2026.07.02 23:04:59   CTrade::OrderSend: modify position #21 GBPAUD.s (sl: 0.00000, tp: 1.91091) [done]
+2026.07.25 07:06:27.322	2026.07.02 23:04:59   position modified [#20 sell 0.08 GBPAUD.s 1.90979 tp: 1.91091]
+2026.07.25 07:06:27.324	2026.07.02 23:04:59   CTrade::OrderSend: modify position #20 GBPAUD.s (sl: 0.00000, tp: 1.91091) [done]
+2026.07.25 07:06:27.324	2026.07.02 23:04:59   position modified [#9 sell 0.08 GBPAUD.s 1.90620 tp: 1.91091]
+2026.07.25 07:06:27.326	2026.07.02 23:04:59   CTrade::OrderSend: modify position #9 GBPAUD.s (sl: 0.00000, tp: 1.91091) [done]
+2026.07.25 07:06:27.326	2026.07.02 23:04:59   position modified [#8 sell 0.07 GBPAUD.s 1.90297 tp: 1.91091]
+2026.07.25 07:06:27.328	2026.07.02 23:04:59   CTrade::OrderSend: modify position #8 GBPAUD.s (sl: 0.00000, tp: 1.91091) [done]
+2026.07.25 07:06:27.328	2026.07.02 23:04:59   position modified [#7 sell 0.06 GBPAUD.s 1.89973 tp: 1.91091]
+2026.07.25 07:06:27.330	2026.07.02 23:04:59   CTrade::OrderSend: modify position #7 GBPAUD.s (sl: 0.00000, tp: 1.91091) [done]
+2026.07.25 07:06:27.330	2026.07.02 23:04:59   position modified [#6 sell 0.05 GBPAUD.s 1.89610 tp: 1.91091]
+2026.07.25 07:06:27.332	2026.07.02 23:04:59   CTrade::OrderSend: modify position #6 GBPAUD.s (sl: 0.00000, tp: 1.91091) [done]
+2026.07.25 07:06:27.332	2026.07.02 23:04:59   position modified [#5 sell 0.04 GBPAUD.s 1.89257 tp: 1.91091]
+2026.07.25 07:06:27.334	2026.07.02 23:04:59   CTrade::OrderSend: modify position #5 GBPAUD.s (sl: 0.00000, tp: 1.91091) [done]
+2026.07.25 07:06:27.334	2026.07.02 23:04:59   position modified [#4 sell 0.02 GBPAUD.s 1.88917 tp: 1.91091]
+2026.07.25 07:06:27.336	2026.07.02 23:04:59   CTrade::OrderSend: modify position #4 GBPAUD.s (sl: 0.00000, tp: 1.91091) [done]
+2026.07.25 07:06:27.336	2026.07.02 23:04:59   ModifySequenceTP: Attempted TP modification for 12/12 positions.
+2026.07.25 07:06:27.336	2026.07.02 23:04:59   Unified TP Line 'ShadowTM_UnifiedTP_Sell created/updated at price 1.91091
+2026.07.25 07:06:30.353	2026.07.02 23:59:58   position closed due end of test at 1.92884 [#35 sell 0.12 GBPAUD.s 1.92839 tp: 1.91091]
+2026.07.25 07:06:30.353	2026.07.02 23:59:58   deal #36 buy 0.12 GBPAUD.s at 1.92884 done (based on order #36)
+2026.07.25 07:06:30.353	2026.07.02 23:59:58   deal performed [#36 buy 0.12 GBPAUD.s at 1.92884]
+2026.07.25 07:06:30.353	2026.07.02 23:59:58   order performed buy 0.12 at 1.92884 [#36 buy 0.12 GBPAUD.s at 1.92884]
+2026.07.25 07:06:30.353	2026.07.02 23:59:58   position closed due end of test at 1.92884 [#29 sell 0.11 GBPAUD.s 1.92419 tp: 1.91091]
+2026.07.25 07:06:30.353	2026.07.02 23:59:58   deal #37 buy 0.11 GBPAUD.s at 1.92884 done (based on order #37)
+2026.07.25 07:06:30.353	2026.07.02 23:59:58   deal performed [#37 buy 0.11 GBPAUD.s at 1.92884]
+2026.07.25 07:06:30.353	2026.07.02 23:59:58   order performed buy 0.11 at 1.92884 [#37 buy 0.11 GBPAUD.s at 1.92884]
+2026.07.25 07:06:30.353	2026.07.02 23:59:58   position closed due end of test at 1.92884 [#28 sell 0.1 GBPAUD.s 1.92062 tp: 1.91091]
+2026.07.25 07:06:30.353	2026.07.02 23:59:58   deal #38 buy 0.1 GBPAUD.s at 1.92884 done (based on order #38)
+2026.07.25 07:06:30.353	2026.07.02 23:59:58   deal performed [#38 buy 0.1 GBPAUD.s at 1.92884]
+2026.07.25 07:06:30.353	2026.07.02 23:59:58   order performed buy 0.1 at 1.92884 [#38 buy 0.1 GBPAUD.s at 1.92884]
+2026.07.25 07:06:30.353	2026.07.02 23:59:58   position closed due end of test at 1.92884 [#22 sell 0.1 GBPAUD.s 1.91738 tp: 1.91091]
+2026.07.25 07:06:30.353	2026.07.02 23:59:58   deal #39 buy 0.1 GBPAUD.s at 1.92884 done (based on order #39)
+2026.07.25 07:06:30.353	2026.07.02 23:59:58   deal performed [#39 buy 0.1 GBPAUD.s at 1.92884]
+2026.07.25 07:06:30.353	2026.07.02 23:59:58   order performed buy 0.1 at 1.92884 [#39 buy 0.1 GBPAUD.s at 1.92884]
+2026.07.25 07:06:30.353	2026.07.02 23:59:58   position closed due end of test at 1.92884 [#21 sell 0.09 GBPAUD.s 1.91382 tp: 1.91091]
+2026.07.25 07:06:30.353	2026.07.02 23:59:58   deal #40 buy 0.09 GBPAUD.s at 1.92884 done (based on order #40)
+2026.07.25 07:06:30.353	2026.07.02 23:59:58   deal performed [#40 buy 0.09 GBPAUD.s at 1.92884]
+2026.07.25 07:06:30.353	2026.07.02 23:59:58   order performed buy 0.09 at 1.92884 [#40 buy 0.09 GBPAUD.s at 1.92884]
+2026.07.25 07:06:30.353	2026.07.02 23:59:58   position closed due end of test at 1.92884 [#20 sell 0.08 GBPAUD.s 1.90979 tp: 1.91091]
+2026.07.25 07:06:30.353	2026.07.02 23:59:58   deal #41 buy 0.08 GBPAUD.s at 1.92884 done (based on order #41)
+2026.07.25 07:06:30.353	2026.07.02 23:59:58   deal performed [#41 buy 0.08 GBPAUD.s at 1.92884]
+2026.07.25 07:06:30.353	2026.07.02 23:59:58   order performed buy 0.08 at 1.92884 [#41 buy 0.08 GBPAUD.s at 1.92884]
+2026.07.25 07:06:30.353	2026.07.02 23:59:58   position closed due end of test at 1.92884 [#9 sell 0.08 GBPAUD.s 1.90620 tp: 1.91091]
+2026.07.25 07:06:30.353	2026.07.02 23:59:58   deal #42 buy 0.08 GBPAUD.s at 1.92884 done (based on order #42)
+2026.07.25 07:06:30.353	2026.07.02 23:59:58   deal performed [#42 buy 0.08 GBPAUD.s at 1.92884]
+2026.07.25 07:06:30.353	2026.07.02 23:59:58   order performed buy 0.08 at 1.92884 [#42 buy 0.08 GBPAUD.s at 1.92884]
+2026.07.25 07:06:30.353	2026.07.02 23:59:58   position closed due end of test at 1.92884 [#8 sell 0.07 GBPAUD.s 1.90297 tp: 1.91091]
+2026.07.25 07:06:30.353	2026.07.02 23:59:58   deal #43 buy 0.07 GBPAUD.s at 1.92884 done (based on order #43)
+2026.07.25 07:06:30.353	2026.07.02 23:59:58   deal performed [#43 buy 0.07 GBPAUD.s at 1.92884]
+2026.07.25 07:06:30.353	2026.07.02 23:59:58   order performed buy 0.07 at 1.92884 [#43 buy 0.07 GBPAUD.s at 1.92884]
+2026.07.25 07:06:30.353	2026.07.02 23:59:58   position closed due end of test at 1.92884 [#7 sell 0.06 GBPAUD.s 1.89973 tp: 1.91091]
+2026.07.25 07:06:30.353	2026.07.02 23:59:58   deal #44 buy 0.06 GBPAUD.s at 1.92884 done (based on order #44)
+2026.07.25 07:06:30.353	2026.07.02 23:59:58   deal performed [#44 buy 0.06 GBPAUD.s at 1.92884]
+2026.07.25 07:06:30.353	2026.07.02 23:59:58   order performed buy 0.06 at 1.92884 [#44 buy 0.06 GBPAUD.s at 1.92884]
+2026.07.25 07:06:30.353	2026.07.02 23:59:58   position closed due end of test at 1.92884 [#6 sell 0.05 GBPAUD.s 1.89610 tp: 1.91091]
+2026.07.25 07:06:30.353	2026.07.02 23:59:58   deal #45 buy 0.05 GBPAUD.s at 1.92884 done (based on order #45)
+2026.07.25 07:06:30.353	2026.07.02 23:59:58   deal performed [#45 buy 0.05 GBPAUD.s at 1.92884]
+2026.07.25 07:06:30.353	2026.07.02 23:59:58   order performed buy 0.05 at 1.92884 [#45 buy 0.05 GBPAUD.s at 1.92884]
+2026.07.25 07:06:30.353	2026.07.02 23:59:58   position closed due end of test at 1.92884 [#5 sell 0.04 GBPAUD.s 1.89257 tp: 1.91091]
+2026.07.25 07:06:30.353	2026.07.02 23:59:58   deal #46 buy 0.04 GBPAUD.s at 1.92884 done (based on order #46)
+2026.07.25 07:06:30.353	2026.07.02 23:59:58   deal performed [#46 buy 0.04 GBPAUD.s at 1.92884]
+2026.07.25 07:06:30.353	2026.07.02 23:59:58   order performed buy 0.04 at 1.92884 [#46 buy 0.04 GBPAUD.s at 1.92884]
+2026.07.25 07:06:30.353	2026.07.02 23:59:58   position closed due end of test at 1.92884 [#4 sell 0.02 GBPAUD.s 1.88917 tp: 1.91091]
+2026.07.25 07:06:30.353	2026.07.02 23:59:58   deal #47 buy 0.02 GBPAUD.s at 1.92884 done (based on order #47)
+2026.07.25 07:06:30.353	2026.07.02 23:59:58   deal performed [#47 buy 0.02 GBPAUD.s at 1.92884]
+2026.07.25 07:06:30.353	2026.07.02 23:59:58   order performed buy 0.02 at 1.92884 [#47 buy 0.02 GBPAUD.s at 1.92884]
+2026.07.25 07:06:30.356	final balance 2078.72 USD
+2026.07.25 07:06:30.356	2026.07.02 23:59:58   OnDeinit: Reason code = 1
+2026.07.25 07:06:30.356	2026.07.02 23:59:58   OnDeinit: Deleting Unified TP Lines...
+2026.07.25 07:06:30.356	2026.07.02 23:59:58   Unified TP Line 'ShadowTM_UnifiedTP_Sell' deleted.
+2026.07.25 07:06:30.356	2026.07.02 23:59:58   OnDeinit: Deleting Average Price Lines...
+2026.07.25 07:06:30.357	2026.07.02 23:59:58   DeleteControls: Deleting 0 permanent objects...
+2026.07.25 07:06:30.357	2026.07.02 23:59:58   Shadow Trade Manager Deinitialized.
+2026.07.25 07:06:30.361	GBPAUD.s,M15: 1416488 ticks, 864 bars generated. Environment synchronized in 0:00:00.039. Test passed in 0:14:34.214 (including ticks preprocessing 0:00:00.125).
+2026.07.25 07:06:30.361	GBPAUD.s,M15: total time from login to stop testing 0:14:34.253 (including 0:00:01.052 for history data synchronization)
+2026.07.25 07:06:30.361	3489440 total ticks for all symbols
+2026.07.25 07:06:30.361	AUDUSD.s: generate 1004344 ticks in 0:00:00.031, passed to tester 1003359 ticks
+2026.07.25 07:06:30.361	GBPAUD.s: generate 1416490 ticks in 0:00:00.047, passed to tester 1416488 ticks
+2026.07.25 07:06:30.361	GBPUSD.s: generate 1071400 ticks in 0:00:00.047, passed to tester 1069593 ticks
+2026.07.25 07:06:30.361	216 Mb memory used including 2 Mb of history data, 128 Mb of tick data
+2026.07.25 07:06:30.361	log file "C:\Users\jpesm\AppData\Roaming\MetaQuotes\Tester\D0E8209F77C8CF37AD8BF550E51FF075\Agent-127.0.0.1-3000\logs\20260725.log" written
+2026.07.25 07:06:30.361	test Experts\Shadow Trade Manager PROv3.21 Licensed.ex5 on GBPAUD.s,M15 thread finished
+2026.07.25 07:06:30.438	prepare for shutdown
+2026.07.25 07:06:30.438	shutdown finished

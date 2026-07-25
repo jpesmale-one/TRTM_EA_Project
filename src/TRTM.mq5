@@ -19,7 +19,7 @@
 
 #include <Trade\Trade.mqh>
 
-#define TRTM_BUILD  "E4-b36"  // internal build tag, bump per delivery
+#define TRTM_BUILD  "E5-b37"  // internal build tag, bump per delivery
 
 //+------------------------------------------------------------------+
 //| ENUMS                                                            |
@@ -95,6 +95,11 @@ input group "=== Drawdown Reduction - Tier 1 (E4) ==="
 input bool InpEnableTier1       = false; // Enable Tier 1 (point-based basket close)
 input int  InpTier1MinTrades    = 4;     // Tier 1: Min Trades to Activate (open count, Gate A)
 input int  InpTier1MinProfitPts = 150;   // Tier 1: Min Profit (points/lot, Gate B; symbol-relative)
+
+input group "=== Drawdown Reduction - Tier 2 (E5) ==="
+input bool   InpEnableTier2        = false; // Enable Tier 2 (percent-of-balance basket close)
+input int    InpTier2MinTrades     = 4;     // Tier 2: Min Trades to Activate (open count, Gate A)
+input double InpTier2ProfitPercent = 1.0;   // Tier 2: Min group profit, % of account BALANCE (Gate B)
 
 input group "=== Filters & Safety (Stage 7) ==="
 input bool   InpSpreadFilter   = true;  // Spread Filter (recovery entries only)
@@ -1064,7 +1069,7 @@ double NormalizePrice(const double price)
 // are equal). E4 (C-1) makes this the SINGLE money-path basis: the helper
 // below is the one code path, consumed by BOTH the sequence anchor
 // (ComputeTargets -> g_curAvgEntry, drives TP/BE/trail) and the Tier 1 group
-// VWAP (EvaluateTier1). MUST-NOT reintroduce a second averaging basis in the
+// VWAP (EvaluateBasketClose, Tier 1 branch). MUST-NOT reintroduce a second averaging basis in the
 // money path (C-2). ComputeProjection keeps its own dashboard-side pass, which
 // is DISPLAY, proven to match by recompute (b26/S8-25) - not a money-path
 // basis. The helper is the shared lift-out drafted then parked in E1.
@@ -1365,9 +1370,9 @@ bool WasEAClosed(const ulong ticket)
    return false;
   }
 
-// E4 (X-4): one leg of a market close, extracted verbatim from
-// CloseSequenceAtMarket so the whole-sequence close AND the Tier 1 group close
-// (EvaluateTier1) run the SAME sealed close path - no new close path invented.
+// E4/E5 (X-4): one leg of a market close, extracted verbatim from
+// CloseSequenceAtMarket so the whole-sequence close AND the Tier 1/Tier 2 group
+// close (FireGroupClose) run the SAME sealed close path - no new close path invented.
 // Caller sets magic + deviation once before looping. Returns true when the
 // position is closed OR already gone via a benign 10036 race; false only on a
 // genuine failure the caller must act on (Tier 1 aborts the anchor, X-2).
@@ -2122,34 +2127,32 @@ void EvaluateRecovery()
   }
 
 //+------------------------------------------------------------------+
-//| E4 - DRAWDOWN REDUCTION TIER 1 (point-based basket close)        |
-//| Pressure valve: when the basket is deep (Gate A: open count >=   |
-//| MinTrades) and the OLDEST position (anchor, C1) plus every        |
-//| currently-profitable position clears a per-lot profit threshold  |
-//| (Gate B: VWAP-margin >= MinProfitPts), close that GROUP at market |
-//| - profitables first, anchor last, abort the anchor on any         |
-//| profitable-leg failure (O5). Fully DERIVED per tick; no state.    |
-//| See docs/E4_MATRIX.md (SEALED) + docs/E4_PLAN_2026-07-24_gate3.md.|
+//| E4/E5 - DRAWDOWN REDUCTION (basket close) - SHARED HELPERS       |
+//| Both tiers close the SAME group (oldest anchor + every currently- |
+//| profitable position) via the SAME sealed close path, differing   |
+//| ONLY in the Gate B trigger metric (Tier 1: VWAP-margin >= points; |
+//| Tier 2: group P/L >= percent-of-balance). FormBasketGroup builds  |
+//| the group; FireGroupClose executes the O5 fire; EvaluateBasketClose|
+//| dispatches Tier 2 FIRST then Tier 1 (T2-O4). Fully DERIVED per     |
+//| tick; no state. See docs/E4_MATRIX.md + docs/E5_MATRIX.md (SEALED) |
+//| + docs/E5_PLAN_2026-07-24_gate3.md.                               |
 //+------------------------------------------------------------------+
-// Evaluated EVERY tick (T-5), distinct from InpBarCloseEntry which gates
-// recovery ENTRIES only. Returns true when a fire was INITIATED this tick (the
-// caller then defers recovery to next tick - H-5/H-6 atomicity); false when
-// Tier 1 did nothing (disabled / dormant / gates unmet).
-bool EvaluateTier1()
+// Scan the live basket ONCE: openCount (LIVE tracked positions - the COUNT, not
+// the level index; they diverge after a fire under C3), anchor = lowest surviving
+// LEVEL (== oldest = the SL anchor, C1/A-1), and grp = anchor + EVERY currently-
+// profitable position (G-1; POSITION_PROFIT>0, priced by the platform at the
+// correct close side - SELL below entry, BUY above, O4/O6; the anchor is always
+// in the group even as a loser, >=1 profitable NOT required, C2). Side-effect-
+// free (no Gate A, no M-1, no logging - the dispatcher owns those). Returns true
+// iff a valid anchor/group formed (anchorTk != 0).
+bool FormBasketGroup(int &openCount, ulong &anchorTk, int &anchorLvl,
+                     ulong &grp[], int &grpLvl[])
   {
-   if(!InpEnableTier1 || g_state.levelCount == 0 || g_state.direction == 0)
-      return false;
-   if(g_state.trailingActive)
-      return false;   // trailing owns the exit; Tier 1 stands down (mirrors recovery)
-   int dir = g_state.direction;
-
-   // GATE A (depth, O2) + anchor selection (C1). openCount = LIVE tracked
-   // positions (the COUNT, not the level index - they diverge after a fire
-   // under C3). anchor = lowest surviving LEVEL number (== oldest = the SL
-   // anchor, A-1). Both come from one scan.
-   int   openCount = 0;
-   int   anchorLvl = 2147483647;
-   ulong anchorTk  = 0;
+   openCount = 0;
+   anchorLvl = 2147483647;
+   anchorTk  = 0;
+   ArrayResize(grp, 0);
+   ArrayResize(grpLvl, 0);
    for(int i = 0; i < g_state.levelCount; i++)
      {
       if(!PositionSelectByTicket(g_state.tickets[i]))
@@ -2161,15 +2164,8 @@ bool EvaluateTier1()
          anchorTk  = g_state.tickets[i];
         }
      }
-   if(openCount < InpTier1MinTrades || anchorTk == 0)
-      return false;   // dormant while shallow (D-1); anchor must exist
-
-   // GROUP (G-1): anchor + EVERY currently-profitable position. Profitable =
-   // POSITION_PROFIT > 0 (the platform prices it at the correct close side:
-   // SELL profits below entry, BUY above - O4). The anchor is always in the
-   // group even if it is a loser; >=1 profitable is NOT required (C2).
-   ulong grp[];
-   int   grpLvl[];
+   if(anchorTk == 0)
+      return false;
    for(int i = 0; i < g_state.levelCount; i++)
      {
       if(!PositionSelectByTicket(g_state.tickets[i]))
@@ -2183,44 +2179,20 @@ bool EvaluateTier1()
          grpLvl[n] = g_state.levels[i];
         }
      }
+   return true;
+  }
 
-   // M-1 (E4 live-finding amendment, 2026-07-24; live gold fire pre-empted the
-   // sequence AvgTP): if the group would close the WHOLE open basket (no
-   // underwater survivor remains), Tier 1 is not VALVING - it is a full close,
-   // which is the sequence's OWN exit's job (AvgTP-exceeded market close / BE /
-   // trail, all bank-at-market). Firing here only pre-empts the sequence TP at
-   // MinProfitPts < AvgTPPts and banks LESS than the sequence reaches on its own.
-   // Stand down so Tier 1 is never worse than the baseline exit - a PARTIAL valve
-   // only. (grp always contains the anchor; grp==openCount => every non-anchor is
-   // profitable, i.e. nothing underwater would survive.)
-   if(ArraySize(grp) >= openCount)
-     {
-      if(!AlreadyLogged("t1standdown:" + (string)(long)g_state.adoptionTime))
-         Log(LOG_INFO, "Tier 1 stands down: group would close the whole basket (no underwater survivor to valve) - sequence AvgTP/BE/trail owns the full close (M-1)");
-      return false;
-     }
-
-   // GATE B (profit, O2/O4). grpVWAP via the SHARED lot-weighted helper (C-1).
-   // Far price DIRECTION-DERIVED (SELL closes at Ask, BUY at Bid). The
-   // VWAP-margin (points) is the lot-size-independent form of the combined
-   // P/L test (G-2). margin >= threshold(>0) => combined P/L > 0 (G-3).
-   double grpVWAP   = ComputeWeightedVWAP(grp, ArraySize(grp));
-   if(grpVWAP <= 0.0)
-      return false;
-   double farPx     = (dir < 0) ? SymbolInfoDouble(_Symbol, SYMBOL_ASK)
-                                : SymbolInfoDouble(_Symbol, SYMBOL_BID);
-   double marginPts = ((dir < 0) ? (grpVWAP - farPx) : (farPx - grpVWAP)) / _Point;
-   if(marginPts < (double)InpTier1MinProfitPts)
-      return false;   // Gate B fails (T-4; T-6 when the group is anchor-only)
-
-   // FIRE (O5). Profitables FIRST (descending ticket), ANCHOR LAST, each via
-   // the SEALED leg-close path (CloseLegAtMarket, X-4). Abort the anchor on ANY
-   // profitable-leg failure (X-2): realized stays a pure-profit subset (>= 0),
-   // so the GROUP never realizes a combined loss (G-3 hard invariant).
-   Log(LOG_INFO, StringFormat("Tier 1 FIRE: %s group %d leg(s) (anchor L%d + %d profitable) | VWAP %s far %s margin %.1f pts >= %d/lot",
-                              dir < 0 ? "SELL" : "BUY", ArraySize(grp), anchorLvl, ArraySize(grp) - 1,
-                              DoubleToString(grpVWAP, _Digits), DoubleToString(farPx, _Digits),
-                              marginPts, InpTier1MinProfitPts));
+// FIRE (O5). Profitables FIRST (descending ticket), ANCHOR LAST, each via the
+// SEALED leg-close path (CloseLegAtMarket, X-4). Abort the anchor on ANY
+// profitable-leg failure (X-2): realized stays a pure-profit subset (>= 0), so
+// the GROUP never realizes a combined loss (G-3/T2-G2 hard invariant). tierTag
+// labels the WARN lines so attribution is correct. Returns true (a fire was
+// INITIATED this tick - the caller defers recovery, H-5/H-6). Reused VERBATIM by
+// both tiers => O5 lives in ONE place.
+bool FireGroupClose(const ulong &grp[], const int &grpLvl[],
+                    const ulong anchorTk, const int anchorLvl,
+                    const int dir, const string tierTag)
+  {
    g_trade.SetExpertMagicNumber(g_magic);
    g_trade.SetDeviationInPoints(InpDeviationFilter ? (ulong)InpMaxDeviationPts : 1000000);
 
@@ -2250,17 +2222,110 @@ bool EvaluateTier1()
          continue;   // already gone (race) - liveness attributes it, treat as done
       if(!CloseLegAtMarket(prof[i], profLvl[i]))
         {
-         Log(LOG_WARN, StringFormat("Tier 1 ABORT: profitable L%d ticket %I64u close failed - anchor L%d left OPEN, realized = profit subset (>= 0). Re-evaluates next qualifying tick (X-2).",
-                                    profLvl[i], prof[i], anchorLvl));
+         Log(LOG_WARN, StringFormat("%s ABORT: profitable L%d ticket %I64u close failed - anchor L%d left OPEN, realized = profit subset (>= 0). Re-evaluates next qualifying tick (X-2).",
+                                    tierTag, profLvl[i], prof[i], anchorLvl));
          return true;   // fired (partial); the anchor is NOT touched this tick
         }
      }
    // All profitables closed -> close the ANCHOR last (X-1). If it fails it stays
-   // open; realized is pure profit (X-3) and Tier 1 retargets it next tick.
+   // open; realized is pure profit (X-3) and the tier retargets it next tick.
    if(PositionSelectByTicket(anchorTk) && !CloseLegAtMarket(anchorTk, anchorLvl))
-      Log(LOG_WARN, StringFormat("Tier 1: anchor L%d ticket %I64u close failed after all profitables closed - stays open, realized = pure profit (X-3). Retargets next tick.",
-                                 anchorLvl, anchorTk));
+      Log(LOG_WARN, StringFormat("%s: anchor L%d ticket %I64u close failed after all profitables closed - stays open, realized = pure profit (X-3). Retargets next tick.",
+                                 tierTag, anchorLvl, anchorTk));
    return true;
+  }
+
+//+------------------------------------------------------------------+
+//| DRAWDOWN REDUCTION DISPATCHER (Tier 2 FIRST, then Tier 1)        |
+//+------------------------------------------------------------------+
+// Evaluated EVERY tick (T-5/T2-5), distinct from InpBarCloseEntry which gates
+// recovery ENTRIES only. Tier 2 (percent-of-balance) is evaluated FIRST; on its
+// gate failing, Tier 1 (points) is evaluated (T2-O4 precedence, fall-through).
+// Both share ONE group + ONE fire, so exactly ONE fire per tick. Returns true
+// when a fire was INITIATED this tick (caller defers recovery - H-5/H-6); false
+// when nothing fired (disabled / dormant / gates unmet / whole-basket stand-down).
+bool EvaluateBasketClose()
+  {
+   bool t2on = InpEnableTier2;
+   bool t1on = InpEnableTier1;
+   if((!t2on && !t1on) || g_state.levelCount == 0 || g_state.direction == 0)
+      return false;
+   if(g_state.trailingActive)
+      return false;   // trailing owns the exit; basket close stands down (mirrors recovery)
+   int dir = g_state.direction;
+
+   int   openCount = 0;
+   ulong anchorTk  = 0;
+   int   anchorLvl = 2147483647;
+   ulong grp[];
+   int   grpLvl[];
+   if(!FormBasketGroup(openCount, anchorTk, anchorLvl, grp, grpLvl))
+      return false;   // anchor must exist
+
+   // GATE A (depth, O2) per tier - own MinTrades, count-based (D-1 dormancy).
+   bool t2elig = t2on && openCount >= InpTier2MinTrades;
+   bool t1elig = t1on && openCount >= InpTier1MinTrades;
+   if(!t2elig && !t1elig)
+      return false;   // dormant while shallow (D-1); matches the sealed Gate-A return
+
+   // M-1 (E4 live-finding amendment, 2026-07-24; live gold fire pre-empted the
+   // sequence AvgTP): if the group would close the WHOLE open basket (no
+   // underwater survivor remains), basket close is not VALVING - it is a full
+   // close, which is the sequence's OWN exit's job (AvgTP-exceeded market close /
+   // BE / trail, all bank-at-market). Firing here only pre-empts the sequence TP
+   // and banks LESS than the sequence reaches on its own. Stand down so basket
+   // close is never worse than the baseline exit - a PARTIAL valve only. Applies
+   // to BOTH tiers (T2-M1). (grp always contains the anchor; grp==openCount =>
+   // every non-anchor is profitable, i.e. nothing underwater would survive.)
+   if(ArraySize(grp) >= openCount)
+     {
+      if(!AlreadyLogged("basketstanddown:" + (string)(long)g_state.adoptionTime))
+         Log(LOG_INFO, "Basket close stands down: group would close the whole basket (no underwater survivor to valve) - sequence AvgTP/BE/trail owns the full close (M-1)");
+      return false;
+     }
+
+   // TIER 2 FIRST (T2-O4). GATE B (T2-O1/O2/O7): group P/L = SUM of members'
+   // POSITION_PROFIT (account currency, close-side valued, price-only - handles
+   // cross-currency + far-side by construction, G-V1); bar = percent of account
+   // BALANCE. A positive bar guarantees the group nets > 0 (T2-G2 invariant).
+   if(t2elig)
+     {
+      double bar = InpTier2ProfitPercent / 100.0 * AccountInfoDouble(ACCOUNT_BALANCE);
+      double pnl = 0.0;
+      for(int i = 0; i < ArraySize(grp); i++)
+         if(PositionSelectByTicket(grp[i]))
+            pnl += PositionGetDouble(POSITION_PROFIT);
+      if(pnl >= bar)
+        {
+         Log(LOG_INFO, StringFormat("Tier 2 FIRE: %s group %d leg(s) (anchor L%d + %d profitable) | P/L %.2f >= %.2f (%.2f%% x bal %.2f)",
+                                    dir < 0 ? "SELL" : "BUY", ArraySize(grp), anchorLvl, ArraySize(grp) - 1,
+                                    pnl, bar, InpTier2ProfitPercent, AccountInfoDouble(ACCOUNT_BALANCE)));
+         return FireGroupClose(grp, grpLvl, anchorTk, anchorLvl, dir, "Tier 2");
+        }
+     }
+
+   // TIER 1 (points), fall-through. GATE B (O2/O4). grpVWAP via the SHARED lot-
+   // weighted helper (C-1). Far price DIRECTION-DERIVED (SELL closes at Ask, BUY
+   // at Bid). The VWAP-margin (points) is the lot-size-independent form of the
+   // combined P/L test (G-2). margin >= threshold(>0) => combined P/L > 0 (G-3).
+   if(t1elig)
+     {
+      double grpVWAP = ComputeWeightedVWAP(grp, ArraySize(grp));
+      if(grpVWAP <= 0.0)
+         return false;
+      double farPx     = (dir < 0) ? SymbolInfoDouble(_Symbol, SYMBOL_ASK)
+                                   : SymbolInfoDouble(_Symbol, SYMBOL_BID);
+      double marginPts = ((dir < 0) ? (grpVWAP - farPx) : (farPx - grpVWAP)) / _Point;
+      if(marginPts >= (double)InpTier1MinProfitPts)
+        {
+         Log(LOG_INFO, StringFormat("Tier 1 FIRE: %s group %d leg(s) (anchor L%d + %d profitable) | VWAP %s far %s margin %.1f pts >= %d/lot",
+                                    dir < 0 ? "SELL" : "BUY", ArraySize(grp), anchorLvl, ArraySize(grp) - 1,
+                                    DoubleToString(grpVWAP, _Digits), DoubleToString(farPx, _Digits),
+                                    marginPts, InpTier1MinProfitPts));
+         return FireGroupClose(grp, grpLvl, anchorTk, anchorLvl, dir, "Tier 1");
+        }
+     }
+   return false;
   }
 
 //+------------------------------------------------------------------+
@@ -3432,6 +3497,25 @@ void PanelRefresh()
             StringFormat("%d pts - max %s", InpRecoveryIntervalPts,
                          InpMaxRecoveryTrades > 0 ? (string)InpMaxRecoveryTrades : "-"),
             COL_TEXT);
+   y += PNL_ROW_H;
+   // DD Reduction status (E5, DS-1): which valve tiers are armed, so the user
+   // sees at a glance if anything is enabled. DISPLAY ONLY - reads inputs, no
+   // state, no money path. Armed -> green (as "Recovery ON"); neither -> dim.
+   string ddVal;
+   color  ddClr;
+   if(!InpEnableTier1 && !InpEnableTier2)
+     {
+      ddVal = "OFF";
+      ddClr = COL_DIM;
+     }
+   else
+     {
+      string t1 = InpEnableTier1 ? StringFormat("T1 %dpts", InpTier1MinProfitPts) : "";
+      string t2 = InpEnableTier2 ? StringFormat("T2 %.1f%%", InpTier2ProfitPercent) : "";
+      ddVal = (t1 != "" && t2 != "") ? t1 + " + " + t2 : t1 + t2;
+      ddClr = COL_BUY_ARM;
+     }
+   PanelRow("DDR", y, "DD Reduce", ddVal, ddClr);
    y += PNL_ROW_H + 4;
 
    // --- divider ---
@@ -4440,9 +4524,10 @@ void OnTick()
         {
          WatchDuplicateTags();  // Stage 2b2: warn on unmanaged duplicate L1 tags
          EnforceExits();        // Stage 3: TP/SL placement + policy-A enforcement
-         if(EvaluateTier1())    // E4: point-based basket close (tick-based, T-5).
-            return;             //   on a FIRE, defer recovery to next tick so the
-                                //   prune + SL re-anchor settle atomically first
+         if(EvaluateBasketClose()) // E4/E5: basket close (Tier 2 percent first,
+            return;             //   then Tier 1 points; tick-based T-5/T2-5). On a
+                                //   FIRE, defer recovery to next tick so the prune
+                                //   + SL re-anchor settle atomically first
                                 //   (H-5/H-6); next tick resumes normally.
          EvaluateRecovery();    // Stage 4: interval tracking + recovery entries
         }

@@ -4,11 +4,15 @@
 # runtime copy, all compared to this manifest. Match = aligned in one
 # line. Disk + git are truth, never conversation or auto memory.
 
-build: E4-b36
+build: E5-b37
 file: TRTM.mq5
-sha256_16: 7e14479c83d672a4
-lines: 4483
+sha256_16: 73dda148c79f1b27
+lines: 4568
 date: 2026-07-24
+# E5-b37 SEALED by Jeff 2026-07-25. Compiled clean, DEPLOYED (runtime == repo
+# 73dda148c79f1b27 / 4568), VERIFIED to the cent (docs/E5_VERIFY_CHECKLIST.md: all
+# 34 matrix rows - XAUUSD.s money paths + BTCUST K1/K2 + visual DS-1). Prior sealed
+# build was E4-b36. E5-b37 is UNCOMMITTED (Jeff's call).
 
 ## Environment note
 ALL charts are DEMO; multi-symbol attachments are test surface.
@@ -144,10 +148,17 @@ E4 (NEW 2026-07-23) Drawdown Reduction Tier 1 - point-based basket
      mid-group leg failure leaves a partially-closed group whose combined
      P/L no longer matches what was tested - needs a rule; unaddressed by
      Shadow logs).
-E5 (NEW 2026-07-23) Drawdown Reduction Tier 2 - percent-based (Shadow
-   InpPC2_ProfitPercent/InpPC2_MinTrades). DISABLED in both reference
-   runs - ZERO observed behavior. Recorded as a known sibling only;
-   requires its own reference run (E7 R1) before it can be specified.
+E5 (SEALED E5-b37 2026-07-25) Drawdown Reduction Tier 2 -
+   percent-based (Shadow InpPC2_ProfitPercent/InpPC2_MinTrades). E7 R1 reference
+   run DELIVERED 2026-07-24 (docs/STM Drawdown Reduction Tier2 Logs.txt; analysis
+   docs/ENHANCEMENT_INPUT_2026-07-24_tier2.md) - one Tier 2 fire captured and
+   recomputed. Tier 2 = Tier 1's close machinery fired by a MONEY test (group P/L
+   >= ProfitPercent% of account BALANCE) instead of per-lot points. T2-O0 LOCKED:
+   separate default-off tier (InpEnableTier2), see locked-decisions log. DONE - all
+   gates cleared (Gate 1 T2-O0..O7 locked; matrix SEALED rev 2; plan CONFIRMED; built
+   E5-b37; verified + SEALED 2026-07-25). Reuses Tier 1's sealed close machinery via a
+   shared dispatcher: Tier 2 (group P/L >= % of BALANCE) evaluated FIRST, then Tier 1
+   (points). See seal entry in the locked-decisions log + docs/E5_VERIFY_CHECKLIST.md.
 E6 (NEW 2026-07-23) Drawdown Reduction Tier 3 - partial-lot close
    (Shadow InpPC3_MinTrades/MinLots/MinProfitPoints/ClosePercent).
    DISABLED in both runs - ZERO observed behavior. Input names imply
@@ -351,6 +362,20 @@ F4. Shadow's break-even engine is UNOBSERVED across the full four-day
     BE engine would otherwise arm on. TRTM's own BE is sealed; if
     Shadow's BE is ever wanted as a reference it needs E7 R5 (price
     favourable AND Tier 1 disabled).
+F5. RAISED + ANNOTATED 2026-07-25 (E5 Gate 4 recompute). The sealed E5_MATRIX.md
+    WORKED REFERENCE (Tier 2 fire VWAP 1.9311258 / margin 181.6 pts) and the T2-O4
+    locked decision claimed Tier 1's gate was ALSO met at the 07/02 15:30 Tier 2
+    fire, "proving" Tier-2-first precedence. RECOMPUTE (two independent ways:
+    0.5985490/0.31, and the group-P/L identity 46.29/(0.31*1e5)) gives margin
+    149.3 pts (VWAP 1.9308032), BELOW the 150 threshold - Tier 1's gate was NOT met.
+    The matrix numerator was 0.5986490, exactly 0.0001 above the real 0.5985490 (a
+    division slip). CONSEQUENCE: the reference run has ZERO both-gates-pass
+    observations; T2-PR1 precedence has NO reference support and MUST be verified
+    LIVE (constructed both-gates-pass tick, already in the plan's verify map). NOT a
+    code defect (Tier-2-first is correctly implemented + money-neutral per T2-PR4),
+    NOT a re-seal, NOT a STOP. Matrix (WORKED REFERENCE / G-PR / T2-PR1 / Status) and
+    the T2-O4 block annotated in place (evidence corrected; the locked DECISION and
+    the matrix SEAL are unchanged). Full recompute in docs/E5_VERIFY_CHECKLIST.md F5.
 
 ## b24 changes (Stage 8 Step 1: manual exit adoption, matrix SEALED)
 Design: STAGE8_MATRIX.md (37 rows, sealed 2026-07-16). Summary:
@@ -869,6 +894,202 @@ no-fire byte-identity, M-1 whole-basket stand-down (observed: sequence AvgTP
 banked +2500 vs Tier1 +500, validated (A) over (B) on the anchor-sole-loser case),
 gate zero b36. Build E4-b36 sha256_16 7e14479c83d672a4 / 4483 lines. E4 (Drawdown
 Reduction Tier 1) is CLOSED. Deploy to MT5 tree is Jeff's manual step.
+
+2026-07-24 E5 T2-O0 TIER 2 = SEPARATE DEFAULT-OFF TIER (Gate 1 LOCKED; matrix +
+plan still required before any code). E7 R1 reference run delivered this session
+(docs/STM Drawdown Reduction Tier2 Logs.txt; analysis in
+docs/ENHANCEMENT_INPUT_2026-07-24_tier2.md), unblocking E5. Decision: Tier 2 is
+adopted as its OWN mechanism, gated by a NEW input InpEnableTier2 (default FALSE,
+mirroring InpEnableTier1), REUSING Tier 1's sealed close machinery (group select,
+far-side derivation, close-with-retry, TP recompute, recovery refresh). Tier 2
+differs from Tier 1 in ONE thing only: the TRIGGER METRIC - group P/L in MONEY
+must clear ProfitPercent% of the account reference base, vs Tier 1's group VWAP
+clearing MinProfitPoints per lot. Both tiers may be enabled independently.
+  OBSERVED BASIS (single Tier 2 fire, 2026.07.02 15:30, recomputed to match the
+  log): trigger line "Basket P&L: 31.40 | Required (1.0% of 3026.14): 30.26";
+  1.0% x 3026.14 = 30.26 (base = ACCOUNT BALANCE post-realized, proven = 3000 +
+  Tier 1's +26.14 realized, NOT equity). "Basket P&L" is the CLOSE-GROUP total
+  (anchor #3 -85.68 AUD + profitables #21 +40.32 + #22 +91.65 = +46.29 AUD ->
+  31.40 USD), NOT the whole underwater basket. Group rule, anchor-first Shadow
+  order (TRTM inverts per O5), SELL->Ask far-side, F3 close-deal defect, and
+  count-reindex (TRTM keeps C3) all IDENTICAL to Tier 1.
+  RATIONALE: Tier 2 is not redundant - Tier 1's points bar is account-independent;
+  Tier 2's 1%*balance bar FALLS as the account draws down, so it eases mid-
+  drawdown (mildly pro-cyclical harvest Tier 1's metric cannot express). Separate
+  default-off tier keeps E4's seal boundary intact (no re-touch of the sealed
+  trigger code), matches Shadow's own structure, and is the cleanest unit to
+  matrix/verify.
+  Rejected: (unified trigger w/ metric selector) - re-touches just-sealed E4
+  trigger code and blurs the seal boundary for less input surface; (decline/park
+  Tier 2) - forfeits the account-relative harvest.
+  OPEN (resolve next, one at a time): T2-O1 reference base (balance/equity/fixed);
+  T2-O2 lock "close-group P/L" naming; T2-O3 percent semantics; T2-O4 Tier1/Tier2
+  coexistence + same-tick precedence (UNOBSERVED - fired on different days);
+  T2-O5 inherit E4 O5 close order; T2-O6 inherit E4 O4 far-side (BUY lap
+  unobserved); T2-O7 cross-currency P/L valuation (NEW money path vs Tier 1;
+  collapses to identity on USD-quote symbols like XAUUSD.s).
+
+2026-07-24 E5 T2-O1 REFERENCE BASE = ACCOUNT BALANCE (Gate 1 LOCKED; matrix +
+plan still required before any code). Tier 2's percent is taken of AccountBalance:
+threshold = InpTier2ProfitPercent% x AccountInfoDouble(ACCOUNT_BALANCE). Matches
+the OBSERVED Shadow base (3026.14 = realized balance, proven not equity).
+  RATIONALE: balance is stable tick-to-tick (moves only when trades realize), so
+  the bar is not perturbed by the very drawdown Tier 2 manages; it scales the
+  harvest to account SIZE, giving a predictable account-proportional threshold.
+  Rejected EQUITY (balance+floating): the bar shrinks as the basket deepens
+  (fires more eagerly mid-drawdown) BUT is tick-volatile and can shrink toward
+  zero in a very deep basket -> runaway harvesting on trivial group profit;
+  unstable trigger. Rejected FIXED money amount: drops the percent/account-
+  relative character, functionally Tier 1 in money units - adds nothing new.
+  RIDER for T2-O7: the group P/L (Gate B left side) is in account currency, so
+  the same-currency comparison is clean; cross-currency conversion is a valuation
+  concern handled in T2-O7, not here.
+
+2026-07-24 E5 T2-O2 MEASURED P/L = CLOSE-GROUP (Gate 1 LOCKED; matrix + plan
+still required before any code). Gate B tests the P/L of the GROUP actually being
+closed - oldest anchor + ALL currently-profitable positions, valued at the
+far-side price - against the T2-O1 bar. Same group selection as Tier 1.
+  OBSERVED: the log's "Basket P&L: 31.40" is this close-group total (anchor #3
+  -85.68 AUD + prof #21 +40.32 + #22 +91.65 = +46.29 AUD -> 31.40 USD), NOT the
+  whole 15-position basket (deeply negative floating at that tick). TRTM must NAME
+  it close-group P/L, never "basket P/L" (Shadow's misleading label).
+  RATIONALE: consistent with T2-O0 (reuse Tier 1's group-close machinery) and
+  preserves the HARD invariant - a positive percent bar guarantees the group nets
+  >= 0, so the group can never close at a combined loss (only the anchor realizes
+  a loss, covered by the profitables).
+  Rejected WHOLE-BASKET floating P/L: a different mechanism (global basket TP)
+  that collides with the sequence's own AvgTP and the E4 M-1 whole-basket stand-
+  down; not observed. Rejected PROFITABLES-ONLY: breaks parity with the group
+  that actually closes and overstates the harvest vs the group net.
+
+2026-07-24 E5 T2-O4 TIER PRECEDENCE = TIER 2 FIRST, FALL THROUGH TO TIER 1
+(Gate 1 LOCKED; matrix + plan still required before any code). When both tiers
+are enabled, each tick evaluates Tier 2 (percent) FIRST; if its gate passes,
+fire + credit Tier 2. Else evaluate Tier 1 (points); if it passes, fire + credit
+Tier 1. Both tiers select the IDENTICAL group and reuse the SAME fire-then-return
+close, so exactly ONE fire per tick and the group that closes is identical
+regardless of precedence - this is an ATTRIBUTION/logging choice, money-neutral.
+E4 M-1 whole-basket stand-down applies to BOTH tiers (a whole-basket group defers
+to the sequence AvgTP no matter which gate passed).
+  EVIDENCE (both Shadow fires, recomputed - reproduces this exact rule): at the
+  Tier 2 fire (07/02 15:30) Tier 1's gate was ALSO satisfied (group VWAP 1.93113,
+  margin vs Ask 1.92931 = 181.6 pts >= 150) yet Shadow credited TIER 2 -> Tier 2
+  has precedence. At the Tier 1 fire (06/30 14:16) Tier 2's gate FAILED (group
+  ~26.6 USD < 1% x 3000 = 30.00) so it fell through and fired TIER 1. One
+  both-pass observation, arithmetic unambiguous. Shadow = reference; TRTM matches
+  its precedence deliberately (no money reason to diverge).
+  CORRECTION 2026-07-25 (F5, E5 Gate 4 recompute): the EVIDENCE above is WRONG on the
+  both-pass claim. The Tier-2-fire margin consistent with the logged 31.40 USD group
+  P/L is 149.3 pts (VWAP 1.9308032 = 0.5985490/0.31, confirmed by the group-P/L
+  identity 46.29/(0.31*1e5)), BELOW 150 - so Tier 1's gate was NOT met at the 07/02
+  15:30 fire (matrix had mis-stated VWAP 1.93113 / margin 181.6, a /0.31 slip). That
+  fire evidences ONLY that Tier 2 fired, NOT precedence. The DECISION (Tier-2-first)
+  is UNCHANGED - it stands on merit + money-neutrality (T2-PR4). But there is NO
+  reference both-pass observation: T2-PR1 must be verified LIVE via a constructed
+  both-gates-pass tick. docs/E5_MATRIX.md (WORKED REFERENCE / G-PR / T2-PR1) carries
+  the same correction; code correctly implements Tier-2-first (unaffected).
+  Rejected TIER 1 FIRST (diverge): money-identical, but does not match the
+  reference and there is no reason to flip attribution. Rejected fully-independent
+  evaluators: risks a double-close attempt on the shared group without an explicit
+  single-fire guard.
+
+2026-07-24 E5 T2 GATE A = OWN INPUT InpTier2MinTrades, DEFAULT 4 (Gate 1 LOCKED;
+matrix + plan still required before any code). Tier 2 eligibility requires open
+position count >= InpTier2MinTrades (default 4, = Shadow InpPC2_MinTrades),
+a SEPARATE input from InpTier1MinTrades. Same count-based semantics as Tier 1
+Gate A: Tier 2 is DORMANT while open count < InpTier2MinTrades and re-activates
+as recovery rebuilds the count; count is always REMAINING open positions (post
+any fire).
+  RATIONALE: separate input keeps the tiers independently tunable (T2-O0 separate-
+  tier) and matches Shadow's separate PC2 param; the count gate confines Tier 2 to
+  a basket deep enough to be under real drawdown pressure, same as Tier 1.
+  Rejected SHARE InpTier1MinTrades: couples the tiers, contradicts separate-tier.
+  Rejected NO count gate: could fire on a shallow basket not under drawdown
+  pressure; diverges from Shadow.
+
+2026-07-24 E5 T2-O5 + T2-O6 = INHERIT E4 CLOSE MECHANICS VERBATIM (Gate 1 LOCKED;
+matrix + plan still required before any code). Tier 2 reuses Tier 1's sealed close
+machinery unchanged:
+  O5 CLOSE ORDER: profitables-first, anchor-last, abort-the-anchor on ANY
+    profitable-leg failure after bounded retries, via the sealed close-with-retry
+    routine (E4 O5). Realizes the anchor loss only after the covering profit is
+    banked; worst partial outcome is a safe deferral, never a realized combined
+    loss - preserves the T2-O2 >=0 group invariant.
+  O6 FAR-SIDE/CLOSE PRICE: direction-derived (SELL basket -> Ask, BUY -> Bid;
+    E4 O4 platform invariant). Trigger margin measured on the SAME side the close
+    executes. BUY lap validated against the invariant + arithmetic (Tier 2 BUY
+    fire UNOBSERVED, same as Tier 1).
+  RATIONALE: money-safety rules TRTM already settled deliberately for Tier 1;
+  reusing them (T2-O0) keeps ONE close path and one set of proven invariants.
+  Rejected reopening the close order (e.g. Shadow's observed anchor-first for
+  Tier 2): re-litigates a settled money-safety rule for no gain.
+
+  --- E5 GATE 1 STATUS 2026-07-24: locked = T2-O0 (separate default-off tier
+  InpEnableTier2), T2-O1 (base=balance), T2-O2 (measured=close-group), T2-O4
+  (precedence Tier2-first/fall-through, shared group, 1 fire/tick, M-1 both),
+  Gate A (InpTier2MinTrades=4 + count dormancy), T2-O5/O6 (inherit E4 close).
+  Gate B = close-group P/L(money, acct ccy) >= InpTier2ProfitPercent% x balance.
+  PLAN-TIME RIDERS (resolve at Gate 3 plan, like E4 O2's default): (a) T2-O3
+  InpTier2ProfitPercent DEFAULT (Shadow 1.0%) - a percent, symbol-agnostic, but
+  confirm the shipped default on merit; (b) T2-O7 cross-currency group-P/L
+  valuation to account currency - collapses to identity on USD-quote symbols
+  (XAUUSD.s), so TRTM's gold evidence surface will NOT exercise the conversion;
+  the matrix needs a cross-currency reasoning row. GATE 2: docs/E5_MATRIX.md
+  SEALED rev 1 by Jeff 2026-07-24 (30 rows, 12 groups; 23 NEW Tier-2 rows +
+  INHERIT-E4 rows). GATE 3 plan docs/E5_PLAN_2026-07-24_gate3.md CONFIRMED by Jeff
+  2026-07-24 (shared-dispatcher; TP-1..TP-7 incl. display-only DASHBOARD "DD Reduce"
+  row). BUILT E5-b37 2026-07-24 (sha256_16 73dda148c79f1b27 / 4568 lines, +85 vs
+  b36; CRLF+ASCII clean, brace delta -1 pre-existing baseline). EvaluateTier1 ->
+  shared FormBasketGroup + FireGroupClose + EvaluateBasketClose dispatcher (Tier 2
+  first). Matrix amended rev 2 (+G-DS/DS-1 dashboard). COMPILED clean + DEPLOYED
+  (runtime == repo) + VERIFIED (all 34 rows) + SEALED by Jeff 2026-07-25 (seal entry below).
+
+2026-07-24 E5 GATE 3 PLAN-TIME RIDERS RESOLVED (Jeff 2026-07-24; matrix already
+sealed, plan + confirmation still required before any code):
+  T2-O3 InpTier2ProfitPercent DEFAULT = 1.0% (matches Shadow InpPC2_ProfitPercent;
+    percent-of-balance is symbol-AGNOSTIC so no forex/gold split; on merit a
+    sensible round harvest bar, and the value the reference evidence was captured
+    at). Rejected 0.5% (fires too eagerly, consumes ladder) and 2.0% (fires rarely).
+  T2-O7 GROUP P/L VALUATION = SUM of members' POSITION_PROFIT (account currency,
+    close-side valued, PRICE-ONLY - excludes swap/commission). Reproduces Shadow's
+    31.40 and handles cross-currency + far-side by construction (no manual FX).
+    GROUNDED IN TIER 1 CONSISTENCY, not Shadow-matching: the log CANNOT settle
+    Shadow's swap handling (the reported "Basket P&L" back-solves the FX rate, so
+    swap vs AUD/USD-drift is inseparable; ~1.7% gap between the 06/30 balance-
+    implied rate 0.6667 and the 07/02 line-implied 0.6783 could be either). TRTM's
+    sealed Tier 1 threshold is price-only (points distance), so price-only Tier 2
+    keeps one basis + the >=0 invariant clean; swap remains a separate realized
+    cost (C1 accepts the swap-heavy anchor). Rejected INCLUDE-SWAP (splits basis
+    from Tier 1, can push a fired group below the bar) and MANUAL price+FX
+    (reinvents POSITION_PROFIT, reintroduces the G-V2 cross-currency bug).
+
+2026-07-25 E5-b37 SEALED by Jeff. Full evidence-audited verification complete (see
+docs/E5_VERIFY_CHECKLIST.md). All 34 matrix rows (SEALED rev 2) recomputed to the cent /
+confirmed. XAUUSD.s money paths (tester): SELL fire x5 + BUY fire x2 (group P/L = sum
+POSITION_PROFIT; bar = InpTier2ProfitPercent% x live ACCOUNT_BALANCE - balance chain proven,
+NOT equity), anchor oldest-transfer, profitables-first/anchor-last close, SELL@Ask / BUY@Bid
+far-side, tick/mid-bar timing, lot-weighted survivor TP, SL re-anchor BUY x2 (+ a real
+broker-SL hit that capped the basket), preserved-index re-arm, dormancy (5 fire->dormant->
+rebuild cycles), must-nots, M-1 whole-basket stand-down (observed), Tier-2-off byte-inert
+(R1), Tier-2-on recovery-unchanged (R2), no persisted field (R3 - self-test PASS), V1/V2/V3
+gold identity. PRECEDENCE (T2-PR1..PR4): Tier-2-first credit+return + Tier-1 fall-through x4,
+both live-recomputed. K1/K2 restart/kill: LIVE BTCUST demo (symbol-agnostic per the
+2026-07-18 seal amendment) - unclean-kill lock re-assert + reconcile rebuilt the 2-level
+basket from live positions, NO orphan Tier 2 state (Tier 2 persists nothing). DS-1 dashboard
+4 states: Jeff visual-confirmed. Gate zero clean; runtime == repo 73dda148c79f1b27 / 4568.
+E5 (Drawdown Reduction Tier 2) is CLOSED. Deploy done (Jeff's manual step); E5-b37
+UNCOMMITTED (Jeff's call - E4-b36 committed-not-pushed, E1 pushed origin/main @ 864effe).
+  STRUCTURAL INSIGHT (deepens F5): group money P/L = margin_pts x SUM(group lots). The Tier 1
+  (points) and Tier 2 (%-money) metrics therefore cross the SAME group margin only at a single
+  point (Sumlot = bar/T1), so on a SMOOTH retrace the lower-threshold gate fires first and both
+  gates are essentially never "just met" on one tick - a literal both-gates-pass is JUMP-ONLY.
+  This is the real reason F5's reference smooth both-pass was an arithmetic artifact. The
+  Tier-2-first tie-break (when both pass) is CODE-GUARANTEED (dispatcher checks Tier 2 before
+  Tier 1). Live PR evidence this session supersedes the (corrected) reference for T2-PR1.
+  F5 remains annotated in docs/E5_MATRIX.md (WORKED REFERENCE / G-PR / T2-PR1 / Status), the
+  T2-O4 block above, and the findings register - evidence-only; the DECISION is unchanged.
+  Optional-only (NOT blocking, deferred): a literal forced both-gates-pass jump (fragile,
+  data-dependent) and an XAUUSD.s live-demo K1/K2 touch (BTCUST already covers symbol-agnostic).
 
 2026-07-23 E1 ANCHOR BASIS = LOT-WEIGHTED, ALL THREE PATHS (Gate 1
 LOCKED; matrix + plan still required before any code). Decision: replace

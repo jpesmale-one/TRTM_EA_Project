@@ -1,0 +1,26 @@
+2026.07.25 22:28:52.739	TRTM (BTCUST,M1)	[TRTM][INFO ] === TRTM E5-b37 init === symbol=BTCUST (raw BTCUST) magic=709218 stateFile=TRTM\state_BTCUST_709218.json
+2026.07.25 22:28:52.739	TRTM (BTCUST,M1)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.07.25 22:28:52.744	TRTM (BTCUST,M1)	[TRTM][INFO ] State persistence self-test: PASS
+2026.07.25 22:28:52.745	TRTM (BTCUST,M1)	[TRTM][INFO ] Reconcile complete: FLAT
+2026.07.25 22:28:52.746	TRTM (BTCUST,M1)	[TRTM][INFO ] Broker exit geometry (at init): no fixed stops/freeze level reported (0 pts) - but this broker's stops level is DYNAMIC (XAUUSD.s observed 20-100 pts intraday); TP/SL can still be rejected and are deferred until placeable
+2026.07.25 22:28:52.746	TRTM (BTCUST,M1)	[TRTM][INFO ] Init complete - E5-b37 (adoption, exits, recovery active)
+2026.07.25 22:29:07.772	TRTM (BTCUST,M1)	[TRTM][INFO ] SELL ARMED: 0.01 lots (Fixed 0.01) - click CONFIRM within 10s to execute
+2026.07.25 22:29:09.044	TRTM (BTCUST,M1)	[TRTM][INFO ] L1 SELL OPENED via button: 0.01 lots @ 64135.38 (deal 386786737)
+2026.07.25 22:29:09.044	TRTM (BTCUST,M1)	[TRTM][INFO ] Structure: 1 level(s), 0.01 lots | projected at TP +0.50 | at SL n/a
+2026.07.25 22:29:09.044	TRTM (BTCUST,M1)	[TRTM][INFO ] EA L1 REGISTERED: ticket 678824383 SELL 0.01 lots @ 64135.38. Exits apply next tick.
+2026.07.25 22:29:09.250	TRTM (BTCUST,M1)	[TRTM][INFO ] Exits applied to ticket 678824383: TP 64085.38 SL none
+2026.07.25 22:31:42.716	TRTM (BTCUST,M1)	[TRTM][INFO ] Recovery signal: bid 64142.11 vs trigger 64140.38 (tick basis; worst entry 64135.38 + 500 pts)
+2026.07.25 22:31:42.917	TRTM (BTCUST,M1)	[TRTM][INFO ] Recovery L2 OPENED: 0.02 lots SELL @ 64142.11 (deal 386786747)
+2026.07.25 22:31:42.917	TRTM (BTCUST,M1)	[TRTM][INFO ] Recovery L2 registered: ticket 678824394
+2026.07.25 22:31:42.917	TRTM (BTCUST,M1)	[TRTM][INFO ] Structure: 2 level(s), 0.03 lots | projected at TP +0.30 | at SL n/a
+2026.07.25 22:31:43.160	TRTM (BTCUST,M1)	[TRTM][INFO ] Exits applied to ticket 678824383: TP 64129.87 SL none
+2026.07.25 22:31:43.359	TRTM (BTCUST,M1)	[TRTM][INFO ] Exits applied to ticket 678824394: TP 64129.87 SL none
+2026.07.25 22:32:25.428	TRTM (BTCUST,M1)	[TRTM][INFO ] === TRTM E5-b37 init === symbol=BTCUST (raw BTCUST) magic=709218 stateFile=TRTM\state_BTCUST_709218.json
+2026.07.25 22:32:25.428	TRTM (BTCUST,M1)	[TRTM][INFO ] Instance lock re-asserted (own chart - recovery after an unclean shutdown that left this chart's own lock behind; a clean re-init releases the lock first, so it cannot reach this branch)
+2026.07.25 22:32:25.433	TRTM (BTCUST,M1)	[TRTM][INFO ] State persistence self-test: PASS
+2026.07.25 22:32:25.433	TRTM (BTCUST,M1)	[TRTM][INFO ] Reconcile: flags restored (trailOverride=F beOverride=F trailingActive=F beApplied=F)
+2026.07.25 22:32:25.434	TRTM (BTCUST,M1)	[TRTM][INFO ] Structure: 2 level(s), 0.03 lots | projected at TP +0.30 | at SL n/a
+2026.07.25 22:32:25.434	TRTM (BTCUST,M1)	[TRTM][INFO ] Reconcile complete: dir=SELL levels=2
+2026.07.25 22:32:25.434	TRTM (BTCUST,M1)	[TRTM][INFO ] Broker exit geometry (at init): no fixed stops/freeze level reported (0 pts) - but this broker's stops level is DYNAMIC (XAUUSD.s observed 20-100 pts intraday); TP/SL can still be rejected and are deferred until placeable
+2026.07.25 22:32:25.434	TRTM (BTCUST,M1)	[TRTM][INFO ] Init complete - E5-b37 (adoption, exits, recovery active)
+

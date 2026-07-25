@@ -50,37 +50,47 @@ every money number before any PASS.
 
 ---
 
-## Current instance - pre-filled for the NEXT break (E4 SEALED; next item TBD)
+## Current instance - pre-filled for the NEXT break (E5 SEALED E5-b37; no item in-flight)
 
 ```
 Resume TRTM. Run the section 0 resume protocol FIRST: git status +
 sha256_16 + wc -l of src/TRTM.mq5 AND the MT5 runtime copy, all compared
-to STATE.md (expect build E4-b36, 7e14479c83d672a4, 4483 lines). Report
-aligned in one line, or STOP on mismatch.
+to STATE.md. BOTH the repo src AND the MT5 runtime copy must now be build
+E5-b37, 73dda148c79f1b27, 4568 lines (E5-b37 was compiled + deployed +
+SEALED 2026-07-25, so runtime == repo). Report aligned in one line, or STOP
+on a REPO-vs-manifest mismatch.
 
-Then read docs/HANDOVER_2026-07-24_E4_b36_sealed.md and STATE.md. E4
-(Drawdown Reduction Tier 1) is SEALED and CLOSED at E4-b36 (matrix rev 2,
-37 rows). Do NOT re-open it.
+Then read docs/HANDOVER_2026-07-25_E5_b37_sealed.md and STATE.md. E1, E4,
+and E5 are ALL SEALED/CLOSED (do NOT re-open). The core loop + Drawdown
+Reduction Tier 1 (E4) and Tier 2 (E5) are done. Nothing is mid-pipeline.
 
-Start the NEXT backlog item at Gate 1 (locked decisions). Backlog, none
-started: E2 draggable exit lines; E3 auto-entry; E5/E6 (Tier 2 percent /
-Tier 3 partial-lot) which need E7 R1/R2 reference runs FIRST; E7 is research
-not a build. Tell me which item to open; then work its open sub-decisions
-ONE at a time, most foundational first. No matrix before locked decisions;
-no code before a confirmed plan.
+Pick the NEXT enhancement-backlog item and open its Gate 1, working its open
+sub-decisions ONE at a time, most foundational first (ask me which item if
+unsure - one question, your rec). Remaining backlog:
+  E2 - Stage 8 Step 2: draggable EXIT (SL/TP) lines LIVE (money-path UX).
+  E3 - Stage 9 Step 3: auto-entry stub (MQL_TESTER-gated; optimization infra).
+  E6 - Drawdown Reduction Tier 3 (partial-lot close) - needs an E7 R2
+       reference run FIRST (ZERO observed behavior so far).
+  E7 - reference-EA behavior capture (research, no gates: R2 Tier 3, R5 BE;
+       R3 buy-seq de-prioritized).
 
 Gate order holds: locked decisions -> sealed matrix (money paths) ->
 confirmed plan -> build -> evidence-audited verification -> seal on my
 explicit word. One question per message, concrete numbers, your rec each;
 record every decision + rejected alternatives in STATE.md's locked-
-decisions log. Do not touch the MT5 tree (deploy is my manual step);
-recompute every money number before any PASS.
+decisions log. No code before a confirmed plan; no matrix before locked
+decisions. Do not touch the MT5 tree (deploy is my manual step); recompute
+every money number before any PASS.
 
-Note: E4-b36 committed locally, NOT pushed to origin (my call when to push).
-E1 pushed (origin/main @ 864effe). Open findings: none blocking (F3 closed
-= matrix X-5 verified; F4 design note). If the next item derives from the
-Shadow reference EA, treat it as reference never spec (OBSERVED/CHOSEN tags
-in docs/ENHANCEMENT_INPUT_*.md).
+If the picked item derives from the reference EA (Shadow - E6/E7 do; E2/E3
+do NOT): treat it as reference, never spec; each point is tagged OBSERVED or
+CHOSEN in docs/ENHANCEMENT_INPUT_*.md.
+
+Note: E5-b37 is UNCOMMITTED (I test before commit - my call); E4-b36
+committed locally, NOT pushed; E1 pushed (origin/main @ 864effe). Open
+findings: F5 (sealed-matrix reference-precedence arithmetic error - ANNOTATED
+in E5_MATRIX + STATE.md T2-O4 + findings; evidence-only, decision unchanged,
+resolved by live PR evidence this session); F3/F4 unchanged design notes.
 ```
 
 > After each future break, replace this "Current instance" block with a
