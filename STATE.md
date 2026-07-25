@@ -4,15 +4,24 @@
 # runtime copy, all compared to this manifest. Match = aligned in one
 # line. Disk + git are truth, never conversation or auto memory.
 
-build: E5-b37
+build: E6-b38
 file: TRTM.mq5
-sha256_16: 73dda148c79f1b27
-lines: 4568
-date: 2026-07-24
-# E5-b37 SEALED by Jeff 2026-07-25. Compiled clean, DEPLOYED (runtime == repo
-# 73dda148c79f1b27 / 4568), VERIFIED to the cent (docs/E5_VERIFY_CHECKLIST.md: all
-# 34 matrix rows - XAUUSD.s money paths + BTCUST K1/K2 + visual DS-1). Prior sealed
-# build was E4-b36. E5-b37 is UNCOMMITTED (Jeff's call).
+sha256_16: f7766c859e4d3c7a
+lines: 4674
+date: 2026-07-26
+# E6-b38 BUILT 2026-07-26 (repo src only) - NOT yet compiled, NOT deployed, NOT
+# sealed. Drawdown Reduction Tier 3 (partial-lot anchor slice) implemented per the
+# CONFIRMED plan docs/E6_PLAN_2026-07-26_gate3.md (8 touch points, +106 lines
+# 4568->4674). GATE ZERO PENDING: Jeff compiles in his terminal (0/0 expected),
+# then deploys, then Gate 4 verification -> seal. Until then:
+#   REPO src   = E6-b38 (f7766c859e4d3c7a / 4674)  <- this manifest tracks REPO.
+#   MT5 runtime = still E5-b37 (73dda148c79f1b27 / 4568) - E5 remains the DEPLOYED
+#     + SEALED build until Jeff compiles+deploys E6-b38. Resume protocol will show
+#     repo AHEAD of runtime by design; this is EXPECTED, not a mismatch STOP.
+# Prior SEALED build: E5-b37 (compiled+deployed+verified 2026-07-25, all 34 E5
+# rows). E5-b37 is committed (d094c65), UNPUSHED. E6-b38 is UNCOMMITTED (Jeff tests
+# before commit). Hygiene: 0 bare LF, ASCII-only, brace delta -1 (baseline-
+# preserved), parens balanced; no new global, no new persisted field.
 
 ## Environment note
 ALL charts are DEMO; multi-symbol attachments are test surface.
@@ -181,6 +190,37 @@ E7 (NEW 2026-07-23) Reference-EA behavior capture - RESEARCH task, NOT a
    run B's two fires); disambiguation would need an artificial basket,
    no longer a faithful reference. Formally parked as
    undeterminable-by-observation; C1 does not depend on the answer.
+   R2 (Tier 3) DELIVERED 2026-07-25: docs/STM Drawdown Reduction Tier3
+   Logs.txt captured 2 Tier 3 fires; analysis
+   docs/ENHANCEMENT_INPUT_2026-07-25_tier3.md (both fires recomputed to the
+   cent). Unblocked E6; E6 Gate 1 is now OPEN (see locked-decisions log
+   T3-O0/O2/O3/O4/O5/O6 locked 2026-07-25..26).
+E8 (NEW 2026-07-26, Jeff's idea; ADOPTED, own Gate 1 pending) PROFIT-FUNDED
+   TAIL SLICE - CHOSEN, TRTM-native (NOT reference-derived). After a full
+   T1/T2 close banks net profit +P on a tick, spend up to a fraction f of P
+   to ALSO partial-slice the NEW anchor (next-oldest survivor = deepest
+   remaining loser), the combined tick staying net >= (1-f)*P >= 0. Reuses
+   the Tier 3 partial-close primitive (E6 O1) but with a DIFFERENT funding
+   source/gate: standalone Tier 3 fires on a self-funding group that is
+   itself net-positive (guaranteed win); E8's slice realizes a PURE loss on
+   a loser, funded only by the just-banked harvest. RISK CHARACTER (must be
+   costed at Gate 1, cf. the 2026-07-21 martingale-basis R-a rejection): it
+   is a DIRECTIONAL tail-risk lever that bets AGAINST the basket's own
+   mean-reversion recovery thesis (the deep losers are held precisely to
+   profit when price reverts to TP); nets NEUTRAL at the instant (pays L out
+   of P), buying reduced future tail variance + a VWAP nudge toward TP, at
+   the cost of banked profit if price reverts. DEPENDS ON E6 (needs the
+   partial-close primitive + dispatcher landed first). Open sub-decisions to
+   spec at E8 Gate 1: E8-O1 reinvest fraction f (input; default off / 0);
+   E8-O2 target = new anchor only vs next-N losers; E8-O3 atomic sequencing
+   (harvest must be REALIZED before the funded slice is sized - no
+   hypothetical funding; partial-fill discipline); E8-O4 how L is measured
+   (realized close P/L in account currency; cross-currency valuation
+   collapses on USD-quote symbols); E8-O5 gate/skip when f*P < 1-lot-step
+   loss (nothing affordable to slice); E8-O6 interaction with the T3 gate
+   and single-fire rule (E8 rides a T1/T2 fire, so it is NOT a separate
+   dispatcher branch - it is a follow-on to a full-close fire). NOT STARTED;
+   no matrix, no code.
 
 ## Verified (demo, logs audited)
 Stages 1-7 SEALED (S7 sealed 2026-07-16 on b23; kill tests on b21).
@@ -1260,3 +1300,312 @@ STATE.md build:. sha256_16 (resume protocol) is the byte-level backstop.
   Verified gotchas (for anyone who ever revisits CLI compile): MetaEditor
   /log is UTF-16, and its process EXIT CODE is not pass/fail (returned 1
   on a clean 0/0 build) - parse the "Result:" line, never $?.
+
+2026-07-25 E6 T3-O0 ADOPT TIER 3 = YES, DEFAULT-OFF (Gate 1 LOCKED; matrix +
+plan still required before any code). Tier 3 (Drawdown Reduction Tier 3 -
+PARTIAL-lot close) is adopted as a DISTINCT third trigger alongside sealed
+Tier 1 (points) and Tier 2 (percent-of-balance), behind a new default-off
+input InpEnableTier3 (same opt-in pattern as InpEnableTier1/Tier2). E6 now
+opens its remaining Gate 1 sub-decisions T3-O1..O9 one at a time.
+  EVIDENCE (E7 R2, docs/ENHANCEMENT_INPUT_2026-07-25_tier3.md, two fires
+  recomputed to the cent from docs/STM Drawdown Reduction Tier3 Logs.txt):
+  Tier 3 SLICES the oldest anchor (closes ClosePercent of its lots, floored
+  to lot step, anchor >= MinLots) and closes all profitables FULLY, then tests
+  the CLOSING group's VWAP - {anchor SLICE being closed} + profitables, i.e.
+  the anchor counted at its SLICE vol (the lots being closed), NOT its
+  remainder - against MinProfitPoints (200). Structurally identical to Tier 1
+  (which gates on {full anchor} + profitables); Tier 3 just substitutes the
+  anchor's slice for its full volume, the remainder surviving untouched. This
+  lets Tier 3 fire in the deep-drawdown regime
+  Tier 1/Tier 2 are structurally locked out of: at FULL anchor both observed
+  groups were at/below break-even (fire 1 06/25 +80.1 pts, ~+10 USD; fire 2
+  07/02 -77.4 pts, a net LOSS), so T1 (needs 150) and T2 (needs ~+30 USD) both
+  failed - only the sliced-anchor reframing cleared 200 (both fires ~+206 pts).
+  So Tier 3 is a genuine, non-redundant deeper pressure valve, not a duplicate
+  of T1/T2. It is POINTS-based like Tier 1, so it needs NO cross-currency FX
+  path (unlike Tier 2's T2-O7).
+  RATIONALE for adopt: the reference demonstrates a real capability gap the
+  sealed tiers cannot cover (harvesting profit while a deep anchor loss keeps
+  the full-basket gate underwater), and default-off keeps it strictly opt-in
+  with zero behavior change to any existing chart until Jeff enables it.
+  Rejected DECLINE/PARK: judged premature to forgo the capability given clean
+  two-fire evidence; the cost (a new partial-lot primitive + a C3-ladder
+  interaction) is real but is exactly what the remaining T3-O sub-decisions
+  and the matrix exist to bound - not a reason to skip Gate 1.
+  Rejected ADOPT-WITH-SCOPE-CAVEAT-FIRST: no scope constraint is foundational
+  enough to precede the primitive (T3-O1) and gate (T3-O2) definitions; any
+  such constraint (slice-only, drawdown-floor gating) is cleaner to lock as
+  its own T3-O row once the mechanism is defined, not bolted onto O0.
+  UNOBSERVED / carried into later T3-O rows (NOT decided here): the partial-
+  close primitive itself (O1), MinLots eligibility + sub-MinLots anchor
+  behavior (O3), slice rounding mode (O4 - floor observed, 0.015->0.01),
+  sliced-anchor vs C3 preserved-index ladder (O5), 3-way T1/T2/T3 precedence
+  (O6 - the tiers never competed in the run; T3 only fired when T1/T2 failed),
+  close order + partial-fill on the slice leg (O7), BUY lap (O8 - all Shadow
+  data SELL), post-fire TP + recovery refresh (O9). NO code, NO matrix yet.
+
+2026-07-25 E6 T3-O2 FIRE CONDITION = FIXED-PERCENT SLICE + SLICED-ANCHOR VWAP
+GATE (Gate 1 LOCKED; matrix + plan still required before any code). Tier 3's
+trigger: (1) slice = ClosePercent of the OLDEST anchor's lots (anchor must be
+>= MinLots to be eligible; rounding + minimum deferred to T3-O4); (2) form the
+CLOSING group = {the anchor SLICE being closed, i.e. the anchor counted at its
+slice vol NOT its remainder} + ALL currently-profitable positions; the
+remaining anchor survives and is NOT in the gate group; (3) FIRE iff that
+group's lot-weighted VWAP clears MinProfitPoints per lot in front of the
+direction-derived far-side price (SELL->Ask, BUY->Bid). Structurally = Tier 1
+(anchor slice substituted for full anchor); the gate is measured over the
+ACTUALLY-CLOSED lots, same as Tier 1's group gate.
+  ARITHMETIC PROOF the gate uses SLICE not remainder (fire 2, anchor #4 full
+  0.03 / slice 0.01 / remaining 0.02, logged header VWAP 1.92888): slice 0.01
+  -> (0.01*1.88917+0.13*1.93219+0.12*1.92861)/0.26 = 1.92888 MATCHES; remaining
+  0.02 -> /0.27 = 1.92741 does NOT; full 0.03 -> /0.28 = 1.92605 does NOT. Fire
+  1 (slice==remaining==0.01) cannot disambiguate; fire 2 forces slice.
+MinProfitPoints is Tier 3's OWN threshold (Shadow ran 200; TRTM default set in
+a later row). POINTS-based like Tier 1 => NO cross-currency valuation path
+(Tier 2's T2-O7 does NOT recur).
+  BASIS: recomputed exact on both Shadow fires (docs/ENHANCEMENT_INPUT_2026-
+  07-25_tier3.md OBSERVED-1/6): sliced-anchor VWAP 1.90990 (fire 1) and 1.92888
+  (fire 2), both ~+206 pts vs the 200 gate. The sliced framing is what lets
+  Tier 3 fire where T1/T2 cannot (full-anchor +80.1 / -77.4 pts).
+  Rejected THRESHOLD-SOLVED MINIMAL SLICE (close only the smallest slice that
+  makes the group clear MinProfitPoints): more anchor-preserving in principle,
+  but at TRTM's 0.01 lot step it COLLAPSES to the same 1-step slice (fire 2:
+  max clearing slice <= 0.0104 -> 0.01, identical to fixed-percent-floored), so
+  it buys nothing at TRTM's lot regime while adding non-reference math and extra
+  matrix rows. Re-open only if TRTM ever trades large enough anchors that the
+  two diverge materially.
+  Rejected FULL-ANCHOR GATE + PARTIAL EXECUTION (gate like Tier 1 on the full
+  anchor, execute a partial close): can NEVER fire when Tier 1 doesn't, so it
+  forfeits the entire deep-drawdown capability that is Tier 3's whole reason to
+  exist - both observed fires would not have fired. Recorded rejected.
+
+2026-07-26 E6 T3-O3 MinLots = ANCHOR-ELIGIBILITY FLOOR; SUB-MinLots ANCHOR ->
+TIER 3 STANDS DOWN (Gate 1 LOCKED; matrix + plan still required before any
+code). The oldest anchor must have full volume >= MinLots (>= 2 lot steps) to
+be Tier-3-eligible, so a >= 1-step slice always leaves >= 1 step alive (Tier 3
+is a PARTIAL close by definition - it must never zero the anchor). When the
+oldest anchor is BELOW MinLots (e.g. it is already at the 0.01 lot floor, or a
+prior Tier 3 fire reduced it below MinLots), Tier 3 STANDS DOWN for that basket
+- it does NOT slice, does NOT fall through to a full close - and the full-close
+tiers (Tier 1 points / Tier 2 percent) cover that basket if THEY qualify.
+  BASIS (Jeff 2026-07-26, and the reason all three tiers were enabled in the
+  E7 R2 run): "Tier 3 could not fire if the anchor is already 0.01 - nothing to
+  slice." A 0.01 anchor sliced by any amount is a FULL close, which is Tier 1's
+  job, not Tier 3's. MinLots exists precisely to guarantee slice-ability with a
+  surviving remainder. Shadow ran MinLots=0.02 (TRTM default set in a later
+  row); at TRTM's 0.01 base lot MinLots=0.02 means "anchor must be at least the
+  2nd rung's size", which the martingale ladder reaches quickly.
+  EVIDENCE the stand-down is real, not theoretical: fire 1 left anchor #3 at
+  0.01 (< MinLots 0.02); it was never sliced again - the next Tier 3 fire (fire
+  2) sliced the NEW oldest eligible anchor #4 (0.03) after #3 had left the book.
+  COUPLING to T3-O6 (precedence, still open): "stands down, Tier 1/2 cover it"
+  presumes Tier 1/2 are ENABLED and may fire on the same basket - so the 3-way
+  precedence/coexistence decision (O6) must state what happens to a
+  sub-MinLots-anchor basket when Tier 1/2 are DISABLED (then no tier fires; the
+  basket rides to its sequence TP - acceptable, but must be stated).
+  Rejected SLICE-THEN-FULL-CLOSE FALLBACK (Tier 3 closes a sub-MinLots anchor
+  FULLY itself): duplicates Tier 1's close mechanics inside Tier 3, blurs the
+  tier boundary (Tier 3 = partial ONLY), and forces Tier 3 to own a full-anchor
+  loss-realization path it was designed to avoid. If a full close of a tiny
+  anchor is wanted, that is Tier 1's role - enable Tier 1. Re-open only if a
+  Tier-3-standalone (Tier 1/2 off) config becomes a real requirement AND tiny
+  anchors must still be harvested.
+
+2026-07-26 E6 T3-O4 SLICE NORMALIZATION = FLOOR TO LOT STEP, CLAMPED PARTIAL
+(Gate 1 LOCKED; matrix + plan still required before any code).
+    slice = floor(anchorLot * ClosePercent / lotStep) * lotStep
+    slice = max(1 lotStep, min(slice, anchorLot - 1 lotStep))
+FLOOR (not round, not ceil); a lower clamp of 1 lot step so a small ClosePercent
+still slices something; an upper clamp of anchorLot - 1 step so the slice is
+ALWAYS partial (never zeroes the anchor - Tier 3 is partial by definition, a
+full close is Tier 1's job). With T3-O3 (anchor >= MinLots >= 2 steps) the
+clamps are always satisfiable.
+  BASIS: matches Shadow exactly (fire 1: floor(0.02*0.5)=0.01; fire 2:
+  floor(0.03*0.5=0.015)=0.01, NOT 0.02). Because the gate is measured over the
+  CLOSED lots (T3-O2), a LARGER slice puts MORE anchor loss into the closing
+  group and makes the gate HARDER: fire 2 under round-half-up (slice 0.02) gives
+  group VWAP (0.02*1.88917+0.13*1.93219+0.12*1.92861)/0.27 = 1.92741, margin 59
+  pts < 200 -> would NOT have fired. So FLOOR is simultaneously (a) the reference
+  behavior, (b) the least loss realized per fire (gentler valve), and (c) the
+  only rounding under which both observed fires actually clear the gate.
+  NOTE the realized close fraction DIVERGES from nominal ClosePercent when floor
+  bites (fire 2: 0.01/0.03 = 33%, not 50%); at TRTM's 0.01 base lot the floor
+  makes the slice effectively 1 lot step for any anchor of 0.02-0.03, so
+  ClosePercent only bites materially on larger anchors. Documented, not a defect.
+  Rejected ROUND-HALF-UP and CEIL: realize more anchor loss per fire, diverge
+  from Shadow, and (round-up) would have blocked a real observed fire.
+
+2026-07-26 E6 T3-O5 SLICED ANCHOR = RESIDUAL SURVIVOR; C3 + E4 O1 INHERITED,
+NOTHING STORED (Gate 1 LOCKED; matrix + plan still required before any code).
+After a Tier 3 slice, the anchor remains a SINGLE open position at its
+UNCHANGED entry price / ladder address, at reduced volume (full - slice). It is
+treated as an ordinary smaller open position:
+  - Rungs ABOVE the anchor keep their C3 preserved-index addresses (a rung is
+    an ADDRESS with a DERIVED lot = ComputeLevelLot(N)); the profitables that
+    Tier 3 closed re-arm by the sealed E4 O1 unrestricted-refill rule (recovery
+    re-adds above the top survivor as price moves adverse). Tier 3 changes
+    NOTHING about that path.
+  - The anchor (the FAVOURABLE extreme) NEVER re-arms - inherit E4 O1's
+    direction-reality: the ladder extends adverse-only, above the top survivor,
+    never back down to the anchor. A sliced anchor therefore just stays smaller
+    until basket TP / SL / a further slice (if still >= MinLots).
+  - The residual volume is NOT a new persisted field. TRTM already LIVE-READS
+    open position volumes on reconcile; the broker position's volume IS the
+    state. C3's derived-only / nothing-stored invariant is preserved.
+  - All money math reads the ACTUAL reduced volume: lot-weighted VWAP/TP (E1
+    basis) correctly shifts when the anchor shrinks; the SL anchor price is the
+    anchor's ENTRY, unchanged by slicing volume; ComputeLevelLot governs only
+    the NEXT rung to ADD (by Level counter), never the anchor's current lot, so
+    the SEALED martingale path is untouched.
+  MATRIX REQUIREMENT: must-NOT-fire rows proving the sealed martingale / ladder
+  / SL-anchor output is BIT-IDENTICAL to E5-b37 when Tier 3 is disabled or does
+  not fire, plus a row proving a post-slice basket's VWAP/TP recompute reads the
+  reduced anchor volume (fire 1 recompute: survivor VWAP 1.89921 over 0.34 with
+  anchor at its remaining 0.01 - already confirmed in the E7 R2 input doc).
+  Rejected RE-ARM ANCHOR TO FULL DERIVED LOT: contradicts sealed E4 O1 (anchor
+  never re-arms; adverse-only extension). Rejected PERSIST RESIDUAL AS NEW STATE
+  FIELD: breaks C3 derived-only, adds uninit-field / backward-compat / self-test
+  burden, and is redundant because position volume is already live-read.
+
+2026-07-26 E6 T3-O6 PRECEDENCE = T2 -> T1 -> T3, SINGLE-FIRE PER TICK (Gate 1
+LOCKED; matrix + plan still required before any code). Extend E5's sealed
+EvaluateBasketClose dispatcher (Tier 2 percent FIRST, then Tier 1 points) with
+Tier 3 LAST: evaluate Tier 2, else Tier 1, else Tier 3; the FIRST tier that
+qualifies fires and returns; NO other tier fires that tick (a later tick
+re-evaluates the smaller basket). Tier 3 (partial) is the last-resort valve,
+reached only when the FULL-close tiers do not qualify - the deep-drawdown case
+it exists for.
+  RATIONALE: T1/T2 are FULL closes (relieve the whole anchor + all profitables,
+  banking profit on the entire group); T3 is PARTIAL (slices the anchor, leaves
+  it alive). When both a full tier and T3 qualify on one tick, the full close
+  relieves more exposure for the same guaranteed-positive harvest, so full is
+  preferred - T3 last. Note T1 (150) and T3 (200) can each qualify independently
+  (T3's slice-group margin > T1's full-group margin, but T3's threshold is
+  higher), so both-qualify and only-one-qualify ticks all occur; last-place T3
+  is correct in every case.
+  UNOBSERVED: the tiers NEVER competed in the E7 R2 run (T3 fired only when
+  T1/T2 failed at full anchor). MATRIX MUST carry a CONSTRUCTED tick where T1
+  (full) AND T3 (slice) both qualify, proving the dispatcher fires T1 and skips
+  T3; plus a T2+T3 both-qualify tick.
+  Rejected T3-FIRST: a more-permissive partial pre-empts a qualifying full
+  close, leaving more anchor exposure alive for less relief. Rejected MULTI-FIRE
+  (>1 tier per tick): E5 is single-fire by design; overlapping groups on one
+  tick risk double-acting on shared positions and break the per-fire tested
+  arithmetic.
+  SPUN OUT -> E8 (Jeff's idea 2026-07-26, ADOPTED as a separate item, NOT folded
+  into E6): after a full T1/T2 close banks net +P, spend up to a fraction f of P
+  to ALSO slice the NEW anchor (next-oldest, deepest remaining loser), combined
+  tick staying net >= (1-f)*P >= 0. Distinct from the three self-funding tiers
+  because it realizes a PURE loss on a loser funded by external harvest - a
+  directional tail-risk lever that bets AGAINST the basket's own mean-reversion
+  recovery thesis (nets neutral at the instant; buys reduced future tail
+  variance + a VWAP nudge toward TP). Given the risk-changing character it gets
+  its own Gate 1, not E6's reference-derived scope. See E8 backlog entry.
+
+2026-07-26 E6 T3-O7 CLOSE ORDER = PROFITABLES-FIRST, ANCHOR-SLICE LAST (inherit
+E4 O5) (Gate 1 LOCKED; matrix + plan still required before any code). The Tier 3
+group closes in this order: (1) close every profitable member FULLY, descending
+ticket; (2) slice the anchor LAST via the partial-close primitive. Failure rule:
+if ANY profitable leg fails, ABORT the whole fire BEFORE the anchor is touched -
+the loss leg never opens, so no half-closed group exists. If the anchor SLICE
+itself fails or short-fills, the covering profit is ALREADY banked (net positive
+secured), so accept + log, NO retry - the anchor simply stays at a larger volume,
+which is safe (it is a survivor either way and re-qualifies on a later tick).
+  BASIS: identical reasoning to sealed E4 O5 - realize the loss leg only after
+  the covering profit is banked, so a mid-group failure can never leave the tick
+  net-negative. Here the loss leg is a PARTIAL close, which only strengthens the
+  case (the anchor remaining larger on a failed slice is harmless). DIVERGES
+  from Shadow's OBSERVED anchor-slice-first order (E7 R2 OBSERVED-4), exactly as
+  T1 diverged. Market-close slippage vs the gate-tick margin is accepted as in
+  T1/T2.
+  PRIMITIVE NOTE (feeds T3-O1): the anchor leg uses a PARTIAL close
+  (CTrade::PositionClosePartial-class) of the slice volume; the profitables use
+  the existing full-close path. Partial-close broker constraints (min partial
+  lot, lot step) are an O1 detail; a broker rejection of the partial leg falls
+  into the accept+log branch above.
+  Rejected ANCHOR-SLICE-FIRST (Shadow): realizes the anchor loss before the
+  cover is banked; a mid-group profitable failure leaves net-negative. Rejected
+  SLICE-LAST-WITH-RETRY: adds retry logic T1 lacks for marginal benefit (a failed
+  slice leaves a harmless larger survivor).
+
+2026-07-26 E6 T3-O1 / T3-O8 / T3-O9 = INHERIT SEALED BEHAVIOR (Gate 1 LOCKED;
+matrix + plan still required before any code). The three near-certain inherits,
+confirmed by Jeff 2026-07-26. These COMPLETE E6 Gate 1 (T3-O0..O9 all locked).
+  T3-O1 PARTIAL-CLOSE PRIMITIVE = native CTrade::PositionClosePartial(ticket,
+  sliceVol) through the EXISTING sealed order-send wrapper + retcode handling.
+  Slice volume already normalized by T3-O4. MT5 keeps the SAME ticket at reduced
+  volume, so the anchor keeps its identity / ladder address (supports T3-O5
+  live-read; no new persisted state). Broker min-partial-lot / lot-step rejection
+  routes to T3-O7's accept+log branch. Rejected EMULATION (close full + re-open
+  remainder): new ticket / new entry / lost identity (breaks T3-O5), double
+  spread, worse re-entry price.
+  T3-O8 FAR-SIDE = DIRECTION-DERIVED (inherit E4 O4): SELL closes at Ask
+  (OBSERVED both fires: 1.90784, 1.92682), BUY at Bid (platform invariant). Matrix
+  carries BOTH laps; the BUY lap is validated against the platform invariant +
+  arithmetic (Tier 3 BUY fire is UNOBSERVED - all Shadow data SELL). Rejected
+  SELL-ONLY: leaves the known direction-only defect class E4 O4 exists to prevent
+  (a fixed Bid/Ask read passes SELL, breaks on the first live BUY basket).
+  T3-O9 POST-FIRE = E1 LOT-WEIGHTED TP + C3 PRESERVED-INDEX (inherit): recompute
+  sequence TP as the lot-weighted VWAP over survivors INCLUDING the reduced
+  anchor at its remaining volume (OBSERVED exact, fire 1: avg 1.89921 / vol 0.34 /
+  count 7, TP = VWAP - offset); REJECT Shadow's count-based re-index in favour of
+  C3 preserved-index (Level from the highest surviving rung's address);
+  RefreshRecoveryState ATOMIC with fire completion (E4 O3). Rejected SHADOW
+  COUNT RE-INDEX: leaves the basket permanently lighter at the top, degrading TP
+  (already rejected for T1/T2).
+
+2026-07-26 E6 T3-GATE A = OWN INPUT InpTier3MinTrades, DEFAULT 4 (Gate 1 LOCKED;
+matrix + plan already carry it). Flagged by Jeff 2026-07-26: Tier 3 must have its
+own "Min Trades to Activate" input, SIMILAR TO Tier 1 (InpTier1MinTrades) and
+Tier 2 (InpTier2MinTrades) - it had been carried in the input surface but never
+locked as its own decision (the E5 log has an explicit "GateA" entry; E6's did
+not). DECISION: Tier 3 has its OWN count-based Gate A input InpTier3MinTrades
+(default 4, matching Shadow InpPC3_MinTrades and both other tiers); Tier 3 is
+eligible only when openCount >= InpTier3MinTrades, independent of Tier 1/Tier 2's
+own MinTrades. TIER-3 NUANCE (documented, not a divergence): a Tier 3 fire
+reduces the open count only by the PROFITABLES closed - the anchor SURVIVES the
+slice and stays counted - so the count falls more slowly per fire than a full-
+close tier. Dormancy/re-activation rows G-D3 (T3-D1/D2) already reflect this.
+  Rejected SHARE a single MinTrades across all three tiers: each tier is an
+  independent valve with its own thresholds (Shadow ships PC1/PC2/PC3 MinTrades
+  separately); a shared gate would couple their activation. Rejected NO Gate A
+  (fire at any depth): loses the shallow-basket dormancy guard T1/T2 have.
+  NO code/matrix change - InpTier3MinTrades (default 4) is already in
+  docs/E6_MATRIX.md (input surface + G-T3/G-D3) and the Gate 3 plan (TP-1/TP-5a);
+  this entry records the previously-implicit decision.
+
+## E6 (Tier 3) GATE 1 COMPLETE - 2026-07-26
+All ten sub-decisions + Gate A locked (T3-O0 adopt/default-off; O1 native
+partial-close primitive; O2 fire condition = fixed-percent slice + SLICED-anchor-
+VWAP gate; O3 MinLots eligibility + sub-MinLots stand-down; O4 slice = floor,
+clamped partial; O5 sliced anchor = residual survivor, C3 + E4 O1 inherited,
+nothing stored; O6 precedence T2->T1->T3 single-fire; O7 profitables-first /
+slice-last / abort-before-slice; O8 direction-derived far side, both laps; O9 E1
+VWAP TP + C3 index; GATE A = own InpTier3MinTrades default 4, mirroring T1/T2).
+Jeff's profit-funded follow-on slice SPUN OUT to E8 (own Gate 1).
+GATE 2: docs/E6_MATRIX.md SEALED rev 1 by Jeff 2026-07-26 (13 row-groups, 36
+rows; both reference fires recomputed to the cent; slice-vs-remainder
+disambiguated by FIRE 2; floor requirement proven; T2->T1->T3 precedence rows
+UNOBSERVED -> verify LIVE; must-NOT-fire byte-identity + SL-not-re-anchored
+rows). GATE 3: docs/E6_PLAN_2026-07-26_gate3.md DRAFTED 2026-07-26 (8 touch
+points, all in src/TRTM.mq5; +70/95 lines est.). EXTENDS E5-b37's shared
+dispatcher / FormBasketGroup / FireGroupClose - adds SliceLegAtMarket
+(PositionClosePartial sibling, NO MarkEAClosed since the anchor survives),
+ComputeSlicedAnchorVWAP (gate on the SLICE vol), an anchorSliceVol param on
+FireGroupClose (default 0 => T1/T2 byte-identical), a 3rd dispatcher branch
+(T2->T1->T3), 5 inputs, the DD-Reduce dashboard extension. THREE findings REMOVE
+code: F-a SL-not-re-anchored is FREE (re-anchor keyed on anchor LEVEL, unchanged
+by a slice); F-b survivor TP self-corrects (ComputeTargets reads live volume);
+F-c F3 impossible (OnTradeTransaction is EMPTY - attribution poll-based). NO new
+persisted field. PLAN CONFIRMED by Jeff 2026-07-26.
+BUILD: E6-b38 IMPLEMENTED 2026-07-26 (repo src src/TRTM.mq5, f7766c859e4d3c7a /
+4674, +106 lines). All 8 touch points done: TRTM_BUILD E6-b38; 5 Tier 3 inputs
+(InpEnableTier3 default off, MinTrades 4, MinProfitPts 200, MinLots 0.02,
+ClosePercent 50); ComputeSlicedAnchorVWAP (gate on slice vol); SliceLegAtMarket
+(PositionClosePartial, NO MarkEAClosed); FireGroupClose +anchorSliceVol=0.0
+(T1/T2 unchanged); Tier 3 dispatcher branch (T2->T1->T3); DD-Reduce dashboard
++T3; call-site + tag. Hygiene clean (0 bare LF, ASCII, brace -1 baseline, no new
+global/persisted field). GATE ZERO PENDING: Jeff compiles (0/0 expected) +
+deploys, then Gate 4 (docs/E6_VERIFY_CHECKLIST.md) evidence-audited verification
+-> seal. Runtime still E5-b37 until deploy (manifest header notes the expected
+repo-ahead-of-runtime state). E6-b38 UNCOMMITTED.

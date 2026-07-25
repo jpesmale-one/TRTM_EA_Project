@@ -50,29 +50,35 @@ every money number before any PASS.
 
 ---
 
-## Current instance - pre-filled for the NEXT break (E5 SEALED E5-b37; no item in-flight)
+## Current instance - pre-filled for the NEXT break (E6-b38 BUILT, pre-compile; mid-pipeline at Gate 3->4)
 
 ```
 Resume TRTM. Run the section 0 resume protocol FIRST: git status +
 sha256_16 + wc -l of src/TRTM.mq5 AND the MT5 runtime copy, all compared
-to STATE.md. BOTH the repo src AND the MT5 runtime copy must now be build
-E5-b37, 73dda148c79f1b27, 4568 lines (E5-b37 was compiled + deployed +
-SEALED 2026-07-25, so runtime == repo). Report aligned in one line, or STOP
-on a REPO-vs-manifest mismatch.
+to STATE.md. The REPO src must be build E6-b38, f7766c859e4d3c7a, 4674
+lines. The MT5 RUNTIME COPY is EXPECTED to still be E5-b37
+(73dda148c79f1b27 / 4568): E6-b38 is BUILT but NOT compiled and NOT
+deployed. Report "repo aligned at E6-b38; runtime lags at E5-b37 (compile+
+deploy pending)" - that is EXPECTED, not a STOP. Only a REPO-vs-manifest
+mismatch (repo src != f7766c859e4d3c7a / 4674) is a real STOP.
 
-Then read docs/HANDOVER_2026-07-25_E5_b37_sealed.md and STATE.md. E1, E4,
-and E5 are ALL SEALED/CLOSED (do NOT re-open). The core loop + Drawdown
-Reduction Tier 1 (E4) and Tier 2 (E5) are done. Nothing is mid-pipeline.
+Then read docs/HANDOVER_2026-07-26_E6_b38_built.md and STATE.md. E1, E4,
+E5 are SEALED (do NOT re-open). E6 (Drawdown Reduction Tier 3 - partial-lot
+anchor slice) is MID-PIPELINE: Gate 1 LOCKED (T3-O0..O9 + Gate A), matrix
+SEALED (docs/E6_MATRIX.md rev 1), plan CONFIRMED
+(docs/E6_PLAN_2026-07-26_gate3.md), BUILT E6-b38. Do NOT re-plan sealed rows.
 
-Pick the NEXT enhancement-backlog item and open its Gate 1, working its open
-sub-decisions ONE at a time, most foundational first (ask me which item if
-unsure - one question, your rec). Remaining backlog:
-  E2 - Stage 8 Step 2: draggable EXIT (SL/TP) lines LIVE (money-path UX).
-  E3 - Stage 9 Step 3: auto-entry stub (MQL_TESTER-gated; optimization infra).
-  E6 - Drawdown Reduction Tier 3 (partial-lot close) - needs an E7 R2
-       reference run FIRST (ZERO observed behavior so far).
-  E7 - reference-EA behavior capture (research, no gates: R2 Tier 3, R5 BE;
-       R3 buy-seq de-prioritized).
+Resume E6 at the GATE 3->4 boundary. My call: compile + deploy + live-test
+all happen THIS session. Order: (1) I compile in my terminal (gate zero, 0/0
+expected) - if errors, fix src/TRTM.mq5, re-run hygiene, re-bump the manifest;
+(2) you draft docs/E6_VERIFY_CHECKLIST.md from the sealed matrix (mirror
+E5_VERIFY_CHECKLIST.md) and recompute EVERY money number to the cent; (3) I
+deploy, we run Gate 4 on live XAUUSD.s; (4) seal on my explicit word. Key
+verify rows: T3-1/T3-2 SELL+BUY fire (slice, sliced-VWAP, margin to the cent);
+T3-6 gate-on-SLICE (0.03 anchor -> slice 0.01, full-anchor would fail); T3-SL4
+sub-MinLots stand-down; T3-SL5 floor; T3-H3 SL byte-identical across a slice;
+T3-PR2/PR3 CONSTRUCTED both-qualify ticks (full tier pre-empts Tier 3 -
+UNOBSERVED, verify live); T3-R1/R2/R3 off/never-fire/no-persist.
 
 Gate order holds: locked decisions -> sealed matrix (money paths) ->
 confirmed plan -> build -> evidence-audited verification -> seal on my
@@ -82,15 +88,16 @@ decisions log. No code before a confirmed plan; no matrix before locked
 decisions. Do not touch the MT5 tree (deploy is my manual step); recompute
 every money number before any PASS.
 
-If the picked item derives from the reference EA (Shadow - E6/E7 do; E2/E3
-do NOT): treat it as reference, never spec; each point is tagged OBSERVED or
-CHOSEN in docs/ENHANCEMENT_INPUT_*.md.
+E6 (Tier 3) is reverse-engineered from a reference EA (Shadow) - treat it as
+reference, never spec; each point is tagged OBSERVED or CHOSEN in
+docs/ENHANCEMENT_INPUT_2026-07-25_tier3.md. The T2->T1->T3 both-qualify
+precedence is UNOBSERVED (the tiers never competed) - verify LIVE.
 
-Note: E5-b37 is UNCOMMITTED (I test before commit - my call); E4-b36
-committed locally, NOT pushed; E1 pushed (origin/main @ 864effe). Open
-findings: F5 (sealed-matrix reference-precedence arithmetic error - ANNOTATED
-in E5_MATRIX + STATE.md T2-O4 + findings; evidence-only, decision unchanged,
-resolved by live PR evidence this session); F3/F4 unchanged design notes.
+Note: E6-b38 is UNCOMMITTED (I test before commit - my call); E5-b37 committed
+locally (d094c65), E4-b36 committed, NONE pushed; E1 pushed (origin/main @
+864effe). E8 (profit-funded follow-on slice - my idea) is PARKED with its own
+Gate 1, depends on E6. Open findings: F3 (impossible in TRTM - empty
+OnTradeTransaction), F4 (design note), F5 (E5 evidence-only, resolved).
 ```
 
 > After each future break, replace this "Current instance" block with a

@@ -19,7 +19,7 @@
 
 #include <Trade\Trade.mqh>
 
-#define TRTM_BUILD  "E5-b37"  // internal build tag, bump per delivery
+#define TRTM_BUILD  "E6-b38"  // internal build tag, bump per delivery
 
 //+------------------------------------------------------------------+
 //| ENUMS                                                            |
@@ -100,6 +100,13 @@ input group "=== Drawdown Reduction - Tier 2 (E5) ==="
 input bool   InpEnableTier2        = false; // Enable Tier 2 (percent-of-balance basket close)
 input int    InpTier2MinTrades     = 4;     // Tier 2: Min Trades to Activate (open count, Gate A)
 input double InpTier2ProfitPercent = 1.0;   // Tier 2: Min group profit, % of account BALANCE (Gate B)
+
+input group "=== Drawdown Reduction - Tier 3 (E6) ==="
+input bool   InpEnableTier3        = false; // Enable Tier 3 (partial-lot anchor slice)
+input int    InpTier3MinTrades     = 4;     // Tier 3: Min Trades to Activate (open count, Gate A)
+input int    InpTier3MinProfitPts  = 200;   // Tier 3: Min sliced-group margin (points/lot, Gate B; symbol-relative)
+input double InpTier3MinLots       = 0.02;  // Tier 3: Min anchor lots to be slice-eligible (T3-O3)
+input double InpTier3ClosePercent  = 50.0;  // Tier 3: slice = this % of the anchor's lots (T3-O4)
 
 input group "=== Filters & Safety (Stage 7) ==="
 input bool   InpSpreadFilter   = true;  // Spread Filter (recovery entries only)
@@ -1089,6 +1096,25 @@ double ComputeWeightedVWAP(const ulong &tk[], const int n)
    return (sumVol > 0.0) ? sumWV / sumVol : 0.0;
   }
 
+// E6 (Tier 3): lot-weighted VWAP of the CLOSING group where the anchor contributes
+// only its SLICE volume (the lots being closed, T3-O2/T3-6), every other member its
+// full live volume. Sibling of ComputeWeightedVWAP so the Tier 1/2/ComputeTargets
+// basis stays byte-identical. Returns 0.0 with no live volume.
+double ComputeSlicedAnchorVWAP(const ulong &tk[], const int n,
+                               const ulong anchorTk, const double sliceVol)
+  {
+   double sumWV = 0.0, sumVol = 0.0;
+   for(int i = 0; i < n; i++)
+     {
+      if(!PositionSelectByTicket(tk[i]))
+         continue;
+      double v = (tk[i] == anchorTk) ? sliceVol : PositionGetDouble(POSITION_VOLUME);
+      sumWV  += v * PositionGetDouble(POSITION_PRICE_OPEN);
+      sumVol += v;
+     }
+   return (sumVol > 0.0) ? sumWV / sumVol : 0.0;
+  }
+
 // Computes the sequence's target TP and SL from current structure.
 // tp/sl of 0.0 mean "not managed" (feature disabled).
 void ComputeTargets(double &tp, double &sl)
@@ -1393,6 +1419,33 @@ bool CloseLegAtMarket(const ulong ticket, const int level)
      }
    MarkEAClosed(ticket);   // b9-2: liveness attributes this correctly
    Log(LOG_INFO, StringFormat("Closed L%d ticket %I64u @ %s", level, ticket,
+                              DoubleToString(g_trade.ResultPrice(), _Digits)));
+   return true;
+  }
+
+// E6 (Tier 3, T3-O1): partial close of ONE anchor leg (sliceVol of its lots) via the
+// sealed CTrade wrapper. Sibling of CloseLegAtMarket. CRITICAL DIFFERENCE: does NOT
+// MarkEAClosed - the position SURVIVES the partial close, so flagging its ticket
+// would misattribute a LATER broker TP/SL close of the (eventually) full anchor as
+// EA-closed. The surviving anchor needs no liveness attribution (it does not
+// disappear; CheckSequenceLiveness retains it). Returns true on success OR a benign
+// 10036 race; false on a genuine failure (the O7 caller logs + accepts, no retry).
+bool SliceLegAtMarket(const ulong ticket, const int level, const double sliceVol)
+  {
+   if(!g_trade.PositionClosePartial(ticket, sliceVol))
+     {
+      if((int)g_trade.ResultRetcode() == 10036)   // position already gone (race)
+        {
+         Log(LOG_INFO, StringFormat("Partial close on ticket %I64u: broker exit filled first (10036) - benign race, liveness attributes it", ticket));
+         return true;
+        }
+      Log(LOG_ERROR, StringFormat("Partial close FAILED on ticket %I64u (retcode %d: %s)",
+                                  ticket, (int)g_trade.ResultRetcode(), g_trade.ResultRetcodeDescription()));
+      return false;
+     }
+   Log(LOG_INFO, StringFormat("Tier 3: sliced L%d ticket %I64u by %.2f lot (remaining %.2f) @ %s",
+                              level, ticket, sliceVol,
+                              (PositionSelectByTicket(ticket) ? PositionGetDouble(POSITION_VOLUME) : 0.0),
                               DoubleToString(g_trade.ResultPrice(), _Digits)));
    return true;
   }
@@ -2191,7 +2244,8 @@ bool FormBasketGroup(int &openCount, ulong &anchorTk, int &anchorLvl,
 // both tiers => O5 lives in ONE place.
 bool FireGroupClose(const ulong &grp[], const int &grpLvl[],
                     const ulong anchorTk, const int anchorLvl,
-                    const int dir, const string tierTag)
+                    const int dir, const string tierTag,
+                    const double anchorSliceVol = 0.0)
   {
    g_trade.SetExpertMagicNumber(g_magic);
    g_trade.SetDeviationInPoints(InpDeviationFilter ? (ulong)InpMaxDeviationPts : 1000000);
@@ -2227,9 +2281,17 @@ bool FireGroupClose(const ulong &grp[], const int &grpLvl[],
          return true;   // fired (partial); the anchor is NOT touched this tick
         }
      }
-   // All profitables closed -> close the ANCHOR last (X-1). If it fails it stays
+   // All profitables closed -> handle the ANCHOR last (X-1). If it fails it stays
    // open; realized is pure profit (X-3) and the tier retargets it next tick.
-   if(PositionSelectByTicket(anchorTk) && !CloseLegAtMarket(anchorTk, anchorLvl))
+   // E6 (O1/O7): Tier 3 passes anchorSliceVol > 0 to PARTIAL-close (slice) the
+   // anchor, which SURVIVES; Tier 1/2 pass the default 0.0 -> full close (unchanged).
+   if(anchorSliceVol > 0.0)
+     {
+      if(PositionSelectByTicket(anchorTk) && !SliceLegAtMarket(anchorTk, anchorLvl, anchorSliceVol))
+         Log(LOG_WARN, StringFormat("%s: anchor L%d ticket %I64u SLICE failed after all profitables closed - anchor stays FULL, realized = pure profit (X-3/O7). Retargets next tick.",
+                                    tierTag, anchorLvl, anchorTk));
+     }
+   else if(PositionSelectByTicket(anchorTk) && !CloseLegAtMarket(anchorTk, anchorLvl))
       Log(LOG_WARN, StringFormat("%s: anchor L%d ticket %I64u close failed after all profitables closed - stays open, realized = pure profit (X-3). Retargets next tick.",
                                  tierTag, anchorLvl, anchorTk));
    return true;
@@ -2248,7 +2310,8 @@ bool EvaluateBasketClose()
   {
    bool t2on = InpEnableTier2;
    bool t1on = InpEnableTier1;
-   if((!t2on && !t1on) || g_state.levelCount == 0 || g_state.direction == 0)
+   bool t3on = InpEnableTier3;
+   if((!t2on && !t1on && !t3on) || g_state.levelCount == 0 || g_state.direction == 0)
       return false;
    if(g_state.trailingActive)
       return false;   // trailing owns the exit; basket close stands down (mirrors recovery)
@@ -2265,7 +2328,8 @@ bool EvaluateBasketClose()
    // GATE A (depth, O2) per tier - own MinTrades, count-based (D-1 dormancy).
    bool t2elig = t2on && openCount >= InpTier2MinTrades;
    bool t1elig = t1on && openCount >= InpTier1MinTrades;
-   if(!t2elig && !t1elig)
+   bool t3elig = t3on && openCount >= InpTier3MinTrades;
+   if(!t2elig && !t1elig && !t3elig)
       return false;   // dormant while shallow (D-1); matches the sealed Gate-A return
 
    // M-1 (E4 live-finding amendment, 2026-07-24; live gold fire pre-empted the
@@ -2323,6 +2387,47 @@ bool EvaluateBasketClose()
                                     DoubleToString(grpVWAP, _Digits), DoubleToString(farPx, _Digits),
                                     marginPts, InpTier1MinProfitPts));
          return FireGroupClose(grp, grpLvl, anchorTk, anchorLvl, dir, "Tier 1");
+        }
+     }
+
+   // TIER 3 (partial anchor slice, points), fall-through LAST (T3-O6). SLICE the
+   // oldest anchor (ClosePercent of its lots, floored, anchor >= MinLots; T3-O3/O4)
+   // and gate on the SLICED-anchor group VWAP - the anchor counted at its SLICE vol
+   // (T3-2/T3-6). This fires in the deep-drawdown regime the full-anchor tiers
+   // cannot (their gate sinks under the full anchor loss). The anchor SURVIVES.
+   if(t3elig)
+     {
+      double anchorVol = 0.0;
+      if(PositionSelectByTicket(anchorTk))
+         anchorVol = PositionGetDouble(POSITION_VOLUME);
+      double step   = SymbolInfoDouble(_Symbol, SYMBOL_VOLUME_STEP);
+      double volMin = SymbolInfoDouble(_Symbol, SYMBOL_VOLUME_MIN);
+      double unit   = MathMax(volMin, step);
+      // Anchor eligibility (T3-O3/SL2): needs >= MinLots AND >= 2 units so a >= 1-unit
+      // slice always leaves >= 1 unit alive. Below that Tier 3 STANDS DOWN (SL4).
+      if(unit > 0.0 && anchorVol >= InpTier3MinLots && anchorVol >= 2.0 * unit)
+        {
+         // slice = floor(anchorVol * pct) to unit, clamped [unit, anchorVol - unit] so
+         // it is ALWAYS partial and both legs are valid volumes (T3-O4/SL1/SL3).
+         double sliceVol = MathFloor(anchorVol * InpTier3ClosePercent / 100.0 / unit) * unit;
+         if(sliceVol < unit)               sliceVol = unit;
+         if(sliceVol > anchorVol - unit)   sliceVol = anchorVol - unit;
+         sliceVol = NormalizeDouble(sliceVol, 8);   // kill float drift; step-precision-safe (matches ComputeLevelLot)
+         double svwap = ComputeSlicedAnchorVWAP(grp, ArraySize(grp), anchorTk, sliceVol);
+         if(svwap > 0.0)
+           {
+            double farPx     = (dir < 0) ? SymbolInfoDouble(_Symbol, SYMBOL_ASK)
+                                         : SymbolInfoDouble(_Symbol, SYMBOL_BID);
+            double marginPts = ((dir < 0) ? (svwap - farPx) : (farPx - svwap)) / _Point;
+            if(marginPts >= (double)InpTier3MinProfitPts)
+              {
+               Log(LOG_INFO, StringFormat("Tier 3 FIRE: %s group %d leg(s) (anchor L%d slice %.2f of %.2f + %d profitable) | sliced-VWAP %s far %s margin %.1f pts >= %d/lot",
+                                          dir < 0 ? "SELL" : "BUY", ArraySize(grp), anchorLvl, sliceVol, anchorVol, ArraySize(grp) - 1,
+                                          DoubleToString(svwap, _Digits), DoubleToString(farPx, _Digits),
+                                          marginPts, InpTier3MinProfitPts));
+               return FireGroupClose(grp, grpLvl, anchorTk, anchorLvl, dir, "Tier 3", sliceVol);
+              }
+           }
         }
      }
    return false;
@@ -3498,21 +3603,22 @@ void PanelRefresh()
                          InpMaxRecoveryTrades > 0 ? (string)InpMaxRecoveryTrades : "-"),
             COL_TEXT);
    y += PNL_ROW_H;
-   // DD Reduction status (E5, DS-1): which valve tiers are armed, so the user
-   // sees at a glance if anything is enabled. DISPLAY ONLY - reads inputs, no
-   // state, no money path. Armed -> green (as "Recovery ON"); neither -> dim.
+   // DD Reduction status (E5/E6, DS-1/T3-DS1): which valve tiers are armed, so the
+   // user sees at a glance if anything is enabled. DISPLAY ONLY - reads inputs, no
+   // state, no money path. Armed -> green (as "Recovery ON"); none -> dim.
    string ddVal;
    color  ddClr;
-   if(!InpEnableTier1 && !InpEnableTier2)
+   if(!InpEnableTier1 && !InpEnableTier2 && !InpEnableTier3)
      {
       ddVal = "OFF";
       ddClr = COL_DIM;
      }
    else
      {
-      string t1 = InpEnableTier1 ? StringFormat("T1 %dpts", InpTier1MinProfitPts) : "";
-      string t2 = InpEnableTier2 ? StringFormat("T2 %.1f%%", InpTier2ProfitPercent) : "";
-      ddVal = (t1 != "" && t2 != "") ? t1 + " + " + t2 : t1 + t2;
+      ddVal = "";
+      if(InpEnableTier1) ddVal += StringFormat("T1 %dpts", InpTier1MinProfitPts);
+      if(InpEnableTier2) ddVal += (ddVal != "" ? " + " : "") + StringFormat("T2 %.1f%%", InpTier2ProfitPercent);
+      if(InpEnableTier3) ddVal += (ddVal != "" ? " + " : "") + StringFormat("T3 %dpts", InpTier3MinProfitPts);
       ddClr = COL_BUY_ARM;
      }
    PanelRow("DDR", y, "DD Reduce", ddVal, ddClr);
@@ -4524,11 +4630,11 @@ void OnTick()
         {
          WatchDuplicateTags();  // Stage 2b2: warn on unmanaged duplicate L1 tags
          EnforceExits();        // Stage 3: TP/SL placement + policy-A enforcement
-         if(EvaluateBasketClose()) // E4/E5: basket close (Tier 2 percent first,
-            return;             //   then Tier 1 points; tick-based T-5/T2-5). On a
-                                //   FIRE, defer recovery to next tick so the prune
-                                //   + SL re-anchor settle atomically first
-                                //   (H-5/H-6); next tick resumes normally.
+         if(EvaluateBasketClose()) // E4/E5/E6: basket close (Tier 2 percent, then
+            return;             //   Tier 1 points, then Tier 3 partial slice;
+                                //   tick-based). On a FIRE, defer recovery to next
+                                //   tick so the prune + SL re-anchor settle
+                                //   atomically first (H-5/H-6); next tick resumes.
          EvaluateRecovery();    // Stage 4: interval tracking + recovery entries
         }
      }
