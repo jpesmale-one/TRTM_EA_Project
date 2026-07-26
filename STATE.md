@@ -9,19 +9,33 @@ file: TRTM.mq5
 sha256_16: f7766c859e4d3c7a
 lines: 4674
 date: 2026-07-26
-# E6-b38 BUILT 2026-07-26 (repo src only) - NOT yet compiled, NOT deployed, NOT
-# sealed. Drawdown Reduction Tier 3 (partial-lot anchor slice) implemented per the
-# CONFIRMED plan docs/E6_PLAN_2026-07-26_gate3.md (8 touch points, +106 lines
-# 4568->4674). GATE ZERO PENDING: Jeff compiles in his terminal (0/0 expected),
-# then deploys, then Gate 4 verification -> seal. Until then:
-#   REPO src   = E6-b38 (f7766c859e4d3c7a / 4674)  <- this manifest tracks REPO.
-#   MT5 runtime = still E5-b37 (73dda148c79f1b27 / 4568) - E5 remains the DEPLOYED
-#     + SEALED build until Jeff compiles+deploys E6-b38. Resume protocol will show
-#     repo AHEAD of runtime by design; this is EXPECTED, not a mismatch STOP.
+# E6-b38 SEALED BY JEFF 2026-07-26. Drawdown Reduction Tier 3 (partial-lot anchor
+# slice) implemented per the CONFIRMED plan docs/E6_PLAN_2026-07-26_gate3.md (8 touch
+# points, +106 lines 4568->4674). GATE ZERO PASSED, DEPLOYED, GATE 4 CLOSED, SEALED.
+# E6-b38 is now the CURRENT SEALED BUILD (supersedes E5-b37).
+#   REPO src    = E6-b38 (f7766c859e4d3c7a / 4674)  <- this manifest tracks REPO.
+#   MT5 runtime = E6-b38 (f7766c859e4d3c7a / 4674)  - byte-identical to repo, no
+#     deploy drift. Resume protocol should now show repo and runtime ALIGNED.
+# GATE ZERO: compiled 2026-07-26 12:34:12 in Jeff's terminal - 0 errors, 0 warnings
+#   (metaeditor.log; re-witnessed in-session at Jeff's request after an earlier
+#   01:48:22 compile of the same byte-identical source, also 0/0). TRTM.ex5 rebuilt
+#   12:35:02; EA re-initialized "=== TRTM E6-b38 init ===" on XAUUSD.s + BTCUST,
+#   self-test PASS, Reconcile FLAT.
+# GATE 4: CLOSED 2026-07-26. docs/E6_VERIFY_CHECKLIST.md - 36 rows: 32 closed on LIVE
+#   evidence, 2 CODE-GUARANTEED (PR2/PR3, jump-only per the sealed E5 T2-PR1 precedent),
+#   2 INHERITED (K1/K2, Run H not run - Jeff's call, residual risk recorded), 1
+#   dose-response (T3-3), 1 display not visually confirmed (DS1, non-blocking).
+#   TEN tester runs on XAUUSD.s real ticks -> 19 Tier 3 fires + 3 Tier 1 + 1 Tier 2, every
+#   one recomputed to the cent on BOTH derivations (leg-by-leg AND marginPts x sumVol),
+#   never disagreeing once.
+# CARRIED FORWARD to the next build (NOT fixed now - a comment-only edit would re-bump the
+#   manifest sha and break this seal's build identity):
+#   (1) stale EvaluateBasketClose header comment 2300-2308; (2) Run H against an actual
+#   sliced anchor before live deployment; (3) DS1 visual confirm.
 # Prior SEALED build: E5-b37 (compiled+deployed+verified 2026-07-25, all 34 E5
-# rows). E5-b37 is committed (d094c65), UNPUSHED. E6-b38 is UNCOMMITTED (Jeff tests
-# before commit). Hygiene: 0 bare LF, ASCII-only, brace delta -1 (baseline-
-# preserved), parens balanced; no new global, no new persisted field.
+# rows). E6-b38 is COMMITTED (8722fcc) and PUSHED (origin/main = 8722fcc); E5-b37
+# (d094c65) and E4-b36 went up with it. Hygiene: 0 bare LF, ASCII-only, brace delta
+# -1 (baseline-preserved), parens balanced; no new global, no new persisted field.
 
 ## Environment note
 ALL charts are DEMO; multi-symbol attachments are test surface.
@@ -1605,7 +1619,123 @@ ClosePercent 50); ComputeSlicedAnchorVWAP (gate on slice vol); SliceLegAtMarket
 (PositionClosePartial, NO MarkEAClosed); FireGroupClose +anchorSliceVol=0.0
 (T1/T2 unchanged); Tier 3 dispatcher branch (T2->T1->T3); DD-Reduce dashboard
 +T3; call-site + tag. Hygiene clean (0 bare LF, ASCII, brace -1 baseline, no new
-global/persisted field). GATE ZERO PENDING: Jeff compiles (0/0 expected) +
-deploys, then Gate 4 (docs/E6_VERIFY_CHECKLIST.md) evidence-audited verification
--> seal. Runtime still E5-b37 until deploy (manifest header notes the expected
-repo-ahead-of-runtime state). E6-b38 UNCOMMITTED.
+global/persisted field).
+
+GATE ZERO PASSED - 2026-07-26. Compiled in Jeff's terminal 12:34:12, **0 errors,
+0 warnings** (metaeditor.log), on a source byte-identical to the repo manifest
+(f7766c859e4d3c7a / 4674). TRTM.ex5 rebuilt 12:35:02; EA re-initialized as E6-b38
+on XAUUSD.s + BTCUST with self-test PASS + Reconcile FLAT. An earlier compile of
+the same source at 01:48:22 was also 0/0; Jeff's call was to re-witness gate zero
+inside the session rather than accept the reconstructed log line, so the 12:34
+compile is the one of record. DEPLOYED: runtime copy == repo, no deploy drift.
+
+STATE CORRECTION - 2026-07-26 (bookkeeping, not a seal). This manifest previously
+asserted E6-b38 was NOT compiled, NOT deployed, and UNCOMMITTED. All three were
+false against disk + git at resume: the build had already been compiled (01:48:22),
+deployed (runtime hash == repo), committed (8722fcc) and PUSHED (origin/main =
+8722fcc, carrying E4-b36 and E5-b37 up with it) out-of-band between sessions. The
+resume protocol did NOT trip a STOP, because the only STOP condition - repo src !=
+f7766c859e4d3c7a / 4674 - held true throughout. Corrected here so "disk + git are
+truth" is not contradicted by its own record. E6 remains UNSEALED at Gate 4.
+
+BUILD-vs-PLAN DIVERGENCES (recorded, neither a money-path defect):
+ (a) The build uses NormalizeDouble(sliceVol, 8) (TRTM.mq5:2415); the plan wrote
+     NormalizeDouble(sliceVol, 2). The build is SAFER - 2 decimals would corrupt
+     the slice on any symbol with a 0.001 lot step (0.005 -> 0.01). Identical on
+     XAUUSD.s / GBPAUD.s (step 0.01), so money-neutral here and strictly better
+     elsewhere. ACCEPTED as-is.
+ (b) TP-6 dashboard built with direct string concatenation rather than the plan's
+     parts[] array sketch. Functionally identical output. Cosmetic.
+ (c) NIT, not yet fixed: the EvaluateBasketClose header comment (TRTM.mq5:2300-2308)
+     still reads "Tier 2 FIRST, then Tier 1" / "Both share ONE group" - stale at
+     three tiers. TP-7's call-site comment (4633) WAS updated. A comment-only edit
+     re-bumps the manifest sha, so bundle it with the seal commit rather than
+     dirtying a verified build.
+
+## E6 (Tier 3) SEALED - 2026-07-26. GATE 4 CLOSED.
+Jeff's explicit word, 2026-07-26. E6-b38 (f7766c859e4d3c7a / 4674) is the CURRENT
+SEALED BUILD. Ten XAUUSD.s tester runs, nineteen Tier 3 fires, every money number
+recomputed to the cent on two independent derivations.
+KEY ROWS, all closed on LIVE evidence:
+ - T3-6 gate-on-SLICE (the crux): Run C three-way at Ask 4202.38 - slice 0.01 ->
+   4205.1978 (+281.8, FIRES); remainder 0.02 -> 4200.0360 (-234.4); full 0.03 ->
+   4195.8127 (-656.7). Only the slice reproduces the logged VWAP, and BOTH alternatives
+   are negative - a stronger demonstration than the Shadow reference gave.
+ - T3-H3 SL byte-identical (the key divergence from T1/T2): Run E both laps, SELL
+   4243.58 / BUY 4108.79 unchanged across every slice, ZERO "SL re-anchored" lines
+   (E5's Tier 2 logged one per fire). The BUY stop was then HIT at 4108.77 - all eight
+   legs including the twice-sliced anchor. A genuine broker-held stop fired.
+ - T3-4 Gate B: blocked band RECOMPUTED from the entries (209.5 / 300.0 / 359.0 pts
+   traversed with no fire) and the threshold predicts both fire prices to within one
+   tick (4180.495 vs 4180.62; 4129.943 vs 4129.98).
+ - T3-SL4 stand-down: absence across an 8-level (Run C) and 15-level (Run D1') rebuild.
+ - T3-G2 invariant: held on all 19 fires, and INDEPENDENTLY confirmed against the
+   ACCOUNT BALANCE in Run G (+56.84 realized -> balance 10056.84 -> Tier 2's bar 18.10).
+   PositionClosePartial banks exactly what the sliced-VWAP math predicts.
+DISPOSITIONS (not live evidence - recorded honestly):
+ - T3-PR2 / T3-PR3 CODE-GUARANTEED. Both-qualify is JUMP-ONLY. Demonstrated across
+   three constructions (F1 equal bars, F2 D2-derived, G1 T2-paired) with every
+   counterfactual margin recomputed: the gap (sliced - full) moves with anchor volume
+   and depth (134.2 / 289.4 / 915.8 observed), so the qualifying threshold pair differs
+   at every candidate tick and each change rewrites the path it is trying to hit.
+   Nearest approach: Run G 19:35:08, Tier 3 ELIGIBLE and 99.4 pts short while Tier 2
+   fired. Same basis E5 used to seal T2-PR1, with better evidence.
+ - T3-K1 / T3-K2 INHERITED, Run H NOT run (Jeff's call). Reconcile carries no Tier 3
+   code, the "_lN_" level survives a partial close, nothing is persisted. RESIDUAL:
+   never exercised against an actual sliced anchor across a restart - accepted; run
+   opportunistically before live deployment.
+ - T3-3 dose-response only (MinTrades 4/6/8 -> first fire at count 4/6/14, never below).
+   A blocked-qualifying-tick recompute is structurally unobtainable: Tier 3 is last so a
+   blocked tick logs nothing, and Tier 1 cannot witness it (locked out in Tier 3's regime
+   by construction).
+ - T3-DS1 display-only, code-verified, NOT visually confirmed. Non-blocking.
+
+## (superseded) GATE 4 IN PROGRESS log
+GATE 4 IN PROGRESS: docs/E6_VERIFY_CHECKLIST.md DRAFTED 2026-07-26 (36 matrix rows
+mapped; 8 live runs A-H specified). THREE RUNS GREEN so far, all XAUUSD.s tester,
+every money number recomputed to the cent and cross-checked against the identity
+group P/L = marginPts x SUM(group lots):
+ - Run A (tests/2026.07.26 125653.086.txt) T3-R1 PASS: all tiers off, ZERO Tier lines,
+   4 AvgTP recomputes + 4 projections exact. Calibration finding -> Run C settings.
+ - Run C (tests/2026.07.26 130728.662.txt) base 0.03, Tier 3 only. TWO fires.
+   T3-6 PROVEN LIVE: slice 0.01 -> 4205.1978 (+281.8 pts, fires); remainder 0.02 ->
+   4200.0360 (-234.4); full 0.03 -> 4195.8127 (-656.7). Both alternatives NEGATIVE -
+   stronger than the reference. Closed T3-1/5/6/SL1/SL2/SL3/SL4/SL5/A1/G1/G2/G3/X1/X2/
+   P1/P2/H1/H2/H4/D1/D2/R2/M1.
+ - Run E (SELL tests/2026.07.26 131938.427.txt, BUY tests/2026.07.26 132224.767.txt)
+   InpStopLossPts=8000. FOUR more fires. T3-2 BUY lap PROVEN (Bid-side, O8 direction-
+   derived - no reference existed). T3-H3 PROVEN BOTH LAPS: SELL SL 4243.58 / BUY SL
+   4108.79 unchanged across every slice, ZERO "SL re-anchored" lines (contrast E5 Run 3,
+   which logged one per Tier 2 fire) - confirms F-a, zero code. BONUS: the BUY lap's
+   unchanged SL was HIT at 4108.77, all 8 legs including the twice-sliced anchor - a
+   genuine broker-held stop fired, not merely an unchanged value.
+ Tightest fire verified: BUY fire 2 cleared the 200-pt bar by 0.125 pts (200.125) and
+ still reproduced to the cent. All eight fires satisfy the G2 invariant on BOTH
+ derivations.
+ TESTER CAVEAT: these runs used "calculate profit in pips". Harmless for Tier 3 (pure
+ price arithmetic; POSITION_PROFIT used only for the membership SIGN test) but it makes
+ Tier 2's Gate B meaningless - MUST be turned OFF before Run G (T3-PR3).
+ REMAINING: T3-3/T3-4 (Run D), T3-PR2/PR3 precedence (Runs F/G, UNOBSERVED), T3-K1/K2
+ (Run H), T3-X4 (opportunistic), T3-DS1 (Jeff visual). Reference audit result: E6_MATRIX rev 1 is
+arithmetically CLEAN - both fires reproduce to the cent and were corroborated
+against the RAW Shadow log lines 506-532 / 927-953, not re-derived from the
+matrix's own intermediates (the method that caught F5 in E5). No F5-class error.
+Three checklist findings worth carrying into the runs:
+ - TEST-DESIGN BLOCKER: L1 is always the anchor while it lives, and L1 ==
+   InpEntryLotSize (L(N>=2) = baseLot + (N-1) x InpIncrementStep). At the DEFAULT
+   0.01 the anchor is below InpTier3MinLots 0.02 AND below 2 x unit, so Tier 3 can
+   NEVER fire on a default-entry-lot ladder. Every fire run raises InpEntryLotSize
+   (0.03 mirrors FIRE 2 and is the T3-6 crux). Same fact = Run D's T3-SL4 evidence.
+ - ANCHOR DEPTH: the slice-vs-full margin gap scales with the anchor's depth
+   relative to the profitables' margins. A 4-level ladder still clears Tier 1 on
+   the FULL anchor, proving nothing. The regime needs ~8 levels at a 500-pt
+   interval then a retrace greening only the top 2 - worked to the cent in the
+   checklist's Run C target (slice 300.0 pts / remainder 152.4 / full 18.2).
+ - STRUCTURAL RELATION: with the anchor as the group's worst leg, marginPts(slice)
+   >= marginPts(full) ALWAYS. This is why Tier 3 fires where Tier 1 cannot, and it
+   dictates the PR2/PR3 construction: make Tier 1 qualify by setting
+   InpTier1MinProfitPts LOW (~50), never by raising Tier 3's bar (which can never
+   produce a both-pass tick).
+ - Slice sizing swept for float drift across ClosePercent x anchorVol (13 x 19
+   combinations at unit 0.01): ZERO drift cases; the clamp holds
+   unit <= slice <= anchorVol - unit throughout.

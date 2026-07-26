@@ -50,35 +50,31 @@ every money number before any PASS.
 
 ---
 
-## Current instance - pre-filled for the NEXT break (E6-b38 BUILT, pre-compile; mid-pipeline at Gate 3->4)
+## Current instance - pre-filled for the NEXT break (E6-b38 SEALED; E8 unblocked at Gate 1)
 
 ```
 Resume TRTM. Run the section 0 resume protocol FIRST: git status +
 sha256_16 + wc -l of src/TRTM.mq5 AND the MT5 runtime copy, all compared
-to STATE.md. The REPO src must be build E6-b38, f7766c859e4d3c7a, 4674
-lines. The MT5 RUNTIME COPY is EXPECTED to still be E5-b37
-(73dda148c79f1b27 / 4568): E6-b38 is BUILT but NOT compiled and NOT
-deployed. Report "repo aligned at E6-b38; runtime lags at E5-b37 (compile+
-deploy pending)" - that is EXPECTED, not a STOP. Only a REPO-vs-manifest
-mismatch (repo src != f7766c859e4d3c7a / 4674) is a real STOP.
+to STATE.md (expect build E6-b38, f7766c859e4d3c7a, 4674 lines). Repo and
+runtime are ALIGNED and SEALED - report "repo and runtime aligned at E6-b38,
+sealed" in one line. A mismatch on EITHER side is a real STOP.
 
-Then read docs/HANDOVER_2026-07-26_E6_b38_built.md and STATE.md. E1, E4,
-E5 are SEALED (do NOT re-open). E6 (Drawdown Reduction Tier 3 - partial-lot
-anchor slice) is MID-PIPELINE: Gate 1 LOCKED (T3-O0..O9 + Gate A), matrix
-SEALED (docs/E6_MATRIX.md rev 1), plan CONFIRMED
-(docs/E6_PLAN_2026-07-26_gate3.md), BUILT E6-b38. Do NOT re-plan sealed rows.
+Then read docs/HANDOVER_2026-07-26_E6_b38_sealed.md and STATE.md. E1, E4, E5
+and E6 are ALL SEALED (do NOT re-open). The three drawdown-reduction valves
+now stack: T2 percent -> T1 points -> T3 partial slice, one fire per tick,
+all default OFF. E6 sealed 2026-07-26 on ten XAUUSD.s tester runs / 19 Tier 3
+fires, every money number recomputed to the cent on two derivations.
 
-Resume E6 at the GATE 3->4 boundary. My call: compile + deploy + live-test
-all happen THIS session. Order: (1) I compile in my terminal (gate zero, 0/0
-expected) - if errors, fix src/TRTM.mq5, re-run hygiene, re-bump the manifest;
-(2) you draft docs/E6_VERIFY_CHECKLIST.md from the sealed matrix (mirror
-E5_VERIFY_CHECKLIST.md) and recompute EVERY money number to the cent; (3) I
-deploy, we run Gate 4 on live XAUUSD.s; (4) seal on my explicit word. Key
-verify rows: T3-1/T3-2 SELL+BUY fire (slice, sliced-VWAP, margin to the cent);
-T3-6 gate-on-SLICE (0.03 anchor -> slice 0.01, full-anchor would fail); T3-SL4
-sub-MinLots stand-down; T3-SL5 floor; T3-H3 SL byte-identical across a slice;
-T3-PR2/PR3 CONSTRUCTED both-qualify ticks (full tier pre-empts Tier 3 -
-UNOBSERVED, verify live); T3-R1/R2/R3 off/never-fire/no-persist.
+Open E8's Gate 1 (profit-funded follow-on slice - my idea, spun out of E6's
+T3-O6). It was gated on E6 landing; E6 has landed. Work its open sub-decisions
+ONE at a time, starting with the most foundational. E8 is a DIRECTIONAL
+TAIL-RISK lever (it realizes a loss against the recovery thesis), so the risk
+framing is the first thing to lock, not the mechanics. Do NOT start a matrix
+before the decisions are locked.
+
+E8 derives from the same reference EA (Shadow) as E6 - treat it as reference,
+never spec; each point is tagged OBSERVED or CHOSEN in
+docs/ENHANCEMENT_INPUT_*.md.
 
 Gate order holds: locked decisions -> sealed matrix (money paths) ->
 confirmed plan -> build -> evidence-audited verification -> seal on my
@@ -88,16 +84,25 @@ decisions log. No code before a confirmed plan; no matrix before locked
 decisions. Do not touch the MT5 tree (deploy is my manual step); recompute
 every money number before any PASS.
 
-E6 (Tier 3) is reverse-engineered from a reference EA (Shadow) - treat it as
-reference, never spec; each point is tagged OBSERVED or CHOSEN in
-docs/ENHANCEMENT_INPUT_2026-07-25_tier3.md. The T2->T1->T3 both-qualify
-precedence is UNOBSERVED (the tiers never competed) - verify LIVE.
+Carried forward from the E6 seal (none block it, all in handover section 5):
+(1) STALE COMMENT - EvaluateBasketClose header TRTM.mq5:2300-2308 still says
+"Tier 2 FIRST, then Tier 1" / "Both share ONE group"; three tiers now. Left
+unfixed deliberately - a comment-only edit re-bumps the manifest sha and would
+break the seal's build identity. Bundle with the NEXT build.
+(2) RUN H (T3-K1/K2) was NOT run - closed by inheritance on my call. Never
+exercised against an ACTUAL sliced anchor across a restart/kill, the one state
+E4/E5 could not produce. Run it before any live deployment; a defect would
+surface as a mis-rebuilt level or lost baseLot on the first restart after a
+Tier 3 fire.
+(3) T3-DS1 dashboard never visually confirmed (display-only, no money path).
 
-Note: E6-b38 is UNCOMMITTED (I test before commit - my call); E5-b37 committed
-locally (d094c65), E4-b36 committed, NONE pushed; E1 pushed (origin/main @
-864effe). E8 (profit-funded follow-on slice - my idea) is PARKED with its own
-Gate 1, depends on E6. Open findings: F3 (impossible in TRTM - empty
-OnTradeTransaction), F4 (design note), F5 (E5 evidence-only, resolved).
+Note: E6-b38 code is COMMITTED + PUSHED (8722fcc, origin/main), but the E6
+VERIFICATION DOCS (docs/E6_VERIFY_CHECKLIST.md, the sealed handover, STATE.md's
+seal entries) and the ten tests/2026.07.26 *.txt logs are UNCOMMITTED - my call
+whether to commit. E8 is the only parked item that E6 unblocked; E2 draggable
+exit lines and E3 auto-entry remain in the backlog. Open findings: F3
+(impossible in TRTM - empty OnTradeTransaction), F4 (design note), F5 (E5
+evidence-only, resolved).
 ```
 
 > After each future break, replace this "Current instance" block with a
