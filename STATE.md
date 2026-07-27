@@ -1690,6 +1690,204 @@ DISPOSITIONS (not live evidence - recorded honestly):
    by construction).
  - T3-DS1 display-only, code-verified, NOT visually confirmed. Non-blocking.
 
+## LIVE INCIDENT 2026-07-27 - UNMANAGED RECOVERY POSITION ON VANTAGE (XAUUSD.sc)
+NOT an E6 defect. The affected code (RegisterNewRecovery, RegisterButtonL1,
+CancelOwnPendingOrders) is Stage 4/5 CORE, sealed long before E6; E6 touched none of it.
+It is a latent assumption that has been present since Stage 4 and only surfaces on a
+broker whose fills are ASYNCHRONOUS.
+SYMPTOM (Jeff's live log, XAUUSD.sc, magic 725639, stops 20 / freeze 10):
+  "L1 SELL OPENED via button: 0.01 lots @ 0.00 (deal 0)"
+  "Recovery L2 OPENED: 0.02 lots SELL @ 0.00 (deal 0)"
+  "RegisterNewRecovery: L2 order reported filled but position not found"
+  "CTrade::OrderSend: cancel #459172826 [invalid request]" (10013)
+DIAGNOSIS: price 0.00 + deal 0 => the server returned TRADE_RETCODE_PLACED - order
+accepted, NOT yet executed, so no deal and no POSITION exist at that instant. Both send
+sites (2170 recovery / 3274 button) accept PLACED as success and then IMMEDIATELY require
+a position: RegisterNewRecovery scans PositionsTotal() for magic + "_lN_" and finds
+nothing. The 10013 is the same race - CancelOwnPendingOrders walked OrdersTotal() and hit
+the still-in-flight MARKET order, mistaking it for a pending.
+WHY IT BECAME EXPOSURE, not just a noisy log: there is NO self-heal while a sequence is
+live. CheckOwnPendingFillWhenFlat() is gated on levelCount == 0, and FindUntrackedOurL1()
+skips lvl > 1 entirely. So an unregistered recovery level stays ORPHANED - no TP/SL, not
+counted, invisible to liveness and to the basket-close tiers - until the sequence goes
+flat or the EA restarts (RebuildLiveMap does pick it up by magic + comment).
+COMPOUNDING RISK: g_state still held only L1, so ComputeRecoveryTrigger kept computing
+from L1's entry and the trigger stayed satisfied - the EA would open ANOTHER 0.02 "L2" on
+every subsequent M5 bar close. Duplicate stacking.
+MITIGATION GIVEN: AutoTrading OFF to stop further opens, then re-attach the EA so
+Reconcile/RebuildLiveMap rebuilds the sequence from live positions ("broker wins"), close
+any duplicate _l2_ positions manually first.
+
+## BROKER-COMPATIBILITY AUDIT 2026-07-27 (source grep, zero hits on all three)
+  SetTypeFilling / ORDER_FILLING / SYMBOL_FILLING  -> 0 hits
+  ACCOUNT_MARGIN_MODE / MARGIN_MODE_               -> 0 hits
+  SYMBOL_TRADE_EXEMODE                             -> 0 hits
+ ACTIVE  async fill (above).
+ LATENT  NETTING ACCOUNTS. TRTM is structurally HEDGING-ONLY - the grid/martingale model
+         needs multiple same-symbol same-direction positions. On a netting account L2
+         MERGES into L1, PositionsTotal() shows one averaged position and the ladder /
+         anchor model collapses SILENTLY. No guard exists. Vantage gave a hedging account
+         so this is not biting now.
+ LATENT  FILLING MODE. CTrade defaults to ORDER_FILLING_FOK and the EA never negotiates.
+         Vantage accepted FOK on XAUUSD.sc (orders did fill), so not currently a problem;
+         on an IOC/RETURN-only symbol it would be 10030 with no diagnostic.
+ LATENT  COMMENT INTEGRITY - and this one intersects E6. Level tracking depends ENTIRELY
+         on parsing "_lN_" from POSITION_COMMENT (10 call sites). Some brokers/bridges
+         rewrite comments, notably ON PARTIAL CLOSES. If Vantage rewrites a SLICED
+         anchor's comment then after a restart RebuildLiveMap logs "unparseable level
+         comment - counted, level unknown" and assigns lvl = 0, which makes that position
+         the ANCHOR under the lowest-level rule. That is exactly the T3-K1 scenario closed
+         by INHERITANCE at the E6 seal. => RUN H IS NOW OVERDUE, and must be run on
+         Vantage, not only on the Doo demo.
+
+## E9 / b39 - GATE 1 OPEN (2026-07-27)
+LOCKED DECISION E9-S1 (scope): SPLIT. A narrow gated hotfix build b39 covering ONLY
+  O1 (deferred registration on PLACED) + O2 (live-sequence orphan watcher) - the two that
+  produce unmanaged positions - followed by a separate E9 for O3-O6 hardening. Full gate
+  order applies to b39, just a small matrix and plan. Run H rides along on b39.
+  REJECTED: (a) one E9 covering all six - cleaner record and the broker-negotiation pieces
+  do interact, but it leaves the live exposure open until the whole thing lands;
+  (b) O1+O2 only with no follow-on E9 - accepts netting/filling/exemode/comment risk
+  permanently, defensible only if Vantage stays the sole additional broker.
+  Jeff's call 2026-07-27.
+DEFERRED TO E9 (not in b39): O3 filling-mode negotiation from SYMBOL_FILLING_MODE;
+  O4 margin-mode guard (refuse/config-block on netting); O5 execution-mode awareness +
+  init guidance in the LogBrokerExitGeometry idiom; O6 comment-integrity detection and
+  fallback.
+LOCKED DECISION E9-O1/O2 (registration model): WATCHER-PRIMARY, single mechanism. A
+  live-sequence orphan watcher runs each tick and adopts ANY our-magic position carrying a
+  _lN_ tag that is not currently tracked, at its comment level - the same admission filter
+  RebuildLiveMap (2471) already uses and which has been sealed since Stage 1.
+  RegisterNewRecovery is demoted to a FAST PATH: when it misses it logs INFO ("fill
+  pending"), not ERROR, and the watcher completes registration on the next tick. NO new
+  persisted state - consistent with E4/E5/E6 keeping everything derived per tick.
+  WHY: O2 strictly subsumes O1's failure case. A watcher covers async fill AND a crash
+  between send and register AND causes not yet seen, whereas deferred registration only
+  covers the send path it was watching. In the 2026-07-27 incident a watcher would have
+  adopted L2 on the next tick and NONE of the downstream damage (duplicate stacking,
+  unmanaged position) would have occurred.
+  ACCEPTED COST: up to one tick unmanaged before EnforceExits dresses the position.
+  REJECTED: (a) register-on-send primary with a deferred queue keyed on the order ticket -
+  more precise and can name the order that never filled, but needs new in-memory state, is
+  a second path doing what the watcher does anyway, and still misses a crash between send
+  and queueing; (b) BOTH - maximum coverage, but two mechanisms can race on one position
+  so the matrix must prove they cannot double-register, which is real verification surface
+  for a hotfix build. Jeff's call 2026-07-27.
+
+LOCKED DECISION E9-O2b (unparseable tag): ADOPT AT maxLvl + 1, loud WARN naming the
+  ticket. It gets TP/SL and is counted; being the HIGHEST level it can never seize the
+  anchor. This ALSO replaces RebuildLiveMap's existing lvl = 0 path (2488), which is a
+  live hazard today: FormBasketGroup picks the LOWEST level as anchor, so 0 wins and an
+  unidentified position inherits both the SL anchoring (ComputeTargets) and Tier 3's slice
+  target. Removing that is arguably the most valuable line in b39.
+  SCOPE NARROWED BY EVIDENCE (Jeff, 2026-07-27): the ONLY way to get an our-magic position
+  with an unreadable tag is the broker rewriting a comment WE wrote - the mobile/adoption
+  path cannot produce one (see E9-N1 below). Jeff confirmed Vantage leaves comments INTACT
+  on live XAUUSD.sc positions, so this case has no observed probability on his platform.
+  That evidence changed the recommendation: open-time inference was recommended first
+  (it correctly re-identifies a comment-stripped SLICED ANCHOR) but is added complexity in
+  a hotfix for something now evidenced not to occur here.
+  REJECTED: (a) open-time inference - deferred to E9-O6, still the right answer IF a
+  broker is found that rewrites comments; (b) quarantine without adopting - matches the
+  "notify never auto-close" idiom but leaves the position with NO TP and NO SL, which is
+  the exact exposure b39 exists to remove. Jeff's call 2026-07-27.
+
+NOTE E9-N1 (why the watcher cannot collide with ADOPTION - Jeff's question, 2026-07-27):
+  The two paths are separated by the MAGIC NUMBER and it is enforced explicitly.
+  Adoption handles magic-0 (external) positions - TryAdopt refuses ours outright
+  ("if(POSITION_MAGIC == g_magic) continue"), and the untagged mobile fallback demands
+  magic EXACTLY 0 ("if(POSITION_MAGIC != 0) continue"). The watcher's filter is the mirror
+  image: magic == g_magic AND a parseable _lN_ tag. A mobile trade has NEITHER, so the
+  watcher is blind to it. This is structural, not incidental: MT5 cannot modify
+  POSITION_MAGIC, so an adopted L1 stays magic 0 for life and is restored by ticket from
+  the state file in Reconcile, never by any scan. Mixed sequences (mobile L1 at magic 0 +
+  EA-opened L2/L3 at our magic) work: the watcher considers only L2/L3.
+
+LOCKED DECISION E9-O2d (order-book type split): CancelOwnPendingOrders and
+  CountOwnPendingOrders must distinguish a GENUINE PENDING from an IN-FLIGHT MARKET order
+  by ORDER_TYPE. Only BUY_LIMIT / BUY_STOP / SELL_LIMIT / SELL_STOP are pendings;
+  ORDER_TYPE_BUY / SELL sitting in the book are fills in progress and must be left alone.
+  WHY: the async fill caused THREE defects, all visible in Jeff's 2026-07-27 log, all with
+  this one root. (1) the registration miss (O1/O2); (2) CancelOwnPendingOrders tried to
+  OrderDelete the in-flight market order -> "cancel #459172826 [invalid request]" 10013;
+  (3) CountOwnPendingOrders counts in-flight market orders as pendings, spuriously setting
+  pendingLive - which HIDES the BUY/SELL buttons and trips the P7 "cancel the pending
+  first" refusal. Minimal fix, removes an ERROR Jeff is seeing live. Jeff 2026-07-27.
+
+LOCKED DECISION E9-O2e (order accepted but NEVER filled): NO TIMEOUT IN b39; escalation
+  deferred to E9. The system degrades gracefully - if the order never becomes a position
+  the level simply does not exist, the recovery trigger still computes from the old worst
+  entry, and the signal re-fires on a later bar. If the first order fills very late the
+  watcher adopts both and O2a tolerates the duplicate with a WARN. Not silent either: the
+  send logs INFO and every adoption logs, so a send with no matching adoption is visible.
+  Preserves the no-new-state property of watcher-primary and keeps b39 a hotfix.
+  REJECTED: (a) track order tickets for a timeout - reopens the no-new-state decision and
+  adds the second mechanism we rejected as O1; (b) infer from the order book via the O2d
+  split - zero new state and composes well, but infers intent from the book rather than
+  from what we sent, so it cannot tell our stuck order from a slow server clear. Both
+  remain candidates for E9. Jeff's call 2026-07-27.
+
+LOCKED DECISION E9-O2a duplicate-level collision: ADOPT BOTH and tolerate
+  duplicate level numbers, with a loud WARN naming the tickets. Rationale: the positions
+  EXIST and must be managed - refusing one recreates the exact orphan we are fixing; and
+  the level is an ADDRESS for lot sizing and anchor ordering, not a unique key. Checked
+  downstream: ComputeRecoveryTrigger takes maxLvl+1 (fine), the lot-weighted VWAP includes
+  both (financially correct), ComputeLevelLot keys off baseLot (fine). EDGE TO RECORD: if
+  duplicates ever occur at the LOWEST level, FormBasketGroup's "first lowest wins" makes
+  the anchor arbitrary and "oldest" ambiguous - only reachable if L1 itself duplicates.
+  REJECTED: refuse-the-second (leaves an unmanaged position); renumber-to-next-free (the
+  comment would then disagree with the tracked level and a restart would undo it).
+
+LOCKED DECISION E9-O2c (watcher scope): RUNS IN BOTH STATES, flat and live. While FLAT,
+  finding our-magic _lN_ positions rebuilds a sequence from them - the same thing
+  Reconcile already does at startup, reusing that sealed path rather than inventing a
+  second one. SUPERSEDES CheckOwnPendingFillWhenFlat's L1-only scan.
+  WHY: the flat state has the SAME orphan hole as the live state, and it is the one Jeff
+  is closest to hitting. His L2 is untracked right now; if L1 closes first (it carries a
+  manual TP at 4090.59) then liveness prunes L1, levelCount hits 0, state resets, and the
+  0.02 L2 is left open with NO TP and NO SL - with the only trace being the one-shot
+  orphan ERROR at 3147, which skips lvl > 1 and never manages it. Closing the hole in one
+  direction only would leave that intact.
+  ACCEPTED COST: an our-magic position left open from a previous session will now START a
+  sequence rather than sit idle. Arguably correct - it is ours and should carry exits -
+  but it sets adoptionTime to now and derives baseLot from what it finds.
+  Adoption of magic-0 trades is untouched (E9-N1). Jeff's call 2026-07-27.
+
+## b39 GATE 2 SEALED - 2026-07-27
+docs/B39_MATRIX.md SEALED rev 1 by Jeff 2026-07-27. 7 groups, 29 rows
+(A-1..5, W-1..6, L-1..4, F-1..5, O-1..5, R-1..4, K-1..4).
+MUST-NOT rows: A-4, W-3, W-4, L-3, F-3, O-3, O-4.
+CRITICAL rows: L-3 (level-0 anchor hazard - present in SEALED b38 TODAY, independent of
+Vantage: RebuildLiveMap 2488 assigns lvl=0 on an unparseable comment and FormBasketGroup
+picks the LOWEST level as anchor, so an unidentified position inherits both the SL
+anchoring and Tier 3's slice target); R-1/R-2 (no regression on a synchronous-fill
+broker - b39 touches core registration, which every sealed enhancement sits on, and the
+E6 Run A / Run C logs are the diff baseline); A-5 (duplicate-stacking path closed);
+F-2 (flat-state orphan hole).
+NEW ROW ADDED AT DRAFT TIME - K-4: confirm Vantage preserves comments across a PARTIAL
+CLOSE. Jeff verified they survive on OPEN positions (2026-07-27) but the partial-close
+case is the one that matters for E6 and is still unverified. A rewrite there would make
+L-2/L-3 active rather than defensive and would escalate E9-O6.
+NEXT: Gate 3 - draft the b39 code plan from this sealed matrix. PRIORITISED FOR THE NEXT
+SESSION (Jeff, 2026-07-27), ahead of E8.
+
+## b39 GATE 1 COMPLETE - 2026-07-27
+All sub-decisions locked: S1 (scope split), O1/O2 (watcher-primary registration),
+O2a (duplicate levels: adopt both), O2b (unparseable tag: maxLvl+1, also fixes the
+lvl=0 anchor hazard), O2c (watcher runs flat AND live, supersedes
+CheckOwnPendingFillWhenFlat), O2d (order-book type split), O2e (no never-filled timeout).
+Plus note N1 (magic separates the watcher from adoption).
+NEXT: Gate 2 - draft the b39 matrix. Expected shape, small: async-fill registration
+(recovery + button paths), watcher admission filter, duplicate levels, unparseable tag,
+flat-state rebuild, order-type split, and MUST-NOT rows (never adopt magic-0; never
+double-register; never let an unidentified position become the anchor; byte-identical
+behaviour on a synchronous-fill broker so E1/E4/E5/E6 are unaffected).
+b39 SCOPE ALSO INCLUDES: Run H (T3-K1/K2) on VANTAGE, not only the Doo demo - overdue per
+the comment-integrity risk, and b39 changes the very code that rebuilds a sequence.
+REGRESSION OBLIGATION: b39 touches core registration, which every sealed enhancement sits
+on. The matrix must carry a row proving behaviour on a SYNCHRONOUS-fill broker
+(DooTechnology XAUUSD.s) is unchanged - the E6 Run A/C logs are the baseline to diff.
+
 ## (superseded) GATE 4 IN PROGRESS log
 GATE 4 IN PROGRESS: docs/E6_VERIFY_CHECKLIST.md DRAFTED 2026-07-26 (36 matrix rows
 mapped; 8 live runs A-H specified). THREE RUNS GREEN so far, all XAUUSD.s tester,
