@@ -33,6 +33,11 @@ memory):
    conversation memory and auto memory never override them.**
 5. Read the handover's "remaining" list. Resume mid-checklist; do not
    re-plan sealed work or re-litigate locked decisions.
+6. STATE.md's header is the ONLY authority on build identity. Handovers
+   restate the sha for convenience and go stale the moment the next
+   build lands — a superseded handover's "EXPECT <sha>" is history, not
+   an instruction. On disagreement, STATE.md wins and the handover is
+   the thing to correct.
 
 ---
 

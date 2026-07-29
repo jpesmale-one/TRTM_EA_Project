@@ -1,8 +1,15 @@
 # TRTM Handover - 2026-07-26 (E6 Tier 3 SEALED at E6-b38)
 # Follow CLAUDE.md + the staged-delivery gates. This file + STATE.md are truth.
 # Disk + git override conversation/auto-memory.
+#
+# *** SUPERSEDED - HISTORICAL RECORD ONLY (b39 2026-07-30, then b40). ***
+# Section 1's resume protocol below is STALE: it expects E6-b38
+# (f7766c859e4d3c7a / 4674) and calls any mismatch a STOP. Do NOT run it.
+# The CURRENT handover is docs/HANDOVER_2026-07-30_b39_sealed.md, and
+# STATE.md's header is always authoritative for build identity.
+# Sections 2-7 remain accurate as the E6/Tier 3 record.
 
-## 1. RESUME PROTOCOL (first actions, in order)
+## 1. RESUME PROTOCOL (first actions, in order) - STALE, SEE BANNER ABOVE
 1. Run all four, compare to STATE.md header:
    - git status
    - sha256sum src/TRTM.mq5 | cut -c1-16   EXPECT f7766c859e4d3c7a

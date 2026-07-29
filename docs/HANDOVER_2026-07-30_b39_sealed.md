@@ -1,16 +1,28 @@
 # TRTM Handover - 2026-07-30 (b39 SEALED, with one explicit caveat)
 # Follow CLAUDE.md + the staged-delivery gates. This file + STATE.md are truth.
 # Disk + git override conversation/auto-memory.
+#
+# SUPERSEDED IN PART, 2026-07-30: b40 landed AFTER this handover was written.
+# b40 is DOCUMENTATION-ONLY (comment text + the build tag; proven by a filtered
+# diff showing exactly one non-comment line changed) and is BEHAVIOURALLY
+# IDENTICAL to b39. Everything in sections 2-8 below stands unchanged - only
+# the build identity in section 1 moved. STATE.md's header is authoritative.
 
 ## 1. RESUME PROTOCOL (first actions, in order)
-1. Run all four, compare to STATE.md header:
+1. Run all four, compare to STATE.md header (AUTHORITATIVE - not this file):
    - git status
-   - sha256sum src/TRTM.mq5 | cut -c1-16   EXPECT 12c69766c709bd0d
-   - wc -l src/TRTM.mq5                      EXPECT 4939
+   - sha256sum src/TRTM.mq5 | cut -c1-16   EXPECT 2e902e9032d820a9  (b40)
+   - wc -l src/TRTM.mq5                      EXPECT 4974            (b40)
    - sha256sum the MT5 runtime copy (path in CLAUDE.md section 0)
-   REPO and RUNTIME are ALIGNED at b39 (12c69766c709bd0d / 4939). Report
-   "repo and runtime aligned at b39, sealed". Any mismatch on EITHER is a STOP.
-2. E1, E4, E5, E6 and now b39 are all SEALED. Do NOT re-open them.
+   Report "repo and runtime aligned at b40" in one line.
+   ONE EXPECTED EXCEPTION: the runtime may still read b39 (12c69766c709bd0d /
+   4939) if b40 has not been redeployed yet. Say so and ASK - b40 is
+   comment-only so that drift is harmless, but do not silently ignore it.
+   Any OTHER mismatch is a real STOP.
+   (Prior identities for the record: b39 = 12c69766c709bd0d / 4939;
+    E6-b38 = f7766c859e4d3c7a / 4674.)
+2. E1, E4, E5, E6 and b39 are all SEALED. Do NOT re-open them. b40 changed no
+   behaviour, so every b39 evidence row carries forward unchanged.
 
 ## 2. WHERE THE PROJECT STANDS
 - CORE + E1 SEALED. E4 (Tier 1, points) SEALED at E4-b36. E5 (Tier 2, percent) SEALED
