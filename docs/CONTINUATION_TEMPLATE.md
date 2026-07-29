@@ -50,45 +50,42 @@ every money number before any PASS.
 
 ---
 
-## Current instance - pre-filled for the NEXT break (E6-b38 SEALED; b39 hotfix at Gate 2->3)
+## Current instance - pre-filled for the NEXT break (b39 SEALED with caveat; Run H next)
 
 ```
 Resume TRTM. Run the section 0 resume protocol FIRST: git status +
 sha256_16 + wc -l of src/TRTM.mq5 AND the MT5 runtime copy, all compared
-to STATE.md (expect build E6-b38, f7766c859e4d3c7a, 4674 lines). Repo and
-runtime are ALIGNED and SEALED - report "repo and runtime aligned at E6-b38,
+to STATE.md (expect build b39, 12c69766c709bd0d, 4939 lines). Repo and
+runtime are ALIGNED and SEALED - report "repo and runtime aligned at b39,
 sealed" in one line. A mismatch on EITHER side is a real STOP.
 
-Then read docs/HANDOVER_2026-07-26_E6_b38_sealed.md, docs/B39_MATRIX.md and
-STATE.md. E1, E4, E5 and E6 are ALL SEALED (do NOT re-open). The three
-drawdown-reduction valves stack T2 percent -> T1 points -> T3 partial slice,
-one fire per tick, all default OFF.
+Then read docs/HANDOVER_2026-07-30_b39_sealed.md and STATE.md. E1, E4, E5, E6
+and b39 are ALL SEALED (do NOT re-open). The three drawdown-reduction valves
+stack T2 percent -> T1 points -> T3 partial slice, one fire per tick, all
+default OFF.
 
-TOP PRIORITY THIS SESSION is b39, NOT E8. b39 is the async-fill registration
-hotfix for a LIVE incident on Vantage XAUUSD.sc (2026-07-27): the broker
-answers "order accepted" BEFORE executing (TRADE_RETCODE_PLACED, price 0.00,
-deal 0), so no position exists when the EA looks for one, and a recovery level
-went UNMANAGED - no TP, no SL, invisible to liveness, with the EA about to
-open a duplicate every M5 bar. NOT an E6 defect: the affected code is Stage 4/5
-CORE, latent since Stage 4, exposed only by an asynchronous-fill broker.
+b39 (async-fill registration hotfix) is SEALED WITH ONE EXPLICIT CAVEAT, and
+you must not lose it: A-1 and W-1..W-6 closed on CODE INSPECTION, NOT evidence.
+WatchUntrackedLevels has NEVER adopted a position in any run. On Vantage the
+TRADE_RETCODE_PLACED signature is ROUTINE (reproduced live) but the fill lands
+within the tick, so the fast path never missed. The registration MISS is a
+TIMING TAIL, not reproducible on demand, and the Cent account is LIVE MONEY -
+we are not chasing it there. It is PARKED, not abandoned: if it recurs the
+journal is the reproduction. "order accepted but no position yet" ->
+"Watcher: L<n> REGISTERED" -> "Exits applied" closes the rows on live evidence
+and RETIRES the caveat; an orphan with NO watcher line is a b39 DEFECT -
+capture the log and reopen. Do NOT quietly mark those rows verified.
 
-b39 is MID-PIPELINE: Gate 1 LOCKED (E9-S1, O1/O2, O2a-O2e, note N1 - all in
-STATE.md's locked-decisions log), Gate 2 SEALED (docs/B39_MATRIX.md rev 1,
-7 groups / 29 rows). Resume at GATE 3: draft the code plan from the sealed
-matrix. Do NOT re-plan sealed rows.
-
-Watch these three when planning:
-- L-3 is a hazard in the SEALED b38 TODAY, independent of Vantage:
-  RebuildLiveMap 2488 assigns lvl=0 on an unparseable comment and
-  FormBasketGroup picks the LOWEST level as anchor, so an unidentified
-  position inherits both the SL anchoring and Tier 3's slice target.
-- R-1/R-2 are the real risk: b39 touches CORE REGISTRATION, which every
-  sealed enhancement sits on. Diff against the E6 Run A
-  (tests/2026.07.26 125653.086.txt) and Run C (130728.662.txt) logs to prove
-  a synchronous-fill broker behaves exactly as b38.
-- Run H (T3-K1/K2) rides on b39 and must run on VANTAGE, not just the Doo
-  demo - it was closed by inheritance at the E6 seal and never exercised
-  against an actual sliced anchor, and b39 rewrites the sequence-rebuild code.
+TOP PRIORITY THIS SESSION is RUN H, unless I say otherwise. Run H is T3-K1/K2
+against an ACTUAL SLICED ANCHOR, ON VANTAGE - overdue since the E6 seal (closed
+by INHERITANCE there, never exercised) and now doubly so because b39 REWROTE
+the sequence-rebuild code it exercises. It also carries K-4: confirm empirically
+whether Vantage preserves position comments across a PARTIAL CLOSE. A rewrite
+there would make L-2/L-3 ACTIVE rather than defensive and escalate E9-O6.
+Note the constraint learned the hard way: tester inputs LOCK once a run starts
+and a tester restart REPLAYS from the beginning, so any restart-with-open-
+positions row MUST be run on a LIVE chart (remove EA -> re-attach), not the
+tester.
 
 Gate order holds: locked decisions -> sealed matrix (money paths) ->
 confirmed plan -> build -> evidence-audited verification -> seal on my
@@ -99,16 +96,24 @@ decisions. Do not touch the MT5 tree (deploy is my manual step); recompute
 every money number before any PASS.
 
 Also carried forward:
-(1) STALE COMMENT - EvaluateBasketClose header TRTM.mq5:2300-2308 still says
-"Tier 2 FIRST, then Tier 1" / "Both share ONE group"; three tiers now. Left
-unfixed at the E6 seal deliberately (a comment-only edit re-bumps the manifest
-sha). BUNDLE IT INTO b39.
-(2) T3-DS1 dashboard never visually confirmed (display-only, no money path).
-(3) E9 holds the deferred broker-hardening work: O3 filling-mode negotiation,
-O4 netting guard (TRTM is structurally HEDGING-ONLY and has NO guard today),
-O5 execution-mode init guidance, O6 comment-integrity detection.
-(4) E8 (profit-funded follow-on slice) is unblocked by E6 but DEPRIORITISED
-behind b39. E2 draggable exit lines, E3 auto-entry still in the backlog.
+(1) NOT PUSHED - origin/main is at 8722fcc; THREE commits are local-only:
+37daf7e (E6-b38 seal), 09a0d77 (b39 Gate 1+2), aed4b26 (b39 seal + evidence).
+Pushing is my call, ask before doing it.
+(2) MAINTENANCE HAZARD from b39: AdoptionCandidateExists duplicates TryAdopt's
+admission logic and MUST be kept in step. Deliberately not unified inside a
+hotfix (it would re-open sealed Stage 2 code with one-shot logging side
+effects). -> E9.
+(3) STILL OPEN ON INSPECTION besides the watcher: L-1..L-4 (unreachable without
+a DELIBERATELY corrupted comment - decide before any future seal whether those
+close on evidence or inspection) and F-1..F-5 (flat-state rebuild never
+triggered in any run).
+(4) T3-DS1 dashboard never visually confirmed (display-only, no money path).
+(5) E9 now holds: O3 filling-mode negotiation, O4 netting guard (TRTM is
+structurally HEDGING-ONLY with NO guard today), O5 execution-mode init
+guidance, O6 comment-integrity detection, PLUS b39's deferrals - E9-O2e
+(never-filled timeout), W-7 (account-scoped identity), and item (2).
+(6) E8 (profit-funded follow-on slice) unblocked since E6, own Gate 1 pending,
+never opened. E2 draggable exit lines, E3 auto-entry still in the backlog.
 Open findings: F3 (impossible in TRTM - empty OnTradeTransaction), F4 (design
 note), F5 (E5 evidence-only, resolved).
 ```
