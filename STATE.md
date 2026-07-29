@@ -4,18 +4,50 @@
 # runtime copy, all compared to this manifest. Match = aligned in one
 # line. Disk + git are truth, never conversation or auto memory.
 
-build: b39
+build: b40
 file: TRTM.mq5
-sha256_16: 12c69766c709bd0d
-lines: 4939
+sha256_16: 2e902e9032d820a9
+lines: 4974
 date: 2026-07-30
+# b40 - DOCUMENTATION-ONLY BUILD, 2026-07-30. NOT a behaviour change.
+#   REPO src    = b40 (2e902e9032d820a9 / 4974)  <- this manifest tracks REPO.
+#   MT5 runtime = b40 once Jeff redeploys + recompiles (his manual step). Until then
+#     the resume protocol will show repo != runtime, which is EXPECTED, not a STOP.
+# WHY: the file header still claimed Stage 5 "[>] in progress" and Stages 6/7 "[ ]"
+#   unbuilt - both sealed weeks ago - and four other comment blocks asserted states that
+#   had since become false. A comment that lies is worse than no comment: the next cold
+#   start reads it as truth.
+# PROVEN COMMENT-ONLY: `git diff -U0` filtered to non-comment lines shows EXACTLY ONE
+#   changed line on each side - "#define TRTM_BUILD b39" -> "b40". Nothing else
+#   executable was added or removed. b40 is BEHAVIOURALLY IDENTICAL to b39, so every
+#   b39 Gate 4 evidence row carries forward UNCHANGED and needs no re-run.
+# SIX FIXES:
+#   1. File header - stage status was 3 builds stale. Now lists Stages 1-10 sealed,
+#      E1/E4/E5/E6/b39 sealed (with b39's caveat named), backlog, and a note that the
+#      "Stage N (bNN)" / "E4 C-1" / "matrix W-3" markers are the AUDIT TRAIL, not noise.
+#   2. NormalizeSymbol - "Stage 2 WILL reuse this" (it shipped). Now also records the
+#      E9-P2 consumer and the W-7 evidence: XAUUSD.s -> XAUUSDS (715358) vs XAUUSD+ ->
+#      XAUUSD (758105), so Jeff's two accounts CANNOT collide.
+#   3. StateSave/Load header - "later stages" (they are done). Now states the b2 flat-
+#      marker rule instead.
+#   4. Exit-engine header - said avg-entry TP and SL re-anchoring were "DORMANT until
+#      Stage 4" and that ALL manual edits are reverted. Both false since Stage 4/Stage 8:
+#      every exit path is live, and b24-b28 CLASSIFY non-zero manual edits (adopt or
+#      refuse) rather than blanket-revert. Also records E1's lot-weighted VWAP basis.
+#   5/6. Two comments written during b39 cited LINE NUMBERS that b39's own edits then
+#      shifted (ComputeRecoveryTrigger "2009-2011", Reconcile's baseLot WARN "2766+").
+#      Replaced with function-name references - line numbers rot on every build.
+# GATE ZERO: PASSED 2026-07-30 - 0 errors, 0 warnings, 2214 ms, cpu='X64 Regular'.
+# HYGIENE: 0 bare LF, ASCII-only, brace/paren/bracket deltas all 0.
+# DELTA: +35 lines (4939 -> 4974), all comment text.
+# Prior SEALED build: b39 (12c69766c709bd0d / 4939, sealed 2026-07-30, commit aed4b26).
 # b39 SEALED BY JEFF 2026-07-30 - WITH ONE EXPLICIT CAVEAT, SEE BELOW. Async-fill
 # registration hotfix, implemented per the CONFIRMED plan docs/B39_PLAN_2026-07-29_gate3.md
 # (10 touch points) + TP-11 (E9-P6) added at a post-build audit. GATE ZERO PASSED,
 # DEPLOYED, GATE 4 CLOSED WITH CAVEAT, SEALED.
-# b39 is now the CURRENT SEALED BUILD (supersedes E6-b38).
-#   REPO src    = b39 (12c69766c709bd0d / 4939)  <- this manifest tracks REPO.
-#   MT5 runtime = b39 (12c69766c709bd0d / 4939) - deployed 2026-07-29, byte-identical.
+# b39 superseded E6-b38. SUPERSEDED IN TURN by b40 (documentation-only, see the header
+# above) - b40 is BEHAVIOURALLY IDENTICAL, so everything below stands unchanged.
+#   b39 identity for the record = 12c69766c709bd0d / 4939, deployed 2026-07-29.
 # *** SEAL CAVEAT - READ THIS BEFORE TRUSTING THE WATCHER ***
 #   A-1 and W-1..W-6 closed on CODE INSPECTION, NOT EVIDENCE. WatchUntrackedLevels has
 #   never adopted a position in any run. On Vantage the TRADE_RETCODE_PLACED signature is

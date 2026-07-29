@@ -1,17 +1,36 @@
 //+------------------------------------------------------------------+
 //|                                          TRev_TradeManager.mq5   |
 //|  TRTM - TRev Trade Manager                                       |
-//|  Stage 5: GUI panel + dashboard (entry/close buttons, Option-B   |
-//|  next-trigger row, warning row) + b9 observability ride-alongs   |
 //|                                                                  |
-//|  STAGE STATUS:                                                   |
+//|  CORE COMPLETE (Stages 1-10, all SEALED):                        |
 //|   [X] Stage 1: Skeleton + StateManager + logging                 |
-//|   [X] Stage 2: AdoptionEngine                                    |
+//|   [X] Stage 2: AdoptionEngine (+2b2 duplicate-tag watch)         |
 //|   [X] Stage 3: ExitEngine core (TP / avg TP / anchored SL)       |
 //|   [X] Stage 4: RecoveryEngine                                    |
-//|   [>] Stage 5: GUI panel + dashboard                             |
-//|   [ ] Stage 6: BE + Trailing (with runtime override buttons)     |
-//|   [ ] Stage 7: SafetyLayer + restart-recovery hardening          |
+//|   [X] Stage 5: GUI panel + dashboard                             |
+//|   [X] Stage 6: BE + Trailing (runtime override buttons)          |
+//|   [X] Stage 7: SafetyLayer + instance lock + log retention       |
+//|   [X] Stage 8: Manual exit ownership (b24-b28)                   |
+//|   [X] Stage 9: Tester interactive mode (button polling)          |
+//|   [X] Stage 10: Observability (guard announcements)              |
+//|                                                                  |
+//|  ENHANCEMENTS (all SEALED, all default OFF unless noted):        |
+//|   [X] E1  lot-weighted VWAP anchor (ALWAYS on - the money basis) |
+//|   [X] E4  Drawdown Reduction Tier 1 - points        (E4-b36)     |
+//|   [X] E5  Drawdown Reduction Tier 2 - % of balance  (E5-b37)     |
+//|   [X] E6  Drawdown Reduction Tier 3 - anchor slice  (E6-b38)     |
+//|       Tiers dispatch T2 -> T1 -> T3, exactly ONE fire per tick.  |
+//|   [X] b39 async-fill registration hotfix (watcher-primary)       |
+//|           SEALED WITH A CAVEAT - see STATE.md: the watcher       |
+//|           itself has never adopted a position in testing.        |
+//|                                                                  |
+//|  BACKLOG: E2 draggable exit lines, E3 auto-entry, E8 profit-     |
+//|  funded follow-on slice, E9 broker hardening. See STATE.md.      |
+//|                                                                  |
+//|  Provenance convention: "Stage N (bNN)" / "E4 C-1" / "matrix     |
+//|  W-3" markers throughout record WHEN and WHY code arrived and    |
+//|  which sealed matrix row owns it. They are the audit trail -     |
+//|  do not strip them.                                              |
 //+------------------------------------------------------------------+
 #property copyright "Jeff"
 #property version   "1.00"
@@ -19,7 +38,7 @@
 
 #include <Trade\Trade.mqh>
 
-#define TRTM_BUILD  "b39"     // internal build tag, bump per delivery
+#define TRTM_BUILD  "b40"     // internal build tag, bump per delivery
 
 //+------------------------------------------------------------------+
 //| ENUMS                                                            |
@@ -348,8 +367,17 @@ void Log(const int level, const string msg)
 //+------------------------------------------------------------------+
 //| SYMBOL NORMALIZATION                                             |
 //| "XAUUSD.m", "pro.XAUUSD", "XAUUSDmicro" -> comparable core.      |
-//| Stage 1 use: magic derivation + file naming (chart symbol only). |
-//| Stage 2 will reuse this for comment-tag matching.                |
+//| Used by: magic derivation + state-file naming (Stage 1), tag     |
+//| matching (Stage 2), and the b39 admission filter's symbol test   |
+//| (E9-P2 - IsAdoptableOurPosition compares NORMALIZED, matching    |
+//| RebuildLiveMap, not the raw _Symbol the registration paths used  |
+//| through b38).                                                    |
+//| RULE: separators (. - _ /) are DROPPED, letters upper-cased.     |
+//| So XAUUSD+ -> XAUUSD but XAUUSD.s -> XAUUSDS (the 's' survives). |
+//| Since magic + state filename derive from this, two brokers whose |
+//| gold normalizes IDENTICALLY would share both. Observed live:     |
+//| Doo XAUUSD.s -> XAUUSDS (magic 715358), Vantage XAUUSD+ ->       |
+//| XAUUSD (758105) - they CANNOT collide. See W-7 in STATE.md.      |
 //+------------------------------------------------------------------+
 string NormalizeSymbol(const string raw)
   {
@@ -523,7 +551,10 @@ bool JsonGetArray(const string json, const string key, long &arr[], int &count)
 
 //+------------------------------------------------------------------+
 //| STATE: SAVE / LOAD / DELETE                                      |
-//| Called on every state transition (later stages) + init/deinit.   |
+//| Called on every state transition + init/deinit. A closed         |
+//| sequence writes a FLAT MARKER (levelCount 0 + lastCloseTime),    |
+//| never deletes the file - that marker anchors the stale-tag       |
+//| adoption gate across restarts (b2).                              |
 //+------------------------------------------------------------------+
 bool StateSave(const SequenceState &s)
   {
@@ -991,13 +1022,17 @@ void WatchDuplicateTags()
 
 //+------------------------------------------------------------------+
 //| EXIT ENGINE (Stage 3)                                            |
-//| Policy A: computed values are truth. Manual TP/SL changes are    |
-//| reverted on the next tick with a WARN. (Policy B - yield to      |
-//| manual changes + draggable exit lines - is spec'd in the README  |
-//| post-core list.)                                                 |
-//| Active in Stage 3: L1-only Initial TP, anchored SL.              |
-//| Written but DORMANT until Stage 4 creates multi-level sequences: |
-//| avg-entry TP overwrite, SL re-anchoring to lowest surviving lvl. |
+//| Policy A: computed values are truth. Manual TP/SL REMOVALS are   |
+//| reverted with a WARN. NOTE Stage 8 (b24-b28) superseded the      |
+//| blanket "all manual edits are reverted" rule: a non-zero manual  |
+//| edit is now CLASSIFIED - adopted into manualTP/manualSL and      |
+//| propagated, or refused with a reason. See DetectManualExitEdits. |
+//| (E2 draggable exit lines remains backlog - see STATE.md.)        |
+//| ALL EXIT PATHS ARE LIVE: L1 Initial TP, multi-level avg TP,      |
+//| anchored SL with re-anchoring to the lowest surviving level,     |
+//| BE (Stage 6), trailing ratchet (Stage 6).                        |
+//| E1: the TP/BE/trail anchor is the LOT-WEIGHTED VWAP, not the     |
+//| simple mean - one money basis, ComputeWeightedVWAP owns it.      |
 //+------------------------------------------------------------------+
 CTrade g_trade;
 
@@ -2552,8 +2587,8 @@ bool AdoptUntrackedLevel(const ulong ticket, const int rawLvl, const string src)
    if(!PositionSelectByTicket(ticket))
       return false;
 
-   // Level resolution. maxLvl uses the same idiom as ComputeRecoveryTrigger (2009-2011)
-   // so adoption and the recovery ladder always agree on what "next" means.
+   // Level resolution. maxLvl uses the same idiom as ComputeRecoveryTrigger's nextLvl
+   // scan, so adoption and the recovery ladder always agree on what "next" means.
    int maxLvl = 0;
    for(int i = 0; i < g_state.levelCount; i++)
       if(g_state.levels[i] > maxLvl) maxLvl = g_state.levels[i];
@@ -3299,7 +3334,7 @@ void RegisterButtonL1(const ulong ticket, const int seedLvl = 1)
    ResetExitEnforcement();
    // b39 (F-4): an L2+ seed's volume is a LADDER lot, not the base lot. It is the best
    // available bound with no L1 and no state file, but recovery multiplier math keys off
-   // baseLot, so say so out loud - same idiom as Reconcile's lost-baseLot WARN (2766+).
+   // baseLot, so say so out loud - same idiom as Reconcile's lost-baseLot WARN.
    if(g_state.levels[0] > 1)
       Log(LOG_WARN, StringFormat("baseLot derived %.2f from the L%d seed (no L1 present) - recovery lot math may differ from the original sequence intent. Manual review advised.",
                                  g_state.baseLot, g_state.levels[0]));
