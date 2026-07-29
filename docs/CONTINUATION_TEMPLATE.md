@@ -55,12 +55,9 @@ every money number before any PASS.
 ```
 Resume TRTM. Run the section 0 resume protocol FIRST: git status +
 sha256_16 + wc -l of src/TRTM.mq5 AND the MT5 runtime copy, all compared
-to STATE.md (expect build b40, 2e902e9032d820a9, 4974 lines). Report
-"repo and runtime aligned at b40" in one line, or STOP on mismatch.
-ONE EXPECTED EXCEPTION: if the runtime still reads b39 (12c69766c709bd0d /
-4939) then I have not redeployed b40 yet - say so and ask. b40 is
-DOCUMENTATION-ONLY and behaviourally identical to b39, so that drift is
-harmless, but do not silently ignore it.
+to STATE.md (expect build b40, 2e902e9032d820a9, 4974 lines). Repo and
+runtime are ALIGNED and DEPLOYED - report "repo and runtime aligned at b40"
+in one line. A mismatch on EITHER side is a real STOP.
 
 Then read docs/HANDOVER_2026-07-30_b39_sealed.md and STATE.md. E1, E4, E5, E6
 and b39 are ALL SEALED (do NOT re-open). b40 changed COMMENTS ONLY - proven by
@@ -101,11 +98,10 @@ decisions. Do not touch the MT5 tree (deploy is my manual step); recompute
 every money number before any PASS.
 
 Also carried forward:
-(0) DEPLOY b40 if I have not already - it is comment-only, but the runtime
-should not sit behind the repo. Recompile in MetaEditor after copying.
-(1) NOT PUSHED - origin/main is at 8722fcc; FIVE commits are local-only:
-37daf7e (E6-b38 seal), 09a0d77 (b39 Gate 1+2), aed4b26 (b39 seal + evidence),
-68009ed (b39 handover + continuation), plus the b40 docs build.
+(1) NOT PUSHED - origin/main is at 8722fcc; SIX commits are local-only
+(oldest first): 37daf7e E6-b38 seal, 09a0d77 b39 Gate 1+2, aed4b26 b39 seal
++ evidence, 68009ed b39 handover + continuation, d22cb44 b40 docs build,
+704761d handover realign. Verify with `git log --oneline 8722fcc..HEAD`.
 Pushing is my call, ask before doing it.
 (2) MAINTENANCE HAZARD from b39: AdoptionCandidateExists duplicates TryAdopt's
 admission logic and MUST be kept in step. Deliberately not unified inside a

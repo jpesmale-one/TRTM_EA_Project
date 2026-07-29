@@ -11,8 +11,10 @@ lines: 4974
 date: 2026-07-30
 # b40 - DOCUMENTATION-ONLY BUILD, 2026-07-30. NOT a behaviour change.
 #   REPO src    = b40 (2e902e9032d820a9 / 4974)  <- this manifest tracks REPO.
-#   MT5 runtime = b40 once Jeff redeploys + recompiles (his manual step). Until then
-#     the resume protocol will show repo != runtime, which is EXPECTED, not a STOP.
+#   MT5 runtime = b40 (2e902e9032d820a9 / 4974) - DEPLOYED + RECOMPILED by Jeff
+#     2026-07-30, verified byte-identical to repo. EA re-initialized "=== TRTM b40
+#     init ===" on XAUUSD.s (magic 715358), self-test PASS, Reconcile FLAT, stops
+#     level 100 pts. Repo and runtime ALIGNED - the resume protocol should say so.
 # WHY: the file header still claimed Stage 5 "[>] in progress" and Stages 6/7 "[ ]"
 #   unbuilt - both sealed weeks ago - and four other comment blocks asserted states that
 #   had since become false. A comment that lies is worse than no comment: the next cold

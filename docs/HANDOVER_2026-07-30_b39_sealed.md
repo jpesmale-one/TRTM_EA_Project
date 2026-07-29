@@ -14,11 +14,9 @@
    - sha256sum src/TRTM.mq5 | cut -c1-16   EXPECT 2e902e9032d820a9  (b40)
    - wc -l src/TRTM.mq5                      EXPECT 4974            (b40)
    - sha256sum the MT5 runtime copy (path in CLAUDE.md section 0)
-   Report "repo and runtime aligned at b40" in one line.
-   ONE EXPECTED EXCEPTION: the runtime may still read b39 (12c69766c709bd0d /
-   4939) if b40 has not been redeployed yet. Say so and ASK - b40 is
-   comment-only so that drift is harmless, but do not silently ignore it.
-   Any OTHER mismatch is a real STOP.
+   Report "repo and runtime aligned at b40" in one line. b40 was DEPLOYED and
+   recompiled 2026-07-30 and verified byte-identical, so any mismatch is a
+   real STOP.
    (Prior identities for the record: b39 = 12c69766c709bd0d / 4939;
     E6-b38 = f7766c859e4d3c7a / 4674.)
 2. E1, E4, E5, E6 and b39 are all SEALED. Do NOT re-open them. b40 changed no
