@@ -61,6 +61,7 @@ W-3  [NEW, MUST-NOT] The watcher MUST NEVER adopt a magic-0 position (mobile ado
 W-4  [NEW, MUST-NOT] MUST NEVER double-register a ticket already in g_state - neither with the fast path nor across consecutive ticks.
 W-5  [NEW] Every adoption logs ticket, level and volume, so a send with no matching adoption is visible in the journal (this is what carries E9-O2e's "not silent" argument).
 W-6  [NEW] Watcher cost is bounded: it runs every tick, so the scan must be O(positions) with no allocation churn. Confirm no measurable tick-time regression.
+W-7  [ADDED 2026-07-29 BY JEFF'S WORD - RECORD ONLY, NO b39 CODE] Magic and state-file identity derive from the NORMALIZED SYMBOL ONLY (DeriveMagic 375, stateFile 4482) - no account login, no server. So XAUUSD.s (Doo) and XAUUSD.sc (Vantage) collapse to XAUUSD and share BOTH the magic and the state file: an MT5 account switch re-inits onto the previous account's state. It self-heals (Reconcile rebuilds the live map first, foreign tickets fail PositionSelectByTicket, live-map-wins discards the stale file, EA lands FLAT) and cross-broker position mixing is impossible since one terminal shows one account. PRESENT IN SEALED b38; not created by b39 or by E9-P2. Observe during Run H, which crosses this boundary anyway. Account-scoped identity -> E9.
 
 ## Group G-L - LEVEL ASSIGNMENT EDGE CASES  (E9-O2a / O2b)
 L-1  [NEW] DUPLICATE level -> both adopted, both managed, loud WARN naming both tickets. Downstream checked: ComputeRecoveryTrigger takes maxLvl+1; the lot-weighted VWAP includes both (financially correct); ComputeLevelLot keys off baseLot.
@@ -100,9 +101,36 @@ refusal); E9-O5 execution-mode awareness + init guidance; E9-O6 comment-integrit
 detection and open-time reconstruction. Tier internals, the recovery ladder, exits, BE /
 trail, and the panel - all sealed and untouched.
 
+## GATE 4 OUTCOME (2026-07-29/30) - see STATE.md for the full evidence log
+CLOSED ON EVIDENCE:
+  R-1 R-2 R-3 R-4 ... Doo tester x2 (Run A + Run C configs) + live restart. No regression;
+                      Tier 3 fires recomputed to the cent on both derivations.
+  A-3 ............... fast path registers immediately on BOTH sync and async brokers.
+  A-5 ............... no duplicate stacking, proven ON THE LIVE CENT ACCOUNT that produced
+                      the 2026-07-27 duplicate-every-M5-bar failure.
+  O-3 O-4 ........... no 10013, no spurious pendingLive, same account.
+  K-3 / TP-10 ....... restart reconciled live sequences on Doo AND Vantage Cent.
+  E9-P2 ............. normalized comparator exercised on 3 suffixes: .s / + / .sc
+CLOSED ON INSPECTION ONLY - CAVEAT, READ BEFORE TRUSTING:
+  A-1, W-1..W-6 ..... WatchUntrackedLevels HAS NEVER ADOPTED A POSITION. The async
+                      registration MISS is a timing tail: on Vantage the PLACED retcode is
+                      routine but the fill lands within the tick, so the fast path never
+                      missed in any run. Not reproducible on demand on any available
+                      account. NOTE the untested part is only the per-tick DISPATCH loop -
+                      IsAdoptableOurPosition and AdoptUntrackedLevel are both exercised by
+                      every "Recovery fast path" registration across all 5 runs.
+  L-1..L-4 .......... unreachable without a deliberately corrupted comment.
+  F-1..F-5 .......... flat-state rebuild never triggered (no orphan ever survived flat).
+  K-1 K-2 K-4 ....... Run H not run.
+IF THE MISS EVER HAPPENS, the journal is the reproduction - look for
+  "order accepted but no position yet" -> "Watcher: L<n> REGISTERED" -> "Exits applied".
+  Those three lines close A-1/W-1..W-6 on live evidence and retire this caveat.
+
 ## Status
-SEALED rev 1 by Jeff 2026-07-27 (Gate 2). Groups (7): G-A, G-W, G-L, G-F, G-O, G-R, G-K.
-Rows (29): A-1..5, W-1..6, L-1..4, F-1..5, O-1..5, R-1..4, K-1..4.
+SEALED rev 1 by Jeff 2026-07-27 (Gate 2). AMENDED rev 2 by Jeff's word 2026-07-29 at
+Gate 3: W-7 added as RECORD ONLY (no code scope change) - same amendment status as K-4,
+which was added at draft time. Groups (7): G-A, G-W, G-L, G-F, G-O, G-R, G-K.
+Rows (30): A-1..5, W-1..7, L-1..4, F-1..5, O-1..5, R-1..4, K-1..4.
 MUST-NOT rows: A-4, W-3, W-4, L-3, F-3, O-3, O-4.
 CRITICAL rows: L-3 (level-0 anchor hazard - arguably the most valuable line in b39),
 R-1 and R-2 (no regression on a sync broker), A-5 (duplicate stacking closed),

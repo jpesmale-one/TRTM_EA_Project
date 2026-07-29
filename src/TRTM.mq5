@@ -19,7 +19,7 @@
 
 #include <Trade\Trade.mqh>
 
-#define TRTM_BUILD  "E6-b38"  // internal build tag, bump per delivery
+#define TRTM_BUILD  "b39"     // internal build tag, bump per delivery
 
 //+------------------------------------------------------------------+
 //| ENUMS                                                            |
@@ -709,6 +709,43 @@ void AdoptPosition(const ulong ticket, const int posDir, const bool untagged, co
   }
 
 // Scans for an external tagged L1 to adopt. Only called when FLAT.
+// b39 (E9-P6): SILENT test for "TryAdopt would adopt something this tick".
+// Side-effect free by contract - no logging, no AlreadyLogged registry writes, no
+// state change - because it runs BEFORE TryAdopt on the same tick and must not
+// consume its one-shot WARNs or double-report anything.
+// Mirrors BOTH of TryAdopt's branches, in the same order and with the same gates:
+//   (1) tagged magic-0 L1: parseable tag, not stale, level 1, symbol match, direction
+//       agrees;  (2) the MMT untagged fallback: strictly magic 0, untagged, not stale.
+// MUST be kept in step with TryAdopt. It exists only so the flat-state L2+ seed can
+// YIELD to adoption (matrix F-3) instead of stealing the anchor from a real L1.
+bool AdoptionCandidateExists()
+  {
+   int total = PositionsTotal();
+   for(int i = 0; i < total; i++)
+     {
+      ulong ticket = PositionGetTicket(i);
+      if(ticket == 0) continue;
+      if(PositionGetInteger(POSITION_MAGIC) == g_magic) continue;
+      if(PositionGetString(POSITION_SYMBOL) != _Symbol) continue;
+      string symPart; int level, tagDir;
+      bool tagged = ParseTag(PositionGetString(POSITION_COMMENT), symPart, level, tagDir);
+      if(g_state.lastCloseTime > 0 &&
+         (datetime)PositionGetInteger(POSITION_TIME) < g_state.lastCloseTime)
+         continue;   // stale-tag gate, both branches
+      if(tagged)
+        {
+         if(level != 1) continue;
+         if(!TagSymbolMatches(symPart)) continue;
+         int posDir = (PositionGetInteger(POSITION_TYPE) == POSITION_TYPE_BUY) ? 1 : -1;
+         if(posDir != tagDir) continue;
+         return true;                                   // branch 1: tagged L1
+        }
+      if(InpManageMobileTrades && PositionGetInteger(POSITION_MAGIC) == 0)
+         return true;                                   // branch 2: MMT untagged fallback
+     }
+   return false;
+  }
+
 // If nothing tagged qualifies and InpManageMobileTrades is on, falls back to
 // the OLDEST untagged, strictly magic-0 manual position (mobile workflow:
 // the standard MT5 mobile app has no comment field).
@@ -1908,35 +1945,35 @@ double ComputeLevelLot(const int levelN)
 
 // Registers a freshly opened recovery position into the sequence by
 // rescanning for our magic + the expected level comment.
+// b39 (TP-3): DEMOTED TO A FAST PATH. On a synchronous-fill broker the position
+// already exists when we get here and this registers it immediately, exactly as b38
+// did (matrix A-3 / R-1). On an ASYNCHRONOUS-fill broker the send returns
+// TRADE_RETCODE_PLACED with price 0.00 and deal 0 BEFORE the position exists, so the
+// scan legitimately misses - that is "not yet", not "never", and it logs INFO rather
+// than the b38 ERROR. WatchUntrackedLevels completes the registration on a later tick
+// (E9-O1/O2, matrix A-1/A-2).
+// A genuine send FAILURE never reaches here: the retcode gate at the call site returns
+// first, so "not yet" and "never" stay distinguishable (matrix A-4).
 bool RegisterNewRecovery(const int levelN)
   {
    int total = PositionsTotal();
+   bool sawLevel = false;   // an L<levelN> position EXISTS, adopted or already tracked
    for(int i = 0; i < total; i++)
      {
       ulong ticket = PositionGetTicket(i);
       if(ticket == 0) continue;
-      if(PositionGetInteger(POSITION_MAGIC) != g_magic) continue;
-      if(PositionGetString(POSITION_SYMBOL) != _Symbol) continue;
-      if(ParseLevelFromComment(PositionGetString(POSITION_COMMENT)) != levelN) continue;
-      bool tracked = false;
-      for(int j = 0; j < g_state.levelCount; j++)
-         if(g_state.tickets[j] == ticket) { tracked = true; break; }
-      if(tracked) continue;
-      if(g_state.levelCount >= TRTM_MAX_LEVELS)
-        {
-         Log(LOG_ERROR, "RegisterNewRecovery: TRTM_MAX_LEVELS reached - position opened but NOT tracked. Manual review required.");
-         return false;
-        }
-      g_state.tickets[g_state.levelCount] = ticket;
-      g_state.levels[g_state.levelCount]  = levelN;
-      g_state.levelCount++;
-      ReleaseManualTP(StringFormat("level add (L%d)", levelN));   // b24; manual SL untouched (M3-4)
-      StateSave(g_state);
-      Log(LOG_INFO, StringFormat("Recovery L%d registered: ticket %I64u", levelN, ticket));
-      LogStructure();
-      return true;
+      int lvl = -1;
+      if(!IsAdoptableOurPosition(ticket, lvl)) continue;
+      if(lvl != levelN) continue;   // fast path is exact-level, as through b38
+      sawLevel = true;
+      if(AdoptUntrackedLevel(ticket, levelN, "Recovery fast path"))
+         return true;
      }
-   Log(LOG_ERROR, StringFormat("RegisterNewRecovery: L%d order reported filled but position not found - manual review required", levelN));
+   // Distinguish "the position is not there yet" from "it is there and already
+   // tracked" - only the former is an asynchronous fill awaiting the watcher.
+   if(sawLevel)
+      return false;
+   Log(LOG_INFO, StringFormat("Recovery L%d: order accepted but no position yet (asynchronous fill) - the watcher will register it as soon as it appears", levelN));
    return false;
   }
 
@@ -2298,14 +2335,18 @@ bool FireGroupClose(const ulong &grp[], const int &grpLvl[],
   }
 
 //+------------------------------------------------------------------+
-//| DRAWDOWN REDUCTION DISPATCHER (Tier 2 FIRST, then Tier 1)        |
+//| DRAWDOWN REDUCTION DISPATCHER (Tier 2 -> Tier 1 -> Tier 3)       |
 //+------------------------------------------------------------------+
 // Evaluated EVERY tick (T-5/T2-5), distinct from InpBarCloseEntry which gates
-// recovery ENTRIES only. Tier 2 (percent-of-balance) is evaluated FIRST; on its
-// gate failing, Tier 1 (points) is evaluated (T2-O4 precedence, fall-through).
-// Both share ONE group + ONE fire, so exactly ONE fire per tick. Returns true
-// when a fire was INITIATED this tick (caller defers recovery - H-5/H-6); false
-// when nothing fired (disabled / dormant / gates unmet / whole-basket stand-down).
+// recovery ENTRIES only. THREE tiers are dispatched in a fixed precedence with
+// fall-through: Tier 2 (percent-of-balance) FIRST, then Tier 1 (points), then
+// Tier 3 (partial-lot anchor slice) - T2-O4 precedence, extended by E6.
+// Tiers 1 and 2 share ONE group + ONE fire; Tier 3 forms the same group but the
+// oldest anchor contributes only a SLICE to both the close and the gate. Exactly
+// ONE fire per tick across all three. Returns true when a fire was INITIATED this
+// tick (caller defers recovery - H-5/H-6); false when nothing fired (disabled /
+// dormant / gates unmet / whole-basket stand-down).
+// (b39/TP-9: header corrected - it still described the two-tier E5 world.)
 bool EvaluateBasketClose()
   {
    bool t2on = InpEnableTier2;
@@ -2468,10 +2509,119 @@ int ParseLevelFromComment(const string comment)
    return -1;
   }
 
+// b39 (TP-1): THE one admission filter for "this position is ours and carries our
+// tag". Extracted from RebuildLiveMap - sealed since Stage 1 - so the watcher, the
+// registration fast path and the flat scan cannot drift apart (E9-P1 / matrix W-1).
+// Symbol is compared NORMALIZED, matching RebuildLiveMap, NOT the raw != _Symbol the
+// registration paths used through b38 (E9-P2).
+// MAGIC IS THE HARD GATE and it lives HERE, nowhere else, so no caller can bypass it:
+// a magic-0 mobile/adopted position fails on the second test and is invisible to every
+// b39 path (E9-N1 / matrix W-3). The ADOPTION path does not call this and is untouched.
+// Returns true on admission and sets lvl. lvl < 0 means the tag is UNPARSEABLE - the
+// CALLER assigns the level, and it is never 0 (matrix L-3).
+bool IsAdoptableOurPosition(const ulong ticket, int &lvl)
+  {
+   lvl = -1;
+   if(!PositionSelectByTicket(ticket))
+      return false;
+   if(PositionGetInteger(POSITION_MAGIC) != g_magic)
+      return false;
+   if(NormalizeSymbol(PositionGetString(POSITION_SYMBOL)) != g_symbolNorm)
+      return false;
+   lvl = ParseLevelFromComment(PositionGetString(POSITION_COMMENT));
+   return true;
+  }
+
+// b39 (TP-2): the ONE place a ticket enters a LIVE sequence. Every guard here is a
+// sealed matrix row. Returns true only when the position was actually added.
+//   W-4  never double-registers        L-1  duplicate levels adopted, loud WARN
+//   L-2  unparseable tag -> maxLvl+1   L-3  level 0 is NEVER assignable
+//   E9-P5 counter-direction refused (it is not a level of this sequence; grafting it
+//         would corrupt the VWAP anchor every sealed tier sits on)
+bool AdoptUntrackedLevel(const ulong ticket, const int rawLvl, const string src)
+  {
+   for(int j = 0; j < g_state.levelCount; j++)
+      if(g_state.tickets[j] == ticket)
+         return false;   // W-4: already tracked - silent, this runs every tick
+   if(g_state.levelCount >= TRTM_MAX_LEVELS)
+     {
+      if(!AlreadyLogged("adoptmax:" + (string)ticket))
+         Log(LOG_ERROR, StringFormat("%s: TRTM_MAX_LEVELS reached - position %I64u is open but NOT tracked. Manual review required.", src, ticket));
+      return false;
+     }
+   if(!PositionSelectByTicket(ticket))
+      return false;
+
+   // Level resolution. maxLvl uses the same idiom as ComputeRecoveryTrigger (2009-2011)
+   // so adoption and the recovery ladder always agree on what "next" means.
+   int maxLvl = 0;
+   for(int i = 0; i < g_state.levelCount; i++)
+      if(g_state.levels[i] > maxLvl) maxLvl = g_state.levels[i];
+   int lvl = rawLvl;
+   if(lvl < 1)
+     {
+      lvl = maxLvl + 1;   // L-2/L-3: never 0, so it can never seize the anchor
+      Log(LOG_WARN, StringFormat("%s: position %I64u has our magic but an unparseable level comment '%s' - adopted as L%d (highest, so it can never become the anchor). Manual review advised.",
+                                 src, ticket, PositionGetString(POSITION_COMMENT), lvl));
+     }
+
+   int posDir = (PositionGetInteger(POSITION_TYPE) == POSITION_TYPE_BUY) ? 1 : -1;
+   if(g_state.direction != 0 && posDir != g_state.direction)
+     {
+      if(!AlreadyLogged("adoptdir:" + (string)ticket))
+         Log(LOG_ERROR, StringFormat("%s: position %I64u is %s but the live sequence is %s - NOT adopted (E9-P5: a counter-direction position is not a level of this sequence). Manual review required.",
+                                     src, ticket, posDir > 0 ? "BUY" : "SELL", g_state.direction > 0 ? "BUY" : "SELL"));
+      return false;
+     }
+
+   // L-1 (E9-O2a): the level is an ADDRESS for lot sizing and anchor ordering, not a
+   // unique key. Adopt anyway - refusing would recreate the very orphan b39 removes.
+   for(int i = 0; i < g_state.levelCount; i++)
+      if(g_state.levels[i] == lvl)
+        {
+         Log(LOG_WARN, StringFormat("%s: DUPLICATE level L%d - ticket %I64u and existing ticket %I64u both carry it. Both are adopted and managed; anchor ordering uses the lowest level.",
+                                    src, lvl, ticket, g_state.tickets[i]));
+         break;
+        }
+
+   g_state.tickets[g_state.levelCount] = ticket;
+   g_state.levels[g_state.levelCount]  = lvl;
+   g_state.levelCount++;
+   ReleaseManualTP(StringFormat("level add (L%d)", lvl));   // b24; manual SL untouched (M3-4)
+   StateSave(g_state);
+   Log(LOG_INFO, StringFormat("%s: L%d REGISTERED ticket %I64u %.2f lots @ %s",
+                              src, lvl, ticket, PositionGetDouble(POSITION_VOLUME),
+                              DoubleToString(PositionGetDouble(POSITION_PRICE_OPEN), _Digits)));   // W-5
+   LogStructure();
+   return true;
+  }
+
+// b39 (TP-4): the live-sequence orphan watcher. Runs EVERY tick while a sequence is
+// live and adopts any of our own tagged, untracked positions - the async fill that
+// arrived after RegisterNewRecovery looked for it, a crash between send and register,
+// or a cause not yet seen (E9-O1/O2). O(positions), no allocation (W-6). Silent when
+// there is nothing to do, so a healthy sync-broker run gains no log lines (R-4).
+void WatchUntrackedLevels()
+  {
+   if(g_state.levelCount == 0 || g_state.direction == 0)
+      return;
+   int total = PositionsTotal();
+   for(int i = 0; i < total; i++)
+     {
+      ulong ticket = PositionGetTicket(i);
+      if(ticket == 0) continue;
+      int lvl = -1;
+      if(!IsAdoptableOurPosition(ticket, lvl))
+         continue;
+      AdoptUntrackedLevel(ticket, lvl, "Watcher");
+     }
+  }
+
 void RebuildLiveMap(SequenceState &live)
   {
    StateReset(live);
    int total = PositionsTotal();
+   int runningMax = 0;   // b39 (TP-10): highest level admitted SO FAR in this pass
    for(int i = 0; i < total; i++)
      {
       ulong ticket = PositionGetTicket(i);
@@ -2489,9 +2639,18 @@ void RebuildLiveMap(SequenceState &live)
       int lvl = ParseLevelFromComment(comment);
       if(lvl < 0)
         {
-         Log(LOG_WARN, StringFormat("RebuildLiveMap: position %I64u has our magic but unparseable level comment '%s' - counted, level unknown", ticket, comment));
-         lvl = 0;
+         // b39 (TP-10 / L-3, Q-1=a): NEVER 0. Through b38 this assigned lvl = 0, and
+         // FormBasketGroup picks the LOWEST level as anchor - so an UNIDENTIFIED
+         // position inherited both the SL anchoring (ComputeTargets) and Tier 3's
+         // slice target. runningMax is the max over positions admitted so far (the map
+         // is built in one pass), so an unparseable position can still land below a
+         // later-scanned higher level; that is fine - what matters is that it is never
+         // 0 and so can never seize the anchor from a real L1.
+         lvl = runningMax + 1;
+         Log(LOG_WARN, StringFormat("RebuildLiveMap: position %I64u has our magic but unparseable level comment '%s' - counted as L%d (never 0: a level-0 position would become the anchor). Manual review advised.", ticket, comment, lvl));
         }
+      if(lvl > runningMax)
+         runningMax = lvl;
       if(live.levelCount >= TRTM_MAX_LEVELS)
         {
          Log(LOG_ERROR, "RebuildLiveMap: TRTM_MAX_LEVELS exceeded - further positions ignored in map");
@@ -3056,6 +3215,16 @@ bool EntrySLRealizable(const double refPx, const bool silent = false)
 
 //--- Own pending orders (P7/P8). No persistence: the broker's order book
 //--- is the truth, scanned on demand (terminal-is-truth).
+// b39 (TP-7 / E9-O2d): only these four are GENUINE pending orders. An
+// ORDER_TYPE_BUY / ORDER_TYPE_SELL sitting in the order book is a market order whose
+// fill is IN FLIGHT - on an asynchronous-fill broker it is about to become one of our
+// positions, and it must never be counted as a pending or deleted as one.
+bool IsGenuinePendingType(const long t)
+  {
+   return (t == ORDER_TYPE_BUY_LIMIT  || t == ORDER_TYPE_BUY_STOP ||
+           t == ORDER_TYPE_SELL_LIMIT || t == ORDER_TYPE_SELL_STOP);
+  }
+
 int CountOwnPendingOrders()
   {
    int count = 0;
@@ -3065,6 +3234,7 @@ int CountOwnPendingOrders()
       if(ticket == 0) continue;
       if(OrderGetInteger(ORDER_MAGIC) != g_magic) continue;
       if(OrderGetString(ORDER_SYMBOL) != _Symbol) continue;
+      if(!IsGenuinePendingType(OrderGetInteger(ORDER_TYPE))) continue;   // b39/O-4
       count++;
      }
    return count;
@@ -3088,6 +3258,7 @@ void CancelOwnPendingOrders(const string reason, const bool isP8 = true)
       if(ticket == 0) continue;
       if(OrderGetInteger(ORDER_MAGIC) != g_magic) continue;
       if(OrderGetString(ORDER_SYMBOL) != _Symbol) continue;
+      if(!IsGenuinePendingType(OrderGetInteger(ORDER_TYPE))) continue;   // b39/O-3
       if(g_trade.OrderDelete(ticket))
         {
          if(isP8)
@@ -3104,7 +3275,10 @@ void CancelOwnPendingOrders(const string reason, const bool isP8 = true)
 //--- and pending fills). NOT the adoption path: our magic, our tag,
 //--- adoptedL1 = false. Cache lesson applied: called only AFTER the
 //--- position exists at the broker; state is rebuilt from scratch here.
-void RegisterButtonL1(const ulong ticket)
+// b39 (TP-6): seedLvl defaults to 1, so both b38 call sites keep byte-identical
+// behaviour (R-1). It is passed > 1 only by the flat-state rebuild, which may have to
+// seed a sequence from a surviving L2+ orphan when no L1 exists (matrix F-1/F-2).
+void RegisterButtonL1(const ulong ticket, const int seedLvl = 1)
   {
    if(!PositionSelectByTicket(ticket))
      {
@@ -3118,16 +3292,22 @@ void RegisterButtonL1(const ulong ticket)
    g_state.direction    = posDir;
    g_state.levelCount   = 1;
    g_state.tickets[0]   = ticket;
-   g_state.levels[0]    = 1;
+   g_state.levels[0]    = (seedLvl >= 1 ? seedLvl : 1);   // b39: never 0 (L-3)
    g_state.adoptedL1    = false;                             // EA-owned, not adopted
    g_state.baseLot      = PositionGetDouble(POSITION_VOLUME);
    g_state.adoptionTime = TimeCurrent();
    ResetExitEnforcement();
+   // b39 (F-4): an L2+ seed's volume is a LADDER lot, not the base lot. It is the best
+   // available bound with no L1 and no state file, but recovery multiplier math keys off
+   // baseLot, so say so out loud - same idiom as Reconcile's lost-baseLot WARN (2766+).
+   if(g_state.levels[0] > 1)
+      Log(LOG_WARN, StringFormat("baseLot derived %.2f from the L%d seed (no L1 present) - recovery lot math may differ from the original sequence intent. Manual review advised.",
+                                 g_state.baseLot, g_state.levels[0]));
    CancelOwnPendingOrders("sequence started (EA L1 registered)");   // P8 (no-op if this L1 WAS the pending)
    StateSave(g_state);
    LogStructure();
-   Log(LOG_INFO, StringFormat("EA L1 REGISTERED: ticket %I64u %s %.2f lots @ %s. Exits apply next tick.",
-                              ticket, posDir > 0 ? "BUY" : "SELL",
+   Log(LOG_INFO, StringFormat("EA L%d REGISTERED: ticket %I64u %s %.2f lots @ %s. Exits apply next tick.",
+                              g_state.levels[0], ticket, posDir > 0 ? "BUY" : "SELL",
                               PositionGetDouble(POSITION_VOLUME),
                               DoubleToString(PositionGetDouble(POSITION_PRICE_OPEN), _Digits)));
   }
@@ -3136,21 +3316,20 @@ void RegisterButtonL1(const ulong ticket)
 //--- right after a button market order, and every flat tick as the
 //--- pending-fill watcher (P5) - which also covers a crash between
 //--- OrderSend and registration (terminal-is-truth).
+// b39 (TP-5): re-expressed over the shared admission filter (E9-P1). The one-shot
+// orphan ERROR that used to live here for lvl > 1 is GONE - that branch WAS the hole
+// matrix F-2 closes. An L2+ orphan is no longer merely complained about; it is adopted
+// by FindUntrackedOurSeed below.
 ulong FindUntrackedOurL1()
   {
-   for(int i = 0; i < PositionsTotal(); i++)
+   int total = PositionsTotal();
+   for(int i = 0; i < total; i++)
      {
       ulong ticket = PositionGetTicket(i);
       if(ticket == 0) continue;
-      if(PositionGetInteger(POSITION_MAGIC) != g_magic) continue;
-      if(PositionGetString(POSITION_SYMBOL) != _Symbol) continue;
-      int lvl = ParseLevelFromComment(PositionGetString(POSITION_COMMENT));
-      if(lvl != 1)
-        {
-         if(lvl > 1 && !AlreadyLogged("orphan:" + (string)ticket))
-            Log(LOG_ERROR, StringFormat("Our-magic L%d position %I64u present while FLAT - orphan level without a sequence. Manual review required.", lvl, ticket));
-         continue;
-        }
+      int lvl = -1;
+      if(!IsAdoptableOurPosition(ticket, lvl)) continue;
+      if(lvl != 1) continue;
       bool tracked = false;
       for(int j = 0; j < g_state.levelCount; j++)
          if(g_state.tickets[j] == ticket) { tracked = true; break; }
@@ -3160,13 +3339,89 @@ ulong FindUntrackedOurL1()
    return 0;
   }
 
+// b39 (TP-5 / E9-O2c, matrix F-1/F-2): the flat-state counterpart of the watcher.
+// Returns the LOWEST-level untracked our-magic tagged position, so a rebuilt sequence
+// is seeded by its oldest surviving level and the anchor ordering stays meaningful.
+// An unparseable tag (lvl < 0) is admitted as a LAST-RESORT seed only, never at
+// level 0 - the caller seeds it at L1 (L-3).
+ulong FindUntrackedOurSeed(int &seedLvl)
+  {
+   ulong best      = 0;
+   int   bestLvl   = 0;
+   bool  bestParsed = false;   // a PARSED level always outranks an unparseable one
+   int   total     = PositionsTotal();
+   for(int i = 0; i < total; i++)
+     {
+      ulong ticket = PositionGetTicket(i);
+      if(ticket == 0) continue;
+      int lvl = -1;
+      if(!IsAdoptableOurPosition(ticket, lvl)) continue;
+      bool tracked = false;
+      for(int j = 0; j < g_state.levelCount; j++)
+         if(g_state.tickets[j] == ticket) { tracked = true; break; }
+      if(tracked) continue;
+      bool parsed = (lvl >= 1);
+      // Ranking, in order: any parsed level beats any unparseable one; among parsed,
+      // the LOWEST wins. A parsed level is used verbatim - it is never compared against
+      // a sentinel, so a nonsense high level (e.g. a rewritten '_l99_') can never be
+      // mistaken for "unparseable" and silently reseeded to L1.
+      bool better = (best == 0)
+                    || (parsed && !bestParsed)
+                    || (parsed && bestParsed && lvl < bestLvl);
+      if(better)
+        {
+         best       = ticket;
+         bestLvl    = lvl;
+         bestParsed = parsed;
+        }
+     }
+   if(best != 0)
+      seedLvl = (bestParsed ? bestLvl : 1);   // unparseable seed starts at L1, never 0
+   return best;
+  }
+
+// Stage 5 / P5, extended by b39. Runs BEFORE TryAdopt in OnTick. It REGISTERS only
+// our-magic positions (the IsAdoptableOurPosition gate), and it never adopts, closes
+// or modifies a magic-0 position. It does READ magic-0 positions once, through the
+// side-effect-free AdoptionCandidateExists, purely to decide whether to stand down
+// for the tick - which is what keeps the sealed adoption ordering, the stale-tag gate
+// and the MMT-off notice intact (matrix F-3 / E9-P6).
 void CheckOwnPendingFillWhenFlat()
   {
    ulong ticket = FindUntrackedOurL1();
-   if(ticket == 0)
+   if(ticket != 0)
+     {
+      // L1 is preferred as the seed: baseLot is then genuinely the base lot (F-4).
+      Log(LOG_INFO, StringFormat("Own L1 position %I64u found while FLAT (pending fill or recovered send) - registering", ticket));
+      RegisterButtonL1(ticket);
       return;
-   Log(LOG_INFO, StringFormat("Own L1 position %I64u found while FLAT (pending fill or recovered send) - registering", ticket));
-   RegisterButtonL1(ticket);
+     }
+   // b39 (F-2): no L1, but a higher recovery level may be sitting there unmanaged -
+   // the state Jeff was one L1 close away from on 2026-07-27. Through b38 this only
+   // logged a one-shot ERROR and the position kept sitting with no TP and no SL.
+   int seedLvl = 1;
+   ulong seed = FindUntrackedOurSeed(seedLvl);
+   if(seed == 0)
+      return;
+   // b39 (E9-P6, matrix F-3): YIELD TO ADOPTION. This function runs BEFORE TryAdopt,
+   // and seeding here would set levelCount > 0 and skip it for the tick - stranding an
+   // adoptable magic-0 L1 (mixed mobile-L1 + EA-L2/L3 sequence, exactly the shape
+   // E9-N1 blesses) and anchoring the sequence on a LADDER lot instead of the base lot.
+   // If a candidate exists, do nothing: TryAdopt takes L1 as the anchor this tick and
+   // WatchUntrackedLevels adopts L2+ into it on the same tick. The seed branch then
+   // fires only on a genuinely L1-less tick, which is the case F-2 is about.
+   if(AdoptionCandidateExists())
+     {
+      if(!AlreadyLogged("seedyield:" + (string)seed))
+         Log(LOG_INFO, StringFormat("Our-magic L%d position %I64u present while FLAT, but an adoptable L1 candidate exists - deferring to adoption so L1 anchors the sequence; L%d is adopted into it by the watcher (F-3).",
+                                    seedLvl, seed, seedLvl));
+      return;
+     }
+   Log(LOG_WARN, StringFormat("Our-magic L%d position %I64u present while FLAT - orphan recovery level with no sequence. Rebuilding a sequence from it so it gets TP/SL (b39/F-2).", seedLvl, seed));
+   RegisterButtonL1(seed, seedLvl);
+   // Siblings (if several orphans survive) are picked up by WatchUntrackedLevels on
+   // this same tick, now that a live sequence exists to adopt them into.
+   WatchUntrackedLevels();
   }
 
 //--- Arm state machine ------------------------------------------------
@@ -3284,7 +3539,13 @@ void ExecuteMarketEntry(const int dir)
    ulong ticket = FindUntrackedOurL1();
    if(ticket == 0)
      {
-      Log(LOG_ERROR, "L1 order reported filled but position not found - manual review required (flat watcher will register it if it appears)");
+      // b39 (matrix A-2): on an ASYNCHRONOUS-fill broker the send returns
+      // TRADE_RETCODE_PLACED before the position exists, so this is "not yet", not a
+      // failure - INFO, not the b38 ERROR. CheckOwnPendingFillWhenFlat registers it on
+      // a later flat tick. A genuine send failure returned at the retcode gate above
+      // and never reaches here (A-4). Jeff's 2026-07-27 L1 got lucky and appeared in
+      // time; b39 must not depend on luck.
+      Log(LOG_INFO, "L1 order accepted but no position yet (asynchronous fill) - the flat-state watcher will register it as soon as it appears");
       return;
      }
    RegisterButtonL1(ticket);
@@ -4629,6 +4890,10 @@ void OnTick()
       if(g_state.levelCount > 0)
         {
          WatchDuplicateTags();  // Stage 2b2: warn on unmanaged duplicate L1 tags
+         WatchUntrackedLevels();// b39: adopt our own untracked tagged levels (async
+                                //   fill, or a crash between send and register). Placed
+                                //   BEFORE EnforceExits so a position adopted this tick
+                                //   is dressed with TP/SL on this SAME tick (W-2).
          EnforceExits();        // Stage 3: TP/SL placement + policy-A enforcement
          if(EvaluateBasketClose()) // E4/E5/E6: basket close (Tier 2 percent, then
             return;             //   Tier 1 points, then Tier 3 partial slice;

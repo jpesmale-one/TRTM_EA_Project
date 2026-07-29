@@ -4,11 +4,56 @@
 # runtime copy, all compared to this manifest. Match = aligned in one
 # line. Disk + git are truth, never conversation or auto memory.
 
-build: E6-b38
+build: b39
 file: TRTM.mq5
-sha256_16: f7766c859e4d3c7a
-lines: 4674
-date: 2026-07-26
+sha256_16: 12c69766c709bd0d
+lines: 4939
+date: 2026-07-30
+# b39 SEALED BY JEFF 2026-07-30 - WITH ONE EXPLICIT CAVEAT, SEE BELOW. Async-fill
+# registration hotfix, implemented per the CONFIRMED plan docs/B39_PLAN_2026-07-29_gate3.md
+# (10 touch points) + TP-11 (E9-P6) added at a post-build audit. GATE ZERO PASSED,
+# DEPLOYED, GATE 4 CLOSED WITH CAVEAT, SEALED.
+# b39 is now the CURRENT SEALED BUILD (supersedes E6-b38).
+#   REPO src    = b39 (12c69766c709bd0d / 4939)  <- this manifest tracks REPO.
+#   MT5 runtime = b39 (12c69766c709bd0d / 4939) - deployed 2026-07-29, byte-identical.
+# *** SEAL CAVEAT - READ THIS BEFORE TRUSTING THE WATCHER ***
+#   A-1 and W-1..W-6 closed on CODE INSPECTION, NOT EVIDENCE. WatchUntrackedLevels has
+#   never adopted a position in any run. On Vantage the TRADE_RETCODE_PLACED signature is
+#   ROUTINE (reproduced live, Run 5) but the fill lands within the tick, so the fast path
+#   never missed. The registration MISS behind the 2026-07-27 incident is a TIMING TAIL,
+#   not reproducible on demand on any account available. Jeff will not run further tests
+#   on the Cent LIVE account to chase it. PARKED: if it recurs, the journal is the
+#   reproduction - "order accepted but no position yet" -> "Watcher: L<n> REGISTERED" ->
+#   "Exits applied" closes the rows on live evidence; an orphan with NO watcher line is a
+#   b39 DEFECT, capture the log and reopen. Full reasoning in the Gate 4 evidence log.
+# GATE 4 CLOSED ON EVIDENCE: R-1 R-2 R-3 R-4 (no regression, 3 brokers, tester + live +
+#   restart-with-open-positions), A-3, A-5, O-3, O-4 (the last three proven ON THE LIVE
+#   CENT ACCOUNT that produced the incident), K-3, TP-10, E9-P2 (normalized comparator on
+#   3 suffixes .s / + / .sc). Two Tier 3 fires recomputed to the cent on BOTH derivations.
+# ALSO OPEN ON INSPECTION: L-1..L-4 (need a deliberately corrupted comment), F-1..F-5
+#   (flat-state rebuild never triggered), K-1/K-2/K-4 (Run H not run).
+# GATE ZERO: PASSED 2026-07-29 - 0 errors, 0 warnings, 2590 ms, cpu='X64 Regular',
+#   compiled from the REPO copy with MetaEditor64 (Vantage terminal build) against the
+#   D0E8209F MQL5 include tree. The .ex5 and compile log were deleted after witnessing -
+#   they are build artifacts, and the MT5 tree was NOT touched.
+# HYGIENE: 0 bare LF, ASCII-only (0 bytes > 127), brace/paren/bracket deltas all 0 and
+#   identical to the b38 baseline. No new input, no new global, NO NEW PERSISTED FIELD,
+#   no state-schema change (R-3 by construction).
+# DELTA: +265 lines (4674 -> 4939) across ELEVEN touch points, per the CONFIRMED plan
+#   docs/B39_PLAN_2026-07-29_gate3.md + TP-11 (E9-P6, added at post-build audit).
+# GATE ZERO RE-RUN after TP-11: 0 errors, 0 warnings, 2134 ms. Hygiene re-verified
+#   (0 bare LF, ASCII-only, all delimiter deltas 0).
+# CARRIED FORWARD to the next build (NOT fixed in b39):
+#   (1) Run H (K-1/K-2) against an actual SLICED anchor on Vantage, + K-4 (do comments
+#       survive a PARTIAL CLOSE on Vantage). Overdue since the E6 seal.
+#   (2) T3-DS1 dashboard visual confirm (display-only, no money path).
+#   (3) E9: O3 filling-mode negotiation, O4 netting guard, O5 exemode init guidance,
+#       O6 comment-integrity detection, PLUS b39's own deferrals - the never-filled
+#       timeout (E9-O2e), account-scoped identity (W-7), and unifying
+#       AdoptionCandidateExists with TryAdopt (they duplicate admission logic today
+#       and MUST be kept in step - see E9-P6).
+# Prior SEALED build: E6-b38 (f7766c859e4d3c7a / 4674, sealed 2026-07-26, commit
+#   8722fcc). b39 is UNCOMMITTED as of the seal - committing it is Jeff's call.
 # E6-b38 SEALED BY JEFF 2026-07-26. Drawdown Reduction Tier 3 (partial-lot anchor
 # slice) implemented per the CONFIRMED plan docs/E6_PLAN_2026-07-26_gate3.md (8 touch
 # points, +106 lines 4568->4674). GATE ZERO PASSED, DEPLOYED, GATE 4 CLOSED, SEALED.
@@ -1739,6 +1784,362 @@ any duplicate _l2_ positions manually first.
          the ANCHOR under the lowest-level rule. That is exactly the T3-K1 scenario closed
          by INHERITANCE at the E6 seal. => RUN H IS NOW OVERDUE, and must be run on
          Vantage, not only on the Doo demo.
+
+## b39 GATE 3 - DECISIONS TAKEN AT PLAN TIME (2026-07-29)
+LOCKED DECISION E9-P1 (admission filter shape): ONE SHARED HELPER. Extract a single
+  IsAdoptableOurPosition(ticket, &lvl) carrying RebuildLiveMap's exact admission filter,
+  and route the watcher, RegisterNewRecovery's fast path and FindUntrackedOurL1 through
+  it. WHY: W-1 says "identical filter to RebuildLiveMap (2471) - reuse, do not reinvent",
+  and the three filters are NOT in fact identical today (see E9-P2). One admission truth.
+  ACCEPTED COST: touches FindUntrackedOurL1 (Stage 5) and RegisterNewRecovery (Stage 4),
+  both sealed - so R-1 must show the Doo Run A/C diffs are empty.
+  REJECTED: standalone watcher filter leaving 1913/3141 untouched - smallest blast radius
+  on sealed code, but keeps three copies of the filter and leaves the E9-P2 divergence
+  live. Jeff's call 2026-07-29.
+
+LOCKED DECISION E9-P2 (symbol comparator): NORMALIZED, matching RebuildLiveMap
+  (NormalizeSymbol(POSITION_SYMBOL) == g_symbolNorm), NOT the raw != _Symbol used at 1919
+  and 3146. FINDING BEHIND IT: NormalizeSymbol (354) strips separators and uppercases, so
+  XAUUSD.sc / XAUUSD.s / XAUUSD all collapse to XAUUSD. The sealed startup path
+  (RebuildLiveMap 2485) has therefore always been LOOSER than the two registration paths.
+  Adopting the normalized comparator makes the watcher agree with Reconcile BY
+  CONSTRUCTION. Divergence is nil on both evidence brokers - one gold chart per account,
+  so normalized and raw select the same single position set, and Run A/C should diff empty.
+  REJECTED: raw == _Symbol - trivially safe for R-1 and strictly narrower, but contradicts
+  W-1's stated reuse target and would make startup and steady-state disagree PERMANENTLY
+  about which positions are ours. Jeff's call 2026-07-29.
+
+LOCKED DECISION E9-P3 (account switch): NO CODE IN b39; deferred to E9 with O3-O6.
+  Jeff's question 2026-07-29 - what happens if the user switches MT5 account (Doo <->
+  Vantage) rather than running both at once. ANSWER FROM CODE: DeriveMagic (375-384) hashes
+  the NORMALIZED symbol ONLY - no account login, no server - and the state filename (4482)
+  is state_<symbolNorm>_<magic>.json, so XAUUSD.s and XAUUSD.sc derive the SAME magic AND
+  the SAME state file. On an account switch the new account re-inits onto the previous
+  account's state file. It SELF-HEALS: Reconcile (2686) rebuilds the live map first and
+  live-map-wins, PositionSelectByTicket fails on every foreign ticket, the live map comes
+  back empty, the stale file is discarded at 2724-2736 and the EA lands FLAT.
+  This is TRUE IN SEALED b38 TODAY - neither b39 nor E9-P2 creates it, and E9-P2 is
+  PROTECTIVE here (the flat watcher then scans with the same comparator Reconcile just
+  used, so a real our-magic tagged position on the new account is adopted rather than
+  orphaned). Cross-broker position MIXING is impossible: one terminal shows one account.
+  RESIDUAL, recorded as W-7: the stale-file inheritance is untested against a POPULATED
+  file from a foreign account. Account-scoped identity (login/server in magic + filename)
+  -> E9. Jeff's call 2026-07-29.
+
+MATRIX AMENDMENT (Jeff's word 2026-07-29, Gate 2 was sealed - same status as the K-4
+  addition): W-7 added to docs/B39_MATRIX.md as RECORD ONLY, group G-W. No code scope
+  change. Verified opportunistically during Run H, which crosses the Doo -> Vantage
+  account boundary anyway, so it costs no extra run.
+
+LOCKED DECISION E9-P4 (Q-1, level 0 at STARTUP): OPTION (a) - RebuildLiveMap 2488-2494's
+  lvl = 0 assignment is replaced by the same maxLvl+1 rule the adoption path uses, WARN
+  kept. WHY: TP-2 alone would abolish level 0 on the ADOPTION paths only, leaving a restart
+  into a comment-rewritten position still able to produce a level-0 anchor - L-3's exact
+  hazard, on precisely the path Run H exercises (K-1 sliced anchor + K-4 partial-close
+  comment integrity). The matrix calls L-3 "arguably the most valuable line in b39"; half-
+  closing it was not worth the saving. ACCEPTED COST: touches the sealed Stage 1 rebuild
+  that every init runs, so R-1's Doo regression must now include a RESTART. Risk low - the
+  branch is unreachable unless a comment is genuinely unparseable, which neither evidence
+  broker does today. NOTE: the map is built in ONE pass, so runningMax is the max over
+  positions admitted SO FAR; an unparseable position can still land below a later-scanned
+  higher level. Accepted - it can never be 0, so it can never seize the anchor from a real
+  L1. REJECTED: (b) leave 2493 as-is - L-3 then only partially closed and unmarkable as
+  PASS on the restart path. Jeff's call 2026-07-29.
+
+LOCKED DECISION E9-P5 (counter-direction position under our magic): the watcher REFUSES it
+  - LOG_ERROR, no adoption. Not contemplated by the sealed matrix; raised at plan time.
+  WHY: RebuildLiveMap already treats mixed directions as an error (2509), and grafting a
+  counter-direction leg would corrupt the VWAP anchor - the opposite of what b39 exists to
+  do. A wrong-direction position is not a level of this sequence. REJECTED: adopt-and-warn
+  (gives it exits, but at the cost of the anchor basis every sealed tier sits on).
+  Jeff's call 2026-07-29.
+
+## b39 GATE 3 CONFIRMED - 2026-07-29
+docs/B39_PLAN_2026-07-29_gate3.md CONFIRMED by Jeff 2026-07-29. TEN touch points:
+TP-1 IsAdoptableOurPosition (the one admission filter; magic gate lives here, W-3/N1);
+TP-2 AdoptUntrackedLevel (the one entry into live g_state; no level 0, duplicates adopted
+with WARN, counter-direction refused); TP-3 RegisterNewRecovery demoted to fast path
+(ERROR 1939 -> INFO); TP-4 WatchUntrackedLevels (per-tick, live state); TP-5 flat rebuild
+(orphan ERROR 3150 deleted - that branch IS the F-2 hole); TP-6 RegisterButtonL1 seedLvl
+default arg; TP-7 order-book ORDER_TYPE split; TP-8 OnTick wiring before EnforceExits;
+TP-9 stale EvaluateBasketClose comment 2300-2308; TP-10 RebuildLiveMap maxLvl+1 (Q-1=a).
+NO NEW CODE NEEDED for A-4 (retcode gates 2170/3274 already reject non-DONE/PARTIAL/PLACED
+before registration), A-5 (ComputeRecoveryTrigger derives nextLvl AND worst from g_state
+alone, so adoption alone stops the M5 duplicate stacking) or R-4 (watcher silent when
+everything is tracked). Verification must PROVE these, not assume them.
+## b39 BUILT + GATE ZERO PASSED - 2026-07-29
+b39 = 493302eccd8d3e0d / 4885 lines (+211 from b38's 4674). Compile 0 errors, 0 warnings.
+All TEN touch points landed. Implementation notes worth keeping:
+- TP-1 IsAdoptableOurPosition (2485) is the single admission truth; the MAGIC test lives
+  there and nowhere else, so no b39 caller can reach a magic-0 position (W-3/N1 enforced
+  structurally, not by convention). The three magic-0 ADOPTION scans (725, 784, 922) were
+  audited and correctly left on the raw _Symbol comparator - they are the mirror-image
+  path and are out of b39's scope.
+- TP-2 AdoptUntrackedLevel (2504) is the single entry into a live g_state.
+- TP-3 RegisterNewRecovery carries a sawLevel flag so "position not there yet" (async,
+  INFO) is distinguished from "there and already tracked" (silent). Without it the fast
+  path would emit a false "fill pending" line whenever it re-ran over a tracked ticket.
+- TP-5 also fixed the BUTTON path's twin of the same defect at ExecuteMarketEntry (3477):
+  it still logged ERROR on an async L1. That is matrix A-2, and it was missed on the first
+  build pass - caught on the diff review, not by the compiler.
+- FindUntrackedOurSeed originally ranked an unparseable tag with a TRTM_MAX_LEVELS+1
+  sentinel. REJECTED AND REWRITTEN before compiling: ParseLevelFromComment returns
+  whatever the comment holds, so a rewritten '_l99_' would have exceeded the sentinel and
+  been silently reseeded to L1 - a level-identity bug. Now ranked on an explicit
+  bestParsed flag; a parsed level is never compared against a sentinel.
+- TP-10's runningMax is the max over positions admitted SO FAR (one-pass map), so an
+  unparseable position can still land below a later-scanned higher level. Accepted and
+  documented in-code: what matters is that it is never 0.
+## b39 POST-BUILD AUDIT - REGRESSION FOUND AND FIXED (2026-07-29)
+Jeff asked for confirmation that the functions were aligned and the bugs handled. The
+audit that question forced found a REAL b39 REGRESSION against matrix F-3, which the
+compiler could never have caught. Recorded in full because it is the second time the
+first build pass was incomplete (the A-2 button path was the first).
+
+DEFECT: the new flat-state L2+ seed branch STOLE THE ANCHOR FROM AN ADOPTABLE L1.
+  CheckOwnPendingFillWhenFlat runs BEFORE TryAdopt in OnTick (4828-4831), and OnTick
+  only calls TryAdopt while levelCount == 0. The b39 seed branch sets levelCount = 1,
+  so on any flat tick where an adoptable magic-0 L1 AND an our-magic L2+ were both
+  open, b39 seeded from L2 and TryAdopt never ran. Consequences: the magic-0 L1 sat
+  UNMANAGED (the exact failure mode b39 exists to remove), the sequence anchored on L2,
+  and baseLot was derived from a LADDER lot instead of the base lot. Reachable on a
+  restart into a mixed mobile-L1 + EA-L2/L3 sequence with no state file - the very
+  shape E9-N1 blesses. NOT reachable in b38: without the L2 branch the function fell
+  through to TryAdopt and the L1 was adopted correctly.
+
+LOCKED DECISION E9-P6 (fix, Jeff's call 2026-07-29): THE SEED YIELDS TO ADOPTION.
+  New side-effect-free predicate AdoptionCandidateExists() mirrors BOTH TryAdopt
+  branches (tagged magic-0 L1; MMT untagged fallback) with the same gates in the same
+  order. When it returns true the seed branch stands down for the tick with a one-shot
+  INFO: TryAdopt anchors on L1, and WatchUntrackedLevels adopts L2+ into that sequence
+  on the SAME tick. The seed branch now fires only on a genuinely L1-less tick, which
+  is the case F-2 is actually about.
+  ACCEPTED COST: CheckOwnPendingFillWhenFlat now READS magic-0 positions (it still
+  never adopts/closes/modifies one). Its header comment was corrected accordingly -
+  the old text claimed our-magic-only and would have been a false statement on disk.
+  MAINTENANCE HAZARD TO CARRY: AdoptionCandidateExists duplicates TryAdopt's admission
+  logic and MUST be kept in step with it. Deliberately not refactored into one shared
+  predicate in b39 - that would re-open TryAdopt, a sealed Stage 2 function with
+  one-shot logging side effects, inside a hotfix. -> candidate for E9.
+  REJECTED: (b) seed wins, L1 adopted later or never - simpler and needs no cross-magic
+  read, but anchors on a ladder lot and the stale-tag gate would permanently lock out a
+  legitimately adoptable L1 once the seeded sequence closed.
+
+TP-11 (E9-P6): AdoptionCandidateExists() added above TryAdopt; the seed branch in
+CheckOwnPendingFillWhenFlat gated on it; that function's header comment corrected.
+
+## b39 GATE 4 - EVIDENCE LOG (opened 2026-07-29)
+DEPLOYED 2026-07-29: MT5 runtime = repo = 12c69766c709bd0d / 4939, verified byte-identical.
+EA re-initialized "=== TRTM b39 init ===" on XAUUSD.s (magic 715358), self-test PASS,
+Reconcile FLAT.
+
+RUN 1 - R-1/R-2 SYNC REGRESSION: **PASS**. tests/2026.07.29 123116.503.txt, Doo
+XAUUSD.s M15 real ticks, deposit 3000 @ 1:500, all three tiers OFF - Run A's input set
+exactly (tests/2026.07.26 125653.086.txt is the baseline). SELL ladder L1-L5.
+  Compared line by line against Run A:
+   - ladder depth L1-L5 .................... IDENTICAL
+   - level lots 0.01/0.02/0.03/0.04/0.05 ... IDENTICAL
+   - spacing 500 pts off the worst entry ... IDENTICAL
+   - cumulative lots 0.03/0.06/0.10/0.15 ... IDENTICAL
+   - projected at TP +75.00/+149.97/+250.01/+375.01 vs Run A's
+     +75.01/+149.98/+250.02/+375.07 - agree to the cent given the different entry
+   - AvgTP recomputed on every level add, propagated to every ticket ... IDENTICAL
+   - exit: all five TP hit on one tick, sequence closed, flat marker ... IDENTICAL
+  Entry time/price differ (07:45 @ 4176.77 vs 02:18 @ 4156.07) because the button click
+  is manual - NOT a code difference; every derived number tracks the entry correctly.
+  THE ONLY BEHAVIOURAL DELTA IS THE REGISTRATION LINE, which is TP-3 working:
+     b38: "Recovery L2 registered: ticket 3"
+     b39: "Recovery fast path: L2 REGISTERED ticket 3 0.02 lots @ 4181.78"
+  Same tick, same ticket, same level; the new text adds volume + price (W-5).
+  ZERO "Watcher:", ZERO "fill pending", ZERO "DUPLICATE", ZERO "unparseable" lines.
+ROWS CLOSED BY RUN 1: R-1 (no regression on a sync broker), R-2 (money paths untouched -
+no tier fired, ladder + AvgTP + projections all byte-consistent), R-3 (RunStateSelfTest
+PASS), R-4 (watcher inert, no log noise on a healthy run), A-3 (sync fast path registers
+immediately, exactly as b38).
+NOTE - Run 1 did NOT exercise TP-10: Reconcile ran FLAT at init, so RebuildLiveMap's loop
+body never executed. R-1 is NOT complete until a restart with live positions is run.
+
+RUN 2 - R-1/R-2 TIER 3 VARIANT: **PASS**. tests/2026.07.29 124117.612.txt, same tester
+setup as Run 1, Run C's three input deltas exactly (InpEntryLotSize=0.03,
+InpAvgTPPts=5000, InpEnableTier3=true; baseline tests/2026.07.26 130728.662.txt).
+SELL ladder L1-L6, TWO Tier 3 fires, anchor survived both.
+  Ladder: lots 0.03/0.04/0.05/0.06/0.07/0.08 = baseLot 0.03 + 0.01x(N-1), incremental
+  rule intact. Spacing 500 pts off the worst entry throughout.
+  BOTH FIRES RECOMPUTED ON TWO INDEPENDENT DERIVATIONS (leg-by-leg AND the identity
+  group P/L = marginPts x SUM(group lots); gold 1 pt on 1.00 lot = $1.00):
+    FIRE 1 04:45 - anchor L1 4145.62 slice 0.01 of 0.03 + L6 4211.65 0.08, far 4201.01
+      sliced VWAP  4204.31333 (logged 4204.31)   margin 330.3 pts (logged 330.3)
+      identity +29.73  |  leg-by-leg +29.73 (anchor -55.39 + L6 +85.12)   AGREE
+    FIRE 2 05:00 - anchor L1 now 0.02, slice 0.01 + L5 4200.82 0.07, far 4191.08
+      sliced VWAP  4193.92000 (logged 4193.92)   margin 284.0 pts (logged 284.0)
+      identity +22.72  |  leg-by-leg +22.72 (anchor -45.46 + L5 +68.18)   AGREE
+  Both fires net POSITIVE while the anchor leg is a LOSS - the Tier 3 premise, working.
+  Slice sizing correct: 0.03 x 50% = 0.015 floored to the 0.01 unit = 0.01 (remaining
+  0.02); second fire slices the 0.02 anchor by 0.01 again (remaining 0.01).
+  Anchor SURVIVED both fires; liveness pruned only the closed profitable leg; recovery
+  then reopened L5/L6 at the same lots - level numbers reused after the prune, as sealed.
+  ZERO Watcher / fill-pending / DUPLICATE / unparseable lines. ZERO WARN. ZERO ERROR in
+  the whole run.
+ROWS CLOSED/EXTENDED BY RUN 2: R-2 FULLY (E6 money path untouched -
+ComputeSlicedAnchorVWAP, FormBasketGroup, FireGroupClose and the slice sizing all
+reproduce the sealed E6 arithmetic exactly), R-1 extended (ladder/lots/AvgTP consistent
+under a Tier-3-firing config), A-3 again, R-4 again.
+
+RUN 3 - TP-10 RESTART WITH LIVE POSITIONS: **PASS**. tests/2026.07.29 145131.777.txt,
+LIVE Doo XAUUSD.s demo chart (not the tester - tester inputs lock once a run starts and
+a tester restart replays from the beginning, so it CANNOT produce a reconcile against
+open positions; the live chart is the only route). BUY ladder L1-L3, EA removed and
+re-attached with positions open.
+  BEFORE restart: "Structure: 3 level(s), 0.06 lots | projected at TP +150.03"
+  AFTER  restart: "Structure: 3 level(s), 0.06 lots | projected at TP +150.03"
+                  "Reconcile complete: dir=BUY levels=3"
+                  "Reconcile: flags restored (trailOverride=F beOverride=F
+                   trailingActive=F beApplied=F)"
+  The projection matching TO THE CENT is the decisive signal: it is derived from all
+  three entries and volumes, so it can only match if every ticket, level and lot
+  reconstructed identically.
+  THIS IS THE RUN THAT FINALLY EXERCISED TP-10 - RebuildLiveMap's loop body ran over
+  three real positions, parsed all three comments, assigned levels 1/2/3, and runningMax
+  tracked correctly. Runs 1 and 2 both init'd FLAT, so the loop body never executed there.
+  ABSENT AS REQUIRED: no "unparseable level comment"/"counted as L", no "Watcher:" line
+  (the live map caught all three, leaving the watcher nothing to do), no "baseLot lost
+  with state file" WARN (state file survived, so Reconcile's else-branch never ran), no
+  level renumbering. ZERO WARN, ZERO ERROR across the restart.
+  INCIDENTAL: InpMoneyMode was BALANCE RATIO on this run, not Fixed Lot ("Entry lot
+  0.0157 normalized to 0.0100"). Does not invalidate the restart evidence and
+  incidentally exercised the balance-ratio lot path with Guard A's round-down, which
+  behaved correctly. Three clean open/close cycles preceded the test - incidental
+  confirmation that the button path and liveness attribution are intact.
+ROWS CLOSED BY RUN 3: TP-10 restart path (the R-1 gap Runs 1-2 could not reach); K-3 in
+part (restart across a live sequence, no orphan); R-1 NOW COMPLETE.
+
+=> THE SYNC-BROKER REGRESSION OBLIGATION (R-1/R-2/R-3/R-4) IS CLOSED ON EVIDENCE.
+   E1/E4/E5/E6 are demonstrably unaffected by b39 on a synchronous-fill broker.
+
+STILL OPEN: A-1/A-2/A-5 + W-1..W-6 (Vantage async reproduction - THE DEFECT b39 EXISTS
+TO FIX, still entirely unverified), F-1..F-5 (flat-state rebuild), L-1..L-4, O-1..O-5,
+K-1/K-2/K-4 (Run H on Vantage).
+
+## EVIDENCE-BASE AMENDMENT - VANTAGE TEST ACCOUNT (2026-07-29)
+Jeff created a VANTAGE STANDARD ECN **DEMO** account for b39 testing rather than risk the
+live account. Correct call - b39 rewrites core registration and must not be first-run on
+live money.
+CONSEQUENCE THAT MUST BE HONOURED AT SEAL TIME: the 2026-07-27 incident occurred on the
+VANTAGE CENT **LIVE** account (XAUUSD.sc), and TRADE_RETCODE_PLACED / price 0.00 / deal 0
+is a property of THAT account's execution model (a bridge acknowledging before executing).
+A Standard ECN DEMO is a different account type on a different server and commonly fills
+SYNCHRONOUSLY. So:
+  - If the demo reproduces the async fill -> A-1/A-2/A-5/W-1..W-6 close on real evidence.
+  - If the demo fills SYNCHRONOUSLY (every level via "Recovery fast path", no "Watcher:"
+    line) that is NOT a pass on the async rows. It is a THIRD sync-broker regression data
+    point (useful - b39 correct on another broker) and the async rows STAY OPEN.
+MUST-NOT: marking A-1 or any watcher row closed off a run in which the async condition
+never occurred. Absence of the trigger is not evidence of the fix.
+
+RUN 4 - VANTAGE STANDARD ECN DEMO: **SYNC FILL - ASYNC ROWS NOT CLOSED**.
+tests/2026.07.29 222348.119.txt, live Vantage Standard ECN DEMO chart, symbol XAUUSD+.
+The predicted outcome above occurred: the demo fills SYNCHRONOUSLY. Every level
+registered via "Recovery fast path" on the send tick. NO "fill pending", NO "Watcher:"
+line, no TRADE_RETCODE_PLACED. Three sequences run (SELL L1; BUY L1-L2; BUY L1-L3), all
+clean, zero WARN, zero ERROR.
+  => A-1, A-2, A-5, W-1..W-6 REMAIN ENTIRELY UNVERIFIED. The async condition did not
+     occur, so this run says nothing about them.
+  => Counts as a THIRD sync-broker regression data point: b39 correct on Doo XAUUSD.s,
+     the Doo tester, and now Vantage XAUUSD+.
+VALUABLE RESULT - FIRST LIVE EXERCISE OF E9-P2 (the normalized symbol comparator):
+  symbol is "XAUUSD+" (raw), normalizing to "XAUUSD" - a suffix form NEITHER evidence
+  broker had. All five registrations admitted correctly through IsAdoptableOurPosition's
+  NORMALIZED comparator. Through b38 the registration paths compared RAW != _Symbol
+  (which would also have worked here); b39 routes them through the normalized form, and
+  this run proves that change admits correctly on a previously untested suffix. E9-P2 is
+  no longer theory-only.
+W-7 NARROWED BY EVIDENCE: magic here is 758105, derived from "XAUUSD"; Doo XAUUSD.s
+  derives 715358 from "XAUUSDS". DIFFERENT normalized symbols -> different magics ->
+  different state files. The account-switch collision W-7 describes requires both
+  brokers' gold to normalize IDENTICALLY; XAUUSD+ and XAUUSD.s do NOT. Jeff's two
+  accounts CANNOT collide. W-7 stays recorded for E9 but its reachability is now known
+  to be narrower than drafted.
+BROKER FACT ON RECORD: Vantage Standard ECN Demo XAUUSD+ stops level 20 pts, freeze 0
+  (vs Doo XAUUSD.s 100 pts) - consistent with the matrix evidence-base note.
+
+RUN 5 - VANTAGE CENT **LIVE** (XAUUSD.sc, magic 725639 set EXPLICITLY via InpMagicNumber
+to avoid the W-7 state-file collision): **ASYNC RETCODE REPRODUCED; ASYNC MISS DID NOT**.
+tests/2026.07.29 235916.412..txt. Jeff's call to run the defect's own account at minimum
+size (0.01) with InpMaxRecoveryTrades=2 as a hard runaway cap, watched throughout.
+  THE ASYNC SIGNATURE IS PRESENT ON ALL THREE SENDS - the 2026-07-27 shape exactly:
+     "L1 BUY OPENED via button: 0.01 lots @ 0.00 (deal 0)"
+     "Recovery L2 OPENED: 0.02 lots BUY @ 0.00 (deal 0)"
+     "Recovery L3 OPENED: 0.03 lots BUY @ 0.00 (deal 0)"
+  price 0.00 / deal 0 = TRADE_RETCODE_PLACED. This IS the asynchronous-fill broker.
+  BUT ALL THREE REGISTERED VIA THE FAST PATH, each with a REAL entry price:
+     L1 ticket 469006561 @ 4015.51 | L2 ticket 469012846 @ 4012.19 (fast path)
+     L3 ticket 469022910 @ 4009.20 (fast path)
+  MEANING: the broker acknowledges BEFORE executing, but executed within the same tick,
+  so the position existed by the time the fast path scanned. That is why b38 "got lucky"
+  on L1 on 2026-07-27. The async RETCODE is routine here; the async registration MISS is
+  the rarer, worse case and did not occur in this run.
+ROWS CLOSED BY RUN 5:
+  A-3 / R-1 ON THE ASYNC BROKER - a PLACED send whose position lands in time registers
+    via the fast path exactly as b38 did. No behaviour change on the common async case.
+  A-5 (duplicate stacking) - L2 and L3 each opened ONCE. The trigger recomputed off each
+    new worst entry (4015.51 -> 4012.19 -> 4009.20, 300 pts apart). On 2026-07-27 the EA
+    opened a duplicate EVERY M5 BAR because L2 was never tracked. Closed on evidence.
+  O-3 / O-4 - NO 10013, no "cancel ... [invalid request]", no spurious pendingLive, on
+    the very account that produced that error. The ORDER_TYPE split works.
+  K-3 / TP-10 again - init RECONCILED A LIVE 2-LEVEL SEQUENCE from a previous session
+    ("levels=2", +75.00) on the async broker. RebuildLiveMap's loop clean, no WARN.
+STILL OPEN AFTER RUN 5: A-1 and W-1..W-6. The watcher never fired because the fast path
+  never missed. Closing them needs a fill slow enough that no position exists when the
+  fast path looks - rarer than the PLACED retcode itself.
+INCIDENTAL (not a b39 row, but useful): Jeff dragged the TP twice mid-sequence; b39
+  adopted 4020.06 then 4019.42 and RELEASED correctly on the L3 add ("Manual TP 4019.42
+  RELEASED - level add (L3)"). Sealed b24/b28 manual-ownership semantics survive b39's
+  new registration path - that is TP-2 step 7 (ReleaseManualTP inside AdoptUntrackedLevel)
+  exercised LIVE.
+COSMETIC, PRE-EXISTING, NOT b39: close prices also return 0.00 on this broker
+  ("Closed L1 ticket 468953350 @ 0.00").
+
+## b39 SEAL DECISION - A-1/W-1..W-6 CLOSED ON INSPECTION, NOT EVIDENCE (Jeff, 2026-07-30)
+DECISION: seal b39 WITH THIS CAVEAT RECORDED. The Cent account is LIVE with real money;
+Jeff will not run further tests there to chase a timing tail. Run 5 already bought the
+expensive evidence (async retcode reproduced, A-5/O-3/O-4 closed on that very account).
+WHY THE WATCHER COULD NOT BE REPRODUCED: Run 5 established that on Vantage the PLACED
+retcode is ROUTINE but the fill still lands within the tick, so the fast path never
+misses. The registration MISS that caused the 2026-07-27 incident is a rarer TIMING TAIL,
+not the everyday case. It cannot be summoned on demand on any available account:
+  - Doo (tester + live): synchronous, no PLACED at all.
+  - Vantage Standard ECN DEMO: synchronous.
+  - Vantage Cent LIVE: PLACED routine, fill lands in time - miss did not occur in 3 sends.
+WHAT IS AND IS NOT PROVEN:
+  PROVEN - b39 does not break anything. 3 brokers, 3 symbol suffixes (.s / + / .sc),
+    tester + live, restart with open positions, two Tier 3 fires recomputed to the cent.
+    R-1/R-2/R-3/R-4, A-3, A-5, O-3, O-4, K-3, TP-10, E9-P2 all closed on EVIDENCE.
+  NOT PROVEN - WatchUntrackedLevels has never adopted a position. A-1 and W-1..W-6 close
+    on CODE INSPECTION only. What is inspected-but-unexercised is narrow: the DISPATCH
+    from WatchUntrackedLevels. Its admission filter (IsAdoptableOurPosition) and its
+    adoption body (AdoptUntrackedLevel) are BOTH exercised on every run - every single
+    "Recovery fast path: L<n> REGISTERED" line in Runs 1-5 went through the same
+    AdoptUntrackedLevel, and every registration on 3 brokers went through the same
+    IsAdoptableOurPosition. The untested part is the per-tick loop that calls them.
+RISK POSTURE ACCEPTED: b39 on the Cent account is strictly SAFER than b38 today. Worst
+  case the watcher never fires and behaviour equals b38; best case it saves a position
+  from going unmanaged. b38's behaviour in that scenario is KNOWN-BAD (2026-07-27).
+PARKED, NOT ABANDONED - IF IT HAPPENS AGAIN: the journal now makes the miss visible and
+  self-documenting. Look for this sequence on the Cent account:
+     "Recovery L<n>: order accepted but no position yet (asynchronous fill)"   <- INFO
+     "Watcher: L<n> REGISTERED ticket <t> <vol> lots @ <price>"                <- next tick
+     "Exits applied to ticket <t>: TP <x> ..."
+  If those three appear, A-1 and W-1..W-6 close on live evidence and this caveat is
+  retired - update this entry and the checklist. If instead an orphan appears with NO
+  watcher line, that is a b39 DEFECT and the log is the reproduction: capture it and
+  reopen. Either way the evidence arrives for free during normal use.
+NOT DONE (deliberately, no code written): the [TESTER]-gated forced-miss switch that
+  would have exercised the watcher synthetically. Rejected as needing a new build (b40)
+  plus Gate Zero for test-only code that proves the watcher works but NOT that a real
+  broker triggers it. Remains available if certainty is ever wanted.
+NOTE ON L-2/L-3/TP-10's WARN branch: unreachable on both evidence brokers without a
+DELIBERATELY corrupted comment - decide before seal whether those rows close on evidence
+or on code inspection.
 
 ## E9 / b39 - GATE 1 OPEN (2026-07-27)
 LOCKED DECISION E9-S1 (scope): SPLIT. A narrow gated hotfix build b39 covering ONLY
