@@ -1,0 +1,72 @@
+2026.07.26 22:29:18.738	TRTM (NZDCAD.s,H1)	[TRTM][INFO ] === TRTM E6-b38 init === symbol=NZDCADS (raw NZDCAD.s) magic=760296 stateFile=TRTM\state_NZDCADS_760296.json
+2026.07.26 22:29:18.768	TRTM (NZDCAD.s,H1)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.07.26 22:29:18.808	TRTM (NZDCAD.s,H1)	[TRTM][INFO ] State persistence self-test: PASS
+2026.07.26 22:29:18.964	TRTM (NZDCAD.s,H1)	[TRTM][INFO ] Reconcile complete: FLAT
+2026.07.26 22:29:19.194	TRTM (NZDCHF.s,H1)	[TRTM][INFO ] === TRTM E6-b38 init === symbol=NZDCHFS (raw NZDCHF.s) magic=739725 stateFile=TRTM\state_NZDCHFS_739725.json
+2026.07.26 22:29:19.194	TRTM (NZDCHF.s,H1)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.07.26 22:29:19.428	TRTM (NZDCHF.s,H1)	[TRTM][INFO ] State persistence self-test: PASS
+2026.07.26 22:29:19.524	TRTM (NZDCAD.s,H1)	[TRTM][INFO ] Broker exit geometry (at init): stops level 25 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 25 pts to price are DEFERRED until placeable
+2026.07.26 22:29:19.524	TRTM (NZDCAD.s,H1)	[TRTM][INFO ] Init complete - E6-b38 (adoption, exits, recovery active)
+2026.07.26 22:29:19.536	TRTM (NZDCHF.s,H1)	[TRTM][INFO ] Reconcile complete: FLAT
+2026.07.26 22:29:20.778	TRTM (NZDCHF.s,H1)	[TRTM][INFO ] Broker exit geometry (at init): stops level 25 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 25 pts to price are DEFERRED until placeable
+2026.07.26 22:29:20.778	TRTM (NZDCHF.s,H1)	[TRTM][INFO ] Init complete - E6-b38 (adoption, exits, recovery active)
+2026.07.26 23:29:06.936	TRTM (NZDCHF.s,H1)	[TRTM][INFO ] Deinit (reason 5) - state clean (flat)
+2026.07.26 23:29:06.938	TRTM (NZDCHF.s,H1)	[TRTM][INFO ] === TRTM E6-b38 init === symbol=NZDCHFS (raw NZDCHF.s) magic=739725 stateFile=TRTM\state_NZDCHFS_739725.json
+2026.07.26 23:29:06.951	TRTM (NZDCHF.s,H1)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.07.26 23:29:06.962	TRTM (NZDCHF.s,H1)	[TRTM][INFO ] State persistence self-test: PASS
+2026.07.26 23:29:06.974	TRTM (NZDCHF.s,H1)	[TRTM][INFO ] Reconcile complete: FLAT
+2026.07.26 23:29:06.975	TRTM (NZDCHF.s,H1)	[TRTM][INFO ] Broker exit geometry (at init): stops level 25 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 25 pts to price are DEFERRED until placeable
+2026.07.26 23:29:06.976	TRTM (NZDCHF.s,H1)	[TRTM][INFO ] Init complete - E6-b38 (adoption, exits, recovery active)
+2026.07.27 00:24:07.293	TRTM (NZDCHF.s,H1)	[TRTM][INFO ] Deinit (reason 5) - state clean (flat)
+2026.07.27 00:24:07.294	TRTM (NZDCHF.s,H1)	[TRTM][INFO ] === TRTM E6-b38 init === symbol=NZDCHFS (raw NZDCHF.s) magic=739725 stateFile=TRTM\state_NZDCHFS_739725.json
+2026.07.27 00:24:07.316	TRTM (NZDCHF.s,H1)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.07.27 00:24:07.329	TRTM (NZDCHF.s,H1)	[TRTM][INFO ] State persistence self-test: PASS
+2026.07.27 00:24:07.330	TRTM (NZDCHF.s,H1)	[TRTM][INFO ] Reconcile complete: FLAT
+2026.07.27 00:24:07.343	TRTM (NZDCHF.s,H1)	[TRTM][INFO ] Broker exit geometry (at init): stops level 25 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 25 pts to price are DEFERRED until placeable
+2026.07.27 00:24:07.343	TRTM (NZDCHF.s,H1)	[TRTM][INFO ] Init complete - E6-b38 (adoption, exits, recovery active)
+2026.07.27 00:29:41.455	TRTM (NZDCHF.s,H1)	[TRTM][INFO ] Deinit (reason 5) - state clean (flat)
+2026.07.27 00:29:41.456	TRTM (NZDCHF.s,H1)	[TRTM][INFO ] === TRTM E6-b38 init === symbol=NZDCHFS (raw NZDCHF.s) magic=739725 stateFile=TRTM\state_NZDCHFS_739725.json
+2026.07.27 00:29:41.472	TRTM (NZDCHF.s,H1)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.07.27 00:29:41.475	TRTM (NZDCHF.s,H1)	[TRTM][INFO ] State persistence self-test: PASS
+2026.07.27 00:29:41.476	TRTM (NZDCHF.s,H1)	[TRTM][INFO ] Reconcile complete: FLAT
+2026.07.27 00:29:41.479	TRTM (NZDCHF.s,H1)	[TRTM][INFO ] Broker exit geometry (at init): stops level 25 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 25 pts to price are DEFERRED until placeable
+2026.07.27 00:29:41.479	TRTM (NZDCHF.s,H1)	[TRTM][INFO ] Init complete - E6-b38 (adoption, exits, recovery active)
+2026.07.27 07:13:01.192	TRTM (NZDCHF.s,H1)	[TRTM][INFO ] Structure: 1 level(s), 0.02 lots | projected at TP +7.34 | at SL n/a
+2026.07.27 07:13:01.192	TRTM (NZDCHF.s,H1)	[TRTM][INFO ] ADOPTED UNTAGGED L1: ticket 2838443240 SELL 0.02 lots @ 0.47333 (comment ''). Exits apply next tick.
+2026.07.27 07:13:01.192	TRTM (NZDCHF.s,H1)	Alert: TRTM NZDCHFS: adopted UNTAGGED manual trade 2838443240 as L1
+2026.07.27 07:13:01.430	TRTM (NZDCHF.s,H1)	[TRTM][INFO ] Exits applied to ticket 2838443240: TP 0.47033 SL none
+2026.07.30 10:58:25.905	TRTM (AUDNZD.s,H1)	[TRTM][INFO ] === TRTM E6-b38 init === symbol=AUDNZDS (raw AUDNZD.s) magic=709170 stateFile=TRTM\state_AUDNZDS_709170.json
+2026.07.30 10:58:25.905	TRTM (AUDNZD.s,H1)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.07.30 10:58:25.916	TRTM (AUDNZD.s,H1)	[TRTM][INFO ] State persistence self-test: PASS
+2026.07.30 10:58:25.917	TRTM (AUDNZD.s,H1)	[TRTM][INFO ] Reconcile complete: FLAT
+2026.07.30 10:58:25.920	TRTM (AUDNZD.s,H1)	[TRTM][INFO ] Broker exit geometry (at init): stops level 25 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 25 pts to price are DEFERRED until placeable
+2026.07.30 10:58:25.920	TRTM (AUDNZD.s,H1)	[TRTM][INFO ] Init complete - E6-b38 (adoption, exits, recovery active)
+2026.07.30 10:58:43.981	TRTM (AUDNZD.s,H1)	[TRTM][INFO ] Deinit (reason 5) - state clean (flat)
+2026.07.30 10:58:43.986	TRTM (AUDNZD.s,H1)	[TRTM][INFO ] === TRTM E6-b38 init === symbol=AUDNZDS (raw AUDNZD.s) magic=709170 stateFile=TRTM\state_AUDNZDS_709170.json
+2026.07.30 10:58:43.998	TRTM (AUDNZD.s,H1)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.07.30 10:58:44.016	TRTM (AUDNZD.s,H1)	[TRTM][INFO ] State persistence self-test: PASS
+2026.07.30 10:58:44.017	TRTM (AUDNZD.s,H1)	[TRTM][INFO ] Reconcile complete: FLAT
+2026.07.30 10:58:44.030	TRTM (AUDNZD.s,H1)	[TRTM][INFO ] Broker exit geometry (at init): stops level 25 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 25 pts to price are DEFERRED until placeable
+2026.07.30 10:58:44.030	TRTM (AUDNZD.s,H1)	[TRTM][INFO ] Init complete - E6-b38 (adoption, exits, recovery active)
+2026.07.30 11:03:40.128	TRTM (AUDNZD.s,H1)	[TRTM][INFO ] Deinit (reason 5) - state clean (flat)
+2026.07.30 11:03:40.129	TRTM (AUDNZD.s,H1)	[TRTM][INFO ] === TRTM E6-b38 init === symbol=AUDNZDS (raw AUDNZD.s) magic=709170 stateFile=TRTM\state_AUDNZDS_709170.json
+2026.07.30 11:03:40.146	TRTM (AUDNZD.s,H1)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.07.30 11:03:40.171	TRTM (AUDNZD.s,H1)	[TRTM][INFO ] State persistence self-test: PASS
+2026.07.30 11:03:40.172	TRTM (AUDNZD.s,H1)	[TRTM][INFO ] Reconcile complete: FLAT
+2026.07.30 11:03:40.208	TRTM (AUDNZD.s,H1)	[TRTM][INFO ] Broker exit geometry (at init): stops level 25 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 25 pts to price are DEFERRED until placeable
+2026.07.30 11:03:40.208	TRTM (AUDNZD.s,H1)	[TRTM][INFO ] Init complete - E6-b38 (adoption, exits, recovery active)
+2026.07.30 20:26:26.863	TRTM (AUDNZD.s,H1)	[TRTM][INFO ] Structure: 1 level(s), 0.02 lots | projected at TP +3.50 | at SL n/a
+2026.07.30 20:26:26.864	TRTM (AUDNZD.s,H1)	[TRTM][INFO ] ADOPTED UNTAGGED L1: ticket 2858887822 BUY 0.02 lots @ 1.19532 (comment ''). Exits apply next tick.
+2026.07.30 20:26:26.864	TRTM (AUDNZD.s,H1)	Alert: TRTM AUDNZDS: adopted UNTAGGED manual trade 2858887822 as L1
+2026.07.30 20:26:27.079	TRTM (AUDNZD.s,H1)	[TRTM][INFO ] Exits applied to ticket 2858887822: TP 1.19832 SL none
+2026.07.31 13:23:13.687	TRTM (AUDNZD.s,H1)	[TRTM][INFO ] Liveness: L1 ticket 2858887822 TP hit @ 1.19837 - removed from sequence
+2026.07.31 13:23:13.689	TRTM (AUDNZD.s,H1)	[TRTM][INFO ] Sequence fully closed - back to FLAT, overrides reset to input defaults, flat marker saved
+2026.07.31 21:45:00.323	TRTM (NZDCHF.s,H1)	[TRTM][INFO ] Recovery signal: PERIOD_M15 bar closed 0.47558 vs trigger 0.47533 (worst entry 0.47333 + 200 pts)
+2026.07.31 21:45:00.552	TRTM (NZDCHF.s,H1)	[TRTM][INFO ] Recovery L2 OPENED: 0.02 lots SELL @ 0.00000 (deal 0)
+2026.07.31 21:45:00.552	TRTM (NZDCHF.s,H1)	[TRTM][ERROR] RegisterNewRecovery: L2 order reported filled but position not found - manual review required
+2026.07.31 22:00:00.301	TRTM (NZDCHF.s,H1)	[TRTM][INFO ] Recovery signal: PERIOD_M15 bar closed 0.47568 vs trigger 0.47533 (worst entry 0.47333 + 200 pts)
+2026.07.31 22:00:00.545	TRTM (NZDCHF.s,H1)	[TRTM][INFO ] Recovery L2 OPENED: 0.02 lots SELL @ 0.00000 (deal 0)
+2026.07.31 22:00:00.546	TRTM (NZDCHF.s,H1)	[TRTM][INFO ] Recovery L2 registered: ticket 2864585378
+2026.07.31 22:00:00.546	TRTM (NZDCHF.s,H1)	[TRTM][INFO ] Structure: 2 level(s), 0.04 lots | projected at TP +9.84 | at SL n/a
+2026.07.31 22:00:02.110	TRTM (NZDCHF.s,H1)	[TRTM][INFO ] Exits applied to ticket 2838443240: TP 0.47246 SL none
+2026.07.31 22:00:02.331	TRTM (NZDCHF.s,H1)	[TRTM][INFO ] Exits applied to ticket 2864585378: TP 0.47246 SL none
