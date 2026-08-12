@@ -1,0 +1,432 @@
+==================== 2026-04-07T07:56:03.866874Z | 73ecabb3-1c49-48dc-8b49-0b80b97401d5 ====================
+07:56:03.869036 [info ]: Starting dbt LSP server
+07:56:03.869897 [info ]: Connecting to LSP client on port 8000
+07:56:03.872203 [info ]: Successfully connected to LSP client
+07:56:03.872211 [info ]: Creating LSP service...
+07:56:03.928199 [info ]: Creating LSP server...
+07:56:03.928217 [info ]: Starting LSP server...
+07:56:05.016998 [info ]: Loading ~/.dbt/profiles.yml
+07:56:05.088369 [info ]: Started loading project
+07:56:05.089195 [info ]: Loading ~/.dbt/profiles.yml
+07:56:05.099571 [debug]:    Started loading packages
+07:56:05.103288 [debug]:     Loaded [  0.00s] packages
+07:56:05.111624 [info ]: Started parsing
+07:56:05.154486 [info ]: Finished loading project [  0.07s]
+07:56:05.174567 [debug]: Finished parsing models\mart\schema.yml [  0.01s]
+07:56:05.179236 [debug]: Finished parsing models\staging\schema.yml [  0.00s]
+07:56:05.187198 [debug]: Finished parsing models\staging\sources.yml [  0.01s]
+07:56:05.206187 [error]: dbt0102: Deprecated test arguments: ["values"] at top-level detected. Please migrate to the new format under the 'arguments' field: https://docs.getdbt.com/reference/deprecations#missingargumentspropertyingenerictestdeprecation.
+  --> models\staging\sources.yml:52:27
+07:56:05.231612 [debug]: Finished parsing models\intermediate\int_trade_lifecycle.sql [  0.02s]
+07:56:05.244484 [debug]: Finished parsing models\intermediate\int_trade_sequences.sql [  0.01s]
+07:56:05.250001 [debug]: Finished parsing models\mart\mart_level_analysis.sql [  0.01s]
+07:56:05.259415 [debug]: Finished parsing models\mart\mart_strategy_performance.sql [  0.01s]
+07:56:05.264514 [debug]: Finished parsing models\mart\mart_symbol_overview.sql [  0.01s]
+07:56:05.265143 [debug]: Finished parsing models\mart\mart_symbol_recent_metrics.sql [  0.00s]
+07:56:05.276832 [error]: dbt0102: Deprecated test arguments: ["values"] at top-level detected. Please migrate to the new format under the 'arguments' field: https://docs.getdbt.com/reference/deprecations#missingargumentspropertyingenerictestdeprecation.
+  --> models\mart\schema.yml:25:23
+07:56:05.277062 [debug]: Finished parsing models\staging\stg_trade_logs.sql [  0.01s]
+07:56:05.279067 [error]: dbt0102: Deprecated test arguments: ["values"] at top-level detected. Please migrate to the new format under the 'arguments' field: https://docs.getdbt.com/reference/deprecations#missingargumentspropertyingenerictestdeprecation.
+  --> models\staging\schema.yml:18:23
+07:56:05.289794 [debug]: Finished parsing target\generic_tests\source_not_null_bronze_trade_monitor_logs_event_type.sql [  0.00s]
+07:56:05.290450 [debug]: Finished parsing target\generic_tests\source_not_null_bronze_trade_monitor_logs_server_time.sql [  0.00s]
+07:56:05.290910 [debug]: Finished parsing target\generic_tests\source_not_null_bronze_trade_monitor_logs_ticket.sql [  0.00s]
+07:56:05.291474 [debug]: Finished parsing target\generic_tests\source_accepted_values_bronze__7d7a291a4ec40131ae2d60f8d868a9b7.sql [  0.00s]
+07:56:05.291881 [debug]: Finished parsing target\generic_tests\not_null_mart_strategy_performance_strategy_name.sql [  0.00s]
+07:56:05.292262 [debug]: Finished parsing target\generic_tests\not_null_mart_strategy_performance_ticket.sql [  0.00s]
+07:56:05.292601 [debug]: Finished parsing target\generic_tests\unique_mart_strategy_performance_ticket.sql [  0.00s]
+07:56:05.292970 [debug]: Finished parsing target\generic_tests\accepted_values_mart_strategy__c17c59dba3854b79ba388756c5ae52b5.sql [  0.00s]
+07:56:05.293302 [debug]: Finished parsing target\generic_tests\not_null_stg_trade_logs_event_type.sql [  0.00s]
+07:56:05.293546 [debug]: Finished parsing target\generic_tests\accepted_values_stg_trade_logs_11411ed3990098335ec7a5265d490e27.sql [  0.00s]
+07:56:05.293864 [debug]: Finished parsing target\generic_tests\not_null_stg_trade_logs_strategy_name.sql [  0.00s]
+07:56:05.297950 [debug]: Finished parsing target\generic_tests\not_null_stg_trade_logs_ticket.sql [  0.00s]
+07:56:05.304485 [info ]: Finished parsing [  0.19s]
+07:56:05.307644 [info ]: Cached model count updated: 7 models (estimate)
+07:56:05.307661 [info ]: Cached model count updated: 7 models (accurate)
+07:56:05.309153 [info ]: Started scheduling
+07:56:05.312367 [info ]: Finished scheduling [  0.00s]
+07:56:05.312601 [debug]: Compilation - 7 nodes selected: {"model.shadow_trade_pipeline.int_trade_lifecycle", "model.shadow_trade_pipeline.int_trade_sequences", "model.shadow_trade_pipeline.mart_level_analysis", "model.shadow_trade_pipeline.mart_strategy_performance", "model.shadow_trade_pipeline.mart_symbol_overview", "model.shadow_trade_pipeline.mart_symbol_recent_metrics", "model.shadow_trade_pipeline.stg_trade_logs"}
+07:56:05.312999 [info ]: Started scheduling
+07:56:05.313063 [info ]: Finished scheduling [  0.00s]
+07:56:05.316431 [debug]: Initializing schema store with entry: Frontier(CanonicalFqn { catalog: "shadowtradedb", schema: "bronze", table: "trade_monitor_logs" }) and interval: None
+07:56:05.323143 [info ]: Started downloading schemas
+07:56:05.336110 [info ]: Finished downloading schemas [  0.01s]
+==================== 2026-04-13T04:10:20.803725Z | 430f46b7-6e4c-4a40-9219-3479110de052 ====================
+04:10:20.803798 [info ]: Starting dbt LSP server
+04:10:20.803843 [info ]: Connecting to LSP client on port 8000
+04:10:20.804906 [info ]: Successfully connected to LSP client
+04:10:20.804919 [info ]: Creating LSP service...
+04:10:20.844917 [info ]: Creating LSP server...
+04:10:20.844937 [info ]: Starting LSP server...
+04:10:20.853950 [info ]: Loading ~/.dbt/profiles.yml
+04:10:20.871651 [info ]: Started loading project
+04:10:20.872102 [info ]: Loading ~/.dbt/profiles.yml
+04:10:20.875043 [debug]:    Started loading packages
+04:10:20.876526 [debug]:     Loaded [  0.00s] packages
+04:10:20.877285 [info ]: Started parsing
+04:10:20.890479 [info ]: Finished loading project [  0.02s]
+04:10:20.891549 [debug]: Finished parsing models\mart\schema.yml [  0.00s]
+04:10:20.891693 [debug]: Finished parsing models\staging\schema.yml [  0.00s]
+04:10:20.891935 [debug]: Finished parsing models\staging\sources.yml [  0.00s]
+04:10:20.894570 [debug]: Finished parsing models\intermediate\int_trade_lifecycle.sql [  0.00s]
+04:10:20.895220 [debug]: Finished parsing models\intermediate\int_trade_sequences.sql [  0.00s]
+04:10:20.895733 [debug]: Finished parsing models\mart\mart_level_analysis.sql [  0.00s]
+04:10:20.896152 [debug]: Finished parsing models\mart\mart_strategy_performance.sql [  0.00s]
+04:10:20.896587 [debug]: Finished parsing models\mart\mart_symbol_overview.sql [  0.00s]
+04:10:20.897025 [debug]: Finished parsing models\mart\mart_symbol_recent_metrics.sql [  0.00s]
+04:10:20.898978 [debug]: Finished parsing models\staging\stg_trade_logs.sql [  0.00s]
+04:10:20.899704 [info ]: Finished parsing [  0.02s]
+04:10:20.900235 [info ]: Cached model count updated: 7 models (estimate)
+04:10:20.900247 [info ]: Cached model count updated: 7 models (accurate)
+04:10:20.900309 [info ]: Started scheduling
+04:10:20.900453 [info ]: Finished scheduling [  0.00s]
+04:10:20.900481 [debug]: Compilation - 0 nodes selected: {}
+04:10:20.900506 [warn ]: dbt1600: The selection criterion '' does not match any enabled nodes
+04:10:20.900521 [warn ]: dbt1601: Nothing to do. Try checking your model configs and model specification args
+04:10:20.900535 [info ]: Started scheduling
+04:10:20.900611 [info ]: Finished scheduling [  0.00s]
+04:10:20.900710 [debug]: Initializing schema store with entry: Frontier(CanonicalFqn { catalog: "shadowtradedb", schema: "bronze", table: "trade_monitor_logs" }) and interval: None
+04:10:20.955760 [info ]: Started building task graph
+04:10:20.955825 [info ]: Finished building task graph [  0.00s]
+04:10:20.958172 [info ]: Started scheduling
+04:10:20.958202 [info ]: Finished scheduling [  0.00s]
+04:10:20.958438 [info ]: Cached model count updated: 7 models (accurate)
+04:10:22.508467 [info ]: Started loading project
+04:10:22.508864 [info ]: Loading ~/.dbt/profiles.yml
+04:10:22.511985 [info ]: Started parsing
+04:10:22.520563 [info ]: Finished loading project [  0.01s]
+04:10:22.522089 [info ]: Finished parsing [  0.01s]
+04:10:22.522869 [info ]: Cached model count updated: 7 models (estimate)
+04:10:22.522880 [info ]: Cached model count updated: 7 models (accurate)
+04:10:22.522896 [info ]: Started scheduling
+04:10:22.522930 [info ]: Finished scheduling [  0.00s]
+04:10:22.522937 [info ]: Started scheduling
+04:10:22.522973 [info ]: Finished scheduling [  0.00s]
+04:10:22.522978 [debug]: Compilation - 7 nodes selected: {"model.shadow_trade_pipeline.int_trade_lifecycle", "model.shadow_trade_pipeline.int_trade_sequences", "model.shadow_trade_pipeline.mart_level_analysis", "model.shadow_trade_pipeline.mart_strategy_performance", "model.shadow_trade_pipeline.mart_symbol_overview", "model.shadow_trade_pipeline.mart_symbol_recent_metrics", "model.shadow_trade_pipeline.stg_trade_logs"}
+04:10:22.575224 [info ]: Started building task graph
+04:10:22.575329 [info ]: Finished building task graph [  0.00s]
+04:10:22.575463 [info ]: Started rendering (7 nodes)
+04:10:22.575494 [info ]: Started model gold.mart_symbol_recent_metrics
+04:10:22.575522 [debug]: Started rendering model gold.mart_symbol_recent_metrics
+04:10:22.575542 [info ]: Started model gold.mart_symbol_overview
+04:10:22.575546 [debug]: Started rendering model gold.mart_symbol_overview
+04:10:22.575550 [info ]: Started model gold.mart_level_analysis
+04:10:22.575552 [debug]: Started rendering model gold.mart_level_analysis
+04:10:22.575556 [info ]: Started model gold.mart_strategy_performance
+04:10:22.575559 [debug]: Started rendering model gold.mart_strategy_performance
+04:10:22.575562 [info ]: Started model silver.int_trade_sequences
+04:10:22.575565 [debug]: Started rendering model silver.int_trade_sequences
+04:10:22.575574 [info ]: Started model silver.int_trade_lifecycle
+04:10:22.575579 [debug]: Started rendering model silver.int_trade_lifecycle
+04:10:22.575584 [info ]: Started model silver.stg_trade_logs
+04:10:22.575593 [debug]: Started rendering model silver.stg_trade_logs
+04:10:22.578647 [debug]: Compiled SQL for node model.shadow_trade_pipeline.mart_symbol_recent_metrics at target\.lsp\compiled\models\mart\mart_symbol_recent_metrics.sql
+04:10:22.578916 [debug]: Finished rendering [  0.00s] model gold.mart_symbol_recent_metrics [success]
+04:10:22.578979 [info ]: Started analyzing (7 nodes)
+04:10:22.578993 [debug]: Started analyzing model gold.mart_symbol_recent_metrics
+04:10:22.579099 [info ]:  Succeeded [  0.00s] model gold.mart_symbol_recent_metrics (table)
+04:10:22.579123 [debug]: Finished analyzing [  0.00s] model gold.mart_symbol_recent_metrics [success]
+04:10:22.579968 [debug]: Compiled SQL for node model.shadow_trade_pipeline.stg_trade_logs at target\.lsp\compiled\models\staging\stg_trade_logs.sql
+04:10:22.580158 [debug]: Compiled SQL for node model.shadow_trade_pipeline.int_trade_sequences at target\.lsp\compiled\models\intermediate\int_trade_sequences.sql
+04:10:22.580166 [debug]: Compiled SQL for node model.shadow_trade_pipeline.int_trade_lifecycle at target\.lsp\compiled\models\intermediate\int_trade_lifecycle.sql
+04:10:22.580292 [debug]: Finished rendering [  0.00s] model silver.stg_trade_logs [success]
+04:10:22.580312 [debug]: Started analyzing model silver.stg_trade_logs
+04:10:22.580325 [debug]: Finished rendering [  0.00s] model silver.int_trade_sequences [success]
+04:10:22.580332 [debug]: Started analyzing model silver.int_trade_sequences
+04:10:22.580340 [debug]: Finished rendering [  0.00s] model silver.int_trade_lifecycle [success]
+04:10:22.580345 [debug]: Started analyzing model silver.int_trade_lifecycle
+04:10:22.580372 [info ]:  Succeeded [  0.00s] model silver.int_trade_sequences (view)
+04:10:22.580381 [debug]: Finished analyzing [  0.00s] model silver.int_trade_sequences [success]
+04:10:22.580387 [info ]:  Succeeded [  0.00s] model silver.stg_trade_logs (view)
+04:10:22.580392 [debug]: Finished analyzing [  0.00s] model silver.stg_trade_logs [success]
+04:10:22.580397 [info ]:  Succeeded [  0.00s] model silver.int_trade_lifecycle (view)
+04:10:22.580401 [debug]: Finished analyzing [  0.00s] model silver.int_trade_lifecycle [success]
+04:10:22.580518 [debug]: Compiled SQL for node model.shadow_trade_pipeline.mart_symbol_overview at target\.lsp\compiled\models\mart\mart_symbol_overview.sql
+04:10:22.580613 [debug]: Finished rendering [  0.01s] model gold.mart_symbol_overview [success]
+04:10:22.580628 [debug]: Started analyzing model gold.mart_symbol_overview
+04:10:22.580658 [info ]:  Succeeded [  0.01s] model gold.mart_symbol_overview (table)
+04:10:22.580665 [debug]: Finished analyzing [  0.00s] model gold.mart_symbol_overview [success]
+04:10:22.580762 [debug]: Compiled SQL for node model.shadow_trade_pipeline.mart_strategy_performance at target\.lsp\compiled\models\mart\mart_strategy_performance.sql
+04:10:22.580775 [debug]: Compiled SQL for node model.shadow_trade_pipeline.mart_level_analysis at target\.lsp\compiled\models\mart\mart_level_analysis.sql
+04:10:22.581123 [debug]: Finished rendering [  0.01s] model gold.mart_strategy_performance [success]
+04:10:22.581139 [debug]: Started analyzing model gold.mart_strategy_performance
+04:10:22.581170 [info ]:  Succeeded [  0.01s] model gold.mart_strategy_performance (table)
+04:10:22.581178 [debug]: Finished analyzing [  0.00s] model gold.mart_strategy_performance [success]
+04:10:22.581188 [debug]: Finished rendering [  0.01s] model gold.mart_level_analysis [success]
+04:10:22.581192 [info ]: Finished rendering [  0.01s] (7 nodes, 0 skipped, 0 errors)
+04:10:22.581198 [debug]: Started analyzing model gold.mart_level_analysis
+04:10:22.581237 [info ]:  Succeeded [  0.01s] model gold.mart_level_analysis (table)
+04:10:22.581250 [debug]: Finished analyzing [  0.00s] model gold.mart_level_analysis [success]
+04:10:22.581255 [info ]: Finished analyzing [  0.00s] (7 nodes, 0 skipped, 0 errors)
+04:10:22.584904 [info ]: Started scheduling
+04:10:22.584955 [info ]: Finished scheduling [  0.00s]
+04:10:22.586793 [info ]: Cached model count updated: 7 models (accurate)
+07:59:05.491708 [info ]: Started loading project
+07:59:05.499454 [info ]: Loading ~/.dbt/profiles.yml
+07:59:05.512399 [info ]: Started parsing
+07:59:05.523836 [info ]: Finished loading project [  0.03s]
+07:59:05.524457 [debug]: Finished parsing models\mart\schema.yml [  0.00s]
+07:59:05.533720 [debug]: Finished parsing models\mart\mart_strategy_performance.sql [  0.01s]
+07:59:05.534563 [info ]: Finished parsing [  0.02s]
+07:59:05.535608 [info ]: Cached model count updated: 7 models (estimate)
+07:59:05.535618 [info ]: Cached model count updated: 7 models (accurate)
+07:59:05.535653 [info ]: Started scheduling
+07:59:05.535745 [info ]: Finished scheduling [  0.00s]
+07:59:05.535754 [debug]: Compilation - 1 nodes selected: {"model.shadow_trade_pipeline.mart_strategy_performance"}
+07:59:05.601322 [info ]: Started building task graph
+07:59:05.601366 [info ]: Finished building task graph [  0.00s]
+07:59:05.601445 [info ]: Started rendering (1 nodes)
+07:59:05.601457 [info ]: Started model gold.mart_strategy_performance
+07:59:05.601466 [debug]: Started rendering model gold.mart_strategy_performance
+07:59:05.602286 [debug]: Compiled SQL for node model.shadow_trade_pipeline.mart_strategy_performance at target\.lsp\compiled\models\mart\mart_strategy_performance.sql
+07:59:05.602368 [debug]: Finished rendering [  0.00s] model gold.mart_strategy_performance [success]
+07:59:05.602381 [info ]: Finished rendering [  0.00s] (1 nodes, 0 skipped, 0 errors)
+07:59:05.602394 [info ]: Started analyzing (1 nodes)
+07:59:05.602400 [debug]: Started analyzing model gold.mart_strategy_performance
+07:59:05.602433 [info ]:  Succeeded [-------] model gold.mart_strategy_performance (table)
+07:59:05.602444 [debug]: Finished analyzing [  0.00s] model gold.mart_strategy_performance [success]
+07:59:05.602446 [info ]: Finished analyzing [  0.00s] (1 nodes, 0 skipped, 0 errors)
+07:59:05.604685 [info ]: Started scheduling
+07:59:05.604758 [info ]: Finished scheduling [  0.00s]
+07:59:05.605388 [info ]: Cached model count updated: 7 models (accurate)
+07:59:06.029581 [info ]: Started loading project
+07:59:06.029997 [info ]: Loading ~/.dbt/profiles.yml
+07:59:06.033230 [info ]: Started parsing
+07:59:06.042932 [info ]: Finished loading project [  0.01s]
+07:59:06.044902 [info ]: Finished parsing [  0.01s]
+07:59:06.045797 [info ]: Cached model count updated: 7 models (estimate)
+07:59:06.045806 [info ]: Cached model count updated: 7 models (accurate)
+07:59:06.045824 [info ]: Started scheduling
+07:59:06.045853 [info ]: Finished scheduling [  0.00s]
+07:59:06.045919 [debug]: Compilation - 0 nodes selected: {}
+07:59:06.045928 [warn ]: dbt1600: The selection criterion '' does not match any enabled nodes
+07:59:06.045932 [warn ]: dbt1601: Nothing to do. Try checking your model configs and model specification args
+07:59:06.122073 [info ]: Started building task graph
+07:59:06.122100 [info ]: Finished building task graph [  0.00s]
+07:59:06.124510 [info ]: Started scheduling
+07:59:06.124546 [info ]: Finished scheduling [  0.00s]
+07:59:06.126626 [info ]: Cached model count updated: 7 models (accurate)
+07:59:07.675743 [info ]: Started loading project
+07:59:07.676145 [info ]: Loading ~/.dbt/profiles.yml
+07:59:07.679244 [info ]: Started parsing
+07:59:07.688009 [info ]: Finished loading project [  0.01s]
+07:59:07.689628 [info ]: Finished parsing [  0.01s]
+07:59:07.690485 [info ]: Cached model count updated: 7 models (estimate)
+07:59:07.690493 [info ]: Cached model count updated: 7 models (accurate)
+07:59:07.690509 [info ]: Started scheduling
+07:59:07.690537 [info ]: Finished scheduling [  0.00s]
+07:59:07.690546 [info ]: Started scheduling
+07:59:07.690582 [info ]: Finished scheduling [  0.00s]
+07:59:07.690587 [debug]: Compilation - 2 nodes selected: {"model.shadow_trade_pipeline.mart_level_analysis", "model.shadow_trade_pipeline.mart_symbol_overview"}
+07:59:07.742853 [info ]: Started building task graph
+07:59:07.742900 [info ]: Finished building task graph [  0.00s]
+07:59:07.742977 [info ]: Started rendering (2 nodes)
+07:59:07.742989 [info ]: Started model gold.mart_symbol_overview
+07:59:07.742996 [debug]: Started rendering model gold.mart_symbol_overview
+07:59:07.743011 [info ]: Started model gold.mart_level_analysis
+07:59:07.743016 [debug]: Started rendering model gold.mart_level_analysis
+07:59:07.750526 [debug]: Compiled SQL for node model.shadow_trade_pipeline.mart_level_analysis at target\.lsp\compiled\models\mart\mart_level_analysis.sql
+07:59:07.750590 [debug]: Finished rendering [  0.01s] model gold.mart_level_analysis [success]
+07:59:07.750615 [info ]: Started analyzing (2 nodes)
+07:59:07.750625 [debug]: Started analyzing model gold.mart_level_analysis
+07:59:07.750653 [info ]:  Succeeded [  0.01s] model gold.mart_level_analysis (table)
+07:59:07.750663 [debug]: Finished analyzing [  0.00s] model gold.mart_level_analysis [success]
+07:59:07.750785 [debug]: Compiled SQL for node model.shadow_trade_pipeline.mart_symbol_overview at target\.lsp\compiled\models\mart\mart_symbol_overview.sql
+07:59:07.750836 [debug]: Finished rendering [  0.01s] model gold.mart_symbol_overview [success]
+07:59:07.750845 [info ]: Finished rendering [  0.01s] (2 nodes, 0 skipped, 0 errors)
+07:59:07.750854 [debug]: Started analyzing model gold.mart_symbol_overview
+07:59:07.750875 [info ]:  Succeeded [  0.01s] model gold.mart_symbol_overview (table)
+07:59:07.750884 [debug]: Finished analyzing [  0.00s] model gold.mart_symbol_overview [success]
+07:59:07.750886 [info ]: Finished analyzing [  0.00s] (2 nodes, 0 skipped, 0 errors)
+07:59:07.752957 [info ]: Started scheduling
+07:59:07.752986 [info ]: Finished scheduling [  0.00s]
+07:59:07.754619 [info ]: Cached model count updated: 7 models (accurate)
+==================== 2026-04-18T04:03:23.431230Z | 48906744-3a51-4fe0-8aef-8ad37c8d0567 ====================
+04:03:23.431350 [info ]: Starting dbt LSP server
+04:03:23.431380 [info ]: Connecting to LSP client on port 8000
+04:03:23.432939 [info ]: Successfully connected to LSP client
+04:03:23.432951 [info ]: Creating LSP service...
+04:03:23.486843 [info ]: Creating LSP server...
+04:03:23.486865 [info ]: Starting LSP server...
+04:03:24.419057 [info ]: Loading ~/.dbt/profiles.yml
+04:03:24.440258 [info ]: Started loading project
+04:03:24.440783 [info ]: Loading ~/.dbt/profiles.yml
+04:03:24.443966 [debug]:    Started loading packages
+04:03:24.445774 [debug]:     Loaded [  0.00s] packages
+04:03:24.446622 [info ]: Started parsing
+04:03:24.460338 [info ]: Finished loading project [  0.02s]
+04:03:24.461583 [debug]: Finished parsing models\mart\schema.yml [  0.00s]
+04:03:24.461733 [debug]: Finished parsing models\staging\schema.yml [  0.00s]
+04:03:24.461957 [debug]: Finished parsing models\staging\sources.yml [  0.00s]
+04:03:24.464419 [debug]: Finished parsing models\intermediate\int_trade_lifecycle.sql [  0.00s]
+04:03:24.464976 [debug]: Finished parsing models\intermediate\int_trade_sequences.sql [  0.00s]
+04:03:24.465447 [debug]: Finished parsing models\mart\mart_level_analysis.sql [  0.00s]
+04:03:24.465829 [debug]: Finished parsing models\mart\mart_strategy_performance.sql [  0.00s]
+04:03:24.466249 [debug]: Finished parsing models\mart\mart_symbol_overview.sql [  0.00s]
+04:03:24.466739 [debug]: Finished parsing models\mart\mart_symbol_recent_metrics.sql [  0.00s]
+04:03:24.468753 [debug]: Finished parsing models\staging\stg_trade_logs.sql [  0.00s]
+04:03:24.469584 [info ]: Finished parsing [  0.02s]
+04:03:24.469985 [info ]: Cached model count updated: 7 models (estimate)
+04:03:24.469993 [info ]: Cached model count updated: 7 models (accurate)
+04:03:24.470056 [info ]: Started scheduling
+04:03:24.470255 [info ]: Finished scheduling [  0.00s]
+04:03:24.470276 [debug]: Compilation - 3 nodes selected: {"model.shadow_trade_pipeline.int_trade_lifecycle", "model.shadow_trade_pipeline.mart_strategy_performance", "model.shadow_trade_pipeline.stg_trade_logs"}
+04:03:24.470302 [info ]: Started scheduling
+04:03:24.470334 [info ]: Finished scheduling [  0.00s]
+04:03:24.470432 [debug]: Initializing schema store with entry: Frontier(CanonicalFqn { catalog: "shadowtradedb", schema: "bronze", table: "trade_monitor_logs" }) and interval: None
+04:03:24.530074 [info ]: Started building task graph
+04:03:24.530228 [info ]: Finished building task graph [  0.00s]
+04:03:24.530463 [info ]: Started rendering (3 nodes)
+04:03:24.530503 [info ]: Started model gold.mart_strategy_performance
+04:03:24.530534 [debug]: Started rendering model gold.mart_strategy_performance
+04:03:24.530565 [info ]: Started model silver.int_trade_lifecycle
+04:03:24.530569 [debug]: Started rendering model silver.int_trade_lifecycle
+04:03:24.530575 [info ]: Started model silver.stg_trade_logs
+04:03:24.530578 [debug]: Started rendering model silver.stg_trade_logs
+04:03:24.531934 [debug]: Compiled SQL for node model.shadow_trade_pipeline.mart_strategy_performance at target\.lsp\compiled\models\mart\mart_strategy_performance.sql
+04:03:24.531934 [debug]: Compiled SQL for node model.shadow_trade_pipeline.stg_trade_logs at target\.lsp\compiled\models\staging\stg_trade_logs.sql
+04:03:24.531948 [debug]: Compiled SQL for node model.shadow_trade_pipeline.int_trade_lifecycle at target\.lsp\compiled\models\intermediate\int_trade_lifecycle.sql
+04:03:24.532257 [debug]: Finished rendering [  0.00s] model silver.stg_trade_logs [success]
+04:03:24.532311 [info ]: Started analyzing (3 nodes)
+04:03:24.532320 [debug]: Started analyzing model silver.stg_trade_logs
+04:03:24.532344 [debug]: Finished rendering [  0.00s] model silver.int_trade_lifecycle [success]
+04:03:24.532353 [debug]: Started analyzing model silver.int_trade_lifecycle
+04:03:24.532366 [debug]: Finished rendering [  0.00s] model gold.mart_strategy_performance [success]
+04:03:24.532369 [info ]: Finished rendering [  0.00s] (3 nodes, 0 skipped, 0 errors)
+04:03:24.532374 [debug]: Started analyzing model gold.mart_strategy_performance
+04:03:24.532454 [info ]:  Succeeded [  0.00s] model silver.stg_trade_logs (view)
+04:03:24.532477 [debug]: Finished analyzing [  0.00s] model silver.stg_trade_logs [success]
+04:03:24.532486 [info ]:  Succeeded [  0.00s] model silver.int_trade_lifecycle (view)
+04:03:24.532492 [debug]: Finished analyzing [  0.00s] model silver.int_trade_lifecycle [success]
+04:03:24.532501 [info ]:  Succeeded [  0.00s] model gold.mart_strategy_performance (table)
+04:03:24.532516 [debug]: Finished analyzing [  0.00s] model gold.mart_strategy_performance [success]
+04:03:24.532523 [info ]: Finished analyzing [  0.00s] (3 nodes, 0 skipped, 0 errors)
+04:03:24.535901 [info ]: Started scheduling
+04:03:24.535948 [info ]: Finished scheduling [  0.00s]
+04:03:24.536327 [info ]: Cached model count updated: 7 models (accurate)
+04:03:26.103672 [info ]: Started loading project
+04:03:26.104090 [info ]: Loading ~/.dbt/profiles.yml
+04:03:26.115191 [info ]: Cached model count updated: 7 models (estimate)
+04:03:26.115207 [info ]: Cached model count updated: 7 models (accurate)
+04:03:26.115231 [info ]: Started scheduling
+04:03:26.115312 [info ]: Finished scheduling [  0.00s]
+04:03:26.115323 [debug]: Compilation - 5 nodes selected: {"model.shadow_trade_pipeline.int_trade_lifecycle", "model.shadow_trade_pipeline.mart_level_analysis", "model.shadow_trade_pipeline.mart_strategy_performance", "model.shadow_trade_pipeline.mart_symbol_overview", "model.shadow_trade_pipeline.stg_trade_logs"}
+04:03:26.169495 [info ]: Started building task graph
+04:03:26.169564 [info ]: Finished building task graph [  0.00s]
+04:03:26.169674 [info ]: Started rendering (5 nodes)
+04:03:26.169687 [info ]: Started model gold.mart_symbol_overview
+04:03:26.169700 [debug]: Started rendering model gold.mart_symbol_overview
+04:03:26.169717 [info ]: Started model gold.mart_level_analysis
+04:03:26.169723 [debug]: Started rendering model gold.mart_level_analysis
+04:03:26.169729 [info ]: Started model gold.mart_strategy_performance
+04:03:26.169733 [debug]: Started rendering model gold.mart_strategy_performance
+04:03:26.169739 [info ]: Started model silver.int_trade_lifecycle
+04:03:26.169744 [debug]: Started rendering model silver.int_trade_lifecycle
+04:03:26.169750 [info ]: Started model silver.stg_trade_logs
+04:03:26.169749 [info ]: Finished loading project [  0.07s]
+04:03:26.169755 [debug]: Started rendering model silver.stg_trade_logs
+04:03:26.170053 [debug]: Compiled SQL for node model.shadow_trade_pipeline.int_trade_lifecycle at target\.lsp\compiled\models\intermediate\int_trade_lifecycle.sql
+04:03:26.170215 [debug]: Compiled SQL for node model.shadow_trade_pipeline.stg_trade_logs at target\.lsp\compiled\models\staging\stg_trade_logs.sql
+04:03:26.170237 [debug]: Compiled SQL for node model.shadow_trade_pipeline.mart_strategy_performance at target\.lsp\compiled\models\mart\mart_strategy_performance.sql
+04:03:26.170250 [debug]: Finished rendering [  0.00s] model silver.int_trade_lifecycle [success]
+04:03:26.170275 [info ]: Started analyzing (5 nodes)
+04:03:26.170286 [debug]: Started analyzing model silver.int_trade_lifecycle
+04:03:26.170298 [debug]: Finished rendering [  0.00s] model silver.stg_trade_logs [success]
+04:03:26.170305 [debug]: Started analyzing model silver.stg_trade_logs
+04:03:26.170314 [debug]: Finished rendering [  0.00s] model gold.mart_strategy_performance [success]
+04:03:26.170320 [debug]: Started analyzing model gold.mart_strategy_performance
+04:03:26.170329 [info ]:  Succeeded [-------] model silver.int_trade_lifecycle (view)
+04:03:26.170340 [debug]: Finished analyzing [  0.00s] model silver.int_trade_lifecycle [success]
+04:03:26.170345 [info ]:  Succeeded [-------] model silver.stg_trade_logs (view)
+04:03:26.170352 [debug]: Finished analyzing [  0.00s] model silver.stg_trade_logs [success]
+04:03:26.170361 [info ]:  Succeeded [-------] model gold.mart_strategy_performance (table)
+04:03:26.170365 [debug]: Finished analyzing [  0.00s] model gold.mart_strategy_performance [success]
+04:03:26.170924 [debug]: Compiled SQL for node model.shadow_trade_pipeline.mart_symbol_overview at target\.lsp\compiled\models\mart\mart_symbol_overview.sql
+04:03:26.170934 [debug]: Compiled SQL for node model.shadow_trade_pipeline.mart_level_analysis at target\.lsp\compiled\models\mart\mart_level_analysis.sql
+04:03:26.170986 [debug]: Finished rendering [  0.00s] model gold.mart_symbol_overview [success]
+04:03:26.171000 [debug]: Started analyzing model gold.mart_symbol_overview
+04:03:26.171012 [debug]: Finished rendering [  0.00s] model gold.mart_level_analysis [success]
+04:03:26.171017 [info ]: Finished rendering [  0.00s] (5 nodes, 0 skipped, 0 errors)
+04:03:26.171022 [debug]: Started analyzing model gold.mart_level_analysis
+04:03:26.171043 [info ]:  Succeeded [  0.00s] model gold.mart_symbol_overview (table)
+04:03:26.171061 [debug]: Finished analyzing [  0.00s] model gold.mart_symbol_overview [success]
+04:03:26.171069 [info ]:  Succeeded [  0.00s] model gold.mart_level_analysis (table)
+04:03:26.171079 [debug]: Finished analyzing [  0.00s] model gold.mart_level_analysis [success]
+04:03:26.171082 [info ]: Finished analyzing [  0.00s] (5 nodes, 0 skipped, 0 errors)
+04:03:26.173493 [info ]: Started scheduling
+04:03:26.173528 [info ]: Finished scheduling [  0.00s]
+04:03:26.174146 [info ]: Cached model count updated: 7 models (accurate)
+04:03:27.762095 [info ]: Started loading project
+04:03:27.762627 [info ]: Loading ~/.dbt/profiles.yml
+04:03:27.774419 [info ]: Cached model count updated: 7 models (estimate)
+04:03:27.774437 [info ]: Cached model count updated: 7 models (accurate)
+04:03:27.774459 [info ]: Started scheduling
+04:03:27.774518 [info ]: Finished scheduling [  0.00s]
+04:03:27.774528 [debug]: Compilation - 7 nodes selected: {"model.shadow_trade_pipeline.int_trade_lifecycle", "model.shadow_trade_pipeline.int_trade_sequences", "model.shadow_trade_pipeline.mart_level_analysis", "model.shadow_trade_pipeline.mart_strategy_performance", "model.shadow_trade_pipeline.mart_symbol_overview", "model.shadow_trade_pipeline.mart_symbol_recent_metrics", "model.shadow_trade_pipeline.stg_trade_logs"}
+04:03:27.832326 [info ]: Started building task graph
+04:03:27.832389 [info ]: Finished building task graph [  0.00s]
+04:03:27.832479 [info ]: Started rendering (7 nodes)
+04:03:27.832490 [info ]: Started model gold.mart_symbol_recent_metrics
+04:03:27.832497 [debug]: Started rendering model gold.mart_symbol_recent_metrics
+04:03:27.832512 [info ]: Started model gold.mart_symbol_overview
+04:03:27.832519 [debug]: Started rendering model gold.mart_symbol_overview
+04:03:27.832535 [info ]: Started model gold.mart_level_analysis
+04:03:27.832542 [debug]: Started rendering model gold.mart_level_analysis
+04:03:27.832549 [info ]: Started model gold.mart_strategy_performance
+04:03:27.832548 [info ]: Finished loading project [  0.07s]
+04:03:27.832555 [debug]: Started rendering model gold.mart_strategy_performance
+04:03:27.832563 [info ]: Started model silver.int_trade_sequences
+04:03:27.832566 [debug]: Started rendering model silver.int_trade_sequences
+04:03:27.832575 [info ]: Started model silver.int_trade_lifecycle
+04:03:27.832607 [debug]: Started rendering model silver.int_trade_lifecycle
+04:03:27.832649 [info ]: Started model silver.stg_trade_logs
+04:03:27.832683 [debug]: Started rendering model silver.stg_trade_logs
+04:03:27.832794 [debug]: Compiled SQL for node model.shadow_trade_pipeline.mart_strategy_performance at target\.lsp\compiled\models\mart\mart_strategy_performance.sql
+04:03:27.832806 [debug]: Compiled SQL for node model.shadow_trade_pipeline.mart_level_analysis at target\.lsp\compiled\models\mart\mart_level_analysis.sql
+04:03:27.832856 [debug]: Compiled SQL for node model.shadow_trade_pipeline.mart_symbol_overview at target\.lsp\compiled\models\mart\mart_symbol_overview.sql
+04:03:27.832908 [debug]: Finished rendering [  0.00s] model gold.mart_strategy_performance [success]
+04:03:27.832928 [info ]: Started analyzing (7 nodes)
+04:03:27.832934 [debug]: Started analyzing model gold.mart_strategy_performance
+04:03:27.832949 [debug]: Finished rendering [  0.00s] model gold.mart_level_analysis [success]
+04:03:27.832955 [debug]: Started analyzing model gold.mart_level_analysis
+04:03:27.832960 [debug]: Finished rendering [  0.00s] model gold.mart_symbol_overview [success]
+04:03:27.832964 [debug]: Started analyzing model gold.mart_symbol_overview
+04:03:27.833008 [debug]: Compiled SQL for node model.shadow_trade_pipeline.int_trade_lifecycle at target\.lsp\compiled\models\intermediate\int_trade_lifecycle.sql
+04:03:27.833014 [debug]: Compiled SQL for node model.shadow_trade_pipeline.stg_trade_logs at target\.lsp\compiled\models\staging\stg_trade_logs.sql
+04:03:27.833059 [info ]:  Succeeded [-------] model gold.mart_strategy_performance (table)
+04:03:27.833072 [debug]: Finished analyzing [  0.00s] model gold.mart_strategy_performance [success]
+04:03:27.833086 [info ]:  Succeeded [-------] model gold.mart_symbol_overview (table)
+04:03:27.833095 [debug]: Finished analyzing [  0.00s] model gold.mart_symbol_overview [success]
+04:03:27.833106 [info ]:  Succeeded [-------] model gold.mart_level_analysis (table)
+04:03:27.833120 [debug]: Finished analyzing [  0.00s] model gold.mart_level_analysis [success]
+04:03:27.833128 [debug]: Finished rendering [  0.00s] model silver.int_trade_lifecycle [success]
+04:03:27.833138 [debug]: Started analyzing model silver.int_trade_lifecycle
+04:03:27.833152 [debug]: Finished rendering [  0.00s] model silver.stg_trade_logs [success]
+04:03:27.833157 [debug]: Started analyzing model silver.stg_trade_logs
+04:03:27.833176 [info ]:  Succeeded [-------] model silver.stg_trade_logs (view)
+04:03:27.833183 [debug]: Finished analyzing [  0.00s] model silver.stg_trade_logs [success]
+04:03:27.833188 [info ]:  Succeeded [-------] model silver.int_trade_lifecycle (view)
+04:03:27.833192 [debug]: Finished analyzing [  0.00s] model silver.int_trade_lifecycle [success]
+04:03:27.833627 [debug]: Compiled SQL for node model.shadow_trade_pipeline.mart_symbol_recent_metrics at target\.lsp\compiled\models\mart\mart_symbol_recent_metrics.sql
+04:03:27.833635 [debug]: Compiled SQL for node model.shadow_trade_pipeline.int_trade_sequences at target\.lsp\compiled\models\intermediate\int_trade_sequences.sql
+04:03:27.833679 [debug]: Finished rendering [  0.00s] model gold.mart_symbol_recent_metrics [success]
+04:03:27.833691 [debug]: Started analyzing model gold.mart_symbol_recent_metrics
+04:03:27.833701 [debug]: Finished rendering [  0.00s] model silver.int_trade_sequences [success]
+04:03:27.833704 [info ]: Finished rendering [  0.00s] (7 nodes, 0 skipped, 0 errors)
+04:03:27.833710 [debug]: Started analyzing model silver.int_trade_sequences
+04:03:27.833729 [info ]:  Succeeded [  0.00s] model gold.mart_symbol_recent_metrics (table)
+04:03:27.833736 [debug]: Finished analyzing [  0.00s] model gold.mart_symbol_recent_metrics [success]
+04:03:27.833750 [info ]:  Succeeded [  0.00s] model silver.int_trade_sequences (view)
+04:03:27.833758 [debug]: Finished analyzing [  0.00s] model silver.int_trade_sequences [success]
+04:03:27.833760 [info ]: Finished analyzing [  0.00s] (7 nodes, 0 skipped, 0 errors)
+04:03:27.836709 [info ]: Started scheduling
+04:03:27.836755 [info ]: Finished scheduling [  0.00s]
+04:03:27.837642 [info ]: Cached model count updated: 7 models (accurate)
+==================== 2026-04-19T07:29:01.863749Z | b2f119a0-fe21-4735-9716-12e4f4e8f3f6 ====================
+07:29:01.864833 [info ]: Starting dbt LSP server
+07:29:01.864866 [info ]: Connecting to LSP client on port 8000
+07:29:01.866690 [info ]: Successfully connected to LSP client
+07:29:01.866715 [info ]: Creating LSP service...
+07:29:01.923037 [info ]: Creating LSP server...
+07:29:01.923053 [info ]: Starting LSP server...
+07:29:02.812571 [info ]: Loading ~/.dbt/profiles.yml

@@ -1,0 +1,28 @@
+--- Log started: 2026.03.27 00:00 ---
+[2026.03.27 00:30:01] SKIP | MT4#269283023 | XAUUSD | Level 1 (0.01 lots) — not in copy range [L2-L4].
+[2026.03.27 00:30:09] SKIP | MT4#269283755 | EURAUD | Level 1 (0.01 lots) — not in copy range [L2-L4].
+[2026.03.27 00:45:01] SKIP | MT4#269318610 | XAUUSD | Phase 1 blackout day — new pair skipped.
+[2026.03.27 01:00:09] SKIP | MT4#269336101 | AUDUSD | Phase 1 blackout day — new pair skipped.
+[2026.03.27 01:45:19] SKIP | MT4#269394467 | NZDCAD | Level 1 (0.01 lots) — not in copy range [L2-L4].
+[2026.03.27 01:45:25] SKIP | MT4#269394510 | NZDUSD | Phase 1 blackout day — new pair skipped.
+[2026.03.27 06:00:26] SKIP | MT4#269488929 | AUDNZD | Phase 1 blackout day — new pair skipped.
+--- ShadowTechnique stopped. Reason: 5 ---
+--- ShadowTechnique started: 2026.03.27 06:28 ---
+--- ShadowTechnique stopped. Reason: 2 ---
+--- ShadowTechnique started: 2026.03.27 06:59 ---
+--- ShadowTechnique stopped. Reason: 2 ---
+--- ShadowTechnique started: 2026.03.27 08:18 ---
+[2026.03.27 09:00:08] SKIP | MT4#269638771 | EURAUD | Level 1 (0.01 lots) — not in copy range [L2-L4].
+[2026.03.27 09:15:04] SKIP | MT4#269656219 | EURNZD | Level 1 (0.01 lots) — not in copy range [L2-L4].
+[2026.03.27 11:15:18] SKIP | MT4#269754103 | EURCHF | Level 1 (0.01 lots) — not in copy range [L2-L4].
+[2026.03.27 13:45:01] SKIP | MT4#269855568 | XAUUSD | Level 1 (0.01 lots) — not in copy range [L2-L4].
+[2026.03.27 15:15:07] SKIP | MT4#269939691 | NZDCHF | Level 1 (0.01 lots) — not in copy range [L2-L4].
+[2026.03.27 15:30:12] SKIP | MT4#269947304 | GBPCAD | Level 1 (0.01 lots) — not in copy range [L2-L4].
+[2026.03.27 15:45:01] SKIP | MT4#269954982 | GBPUSD | Level 1 (0.01 lots) — not in copy range [L2-L4].
+[2026.03.27 16:00:01] SKIP | MT4#269963565 | EURUSD | Level 1 (0.01 lots) — not in copy range [L2-L4].
+[2026.03.27 17:45:37] SKIP | MT4#270043545 | EURGBP | Level 1 (0.01 lots) — not in copy range [L2-L4].
+[2026.03.27 20:15:05] OPENED | MT4#270145857 | GBPUSD | P1 MT5 pos #987608475 | BUY GBPUSD.s | Lots:0.03 | L2 | Group:FOREX | SL:0.00000 TP:0.00000
+[2026.03.27 20:15:10] MODIFIED | MT4#270145857 | GBPUSD.s | MT5 #987608475 | SL:1.13136 TP:1.32909
+[2026.03.27 20:15:16] OPENED | MT4#270145940 | GBPCAD | P1 MT5 pos #987608696 | BUY GBPCAD.s | Lots:0.03 | L2 | Group:FOREX | SL:0.00000 TP:0.00000
+[2026.03.27 20:15:21] MODIFIED | MT4#270145940 | GBPCAD.s | MT5 #987608696 | SL:1.64500 TP:1.84246
+[2026.03.27 21:00:19] SKIP | MT4#270183214 | GBPCHF | Level 1 (0.01 lots) — not in copy range [L2-L4].

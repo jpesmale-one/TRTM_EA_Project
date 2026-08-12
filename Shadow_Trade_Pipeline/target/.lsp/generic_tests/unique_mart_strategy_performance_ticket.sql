@@ -1,0 +1,1 @@
+{{ test_unique(column_name="ticket", model=get_where_subquery(ref('mart_strategy_performance'))) }}

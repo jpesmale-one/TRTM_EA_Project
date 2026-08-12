@@ -1,0 +1,29 @@
+version: 2
+
+models:
+  - name: stg_trade_logs
+    description: >
+      Silver staging view. Cleans raw bronze rows, parses the Notes field,
+      and adds derived flags. One row per trade event (OPEN, MODIFY, CLOSE).
+
+    columns:
+      - name: ticket
+        tests:
+          - not_null
+
+      - name: event_type
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['OPEN', 'MODIFY', 'CLOSE', 'OPEN [RESYNC]', 'MODIFY [RESYNC]', 'CLOSE [RESYNC]']
+
+      - name: strategy_name
+        description: Parsed from Notes field. e.g. SHADOW, sXAUdow.
+        tests:
+          - not_null
+
+      - name: is_cancelled
+        description: True if this CLOSE row has ClosePrice=0.00000.
+
+      - name: is_prefilled_sltp
+        description: True if SL/TP were already set on the OPEN row.

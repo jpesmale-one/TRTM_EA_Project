@@ -1,0 +1,1 @@
+{{ test_accepted_values(column_name="trade_type", model=get_where_subquery(source('bronze', 'trade_monitor_logs')), values=["BUY","SELL"]) }}

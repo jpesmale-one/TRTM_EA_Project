@@ -1,0 +1,1 @@
+{{ test_not_null(column_name="event_type", model=get_where_subquery(source('bronze', 'trade_monitor_logs'))) }}

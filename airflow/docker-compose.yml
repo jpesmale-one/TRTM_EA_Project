@@ -1,0 +1,101 @@
+# ── Shared environment variables ──────────────────────────────────────────────
+x-airflow-env: &airflow-env
+  AIRFLOW__CORE__EXECUTOR: ${AIRFLOW__CORE__EXECUTOR}
+  AIRFLOW__CORE__LOAD_EXAMPLES: ${AIRFLOW__CORE__LOAD_EXAMPLES}
+  AIRFLOW__CORE__FERNET_KEY: ${AIRFLOW__CORE__FERNET_KEY}
+  AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:${AIRFLOW_DB_PASSWORD}@airflow-db:5432/airflow
+  AIRFLOW__WEBSERVER__SECRET_KEY: shadow_trade_webserver_secret
+
+  POSTGRES_HOST: ${POSTGRES_HOST}
+  POSTGRES_PORT: ${POSTGRES_PORT}
+  POSTGRES_DB: ${POSTGRES_DB}
+  POSTGRES_USER: ${POSTGRES_USER}
+  POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+
+# ── Shared volume mounts ───────────────────────────────────────────────────────
+x-airflow-volumes: &airflow-volumes
+  - ./dags:/opt/airflow/dags
+  - airflow_logs:/opt/airflow/logs
+
+  # dbt project (your existing project folder)
+  - C:\Users\jpesm\Desktop\Data_Pipeline_Projetcs\Shadow_Trade_Pipeline:/opt/dbt/shadow_trade_pipeline:ro
+
+  # dbt profiles.yml
+  - C:\Users\jpesm\.dbt:/home/airflow/.dbt:ro
+
+  # MetaQuotes log files
+  - C:\Users\jpesm\AppData\Roaming\MetaQuotes\Terminal\Common\Files:/opt/metatrader/files:ro
+
+  # Ingestion script
+  - C:\Users\jpesm\Desktop\Data_Pipeline_Projetcs:/opt/pipeline:ro
+
+services:
+
+  airflow-db:
+    image: postgres:15
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: airflow
+      POSTGRES_PASSWORD: ${AIRFLOW_DB_PASSWORD}
+      POSTGRES_DB: airflow
+    volumes:
+      - airflow_db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "airflow"]
+      interval: 10s
+      retries: 5
+
+  airflow-init:
+    build: .
+    depends_on:
+      airflow-db:
+        condition: service_healthy
+    environment:
+      <<: *airflow-env
+    volumes: *airflow-volumes
+    entrypoint: /bin/bash
+    command:
+      - -c
+      - |
+        airflow db migrate
+        airflow users create \
+          --username ${AIRFLOW_ADMIN_USER} \
+          --password ${AIRFLOW_ADMIN_PASSWORD} \
+          --firstname Shadow \
+          --lastname Trade \
+          --role Admin \
+          --email ${AIRFLOW_ADMIN_EMAIL}
+    restart: on-failure
+
+  airflow-webserver:
+    build: .
+    restart: unless-stopped
+    depends_on:
+      airflow-db:
+        condition: service_healthy
+    environment:
+      <<: *airflow-env
+    volumes: *airflow-volumes
+    ports:
+      - "8080:8080"
+    command: webserver
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  airflow-scheduler:
+    build: .
+    restart: unless-stopped
+    depends_on:
+      airflow-db:
+        condition: service_healthy
+    environment:
+      <<: *airflow-env
+    volumes: *airflow-volumes
+    command: scheduler
+
+volumes:
+  airflow_db_data:
+  airflow_logs:

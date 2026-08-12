@@ -1,0 +1,40 @@
+version: 2
+
+models:
+  - name: mart_strategy_performance
+    description: >
+      Gold layer. One row per completed trade with all analytics columns
+      for Power BI. Primary table for the ShadowTechnique trading dashboard.
+
+    columns:
+      - name: ticket
+        description: MetaTrader trade ticket ID.
+        tests:
+          - not_null
+          - unique
+
+      - name: strategy_name
+        description: Trading strategy (SHADOW, sXAUdow, etc.)
+        tests:
+          - not_null
+
+      - name: trade_result
+        description: WIN, LOSS, BREAKEVEN, or CANCELLED.
+        tests:
+          - accepted_values:
+              values: ['WIN', 'LOSS', 'BREAKEVEN', 'CANCELLED']
+
+      - name: profit_loss
+        description: Realised P&L in account currency.
+
+      - name: planned_rr
+        description: Planned risk-to-reward ratio at time of entry.
+
+      - name: actual_r
+        description: Actual R multiple achieved at close.
+
+      - name: cumulative_pnl_by_strategy
+        description: Running P&L total per strategy ordered by close time.
+
+      - name: cumulative_pnl_total
+        description: Running P&L total across all strategies.

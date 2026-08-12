@@ -1,0 +1,35 @@
+--- Log started: 2026.03.30 00:00 ---
+[2026.03.30 05:17:26] SKIP | MT4#270536379 | CADCHF | Level 1 (0.01 lots) — not in copy range [L2-L4].
+[2026.03.30 06:00:03] SKIP | MT4#270536983 | NZDCAD | Level 1 (0.01 lots) — not in copy range [L2-L4].
+[2026.03.30 06:15:20] OPENED | MT4#270578588 | EURGBP | P1 MT5 pos #989356270 | SELL EURGBP.s | Lots:0.03 | L2 | Group:FOREX | SL:0.00000 TP:0.00000
+[2026.03.30 06:15:25] MODIFIED | MT4#270578588 | EURGBP.s | MT5 #989356270 | SL:1.06583 TP:0.86728
+[2026.03.30 06:45:01] SKIP | MT4#270615856 | GBPUSD | Level 1 (0.01 lots) — not in copy range [L2-L4].
+[2026.03.30 06:45:01] SKIP | MT4#270615958 | EURUSD | Level 1 (0.01 lots) — not in copy range [L2-L4].
+[2026.03.30 06:45:09] SKIP | MT4#270616180 | AUDUSD | Level 1 (0.01 lots) — not in copy range [L2-L4].
+--- ShadowTechnique stopped. Reason: 3 ---
+--- ShadowTechnique started: 2026.03.30 08:10 ---
+[2026.03.30 08:15:00] SKIP | MT4#270718798 | XAUUSD | Level 1 (0.01 lots) — not in copy range [L2-L4].
+[2026.03.30 08:15:17] SKIP | MT4#270719497 | EURAUD | Level 1 (0.01 lots) — not in copy range [L2-L4].
+[2026.03.30 16:15:11] OPENED | MT4#271194363 | USDCAD | P1 MT5 pos #993604486 | SELL USDCAD.s | Lots:0.03 | L2 | Group:FOREX | SL:0.00000 TP:0.00000
+[2026.03.30 16:15:15] MODIFIED | MT4#271194363 | USDCAD.s | MT5 #993604486 | SL:1.58813 TP:1.39012
+[2026.03.30 17:15:00] SKIP | MT4#271235227 | GBPUSD | Level 1 (0.01 lots) — not in copy range [L2-L4].
+[2026.03.30 17:15:00] SKIP | MT4#271235239 | EURUSD | Level 1 (0.01 lots) — not in copy range [L2-L4].
+[2026.03.30 17:30:04] SKIP | MT4#271249826 | AUDNZD | Level 1 (0.01 lots) — not in copy range [L2-L4].
+[2026.03.30 17:30:20] SKIP | MT4#271249928 | USDCHF | Level 1 (0.01 lots) — not in copy range [L2-L4].
+[2026.03.30 19:45:01] SKIP | MT4#271354596 | XAUUSD | Level 1 (0.01 lots) — not in copy range [L2-L4].
+[2026.03.30 20:15:01] SKIP | MT4#271397567 | EURUSD | Level 1 (0.01 lots) — not in copy range [L2-L4].
+[2026.03.30 20:30:13] SKIP | MT4#271411751 | EURAUD | Level 1 (0.01 lots) — not in copy range [L2-L4].
+[2026.03.30 21:45:01] SKIP | MT4#271507603 | GBPUSD | Level 1 (0.01 lots) — not in copy range [L2-L4].
+[2026.03.30 21:45:01] SKIP | MT4#271507678 | EURUSD | Level 1 (0.01 lots) — not in copy range [L2-L4].
+[2026.03.30 21:45:06] SKIP | MT4#271508503 | GBPCAD | Level 1 (0.01 lots) — not in copy range [L2-L4].
+[2026.03.30 22:00:43] SKIP | MT4#271541670 | EURCHF | Level 1 (0.01 lots) — not in copy range [L2-L4].
+[2026.03.30 22:30:23] OPENED | MT4#271587243 | USDCAD | P1 MT5 pos #996332748 | SELL USDCAD.s | Lots:0.04 | L3 | Group:FOREX | SL:0.00000 TP:0.00000
+[2026.03.30 22:30:28] MODIFIED | MT4#271194363 | USDCAD.s | MT5 #993604486 | SL:1.58813 TP:1.39239
+[2026.03.30 22:30:28] MODIFIED | MT4#271587243 | USDCAD.s | MT5 #996332748 | SL:1.58813 TP:1.39239
+[2026.03.30 22:30:33] SKIP | MT4#271587983 | NZDCHF | Level 1 (0.01 lots) — not in copy range [L2-L4].
+[2026.03.30 22:57:34] INFO | MT4#271194363 | USDCAD | P1 MT5 pos #993604486 not found — may have closed via SL/TP.
+[2026.03.30 22:57:34] INFO | MT4#271587243 | USDCAD | P1 MT5 pos #996332748 not found — may have closed via SL/TP.
+[2026.03.30 22:57:34] SLOT_FREE | MT4#271587243 | USDCAD | Phase 1 slot freed for USDCAD.
+[2026.03.30 23:15:05] SKIP | MT4#271643725 | GBPCAD | Level 1 (0.01 lots) — not in copy range [L2-L4].
+[2026.03.30 23:30:13] SKIP | MT4#271659081 | EURAUD | Level 1 (0.01 lots) — not in copy range [L2-L4].
+--- Log rolled to new day: 20260331 ---

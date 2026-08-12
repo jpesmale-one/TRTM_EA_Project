@@ -1,0 +1,1 @@
+{{ test_accepted_values(column_name="event_type", model=get_where_subquery(ref('stg_trade_logs')), values=["OPEN","MODIFY","CLOSE","OPEN [RESYNC]","MODIFY [RESYNC]","CLOSE [RESYNC]"]) }}

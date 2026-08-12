@@ -1,0 +1,52 @@
+--- Log started: 2026.04.02 00:00 ---
+[2026.04.02 01:23:58] INFO | MT4#270578588 | EURGBP | P1 MT5 pos #1078602558 not found — may have closed via SL/TP.
+[2026.04.02 01:23:58] INFO | MT4#272838657 | EURGBP | P1 MT5 pos #1088651463 not found — may have closed via SL/TP.
+[2026.04.02 01:23:58] INFO | MT4#272881839 | EURGBP | P1 MT5 pos #1088842623 not found — may have closed via SL/TP.
+[2026.04.02 01:23:58] SLOT_FREE | MT4#272881839 | EURGBP | Phase 1 slot freed for EURGBP.
+[2026.04.02 02:30:04] SKIP | MT4#274180965 | GBPAUD | P0 pair not in allowed list.
+[2026.04.02 02:30:10] SKIP | MT4#274181000 | NZDCAD | P0 pair not in allowed list.
+[2026.04.02 03:30:30] INFO | MT4#274227762 | EURCAD | P0 FindRecentDeal returned #1023108848 but cannot select position — falling back to FindRecentPosition.
+[2026.04.02 03:30:30] OPENED | MT4#274227762 | EURCAD | P0 MT5 pos #1096141080 | BUY EURCADc | Lots:0.20 | L1 | Group:FOREX | SL:0.00000 TP:0.00000
+[2026.04.02 03:30:31] MODIFIED | MT4#274227762 | EURCADc | MT5 #1096141080 | SL:1.40743 TP:1.60812
+[2026.04.02 04:45:10] P0_AUTOCLOSE_TRIGGER | MT4#274265935 | USDCAD | 0.02 lots >= Phase0CloseTriggerLot — closing Phase 0 positions.
+[2026.04.02 04:45:10] P0_CLOSED | MT4#0 | USDCADc | Position #1090529026 closed (Phase 0 autoclose).
+[2026.04.02 04:45:10] P0_CLOSE_DONE | MT4#0 | USDCAD | Phase 0 close complete. 1 position(s) closed.
+[2026.04.02 04:45:10] AUTOCLOSE_EVENT | MT4#0 |  | Phase 0 autoclose count in window: 4 / 5
+[2026.04.02 04:45:10] INFO | MT4#274265935 | USDCAD | P1 FindRecentDeal returned #1023241864 but cannot select position — falling back to FindRecentPosition.
+[2026.04.02 04:45:10] OPENED | MT4#274265935 | USDCAD | P1 MT5 pos #1096291462 | BUY USDCADc | Lots:0.50 | L2 | Group:FOREX | SL:0.00000 TP:0.00000
+[2026.04.02 04:45:16] MODIFIED | MT4#274265935 | USDCADc | MT5 #1096291462 | SL:1.19070 TP:1.38865
+[2026.04.02 05:06:07] INFO | MT4#274227762 | EURCAD | MODIFY deferred — MT5 pos #1096141080 not yet visible. Will retry (10 attempts).
+[2026.04.02 05:06:08] INFO | MT4#274227762 | EURCAD | Deferred MODIFY retry — MT5 pos #1096141080 still not visible. 9 attempts left.
+[2026.04.02 05:06:11] INFO | MT4#274227762 | EURCAD | Deferred MODIFY retry — MT5 pos #1096141080 still not visible. 6 attempts left.
+[2026.04.02 05:06:14] INFO | MT4#274227762 | EURCAD | Deferred MODIFY retry — MT5 pos #1096141080 still not visible. 3 attempts left.
+[2026.04.02 05:06:17] INFO | MT4#274227762 | EURCADc | === DIAG START === storedTicket=1096141080 | PositionSelectByTicket=NO
+[2026.04.02 05:06:17] INFO | MT4#274227762 | EURCADc | PositionsTotal()=2 | MagicFilter=98766 | ExpectedSymbol=EURCADc
+[2026.04.02 05:06:17] INFO | MT4#274227762 | EURCADc |   POS[0] ticket=1093485241 ident=1093485241 sym=GBPUSDc magic=98766 type=SELL lots=0.50 SL=1.52615 TP=1.32889
+[2026.04.02 05:06:17] INFO | MT4#274227762 | EURCADc |   POS[1] ticket=1096291462 ident=1096291462 sym=USDCADc magic=98766 type=BUY lots=0.50 SL=1.19070 TP=1.38865
+[2026.04.02 05:06:17] INFO | MT4#274227762 | EURCADc |   No matching deals found in last 5 minutes.
+[2026.04.02 05:06:17] INFO | MT4#274227762 | EURCADc | === DIAG END ===
+[2026.04.02 05:06:17] INFO | MT4#274227762 | EURCAD | Deferred MODIFY: MT5 pos #1096141080 not visible after all retries — MODIFY dropped. Position left intact.
+[2026.04.02 07:22:43] INFO | MT4#274227762 | EURCAD | P0 MT5 pos #1096141080 not found — may have closed via SL/TP.
+[2026.04.02 07:22:43] SLOT_FREE | MT4#274227762 | EURCAD | Phase 0 slot freed for EURCAD.
+--- ShadowTechnique stopped. Reason: 5 ---
+--- ShadowTechnique started: 2026.04.02 08:55 ---
+[2026.04.02 09:17:32] INFO | MT4#273770395 | GBPUSD | P1 MT5 pos #1093485241 not found — may have closed via SL/TP.
+[2026.04.02 09:17:32] SLOT_FREE | MT4#273770395 | GBPUSD | Phase 1 slot freed for GBPUSD.
+[2026.04.02 09:19:40] INFO | MT4#274265935 | USDCAD | P1 MT5 pos #1096291462 not found — may have closed via SL/TP.
+[2026.04.02 09:19:40] SLOT_FREE | MT4#274265935 | USDCAD | Phase 1 slot freed for USDCAD.
+[2026.04.02 09:30:00] INFO | MT4#274503541 | XAUUSD | P0 FindRecentDeal returned #1024198775 but cannot select position — falling back to FindRecentPosition.
+[2026.04.02 09:30:00] OPENED | MT4#274503541 | XAUUSD | P0 MT5 pos #1097344628 | BUY XAUUSDc | Lots:0.10 | L1 | Group:GOLD | SL:0.00000 TP:0.00000
+[2026.04.02 09:30:00] SKIP | MT4#274503543 | AUDCAD | P0 pair not in allowed list.
+[2026.04.02 09:30:01] MODIFIED | MT4#274503541 | XAUUSDc | MT5 #1097344628 | SL:4497.08000 TP:4697.75000
+[2026.04.02 09:30:03] INFO | MT4#274504080 | EURCAD | P0 FindRecentDeal returned #1024200801 but cannot select position — falling back to FindRecentPosition.
+[2026.04.02 09:30:03] OPENED | MT4#274504080 | EURCAD | P0 MT5 pos #1097346547 | BUY EURCADc | Lots:0.20 | L1 | Group:FOREX | SL:0.00000 TP:0.00000
+[2026.04.02 09:30:04] MODIFIED | MT4#274504080 | EURCADc | MT5 #1097346547 | SL:1.40654 TP:1.60723
+[2026.04.02 09:30:08] INFO | MT4#274503541 | XAUUSD | P0 MT5 pos #1097344628 not found — may have closed via SL/TP.
+[2026.04.02 09:30:08] SLOT_FREE | MT4#274503541 | XAUUSD | Phase 0 slot freed for XAUUSD.
+[2026.04.02 09:30:12] SKIP | MT4#274505052 | NZDUSD | P0 pair not in allowed list.
+[2026.04.02 09:45:01] SKIP | MT4#274553663 | GBPUSD | P0 pair not in allowed list.
+--- ShadowTechnique stopped. Reason: 5 ---
+--- ShadowTechnique started: 2026.04.02 09:45 ---
+[2026.04.02 09:45:13] SKIP | MT4#274554058 | NZDCAD | No MT5 equivalent found — doing nothing.
+--- ShadowTechnique started: 2026.04.02 11:15 ---
+[2026.04.02 11:15:12] SKIP | MT4#274717672 | USDCAD | Phase 0 master switch off.

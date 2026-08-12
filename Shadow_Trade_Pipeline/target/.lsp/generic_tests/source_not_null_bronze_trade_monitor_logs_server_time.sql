@@ -1,0 +1,1 @@
+{{ test_not_null(column_name="server_time", model=get_where_subquery(source('bronze', 'trade_monitor_logs'))) }}

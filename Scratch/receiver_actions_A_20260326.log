@@ -1,0 +1,23 @@
+--- Log started: 2026.03.26 00:00 ---
+[2026.03.26 00:15:02] SKIP | MT4#267690187 | EURUSD | Level 1 (0.01 lots) — not in copy range [L2-L4].
+[2026.03.26 03:15:02] SKIP | MT4#267860436 | XAUUSD | Level 1 (0.01 lots) — not in copy range [L2-L4].
+[2026.03.26 14:00:01] SKIP | MT4#268380641 | XAUUSD | Level 1 (0.01 lots) — not in copy range [L2-L4].
+[2026.03.26 14:15:01] SKIP | MT4#268418683 | XAUUSD | Level 1 (0.01 lots) — not in copy range [L2-L4].
+[2026.03.26 14:15:14] SKIP | MT4#268419415 | AUDNZD | Level 1 (0.01 lots) — not in copy range [L2-L4].
+[2026.03.26 15:45:05] SKIP | MT4#268530908 | NZDCHF | Level 1 (0.01 lots) — not in copy range [L2-L4].
+[2026.03.26 16:00:07] SKIP | MT4#268547153 | NZDCAD | Level 1 (0.01 lots) — not in copy range [L2-L4].
+[2026.03.26 16:00:09] SKIP | MT4#268547202 | NZDUSD | Level 1 (0.01 lots) — not in copy range [L2-L4].
+--- ShadowTechnique stopped. Reason: 9 ---
+--- ShadowTechnique started: 2026.03.26 16:15 ---
+[2026.03.26 16:30:09] SKIP | MT4#268604112 | USDCAD | Level 1 (0.01 lots) — not in copy range [L2-L4].
+[2026.03.26 19:30:14] SKIP | MT4#268842821 | USDCAD | Level 1 (0.01 lots) — not in copy range [L2-L4].
+[2026.03.26 19:45:02] SKIP | MT4#268858237 | EURUSD | Level 1 (0.01 lots) — not in copy range [L2-L4].
+[2026.03.26 19:45:09] SKIP | MT4#268858481 | AUDUSD | Level 1 (0.01 lots) — not in copy range [L2-L4].
+[2026.03.26 20:00:12] SKIP | MT4#268880193 | GBPUSD | Level 1 (0.01 lots) — not in copy range [L2-L4].
+[2026.03.26 20:30:06] SKIP | MT4#268916012 | AUDNZD | Level 1 (0.01 lots) — not in copy range [L2-L4].
+[2026.03.26 20:45:01] SKIP | MT4#268934593 | GBPUSD | Level 1 (0.01 lots) — not in copy range [L2-L4].
+[2026.03.26 20:45:16] SKIP | MT4#268934977 | EURAUD | Level 1 (0.01 lots) — not in copy range [L2-L4].
+[2026.03.26 21:45:15] SKIP | MT4#269027013 | GBPCHF | Level 1 (0.01 lots) — not in copy range [L2-L4].
+[2026.03.26 22:15:36] SKIP | MT4#269080656 | EURGBP | Level 1 (0.01 lots) — not in copy range [L2-L4].
+[2026.03.26 23:45:13] SKIP | MT4#269217780 | USDCAD | Level 1 (0.01 lots) — not in copy range [L2-L4].
+--- Log rolled to new day: 20260327 ---

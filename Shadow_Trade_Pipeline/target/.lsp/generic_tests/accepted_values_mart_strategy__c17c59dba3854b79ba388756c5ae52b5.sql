@@ -1,0 +1,1 @@
+{{ test_accepted_values(column_name="trade_result", model=get_where_subquery(ref('mart_strategy_performance')), values=["WIN","LOSS","BREAKEVEN","CANCELLED"]) }}

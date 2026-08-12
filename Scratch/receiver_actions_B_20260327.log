@@ -1,0 +1,57 @@
+--- Log started: 2026.03.27 00:00 ---
+[2026.03.27 00:30:01] SKIP | MT4#269283023 | XAUUSD | Level 1 (0.01 lots) — not in copy range [L2-L4].
+[2026.03.27 00:30:09] SKIP | MT4#269283755 | EURAUD | Level 1 (0.01 lots) — not in copy range [L2-L4].
+[2026.03.27 00:45:01] OPENED | MT4#269318610 | XAUUSD | P1 MT5 pos #1000741087 | BUY XAUUSDc | Lots:0.10 | L2 | Group:GOLD | SL:0.00000 TP:0.00000
+[2026.03.27 00:45:07] INFO | MT4#269318610 | XAUUSD | MODIFY deferred — MT5 pos #1000741087 not yet visible. Will retry next tick.
+[2026.03.27 00:45:08] INFO | MT4#269318610 | XAUUSD | Deferred MODIFY: MT5 pos #1000741087 still not found — discarded.
+[2026.03.27 01:00:09] OPENED | MT4#269336101 | AUDUSD | P1 MT5 pos #1000789664 | BUY AUDUSDc | Lots:0.50 | L2 | Group:FOREX | SL:0.00000 TP:0.00000
+[2026.03.27 01:00:15] INFO | MT4#269336101 | AUDUSD | MODIFY deferred — MT5 pos #1000789664 not yet visible. Will retry next tick.
+[2026.03.27 01:00:16] INFO | MT4#269336101 | AUDUSD | Deferred MODIFY: MT5 pos #1000789664 still not found — discarded.
+[2026.03.27 01:45:19] SKIP | MT4#269394467 | NZDCAD | Level 1 (0.01 lots) — not in copy range [L2-L4].
+[2026.03.27 01:45:25] OPENED | MT4#269394510 | NZDUSD | P1 MT5 pos #1000957879 | BUY NZDUSDc | Lots:0.50 | L2 | Group:FOREX | SL:0.00000 TP:0.00000
+[2026.03.27 01:45:31] INFO | MT4#269394510 | NZDUSD | MODIFY deferred — MT5 pos #1000957879 not yet visible. Will retry next tick.
+[2026.03.27 01:45:32] INFO | MT4#269394510 | NZDUSD | Deferred MODIFY: MT5 pos #1000957879 still not found — discarded.
+[2026.03.27 06:00:27] OPENED | MT4#269488929 | AUDNZD | P1 MT5 pos #1001443856 | BUY AUDNZDc | Lots:0.50 | L2 | Group:FOREX | SL:0.00000 TP:0.00000
+[2026.03.27 06:00:32] INFO | MT4#269488929 | AUDNZD | MODIFY deferred — MT5 pos #1001443856 not yet visible. Will retry next tick.
+[2026.03.27 06:00:33] INFO | MT4#269488929 | AUDNZD | Deferred MODIFY: MT5 pos #1001443856 still not found — discarded.
+--- ShadowTechnique stopped. Reason: 2 ---
+--- ShadowTechnique started: 2026.03.27 06:56 ---
+--- ShadowTechnique stopped. Reason: 2 ---
+--- ShadowTechnique started: 2026.03.27 08:18 ---
+[2026.03.27 09:00:08] SKIP | MT4#269638771 | EURAUD | Level 1 (0.01 lots) — not in copy range [L2-L4].
+--- ShadowTechnique stopped. Reason: 3 ---
+--- ShadowTechnique started: 2026.03.27 09:12 ---
+[2026.03.27 09:15:04] SKIP | MT4#269656219 | EURNZD | Level 1 (0.01 lots) — not in copy range [L2-L4].
+[2026.03.27 11:15:18] SKIP | MT4#269754103 | EURCHF | Level 1 (0.01 lots) — not in copy range [L2-L4].
+[2026.03.27 13:45:01] SKIP | MT4#269855568 | XAUUSD | Level 1 (0.01 lots) — not in copy range [L2-L4].
+[2026.03.27 15:15:07] SKIP | MT4#269939691 | NZDCHF | Level 1 (0.01 lots) — not in copy range [L2-L4].
+[2026.03.27 15:30:13] SKIP | MT4#269947304 | GBPCAD | Level 1 (0.01 lots) — not in copy range [L2-L4].
+[2026.03.27 15:45:01] SKIP | MT4#269954982 | GBPUSD | Level 1 (0.01 lots) — not in copy range [L2-L4].
+[2026.03.27 16:00:01] SKIP | MT4#269963565 | EURUSD | Level 1 (0.01 lots) — not in copy range [L2-L4].
+[2026.03.27 17:45:37] SKIP | MT4#270043545 | EURGBP | Level 1 (0.01 lots) — not in copy range [L2-L4].
+[2026.03.27 20:15:04] OPENED | MT4#270145857 | GBPUSD | P1 MT5 pos #1004075696 | BUY GBPUSDc | Lots:0.50 | L2 | Group:FOREX | SL:0.00000 TP:0.00000
+[2026.03.27 20:15:09] INFO | MT4#270145857 | GBPUSD | MODIFY deferred — MT5 pos #1004075696 not yet visible. Will retry next tick.
+[2026.03.27 20:15:10] INFO | MT4#270145857 | GBPUSD | Deferred MODIFY: MT5 pos #1004075696 still not found — discarded.
+[2026.03.27 20:15:15] OPENED | MT4#270145940 | GBPCAD | P1 MT5 pos #1004076139 | BUY GBPCADc | Lots:0.50 | L2 | Group:FOREX | SL:0.00000 TP:0.00000
+[2026.03.27 20:15:20] INFO | MT4#270145940 | GBPCAD | MODIFY deferred — MT5 pos #1004076139 not yet visible. Will retry next tick.
+[2026.03.27 20:15:21] INFO | MT4#270145940 | GBPCAD | Deferred MODIFY: MT5 pos #1004076139 still not found — discarded.
+[2026.03.27 21:00:19] SKIP | MT4#270183214 | GBPCHF | Level 1 (0.01 lots) — not in copy range [L2-L4].
+--- ShadowTechnique stopped. Reason: 2 ---
+--- ShadowTechnique started: 2026.03.27 21:53 ---
+[2026.03.27 23:00:01] SKIP | MT4#270365338 | XAUUSD | Level 1 (0.01 lots) — not in copy range [L2-L4].
+[2026.03.27 23:15:01] SKIP | MT4#270397167 | XAUUSD | Level 1 (0.01 lots) — not in copy range [L2-L4].
+[2026.03.27 23:30:01] SKIP | MT4#270427293 | XAUUSD | Level 1 (0.01 lots) — not in copy range [L2-L4].
+[2026.03.27 23:30:13] OPENED | MT4#270428042 | EURCHF | P1 MT5 pos #1005062741 | SELL EURCHFc | Lots:0.50 | L2 | Group:FOREX | SL:0.00000 TP:0.00000
+[2026.03.27 23:30:19] INFO | MT4#270428042 | EURCHF | MODIFY deferred — MT5 pos #1005062741 not yet visible. Will retry (10 attempts).
+[2026.03.27 23:30:20] INFO | MT4#270428042 | EURCHF | Deferred MODIFY retry — MT5 pos #1005062741 still not visible. 9 attempts left.
+[2026.03.27 23:30:23] INFO | MT4#270428042 | EURCHF | Deferred MODIFY retry — MT5 pos #1005062741 still not visible. 6 attempts left.
+[2026.03.27 23:30:26] INFO | MT4#270428042 | EURCHF | Deferred MODIFY retry — MT5 pos #1005062741 still not visible. 3 attempts left.
+[2026.03.27 23:30:29] INFO | MT4#270428042 | EURCHFc | === DIAG START === storedTicket=1005062741 | PositionSelectByTicket=NO
+[2026.03.27 23:30:29] INFO | MT4#270428042 | EURCHFc | PositionsTotal()=1 | MagicFilter=98766 | ExpectedSymbol=EURCHFc
+[2026.03.27 23:30:29] INFO | MT4#270428042 | EURCHFc |   POS[0] ticket=1077057046 ident=1077057046 sym=EURCHFc magic=98766 type=SELL lots=0.50 SL=0.00000 TP=0.00000
+[2026.03.27 23:30:29] INFO | MT4#270428042 | EURCHFc |   No matching deals found in last 5 minutes.
+[2026.03.27 23:30:29] INFO | MT4#270428042 | EURCHFc | === DIAG END ===
+[2026.03.27 23:30:29] INFO | MT4#270428042 | EURCHF | Deferred MODIFY: MT5 pos #1005062741 not visible after all retries — MODIFY dropped. Position left intact.
+[2026.03.27 23:55:27] INFO | MT4#270428042 | EURCHF | P1 MT5 pos #1005062741 not found — may have closed via SL/TP.
+[2026.03.27 23:55:27] SLOT_FREE | MT4#270428042 | EURCHF | Phase 1 slot freed for EURCHF.
+--- Log rolled to new day: 20260328 ---

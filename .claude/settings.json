@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__tradingview__data_get_ohlcv",
+      "mcp__tradingview__quote_get",
+      "mcp__tradingview__watchlist_get",
+      "mcp__tradingview__chart_get_visible_range",
+      "mcp__tradingview__draw_list"
+    ]
+  }
+}

@@ -1,0 +1,9 @@
+--- Log started: 2026.03.30 00:00 ---
+[2026.03.30 05:17:26] SKIP | MT4#270536379 | CADCHF | Level 1 (0.01 lots) — not in copy range [L2-L4].
+[2026.03.30 06:00:03] SKIP | MT4#270536983 | NZDCAD | Level 1 (0.01 lots) — not in copy range [L2-L4].
+[2026.03.30 06:15:20] INFO | MT4#270578588 | EURGBP | P1 FindRecentDeal returned #1006502157 but cannot select position — falling back to FindRecentPosition.
+[2026.03.30 06:15:20] OPENED | MT4#270578588 | EURGBP | P1 MT5 pos #1078602558 | SELL EURGBPc | Lots:0.50 | L2 | Group:FOREX | SL:0.00000 TP:0.00000
+[2026.03.30 06:15:25] MODIFIED | MT4#270578588 | EURGBPc | MT5 #1078602558 | SL:1.06583 TP:0.86728
+[2026.03.30 06:45:01] SKIP | MT4#270615856 | GBPUSD | Level 1 (0.01 lots) — not in copy range [L2-L4].
+[2026.03.30 06:45:01] SKIP | MT4#270615958 | EURUSD | Level 1 (0.01 lots) — not in copy range [L2-L4].
+[2026.03.30 06:45:09] SKIP | MT4#270616180 | AUDUSD | Level 1 (0.01 lots) — not in copy range [L2-L4].
