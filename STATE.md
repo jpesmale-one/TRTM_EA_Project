@@ -334,7 +334,36 @@ Q2 (A-6, O2b) and Q3 (B-3, M7-8) both ANSWERED: close on INSPECTION. A-6 rests o
 ALSO SURFACED BY THIS ANALYSIS: E9-M4 (adoptedL1 unrecoverable on ANY state-file loss).
   Standing property of b40 today, not a b41 defect. Parked - see its own section.
 
-NEXT: Jeff's explicit word to SEAL Gate 2, then Gate 3 plan, then build.
+## b41 GATE 3 - PLAN DRAFTED 2026-08-19, NOT CONFIRMED
+docs/B41_PLAN_2026-08-19_gate3.md. TEN touch points, all in src/TRTM.mq5, expected delta
+~+61/-10 (net ~+51, 4974 -> ~5025). NO new input, NO new global; TWO new PERSISTED fields
+(lastAppliedTP/SL) and schema 4 -> 5.
+ALL FOUR MATRIX OBLIGATIONS DISCHARGED IN THE PLAN:
+  (1) The discriminator composition is spelled out: b41 INSERTS a second "EA's own" test
+      AFTER M7-8's, never replacing it. M7-8 is tested FIRST, so where both could claim the
+      same value (a manual TP that was also the last applied) M7-8 wins and its sealed log
+      wording is preserved. b28's behaviour is bit-identical in every case it already
+      covered; b41 only catches what M7-8 declined (releasedTP == 0). ORDER MUST NOT BE
+      SWAPPED - that ordering is what makes B-3 true.
+  (2) C-4's new WARN text is written out in full, naming override flags / manual SL /
+      adopted-L1 as what a discard drops, plus the deploy-on-flat instruction.
+  (3) The recovery-open edit is a VERBATIM lift of 2229-2231 into BuildLevelTag, to be
+      proven by filtered diff against the Run H baseline strings (xauusd_l2_buy ..
+      xauusd_l8_buy).
+  (4) Touch-point count and line delta stated up front for Gate Zero to check.
+BUILD ORDER: K-4 first (TP1/2/10), then persistence+schema, then the discriminator - so a
+  failure in the later steps still leaves a coherent K-4-only build and b41-S1's escape
+  hatch usable without unpicking work.
+STALE COMMENT FOUND: 1038-1040 says g_lastAppliedTP/SL are "deliberately NOT persisted:
+  under policy A ... (scenario S7)". POLICY A WAS RETIRED WITH b24 (see line 1742 of this
+  file), so E9M1-D1 is not contradicting a live decision - it is updating a comment that
+  outlived its reasoning. The plan says so explicitly so no cold read misreads it.
+ONE OPEN QUESTION (QP1): whether to also SEED the runtime globals from the file at
+  reconcile. Strictly more correct but beyond the minimum B-1 needs. RECOMMEND INCLUDE -
+  excluding it leaves a one-apply-cycle blind window after every restart, the same class of
+  hole as E9-M1 itself.
+
+NEXT: Jeff answers QP1 and CONFIRMS the plan, then code.
 
 ## RUN H - EXECUTED 2026-08-18. T3-K1/K2(b) PASS, K-4 FAIL, L-3 DEFENDED.
 The oldest outstanding debt in the project - overdue since the E6 seal 2026-07-26, doubly
