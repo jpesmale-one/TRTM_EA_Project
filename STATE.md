@@ -214,8 +214,65 @@ GATE 1b (E9-M1) - DIAGNOSTIC RUN AND RESOLVED 2026-08-18. UNBLOCKED.
   STILL A STATE-SCHEMA CHANGE: candidate (a) adds persisted fields, so the schema version
   and StateLoad's back-compat path are in scope for the matrix (schema is currently 4).
   A b40-written state file MUST still load - that is a MUST-NOT row.
-NEXT: Gate 1b's remaining decisions (persist-vs-derive, schema handling), then ONE matrix
-  covering K-4 + E9-M1, then Gate 3 plan, then build.
+LOCKED DECISION E9M1-D1 (how reconcile learns what the EA last applied, Jeff's call
+  2026-08-18): PERSIST lastAppliedTP / lastAppliedSL in the state file and SEED the runtime
+  globals from it at load. The b25 anti-oscillation guard already exists and is
+  sealed-proven; it simply cannot see across an init because g_lastAppliedTP/SL are runtime
+  globals (1041) reset to 0.0 (1082). Persisting them lets the EXISTING guard do its job
+  after a restart. Exact, no inference.
+  REJECTED (a) DERIVE at reconcile - recompute the target from the PERSISTED level set and
+  treat a matching broker value as the EA's own. Philosophically tidier and consistent with
+  E4/E5/E6's "derive everything per tick" principle, but IT FAILS ON THE EXACT CASE THAT
+  PRODUCED THE BUG: Run H's restart followed a Tier 3 SLICE, so the level set and lot
+  weights had changed between the EA's last write (4401.17) and the reconcile. The
+  derivation reproduces 4401.67, not 4401.17, and the guard still misses. Derivation only
+  works when nothing changed while offline - which is the case that does not need a guard.
+  REJECTED (b) SUPPRESS manual-TP adoption at reconcile when the recomputed target differs
+  only because the level set changed. Smallest change, no schema bump, but it discards a
+  GENUINE trader edit made while the EA was offline - which is precisely what M7-5 exists
+  to honour. Sacrifices a sealed, deliberate feature to dodge a schema version.
+  SCHEMA COST - CORRECTED 2026-08-18 AFTER READING StateLoad, AND IT IS BIGGER THAN FIRST
+  STATED. An earlier draft of this decision claimed back-compat was "clean by construction"
+  because an absent key defaults to 0. THAT IS WRONG. StateLoad (588-590) rejects the
+  ENTIRE FILE on any schema mismatch: "schema mismatch or missing (found %d, expected %d)
+  - discarding file". So bumping 4 -> 5 means a b40-written state file is DISCARDED on the
+  first init after deploy, not loaded with defaults.
+  WHAT DISCARDING ACTUALLY COSTS: the file carries direction, tickets, levels, baseLot,
+  adoptedL1, the override flags, manualTP/SL and the timestamps. Discarding it forces
+  Reconcile down its rebuild-from-broker path - which is EXACTLY the path Run H just proved
+  works (T3-K1 PASS, rebuilt 4 levels/0.23 lots correctly from positions alone, including
+  a sliced anchor with a BLANK comment). The real exposures are the fields that CANNOT be
+  rebuilt from positions: the override flags and any live manualTP/SL.
+  THIS IS NOW A GATE 2 MATRIX QUESTION, NOT A SETTLED COST. Three shapes to weigh there,
+  none locked yet: (i) accept the discard and require deploy on a FLAT sequence (operational
+  constraint, zero code); (ii) make StateLoad accept schema 4 as a readable legacy version,
+  defaulting the two new keys - a real back-compat path, but it edits SEALED persistence
+  code; (iii) do not bump the schema at all - add the keys and leave the version at 4, which
+  makes b40 and b41 files mutually readable but silently mis-versioned, and is the option I
+  would argue AGAINST on record-integrity grounds.
+  MUST-NOT ROW REGARDLESS: no state-file transition may silently lose an ACTIVE override
+  flag or a live manualSL. If the chosen shape can lose them, the deploy procedure must
+  say so explicitly.
+
+LOCKED DECISION E9M1-D2 (the Cent-account first-adoption ordering, Jeff's call
+  2026-08-18): ACCEPT CURRENT BEHAVIOUR. NO CHANGE, NO NEW BACKLOG ITEM.
+  THE QUESTION: at the Cent sequence's L2 open, the per-tick order was RELEASE (nothing to
+  release - manualTP was still 0) -> ADOPT (Jeff's 4407.20, seen by the classifier for the
+  first time) -> APPLY. So the manual TP survived a structure change not because the
+  release failed, but because adoption happened AFTER it in the same tick. Jeff's stated
+  intent ("a manual TP should only survive as long as the current state is intact") could
+  be read as requiring first-time adoption to be suppressed on a structural tick.
+  DECIDED: current behaviour stands. The TP was honoured because the EA genuinely had no
+  computed alternative to assert (single level -> AvgTP not computable), and the moment one
+  existed the release fired correctly - proven live at Run H 16:48:00, where the computed
+  target took over on L5's open with no re-adoption. The window in which a manual TP can
+  outlive its structure is NARROW: only before a second level exists.
+  REJECTED: suppressing first-time adoption on the same tick as a structural change. It
+  would need its own Gate 1, a change to SEALED b24 adoption semantics, and a matrix row
+  for the trader who legitimately edits DURING a level add. Cost is not justified by a
+  window this narrow.
+
+NEXT: ONE matrix covering K-4 + E9-M1 (Gate 2), then Gate 3 plan, then build.
 
 ## RUN H - EXECUTED 2026-08-18. T3-K1/K2(b) PASS, K-4 FAIL, L-3 DEFENDED.
 The oldest outstanding debt in the project - overdue since the E6 seal 2026-07-26, doubly
