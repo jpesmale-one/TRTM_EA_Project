@@ -285,11 +285,13 @@ CANDIDATE FIXES to weigh at Gate 1 (NOT decided): (a) persist lastAppliedTP/SL i
  Run H's 16:48:00 release line disproves it as the operative cause on the level-add path.]
 
 DO NOT HOTFIX. Touches sealed b24/b25/b28 classification code with one-shot logging side
-effects; needs its own Gate 1 -> matrix -> plan. Candidate fixes to weigh at Gate 1
-(NOT decided): (a) ReleaseManualTP also clears g_lastAppliedTP; (b) suppress
-DetectManualExitEdits for one pass after a structural release (reuse the existing
-g_manualDetectSkipOnce mechanism, 1555); (c) make g_lastAppliedTP per-ticket rather than
-global. (b) has precedent in the codebase and is the smallest.
+effects; needs its own Gate 1 -> matrix -> plan. THE CANDIDATE FIXES TO WEIGH ARE THE
+(a)/(b)/(c) LISTED UNDER "ROOT CAUSE" ABOVE (persist lastAppliedTP/SL, etc.) - those are
+aimed at the reconcile path Run H identified.
+[SUPERSEDED candidate list, from the rejected level-add hypothesis - do NOT scope from
+ these: (a) ReleaseManualTP also clears g_lastAppliedTP; (b) suppress
+ DetectManualExitEdits for one pass after a structural release via g_manualDetectSkipOnce
+ (1555); (c) make g_lastAppliedTP per-ticket. Retained only to show they were considered.]
 
 ## E9-M2 PARKED (cosmetic, same log) - STALE PROJECTION IN THE Structure: LINE
 AdoptUntrackedLevel calls ReleaseManualTP (2625) BEFORE LogStructure (2629), so on
