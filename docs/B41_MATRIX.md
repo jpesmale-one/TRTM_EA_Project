@@ -116,38 +116,81 @@ B-8  Trailing-active case unchanged: the TP classification block is skipped whil
      (no TP exists), and g_lastAppliedTP is forced to 0 past activation (1871). Persisting
      must not resurrect a stale TP after a trail-arm.
 
-## GROUP C - STATE SCHEMA (the Gate 1b escalation - DECISION REQUIRED AT SEAL)
+## GROUP C - STATE SCHEMA - Q1 LOCKED 2026-08-19 AS SHAPE (i)
 
-CONTEXT: StateLoad (588-590) DISCARDS THE ENTIRE FILE on any schema mismatch. Adding two
-persisted fields therefore forces a choice. Three shapes were recorded at Gate 1b; ONE MUST
-BE LOCKED BEFORE THIS MATRIX SEALS. Recommendation stated, Jeff decides.
+LOCKED DECISION b41-C1 (schema shape, Jeff's call 2026-08-19): SHAPE (i) - BUMP
+TRTM_STATE_SCHEMA 4 -> 5, ACCEPT THE DISCARD OF A b40 FILE, DEPLOY ON A FLAT SEQUENCE.
 
-  (i)   BUMP to schema 5, accept the discard, require deploy on a FLAT sequence.
-        Zero code beyond the bump. Cost: an operational constraint in the deploy note, and
-        a live sequence at deploy time loses its override flags and any manualSL.
-  (ii)  BUMP to 5 AND teach StateLoad to accept 4 as readable legacy, defaulting the two new
-        keys to 0. Real back-compat. Cost: edits SEALED persistence code (588-590), which is
-        the same class of edit K4-D2 already makes to sealed Stage 4 code.
-  (iii) DO NOT bump; add keys at schema 4. Files stay mutually readable but are silently
-        mis-versioned. ARGUED AGAINST on record-integrity grounds - the schema field stops
-        meaning anything.
+THE FACT THAT DECIDED IT - THE EXPOSURE WINDOW IS ONE OnInit CALL, NOT AN ONGOING RISK:
+  StateSave runs at the END OF Reconcile (2980), on EVERY init, live or flat. So under (i)
+  the sequence is: StateLoad discards the schema-4 file -> Reconcile rebuilds from the
+  broker -> StateSave writes schema 5, all within the SAME init, milliseconds apart. After
+  that first init the file on disk is schema 5 and EVERY subsequent restart - crash, power
+  loss, MT5 auto-update, chart change, terminal restart - loads normally.
+  => THE CRASH SCENARIO DOES NOT DISTINGUISH (i) FROM (ii). Only a crash landing INSIDE
+     that single init would, which is not a real risk. The entire difference between the
+     shapes reduces to ONE controllable event: the first init after b41 is deployed.
+  (An earlier draft of this analysis claimed the window ran "until the first b41 state
+   write" and implied an ongoing exposure across restarts. That was wrong - the save site
+   at 2980 closes it within the same init. Recorded so the reasoning is not re-derived.)
 
-  RECOMMENDATION: (i). The discard forces Reconcile's rebuild-from-broker path, which Run H
-  PROVED works (T3-K1 PASS: 4 levels / 0.23 lots rebuilt correctly from positions alone,
-  including a sliced anchor with a blank comment). The only fields that cannot be rebuilt
-  are the override flags and a live manualSL, and a deploy-on-flat constraint eliminates
-  both. (ii) is defensible and safer operationally, but it buys back-compat for a
-  ONE-TIME transition by permanently editing sealed persistence code.
+WHAT IS LOST IF b41 IS DEPLOYED OVER A LIVE SEQUENCE (the one event above):
+  Recoverable from the broker by Reconcile - direction, tickets, levels, levelCount,
+  baseLot, and manualTP (re-classified through the M7-5 path).
+  NOT RECOVERABLE - the file is the only source:
+    - trailOverride, beOverride, trailingActive, beApplied (per-sequence button state)
+    - manualSL (reconcile can adopt an SL but cannot know it was the trader's)
+    - adoptedL1 (a magic-0 adopted L1 does NOT carry our magic, so RebuildLiveMap cannot
+      see it - Reconcile restores it FROM THE FILE ONLY, 2887-2911). This is the most
+      serious of the three: the position would go UNMANAGED.
+  DEPLOY ON FLAT ELIMINATES ALL THREE.
 
-C-1  MUST-NOT: no state transition silently loses an ACTIVE override flag or a live
-     manualSL. If the locked shape can lose them, the DEPLOY PROCEDURE must say so
-     explicitly and Jeff must deploy flat.
+REJECTED (ii) BUMP + teach StateLoad to accept 4 as readable legacy:
+  Buys protection for a SINGLE init that Jeff already controls, and pays for it with a
+  permanent silent-PARTIAL-LOAD pattern on the gate that EVERY state read passes through.
+  Specific failure modes that decided against it:
+    - The persistence SELF-TEST (3013) writes and reads a schema-5 file, so it exercises
+      only the NEW path. A subtly wrong legacy branch would leave the self-test GREEN while
+      the gate is broken - the one automated check does not cover the case the edit exists
+      for.
+    - It invites unsafe extension. A future 5 -> 6 bump where a field's MEANING changes
+      (rather than a field being added) could be "fixed" by extending the accepted list to
+      {4,5,6} without checking semantics - loading an old value into a field that now means
+      something different, silently, on a money path. (i) cannot do this: mismatch always
+      means discard.
+    - Rollback is asymmetric anyway. b41 would read 4 and 5, but b40 reads ONLY 4, so
+      rolling back to b40 discards the schema-5 file and loses the same fields (ii) was
+      bought to protect. (i) never claims otherwise; (ii) creates a false expectation of
+      symmetry.
+    - It does not close the adoptedL1 hole. Legacy-reading protects the b40->b41 transition
+      only; adoptedL1 is still unrecoverable whenever the file is lost for ANY other reason
+      (corruption, deletion, fresh terminal, different data folder). See E9-M4 below.
+REJECTED (iii) DO NOT bump, add keys at schema 4:
+  The schema field stops meaning anything - two different formats would share version 4,
+  contradicting the contract stated in the code at 152 ("bump on breaking state format
+  change"). Saves nothing over (ii) and forfeits the versioning invariant.
+
+CONDITIONS ATTACHED TO THIS DECISION (both are matrix obligations, not advice):
+  1. C-4 is STRENGTHENED - the discard WARN must NAME what was lost.
+  2. The deploy note for b41 must state DEPLOY ON A FLAT SEQUENCE.
+
+C-1  MUST-NOT: no state transition silently loses an ACTIVE override flag, a live manualSL,
+     or adoptedL1. Under the locked shape (i) these CAN be lost on the first init after
+     deploy, so this row is satisfied by (a) the strengthened C-4 warning and (b) the
+     deploy-on-flat procedure - NOT by code. Stated plainly so the record is honest: this
+     row is closed by procedure, not by construction.
 C-2  A b41-written state file round-trips: save, reload, self-test PASS, all fields intact
-     including the two new ones.
+     including lastAppliedTP and lastAppliedSL.
 C-3  The state persistence SELF-TEST still passes at init (it has passed on every run since
      Stage 1 and is the first line of the resume protocol).
-C-4  Whatever shape is chosen, the behaviour on encountering a b40 file is LOGGED at init -
-     no silent discard. (Today's discard already logs a WARN; it must remain visible.)
+C-4  STRENGTHENED PER b41-C1: encountering a b40 (schema 4) file logs a WARN that NAMES the
+     consequence - not the current generic "discarding file". It must say that override
+     flags, manual SL ownership and any adopted-L1 record are being dropped, and that this
+     is expected exactly once on the b41 upgrade. Evidence: deliberately place a schema-4
+     file and confirm the WARN text at init.
+C-5  A schema-3 file, a garbage file, and a file with a MISSING schema key are all still
+     REJECTED. The bump must not weaken the gate in either direction. Evidence: inspection
+     (the equality test is unchanged in form, only the constant moves) + the self-test.
 
 ## GROUP D - REGRESSION (b41 touches sealed money-path code)
 
@@ -182,12 +225,28 @@ once a run starts and a tester restart replays from the beginning, so the tester
 produce a reconcile against open positions.
 ACCOUNT: the Vantage demo (25948001) is proven to produce this shape.
 
-## OPEN QUESTIONS FOR JEFF AT SEAL
+## QUESTIONS - ALL ANSWERED 2026-08-19, MATRIX READY TO SEAL
 
-Q1  GROUP C shape - (i), (ii) or (iii)? Recommendation (i). THIS BLOCKS THE SEAL.
-Q2  Is A-6 acceptable closed on inspection + inherited Run H evidence, or must b41 produce a
-    deliberately corrupted comment to exercise O2b live? (That would pull L-1..L-4 into
-    scope; recommendation: inspection, keep them out.)
-Q3  B-3 requires exercising M7-8 (close a level while the EA is down, manual TP owned
-    pre-kill). Worth a dedicated leg, or closed on inspection given b28 sealed it on
-    evidence? Recommendation: inspection, with the branch order shown in the plan.
+Q1  GROUP C shape. ANSWERED: shape (i). See LOCKED DECISION b41-C1 in Group C for the full
+    reasoning, the rejected alternatives, and the two conditions attached.
+Q2  Does A-6 close on inspection, or must b41 deliberately corrupt a comment to exercise
+    O2b live? ANSWERED: INSPECTION. Producing a genuinely corrupt comment requires the
+    L-1..L-4 deliberate-corruption setup, which is explicitly out of scope for b41.
+    O2b's behaviour is already proven on live evidence by Run H (2026-08-18), where a
+    blank comment produced "counted as L1" with a WARN and did NOT become the anchor.
+    A-6 therefore closes on: code inspection that the O2b branch is untouched + the
+    standing Run H evidence. Recorded as inspection-closed, NOT rounded up to evidence.
+Q3  Does B-3 (M7-8 not shadowed by the new guard) close on inspection? ANSWERED:
+    INSPECTION, with an explicit obligation on the Gate 3 plan: the plan MUST show the
+    branch order at 2816 and state how the new lastApplied discriminator composes with the
+    existing releasedTP one - which fires first, and why they cannot both claim the same
+    value. b28 sealed M7-8 on live evidence; b41 must not re-litigate that, only avoid
+    disturbing it.
+
+## SEAL STATUS
+All questions answered. 26 rows (A-1..A-8, B-1..B-8, C-1..C-5, D-1..D-5).
+MUST-NOT rows: A-3, A-4, B-2, B-3, C-1, D-1, D-2, D-3.
+Rows closing on INSPECTION rather than evidence, stated up front so no seal quietly
+rounds them up: A-6 (O2b untouched), B-3 (M7-8 not shadowed), C-5 (gate not weakened),
+A-8 (slice failure paths), D-2/D-3 (filtered diff).
+AWAITING: Jeff's explicit word to seal Gate 2.

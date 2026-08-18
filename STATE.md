@@ -292,14 +292,41 @@ FINDING MADE WHILE DRAFTING - E9-M1 IS NARROWER AND SAFER THAN STATED AT GATE 1:
      prove the new guard does not shadow or duplicate M7-8, since both now sit on the same
      branch.
 
-SEAL IS BLOCKED ON ONE DECISION - Q1, the GROUP C schema shape. StateLoad (588-590)
-discards the whole file on a schema mismatch, so adding two persisted fields forces a
-choice between (i) bump + accept the discard + deploy on flat [RECOMMENDED], (ii) bump +
-teach StateLoad to read schema 4 as legacy [edits sealed persistence code], (iii) do not
-bump [silently mis-versioned files, argued against]. Two lesser questions (Q2, Q3) ask
-whether A-6 and B-3 close on inspection; recommendation is yes for both.
+ALL THREE QUESTIONS ANSWERED 2026-08-19 - MATRIX READY TO SEAL (26 rows).
+LOCKED DECISION b41-C1 (Q1, schema shape): SHAPE (i) - bump TRTM_STATE_SCHEMA 4 -> 5,
+  accept the discard of a b40 file, DEPLOY ON A FLAT SEQUENCE.
+  THE FACT THAT DECIDED IT: StateSave runs at the END of Reconcile (2980) on EVERY init, so
+  the discard is repaired within the SAME OnInit - load discards -> rebuild from broker ->
+  save schema 5, milliseconds apart. Every restart after that first init (crash, power
+  loss, MT5 update, chart change) loads normally. THE CRASH SCENARIO THEREFORE DOES NOT
+  DISTINGUISH (i) FROM (ii); the whole difference reduces to ONE controllable event.
+  (An earlier analysis in this session claimed the exposure ran "until the first b41 state
+   write" and implied an ongoing risk across restarts. WRONG - corrected by reading the
+   save sites. Recorded so it is not re-derived.)
+  NOT RECOVERABLE if b41 is deployed over a LIVE sequence: the override flags, manualSL,
+  and adoptedL1 (the last is the serious one - the position would go unmanaged). Deploy on
+  flat eliminates all three.
+  REJECTED (ii) legacy-read schema 4: buys protection for a single controllable init and
+  pays with a permanent silent-partial-load pattern on the gate every state read passes
+  through; the self-test would stay GREEN on a subtly wrong legacy branch (it only
+  exercises the new path); it invites unsafe extension at the next bump where a field's
+  MEANING changes; rollback to b40 discards a schema-5 file anyway, so the symmetry it
+  implies is false; and it does not close the adoptedL1 hole (see E9-M4).
+  REJECTED (iii) no bump: two formats sharing version 4 forfeits the versioning invariant
+  and contradicts the contract at line 152.
+  CONDITIONS ATTACHED: (1) C-4 strengthened - the discard WARN must NAME what was lost;
+  (2) the b41 deploy note must say DEPLOY ON A FLAT SEQUENCE. Both are matrix obligations.
+  HONESTY NOTE recorded in the matrix: C-1 is closed BY PROCEDURE, not by construction.
+Q2 (A-6, O2b) and Q3 (B-3, M7-8) both ANSWERED: close on INSPECTION. A-6 rests on Run H's
+  live evidence that a blank comment yields "counted as L1" and never becomes the anchor;
+  exercising it freshly would pull L-1..L-4's deliberate-corruption setup into scope. Q3
+  carries an obligation onto the Gate 3 plan: show the branch order at 2816 and state how
+  the new discriminator composes with M7-8's releasedTP.
 
-NEXT: Jeff answers Q1 (and Q2/Q3), matrix seals, then Gate 3 plan, then build.
+ALSO SURFACED BY THIS ANALYSIS: E9-M4 (adoptedL1 unrecoverable on ANY state-file loss).
+  Standing property of b40 today, not a b41 defect. Parked - see its own section.
+
+NEXT: Jeff's explicit word to SEAL Gate 2, then Gate 3 plan, then build.
 
 ## RUN H - EXECUTED 2026-08-18. T3-K1/K2(b) PASS, K-4 FAIL, L-3 DEFENDED.
 The oldest outstanding debt in the project - overdue since the E6 seal 2026-07-26, doubly
@@ -488,6 +515,29 @@ aimed at the reconcile path Run H identified.
  these: (a) ReleaseManualTP also clears g_lastAppliedTP; (b) suppress
  DetectManualExitEdits for one pass after a structural release via g_manualDetectSkipOnce
  (1555); (c) make g_lastAppliedTP per-ticket. Retained only to show they were considered.]
+
+## E9-M4 PARKED - adoptedL1 IS UNRECOVERABLE IF THE STATE FILE IS LOST (found 2026-08-19)
+FOUND while analysing b41's schema decision. NOT a b41 defect and NOT caused by the schema
+bump - it is a standing property of the design, true in b40 today.
+An ADOPTED L1 is a magic-0 position taken over via its comment tag. Because it does NOT
+carry our magic, RebuildLiveMap cannot see it - Reconcile restores it FROM THE STATE FILE
+ONLY (2887-2911, "restored adopted L1 ticket %I64u from state file"). So if the file is
+lost for ANY reason - corruption, deletion, a fresh terminal, a different data folder, a
+schema mismatch - the adopted L1 becomes INVISIBLE to the EA and goes UNMANAGED: no TP
+maintenance, no liveness, no participation in the sequence or the tiers.
+WHY IT IS NOT IN b41: b41's schema bump makes this reachable exactly ONCE, on the first
+init after deploy, and the deploy-on-flat condition (b41-C1) eliminates that instance. The
+GENERAL hole is older, wider, and independent of b41 - closing it means giving an adopted
+L1 a broker-side identity that survives file loss, which is a design change with its own
+gate. Neither shape (i) nor (ii) of the schema decision addresses it; that was one of the
+arguments AGAINST (ii) claiming to be the "safe" option.
+SEVERITY: worse than losing the override flags, because an unmanaged live position is a
+money path. Bounded by the fact that adoption is opt-in (InpManageMobileTrades) and the
+file is only lost in unusual circumstances.
+-> E9. Candidate directions (NOT decided): (a) write our magic onto the adopted position at
+adoption time if the broker permits; (b) re-derive adoption from the comment tag at
+reconcile the way the OnTick adoption scan already does, subject to the stale-tag gate;
+(c) accept and document. (b) looks closest to existing machinery.
 
 ## E9-M2 PARKED (cosmetic, same log) - STALE PROJECTION IN THE Structure: LINE
 AdoptUntrackedLevel calls ReleaseManualTP (2625) BEFORE LogStructure (2629), so on
