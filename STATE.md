@@ -272,7 +272,34 @@ LOCKED DECISION E9M1-D2 (the Cent-account first-adoption ordering, Jeff's call
   for the trader who legitimately edits DURING a level add. Cost is not justified by a
   window this narrow.
 
-NEXT: ONE matrix covering K-4 + E9-M1 (Gate 2), then Gate 3 plan, then build.
+## b41 GATE 2 - MATRIX DRAFTED 2026-08-18, NOT SEALED
+docs/B41_MATRIX.md drafted. 4 groups, 25 rows (A-1..A-8 K-4; B-1..B-8 E9-M1; C-1..C-4
+schema; D-1..D-5 regression). MUST-NOT rows: A-3, A-4, B-2, B-3, C-1, D-1, D-2, D-3.
+THE TWO ROWS THAT DEFINE THE BUILD: A-1 (a slice leaves the anchor's comment intact) and
+B-1 (reconcile does not adopt the EA's own computed TP) - both are rows RUN H FAILED.
+
+FINDING MADE WHILE DRAFTING - E9-M1 IS NARROWER AND SAFER THAN STATED AT GATE 1:
+  Reconcile ALREADY HAS this guard. b28's M7-8 (2744-2757) keeps `releasedTP` precisely so
+  the M7-5 branch cannot re-adopt the EA's own pre-kill propagation as a trader edit; its
+  own code comment calls it "the reconcile-path analogue of the b25/M5-6 discriminator".
+  It did not fire in Run H because it arms ONLY when g_state.manualTP > 0.0 - a MANUAL TP
+  owned before the kill. Run H's 4401.17 was purely COMPUTED, so releasedTP stayed 0 and
+  M7-5 adopted freely.
+  => E9-M1 is the SAME DEFECT CLASS AS M7-8, ONE CASE WIDER: the EA's own stale write goes
+     unrecognised when the value was COMPUTED rather than MANUAL. Persisting
+     lastAppliedTP/SL GENERALISES a sealed, working idiom rather than introducing a new
+     mechanism - lower risk than Gate 1 assumed. It also creates an obligation: B-3 must
+     prove the new guard does not shadow or duplicate M7-8, since both now sit on the same
+     branch.
+
+SEAL IS BLOCKED ON ONE DECISION - Q1, the GROUP C schema shape. StateLoad (588-590)
+discards the whole file on a schema mismatch, so adding two persisted fields forces a
+choice between (i) bump + accept the discard + deploy on flat [RECOMMENDED], (ii) bump +
+teach StateLoad to read schema 4 as legacy [edits sealed persistence code], (iii) do not
+bump [silently mis-versioned files, argued against]. Two lesser questions (Q2, Q3) ask
+whether A-6 and B-3 close on inspection; recommendation is yes for both.
+
+NEXT: Jeff answers Q1 (and Q2/Q3), matrix seals, then Gate 3 plan, then build.
 
 ## RUN H - EXECUTED 2026-08-18. T3-K1/K2(b) PASS, K-4 FAIL, L-3 DEFENDED.
 The oldest outstanding debt in the project - overdue since the E6 seal 2026-07-26, doubly
