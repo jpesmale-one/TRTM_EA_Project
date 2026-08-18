@@ -1,4 +1,8 @@
-# b41 MATRIX - Gate 2 DRAFT (2026-08-18)
+# b41 MATRIX - **SEALED rev 1 by Jeff 2026-08-19**
+# Gate 2 CLOSED. No row may be added, removed or reworded without Jeff re-opening the seal.
+# A Gate 3 code plan may now be drafted FROM this matrix.
+#
+# b41 MATRIX - Gate 2 (drafted 2026-08-18, sealed 2026-08-19)
 # Two defects, one build: K-4 (slice order wipes the position comment) and
 # E9-M1 (reconcile adopts the EA's own computed TP as a trader edit).
 # Gate 1 decisions this matrix implements: b41-S1, K4-D1, K4-D2, E9M1-D1, E9M1-D2.
@@ -243,10 +247,24 @@ Q3  Does B-3 (M7-8 not shadowed by the new guard) close on inspection? ANSWERED:
     value. b28 sealed M7-8 on live evidence; b41 must not re-litigate that, only avoid
     disturbing it.
 
-## SEAL STATUS
+## SEAL STATUS - **SEALED rev 1 by Jeff, 2026-08-19**
 All questions answered. 26 rows (A-1..A-8, B-1..B-8, C-1..C-5, D-1..D-5).
 MUST-NOT rows: A-3, A-4, B-2, B-3, C-1, D-1, D-2, D-3.
 Rows closing on INSPECTION rather than evidence, stated up front so no seal quietly
 rounds them up: A-6 (O2b untouched), B-3 (M7-8 not shadowed), C-5 (gate not weakened),
 A-8 (slice failure paths), D-2/D-3 (filtered diff).
-AWAITING: Jeff's explicit word to seal Gate 2.
+THE TWO ROWS THAT DEFINE THE BUILD: A-1 and B-1 - both are rows RUN H FAILED.
+GATE 2 IS CLOSED. NEXT: Gate 3 - draft the b41 code plan from this sealed matrix.
+
+## OBLIGATIONS THIS SEAL PLACES ON THE GATE 3 PLAN
+  1. (from Q3/B-3) SHOW the branch order at 2816 and state how the new lastApplied
+     discriminator composes with M7-8's existing releasedTP discriminator - which fires
+     first, and why they cannot both claim the same value. b28 sealed M7-8 on live
+     evidence; b41 must not disturb it.
+  2. (from b41-C1) The deploy note must state DEPLOY ON A FLAT SEQUENCE, and C-4's WARN
+     text must NAME what a discard drops (override flags, manualSL, adoptedL1).
+  3. (from K4-D2) The recovery-open path edit must be shown to be behaviour-identical by a
+     FILTERED DIFF, the way b40's comment-only claim was proven - the emitted tag string
+     for a newly opened level must be byte-identical to b40's.
+  4. State the touch-point count and the expected line delta up front, per the b39/E6
+     precedent, so Gate Zero has something to check against.

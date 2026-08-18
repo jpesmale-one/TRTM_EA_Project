@@ -272,7 +272,15 @@ LOCKED DECISION E9M1-D2 (the Cent-account first-adoption ordering, Jeff's call
   for the trader who legitimately edits DURING a level add. Cost is not justified by a
   window this narrow.
 
-## b41 GATE 2 - MATRIX DRAFTED 2026-08-18, NOT SEALED
+## b41 GATE 2 - **SEALED 2026-08-19 BY JEFF**. docs/B41_MATRIX.md rev 1, 26 rows.
+GATE 2 CLOSED. No row may change without Jeff re-opening the seal. Gate 3 (code plan) may
+now be drafted. FOUR OBLIGATIONS carried onto that plan, recorded in the matrix's seal
+block: (1) show how the new lastApplied discriminator composes with M7-8's releasedTP at
+2816; (2) deploy note says DEPLOY ON FLAT + C-4's WARN names what a discard drops;
+(3) prove the recovery-open path edit behaviour-identical by FILTERED DIFF; (4) state the
+touch-point count and expected line delta up front for Gate Zero to check.
+
+## b41 GATE 2 - matrix history (drafted 2026-08-18)
 docs/B41_MATRIX.md drafted. 4 groups, 25 rows (A-1..A-8 K-4; B-1..B-8 E9-M1; C-1..C-4
 schema; D-1..D-5 regression). MUST-NOT rows: A-3, A-4, B-2, B-3, C-1, D-1, D-2, D-3.
 THE TWO ROWS THAT DEFINE THE BUILD: A-1 (a slice leaves the anchor's comment intact) and
