@@ -202,12 +202,20 @@ LOCKED DECISION K4-D2 (how the tag is re-derived, Jeff's call 2026-08-18): EXTRA
   SliceLegAtMarket takes (ticket, level, sliceVol) and does NOT currently carry direction.
   It can either take a dir parameter or read g_state.direction, which is available
   globally. Parameter preferred for testability; either is acceptable.
-GATE 1b (E9-M1) - BLOCKED ON A DIAGNOSTIC, not on Jeff. Must first establish whether the
-  2026-08-18 Cent-account case (log 095950.169 line 45, adopted on a LEVEL ADD) is a
-  SECOND distinct instance or was seeded by a prior reconcile - Run H proved the level-add
-  path itself is sound, so one root cause may not cover both. Desk work, no chart time.
-NEXT: lock K-4's decisions, then run the E9-M1 diagnostic, then ONE matrix covering
-  whatever survives, then Gate 3 plan, then build.
+GATE 1b (E9-M1) - DIAGNOSTIC RUN AND RESOLVED 2026-08-18. UNBLOCKED.
+  FINDING: the Cent-account case is NOT a defect (full reasoning in the E9-M1 section's
+  "SCOPE CORRECTED" block). E9-M1 therefore has EXACTLY ONE instance - the reconcile
+  misclassification proven by Run H - and the fix scope NARROWS accordingly: one code path
+  (ReconcileManualExits), one cause (g_lastAppliedTP/SL are runtime-only and reset on init),
+  and the leading candidate (a) persist lastAppliedTP/SL is now the obvious shape rather
+  than one of three guesses.
+  CONSEQUENCE FOR b41-S1's ESCAPE HATCH: it is NOT needed. E9-M1 resolved cleanly, so both
+  fixes proceed into one build as intended.
+  STILL A STATE-SCHEMA CHANGE: candidate (a) adds persisted fields, so the schema version
+  and StateLoad's back-compat path are in scope for the matrix (schema is currently 4).
+  A b40-written state file MUST still load - that is a MUST-NOT row.
+NEXT: Gate 1b's remaining decisions (persist-vs-derive, schema handling), then ONE matrix
+  covering K-4 + E9-M1, then Gate 3 plan, then build.
 
 ## RUN H - EXECUTED 2026-08-18. T3-K1/K2(b) PASS, K-4 FAIL, L-3 DEFENDED.
 The oldest outstanding debt in the project - overdue since the E6 seal 2026-07-26, doubly
@@ -308,6 +316,29 @@ tests/2026.08.18 095950.169.txt lines 41-46. NOT a b39/b40 defect - the faulty c
 SEALED Stage 8 b24/b25. b39 only makes it EASIER TO HIT (watcher adoption and the enforce
 loop now land in the same millisecond).
 
+*** SCOPE CORRECTED 2026-08-18 BY THE GATE 1b DIAGNOSTIC - READ THIS FIRST ***
+THE CENT-ACCOUNT CASE (log 095950.169 line 45) IS **NOT** A DEFECT. It was investigated as
+the founding symptom of E9-M1 and it does not survive scrutiny. E9-M1 has EXACTLY ONE
+instance: the Run H reconcile misclassification. Details of the exoneration:
+  - Between L1's registration (10:02:35) and L2's open (10:35:01) there is NO
+    "Exits applied to ticket 520695723" line. The EA NEVER applied a TP to L1.
+  - Why: with ONE level, "Structure: 1 level(s) ... projected at TP n/a" - the recovery
+    AvgTP is not computable until a second level exists, so there was nothing to write.
+  - So L1 carried Jeff's MANUALLY PLACED 4407.20 the whole time, never overwritten,
+    because the EA had no computed value to overwrite it with.
+  - At 10:35:01 L2 opens. ReleaseManualTP fires but manualTP was ALREADY 0 (nothing had
+    ever been adopted), so it returns early at 1134 and logs nothing. THE ABSENCE OF A
+    "RELEASED" LINE - originally cited as corroboration of a defect - is actually proof
+    that there was nothing to release.
+  - compTP becomes computable for the first time (2 levels -> 4401.83). DetectManualExitEdits
+    sees L1 at 4407.20 vs baseline 4401.83 with g_lastAppliedTP == 0 (never applied), so
+    the b25 guard's "g_lastAppliedTP <= 0.0" clause is TRUE and admits the candidate.
+  - Adopted as manual. CORRECTLY. 4407.20 genuinely WAS a trader edit.
+  => The answer to Jeff's original question ("why didn't the recovery TP overwrite my
+     manual TP?") is: because manual TP OUTRANKS computed TP by design (b24), and his was
+     a real manual edit. The b24 adoption semantics were working as specified.
+[HISTORICAL - the original symptom write-up, now disproven, kept so the reasoning trail
+ is intact:]
 SYMPTOM: Jeff set a manual TP 4407.20. Recovery L2 opened. Expected (and DESIGNED)
 behaviour: manual TP RELEASES on a level add and the computed recovery TP (4401.83) takes
 over. Observed: line 45 "Manual TP 4407.20 ADOPTED (was 4401.83)" - the released value was
@@ -348,6 +379,11 @@ CONSEQUENCE: the 2026-08-18 Cent-account case (log 095950.169, line 45) must be 
   That one adopted on a LEVEL ADD, not a reconcile, so it is either a SECOND distinct
   instance or the sequence had a prior reconcile that seeded manualTP. Gate 1 must
   establish which before scoping a fix - do NOT assume one root cause covers both.
+  [RESOLVED 2026-08-18 by the Gate 1b diagnostic: NEITHER. The Cent case is NOT a defect
+   at all - the EA had never applied a TP to L1 (single level, AvgTP not computable), so
+   4407.20 was a genuine un-overwritten manual edit and adopting it was correct. See the
+   SCOPE CORRECTED block at the head of this section. E9-M1 = ONE instance, the reconcile
+   path. This NARROWS the fix rather than widening it.]
 CANDIDATE FIXES to weigh at Gate 1 (NOT decided): (a) persist lastAppliedTP/SL in the
   state file so reconcile can apply the b25 guard across a restart; (b) on reconcile, treat
   a broker TP that equals the value implied by the PERSISTED level set as the EA's own,
