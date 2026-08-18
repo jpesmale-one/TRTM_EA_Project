@@ -29,6 +29,10 @@
 - b39 is COMMITTED (aed4b26) but NOT PUSHED. origin/main is still at 8722fcc, so THREE
   commits are local-only: 37daf7e (E6-b38 seal), 09a0d77 (b39 Gate 1+2), aed4b26 (b39
   seal + evidence). Pushing is Jeff's call.
+  [STALE - CORRECTED 2026-08-18: everything through b40 IS PUSHED. origin/main = 854c077
+   and `git status` reports main level with origin/main. The commits listed above, plus
+   68009ed, d22cb44, 704761d, 11ef11e and 854c077, are all on the remote. Verify with
+   `git log --oneline origin/main..HEAD` (expect empty before this session's commit).]
 - The three drawdown-reduction valves stack T2 percent -> T1 points -> T3 partial slice,
   one fire per tick. All default OFF.
 
@@ -67,7 +71,28 @@ CLOSED ON EVIDENCE:
                    the restart runs - that is why the restart was mandatory.
   E9-P2            normalized symbol comparator exercised on THREE suffixes: .s / + / .sc
 
-## 5. THE SEAL CAVEAT - READ BEFORE TRUSTING THE WATCHER
+## 5. THE SEAL CAVEAT - RETIRED 2026-08-18. DO NOT CARRY IT FORWARD.
+*** THIS SECTION IS HISTORICAL AS OF 2026-08-18. ***
+The caveat was RETIRED on live evidence, sealed by Jeff 2026-08-18. On Vantage CENT LIVE
+(XAUUSD.sc, magic 725639, b40) the watcher ADOPTED A POSITION unprompted during ordinary
+use, producing the exact three-line signature this section named as the retirement
+condition, in order, within 97 ms:
+  "Recovery L2: order accepted but no position yet (asynchronous fill)"  10:35:01.229
+  "Watcher: L2 REGISTERED ticket 520795347 0.55 lots @ 4396.53"          10:35:01.326
+  "Exits applied to ticket 520795347: TP 4407.20 SL none"                10:35:01.352
+Evidence tests/2026.08.18 095950.169.txt lines 41-46. A-1 and W-1..W-5 CLOSED ON EVIDENCE;
+W-6 closed SPLIT (silence on evidence, complexity remains inspection-only by nature).
+Full row-by-row audit + arithmetic in STATE.md, section "WATCHER CAVEAT RETIRED".
+STILL OPEN and NOT touched by that retirement: F-1..F-5 (flat-state rebuild - the adoption
+was in the LIVE state), L-1..L-4, K-1/K-2/K-4 (Run H).
+[UPDATED 2026-08-18: RUN H IS DONE. K-1 + K-2(b) PASS on evidence, K-4 answered as a FAIL
+ (comments do NOT survive a partial close - TRTM's own untagged slice order is the cause),
+ L-3 DEFENDED on live evidence by b39's O2b. Only K-2(a) still inherited; L-1/L-2/L-4 and
+ F-1..F-5 unchanged. Full record: STATE.md "RUN H - EXECUTED 2026-08-18".]
+The original text is kept below because it records WHY those rows were ever
+inspection-only. Read it as history, not as an open item.
+
+[HISTORICAL - SUPERSEDED 2026-08-18]
 A-1 and W-1..W-6 are closed on CODE INSPECTION, NOT EVIDENCE.
 WatchUntrackedLevels HAS NEVER ADOPTED A POSITION in any run.
 WHY: Run 5 established that on Vantage the PLACED retcode is ROUTINE, but the fill still
@@ -90,6 +115,7 @@ IF IT RECURS, THE JOURNAL IS THE REPRODUCTION - look for:
 ALSO OPEN ON INSPECTION: L-1..L-4 (need a deliberately corrupted comment - decide before
 any future seal whether those close on evidence or inspection), F-1..F-5 (the flat-state
 rebuild never triggered), K-1/K-2/K-4 (Run H not run).
+[END HISTORICAL BLOCK. Those three groups ARE still open; A-1/W-1..W-6 are not.]
 
 ## 6. OPEN ITEMS CARRIED FORWARD
 1. RUN H (K-1/K-2) against an ACTUAL sliced anchor, ON VANTAGE - overdue since the E6

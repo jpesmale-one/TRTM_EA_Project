@@ -1,0 +1,54 @@
+2026.08.18 09:59:50.169	TRTM (XAUUSD.sc,M5)	[TRTM][INFO ] === TRTM b40 init === symbol=XAUUSDSC (raw XAUUSD.sc) magic=725639 stateFile=TRTM\state_XAUUSDSC_725639.json
+2026.08.18 09:59:50.174	TRTM (XAUUSD.sc,M5)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.08.18 09:59:50.174	TRTM (XAUUSD.sc,M5)	[TRTM][WARN ] Trail activation (offset 30 + distance 200 = 230 pts) sits at/beyond Avg TP target 200 pts - the broker TP will fill before trailing can activate (multi-level)
+2026.08.18 09:59:50.180	TRTM (XAUUSD.sc,M5)	[TRTM][INFO ] State persistence self-test: PASS
+2026.08.18 09:59:50.185	TRTM (XAUUSD.sc,M5)	[TRTM][INFO ] Reconcile complete: FLAT
+2026.08.18 09:59:50.186	TRTM (XAUUSD.sc,M5)	[TRTM][INFO ] Broker exit geometry (at init): stops level 20 pts, freeze level 10 pts (dynamic on this broker) - TP/SL closer than 20 pts to price are DEFERRED until placeable
+2026.08.18 09:59:50.187	TRTM (XAUUSD.sc,M5)	[TRTM][INFO ] Init complete - b40 (adoption, exits, recovery active)
+2026.08.18 10:00:02.892	TRTM (XAUUSD.sc,M5)	[TRTM][INFO ] Pending BUY placement line created at 4407.77 - drag to price, then CONFIRM (line is NOT persisted across restarts)
+2026.08.18 10:00:17.993	TRTM (XAUUSD.sc,M5)	[TRTM][INFO ] BUY LIMIT placed: 0.50 lots @ 4405.18 (order 520684608). Fill registers as L1; the order is canceled if a sequence starts first (P8).
+2026.08.18 10:01:36.619	TRTM (XAUUSD.sc,M5)	[TRTM][INFO ] Own L1 position 520684608 found while FLAT (pending fill or recovered send) - registering
+2026.08.18 10:01:36.619	TRTM (XAUUSD.sc,M5)	[TRTM][INFO ] Structure: 1 level(s), 0.50 lots | projected at TP n/a | at SL n/a
+2026.08.18 10:01:36.619	TRTM (XAUUSD.sc,M5)	[TRTM][INFO ] EA L1 REGISTERED: ticket 520684608 BUY 0.50 lots @ 4405.02. Exits apply next tick.
+2026.08.18 10:01:36.631	TRTM (XAUUSD.sc,M5)	[TRTM][INFO ] TRAILING ACTIVATED @ 4407.56: TP removed, recovery gated, SL trails 200 pts behind (PERIOD_M1 bar-close mode)
+2026.08.18 10:01:36.631	TRTM (XAUUSD.sc,M5)	[TRTM][INFO ] Closing sequence at market: trail ratchet SL 4405.56 already exceeded by market (4404.77) - SL is a maximum acceptable loss
+2026.08.18 10:01:37.119	TRTM (XAUUSD.sc,M5)	[TRTM][INFO ] Closed L1 ticket 520684608 @ 0.00
+2026.08.18 10:01:37.201	TRTM (XAUUSD.sc,M5)	[TRTM][INFO ] Liveness: L1 ticket 520684608 closed by EA (market close) - removed from sequence
+2026.08.18 10:01:37.201	TRTM (XAUUSD.sc,M5)	[TRTM][INFO ] Sequence fully closed - back to FLAT, overrides reset to input defaults, flat marker saved
+2026.08.18 10:01:47.713	TRTM (XAUUSD.sc,M5)	[TRTM][INFO ] BUY ARMED: 0.50 lots (Fixed 0.50) - click CONFIRM within 10s to execute
+2026.08.18 10:01:48.619	TRTM (XAUUSD.sc,M5)	[TRTM][INFO ] L1 BUY OPENED via button: 0.50 lots @ 0.00 (deal 0)
+2026.08.18 10:01:48.619	TRTM (XAUUSD.sc,M5)	[TRTM][INFO ] Structure: 1 level(s), 0.50 lots | projected at TP n/a | at SL n/a
+2026.08.18 10:01:48.619	TRTM (XAUUSD.sc,M5)	[TRTM][INFO ] EA L1 REGISTERED: ticket 520689555 BUY 0.50 lots @ 4404.83. Exits apply next tick.
+2026.08.18 10:01:48.625	TRTM (XAUUSD.sc,M5)	[TRTM][INFO ] TRAILING ACTIVATED @ 4407.56: TP removed, recovery gated, SL trails 200 pts behind (PERIOD_M1 bar-close mode)
+2026.08.18 10:01:48.625	TRTM (XAUUSD.sc,M5)	[TRTM][INFO ] Closing sequence at market: trail ratchet SL 4405.56 already exceeded by market (4404.57) - SL is a maximum acceptable loss
+2026.08.18 10:01:49.037	TRTM (XAUUSD.sc,M5)	[TRTM][INFO ] Closed L1 ticket 520689555 @ 0.00
+2026.08.18 10:01:49.079	TRTM (XAUUSD.sc,M5)	[TRTM][INFO ] Liveness: L1 ticket 520689555 closed by EA (market close) - removed from sequence
+2026.08.18 10:01:49.079	TRTM (XAUUSD.sc,M5)	[TRTM][INFO ] Sequence fully closed - back to FLAT, overrides reset to input defaults, flat marker saved
+2026.08.18 10:02:34.358	TRTM (XAUUSD.sc,M5)	[TRTM][INFO ] BUY ARMED: 0.50 lots (Fixed 0.50) - click CONFIRM within 10s to execute
+2026.08.18 10:02:35.333	TRTM (XAUUSD.sc,M5)	[TRTM][INFO ] L1 BUY OPENED via button: 0.50 lots @ 0.00 (deal 0)
+2026.08.18 10:02:35.334	TRTM (XAUUSD.sc,M5)	[TRTM][INFO ] Structure: 1 level(s), 0.50 lots | projected at TP n/a | at SL n/a
+2026.08.18 10:02:35.334	TRTM (XAUUSD.sc,M5)	[TRTM][INFO ] EA L1 REGISTERED: ticket 520695723 BUY 0.50 lots @ 4402.40. Exits apply next tick.
+2026.08.18 10:04:57.568	TRTM (XAUUSD.sc,M5)	[TRTM][INFO ] Deinit (reason 5) - state saved (sequence alive)
+2026.08.18 10:04:57.568	TRTM (XAUUSD.sc,M5)	[TRTM][INFO ] === TRTM b40 init === symbol=XAUUSDSC (raw XAUUSD.sc) magic=725639 stateFile=TRTM\state_XAUUSDSC_725639.json
+2026.08.18 10:04:57.576	TRTM (XAUUSD.sc,M5)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.08.18 10:04:57.582	TRTM (XAUUSD.sc,M5)	[TRTM][INFO ] State persistence self-test: PASS
+2026.08.18 10:04:57.583	TRTM (XAUUSD.sc,M5)	[TRTM][INFO ] Reconcile: flags restored (trailOverride=F beOverride=F trailingActive=F beApplied=F)
+2026.08.18 10:04:57.583	TRTM (XAUUSD.sc,M5)	[TRTM][INFO ] Structure: 1 level(s), 0.50 lots | projected at TP n/a | at SL n/a
+2026.08.18 10:04:57.583	TRTM (XAUUSD.sc,M5)	[TRTM][INFO ] Reconcile complete: dir=BUY levels=1
+2026.08.18 10:04:57.584	TRTM (XAUUSD.sc,M5)	[TRTM][INFO ] Broker exit geometry (at init): stops level 20 pts, freeze level 10 pts (dynamic on this broker) - TP/SL closer than 20 pts to price are DEFERRED until placeable
+2026.08.18 10:04:57.584	TRTM (XAUUSD.sc,M5)	[TRTM][INFO ] Init complete - b40 (adoption, exits, recovery active)
+2026.08.18 10:35:00.766	TRTM (XAUUSD.sc,M5)	[TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4396.33 vs trigger 4397.40 (worst entry 4402.40 - 500 pts)
+2026.08.18 10:35:01.229	TRTM (XAUUSD.sc,M5)	[TRTM][INFO ] Recovery L2 OPENED: 0.55 lots BUY @ 0.00 (deal 0)
+2026.08.18 10:35:01.229	TRTM (XAUUSD.sc,M5)	[TRTM][INFO ] Recovery L2: order accepted but no position yet (asynchronous fill) - the watcher will register it as soon as it appears
+2026.08.18 10:35:01.326	TRTM (XAUUSD.sc,M5)	[TRTM][INFO ] Watcher: L2 REGISTERED ticket 520795347 0.55 lots @ 4396.53
+2026.08.18 10:35:01.326	TRTM (XAUUSD.sc,M5)	[TRTM][INFO ] Structure: 2 level(s), 1.05 lots | projected at TP +263.00 | at SL n/a
+2026.08.18 10:35:01.326	TRTM (XAUUSD.sc,M5)	[TRTM][WARN ] Manual TP 4407.20 ADOPTED (was 4401.83) - RISK: target moved 537 pts farther from price; the sequence must run further before banking (trader's responsibility)
+2026.08.18 10:35:01.352	TRTM (XAUUSD.sc,M5)	[TRTM][INFO ] Exits applied to ticket 520795347: TP 4407.20 SL none
+2026.08.18 10:37:41.829	TRTM (XAUUSD.sc,M5)	[TRTM][WARN ] Manual TP REMOVAL on ticket 520695723 - reverted to 4407.20 (removals are never adopted; deliberate no-TP belongs in config)
+2026.08.18 10:37:41.856	TRTM (XAUUSD.sc,M5)	[TRTM][INFO ] Exits applied to ticket 520695723: TP 4407.20 SL none
+2026.08.18 10:37:43.152	TRTM (XAUUSD.sc,M5)	[TRTM][WARN ] Manual TP REMOVAL on ticket 520795347 - reverted to 4407.20 (removals are never adopted; deliberate no-TP belongs in config)
+2026.08.18 10:37:43.179	TRTM (XAUUSD.sc,M5)	[TRTM][INFO ] Exits applied to ticket 520795347: TP 4407.20 SL none
+2026.08.18 10:37:43.635	TRTM (XAUUSD.sc,M5)	[TRTM][WARN ] Manual TP REMOVAL on ticket 520695723 - reverted to 4407.20 (removals are never adopted; deliberate no-TP belongs in config)
+2026.08.18 10:37:43.661	TRTM (XAUUSD.sc,M5)	[TRTM][INFO ] Exits applied to ticket 520695723: TP 4407.20 SL none
+2026.08.18 10:38:39.032	TRTM (XAUUSD.sc,M5)	[TRTM][INFO ] Manual TP 4401.24 ADOPTED (was 4407.20) - propagating to all 2 position(s); releases on level add/close or trail-arm
+2026.08.18 10:38:39.059	TRTM (XAUUSD.sc,M5)	[TRTM][INFO ] Exits applied to ticket 520795347: TP 4401.24 SL none

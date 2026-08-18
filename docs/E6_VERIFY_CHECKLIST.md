@@ -904,7 +904,20 @@ before 19:35:08 is ever reached. The admissible window is (max sliced before 07:
 
 ## RUN H - T3-K1 / K2 RESTART + KILL WITH A SLICED ANCHOR
   After a Tier 3 fire has left a reduced anchor open (Run B or C state).
-## RUN H NOT RUN - K1/K2 CLOSED BY INHERITANCE (Jeff's call, 2026-07-26)
+##
+## *** RUN H WAS EXECUTED 2026-08-18 - THE INHERITANCE BELOW IS SUPERSEDED ***
+## T3-K1 PASS ON EVIDENCE. T3-K2(b) PASS ON EVIDENCE. T3-K2(a) still inherited.
+## K-4 FAIL (position comments do NOT survive a partial close; cause is TRTM's own
+## untagged slice order, not the broker). L-3 DEFENDED - b39's O2b assigned L1, not lvl=0.
+## Account VantageMarkets-Demo 25948001, XAUUSD, magic 758105, b40. Two Tier 3 fires,
+## the second re-slicing an already-sliced anchor (0.05 -> 0.03 -> 0.02).
+## FULL RECORD + arithmetic: STATE.md section "RUN H - EXECUTED 2026-08-18".
+## Evidence: tests/2026.08.18 124554.100.txt, tests/ReportHistory-25948001.xlsx,
+## tests/state_XAUUSD_758105_PRE_RESTART.json, tests/state_XAUUSD_758105.json.
+## The inheritance reasoning below is RETAINED as the record of what was assumed before
+## the run, and because T3-K2(a) still rests on it. Do not read it as current status.
+##
+## [SUPERSEDED] RUN H NOT RUN - K1/K2 CLOSED BY INHERITANCE (Jeff's call, 2026-07-26)
 Jeff elected to seal E6 without Run H, closing K1/K2 on inheritance. The basis, stated
 in full so the record is honest about what was and was NOT exercised:
 [X] T3-K1 clean restart - INHERITED. The reconcile path contains ZERO Tier 3-specific
@@ -1053,13 +1066,31 @@ in full so the record is honest about what was and was NOT exercised:
 #  T3-R2  on/never-fires -> unchanged ..... [X] code + [X] Run C (recovery ladder rebuilt
 #                                           normally between/after fires, L5..L8)
 #  T3-R3  no persisted field .............. [X] code + LIVE self-test PASS x3 (incl. Run C)
-#  T3-K1  restart with sliced anchor ...... [X] INHERITED (no Tier 3 code in reconcile;
-#                                           level survives a partial close; nothing
-#                                           persisted) + E4 K-1 sealed. Run H NOT run.
-#  T3-K2  kill mid-fire ................... [X] INHERITED (sub-case (a) == the verified
-#                                           X-3 abort state; sub-case (b) == an ordinary
-#                                           smaller position, exercised live in C/E/D1'/
-#                                           F/G) + E5 K2 sealed on BTCUST. Run H NOT run.
+#  T3-K1  restart with sliced anchor ...... [X] **PASS ON EVIDENCE - RUN H 2026-08-18**
+#                                           Rebuilt 4 levels / 0.23 lots, anchor at L1
+#                                           carrying 0.02, no renumbering, baseLot 0.05
+#                                           preserved. NOTE: the old inheritance text
+#                                           claimed "level survives a partial close" -
+#                                           THAT CLAIM IS FALSE (K-4 FAIL). The rebuild
+#                                           passed anyway because b39's O2b guard assigns
+#                                           a safe level on an unparseable comment. The
+#                                           row passes for a DIFFERENT reason than the
+#                                           inheritance argument gave.
+#  T3-K2  kill mid-fire ................... [X] sub-case (b) PASS ON EVIDENCE (Run H
+#                                           2026-08-18 - same restart; sequence resumed
+#                                           and opened L5/L6 normally afterwards).
+#                                           [~] sub-case (a) STILL INHERITED - the window
+#                                           between the profitable close and the slice is
+#                                           sub-second (16:32:32.358 -> .614), not
+#                                           hittable by hand. Rests on the X-3 abort-state
+#                                           identity argument + E5 K2 sealed on BTCUST.
+#  K-4    comments survive partial close .. [ ] **FAIL - RUN H 2026-08-18**. Position
+#                                           comment WIPED on the sliced position only.
+#                                           Cause: SliceLegAtMarket sends the partial
+#                                           close with NO comment, and MT5 takes the
+#                                           position comment from the last modifying
+#                                           order. TRTM's own defect, not broker-specific.
+#                                           -> fix needs Gate 1; escalates E9-O6.
 #                                           RESIDUAL: never exercised against an actual
 #                                           sliced anchor across a restart - accepted by
 #                                           Jeff 2026-07-26; run opportunistically before

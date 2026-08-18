@@ -50,22 +50,36 @@ date: 2026-07-30
 # b39 superseded E6-b38. SUPERSEDED IN TURN by b40 (documentation-only, see the header
 # above) - b40 is BEHAVIOURALLY IDENTICAL, so everything below stands unchanged.
 #   b39 identity for the record = 12c69766c709bd0d / 4939, deployed 2026-07-29.
-# *** SEAL CAVEAT - READ THIS BEFORE TRUSTING THE WATCHER ***
-#   A-1 and W-1..W-6 closed on CODE INSPECTION, NOT EVIDENCE. WatchUntrackedLevels has
-#   never adopted a position in any run. On Vantage the TRADE_RETCODE_PLACED signature is
-#   ROUTINE (reproduced live, Run 5) but the fill lands within the tick, so the fast path
-#   never missed. The registration MISS behind the 2026-07-27 incident is a TIMING TAIL,
-#   not reproducible on demand on any account available. Jeff will not run further tests
-#   on the Cent LIVE account to chase it. PARKED: if it recurs, the journal is the
-#   reproduction - "order accepted but no position yet" -> "Watcher: L<n> REGISTERED" ->
-#   "Exits applied" closes the rows on live evidence; an orphan with NO watcher line is a
-#   b39 DEFECT, capture the log and reopen. Full reasoning in the Gate 4 evidence log.
+# *** SEAL CAVEAT - RETIRED 2026-08-18 ON LIVE EVIDENCE (Jeff's word) ***
+#   The caveat below stood from the b39 seal until 2026-08-18. It is now RETIRED: the
+#   watcher ADOPTED A POSITION on the Cent LIVE account, unprompted, and the three-line
+#   retirement signature the caveat itself specified appeared in order. Evidence and the
+#   row-by-row audit are in the Gate 4 log section "WATCHER CAVEAT RETIRED". A-1 and
+#   W-1..W-5 are CLOSED ON EVIDENCE; W-6 is closed SPLIT (see there). The caveat text is
+#   preserved verbatim below because the reasoning that produced it is still the record of
+#   why those rows were ever inspection-only - do not delete it, and do not read it as
+#   still-open.
+#   [HISTORICAL, SUPERSEDED] "A-1 and W-1..W-6 closed on CODE INSPECTION, NOT EVIDENCE.
+#   WatchUntrackedLevels has never adopted a position in any run. On Vantage the
+#   TRADE_RETCODE_PLACED signature is ROUTINE (reproduced live, Run 5) but the fill lands
+#   within the tick, so the fast path never missed. The registration MISS behind the
+#   2026-07-27 incident is a TIMING TAIL, not reproducible on demand on any account
+#   available. Jeff will not run further tests on the Cent LIVE account to chase it.
+#   PARKED: if it recurs, the journal is the reproduction - 'order accepted but no
+#   position yet' -> 'Watcher: L<n> REGISTERED' -> 'Exits applied' closes the rows on live
+#   evidence; an orphan with NO watcher line is a b39 DEFECT, capture the log and reopen."
 # GATE 4 CLOSED ON EVIDENCE: R-1 R-2 R-3 R-4 (no regression, 3 brokers, tester + live +
 #   restart-with-open-positions), A-3, A-5, O-3, O-4 (the last three proven ON THE LIVE
 #   CENT ACCOUNT that produced the incident), K-3, TP-10, E9-P2 (normalized comparator on
 #   3 suffixes .s / + / .sc). Two Tier 3 fires recomputed to the cent on BOTH derivations.
+#   PLUS, 2026-08-18: A-1, W-1, W-2, W-3, W-4, W-5 on live evidence; W-6 split.
 # ALSO OPEN ON INSPECTION: L-1..L-4 (need a deliberately corrupted comment), F-1..F-5
 #   (flat-state rebuild never triggered), K-1/K-2/K-4 (Run H not run).
+#   [A-1 and W-1..W-6 were on this list until 2026-08-18 - now closed on evidence, see the
+#    retirement note above. W-6's complexity half remains inspection-only by nature.]
+#   [K-1/K-2(b) CLOSED ON EVIDENCE and K-4 CLOSED AS **FAIL** by RUN H 2026-08-18. Only
+#    K-2(a) remains inherited. L-1/L-2/L-4 still inspection-only; L-3 now DEFENDED on live
+#    evidence. See "RUN H - EXECUTED 2026-08-18".]
 # GATE ZERO: PASSED 2026-07-29 - 0 errors, 0 warnings, 2590 ms, cpu='X64 Regular',
 #   compiled from the REPO copy with MetaEditor64 (Vantage terminal build) against the
 #   D0E8209F MQL5 include tree. The .ex5 and compile log were deleted after witnessing -
@@ -80,6 +94,9 @@ date: 2026-07-30
 # CARRIED FORWARD to the next build (NOT fixed in b39):
 #   (1) Run H (K-1/K-2) against an actual SLICED anchor on Vantage, + K-4 (do comments
 #       survive a PARTIAL CLOSE on Vantage). Overdue since the E6 seal.
+#       [DONE 2026-08-18: RUN EXECUTED. K-1 and K-2(b) PASS on evidence; K-4 answered and
+#        it is a FAIL - comments do NOT survive, and the cause is TRTM's own untagged
+#        slice order. NEW WORK ITEM: tag the slice order in SliceLegAtMarket (Gate 1).]
 #   (2) T3-DS1 dashboard visual confirm (display-only, no money path).
 #   (3) E9: O3 filling-mode negotiation, O4 netting guard, O5 exemode init guidance,
 #       O6 comment-integrity detection, PLUS b39's own deferrals - the never-filled
@@ -115,6 +132,170 @@ date: 2026-07-30
 # rows). E6-b38 is COMMITTED (8722fcc) and PUSHED (origin/main = 8722fcc); E5-b37
 # (d094c65) and E4-b36 went up with it. Hygiene: 0 bare LF, ASCII-only, brace delta
 # -1 (baseline-preserved), parens balanced; no new global, no new persisted field.
+
+## RUN H - EXECUTED 2026-08-18. T3-K1/K2(b) PASS, K-4 FAIL, L-3 DEFENDED.
+The oldest outstanding debt in the project - overdue since the E6 seal 2026-07-26, doubly
+so after b39 rewrote the sequence-rebuild code - IS NOW RUN.
+EVIDENCE: tests/2026.08.18 124554.100.txt (full journal incl. the appended "Previous 1Hr"
+block), tests/ReportHistory-25948001.xlsx, tests/state_XAUUSD_758105_PRE_RESTART.json,
+tests/state_XAUUSD_758105.json, plus two Trade-tab screenshots (live + history views).
+ACCOUNT: VantageMarkets-Demo 25948001, USD, HEDGE, XAUUSD (raw, no suffix), magic 758105,
+build b40. THIS IS A VANTAGE ACCOUNT - the K-4 question is answered on the right broker.
+(Note for the record: the raw symbol is bare XAUUSD here, so magic derives to 758105, the
+same identity W-7 documents for XAUUSD+. Not the Cent LIVE account, which is XAUUSD.sc /
+725639.)
+CONFIG: InpEntryLotSize 0.05, Tier 3 ON, MinTrades 4 (see the FALSE START below),
+MinProfitPts 200, MinLots 0.02, ClosePercent 50, Tiers 1+2 OFF, trailing OFF, BE OFF,
+SL 0, RecoveryIntervalPts 150, RecoveryTF M1, chart M5.
+
+FALSE START WORTH RECORDING (cost one sequence): InpTier3MinTrades was first set to 2 to
+shorten the wait. Tier 3 then never fired and the EA said why -
+"Basket close stands down: group would close the whole basket (no underwater survivor to
+valve) - sequence AvgTP/BE/trail owns the full close (M-1)". With 2 levels both in profit
+the profitable group IS the whole basket, so there is no underwater survivor to slice
+against. TIER 3 NEEDS >= 3 LEVELS TO HAVE ANYTHING TO WORK WITH; the default MinTrades 4
+exists for this reason. E6's Run C used the default. Do not lower it again.
+
+TWO TIER 3 FIRES, BOTH RECOMPUTED AND BOTH CLEAN:
+  FIRE 1  16:32:30  anchor L1 slice 0.02 of 0.05 + L7 0.11 + L8 0.12
+                    sliced-VWAP 4390.46, far 4392.53, margin 206.6 pts >= 200 ... PASS
+                    8 levels 0.68 lots -> 6 levels 0.43 lots (0.68 - 0.12 - 0.11 - 0.02)
+  FIRE 2  16:35:48  anchor L1 slice 0.01 of 0.03 + L5 0.09 + L6 0.10
+                    sliced-VWAP 4394.47, far 4396.64, margin 217.0 pts >= 200 ... PASS
+                    6 levels 0.43 lots -> 4 levels 0.23 lots (0.43 - 0.10 - 0.09 - 0.01)
+  FIRE 2 IS STRONGER THAN RUN H SPECIFIED: it re-slices an ALREADY-SLICED anchor
+  (0.05 -> 0.03 -> 0.02). E6 never exercised a second slice of the same position.
+  Anchor P/L across both slices reconciles against the broker report: ticket 1786381814
+  closed 0.03/0.05 at -26.49 with the remaining legs; net day +306.84, balance 2806.84.
+
+ROW RESULTS:
+  T3-K1  restart with a sliced anchor ........ PASS ON EVIDENCE. Deinit (reason 1)
+         16:41:17, re-attach 16:42:58. Rebuilt "4 level(s), 0.23 lots", dir=BUY, levels=4,
+         anchor at L1 carrying 0.02. NO renumbering, NO orphan, NO lost baseLot
+         (state file baseLot 0.05 preserved across the restart). The pre/post state files
+         agree on tickets and levels; the ONLY delta is manualTP 0 -> 4401.17, which is
+         E9-M1, not a rebuild fault.
+  T3-K2  sub-case (b), killed AFTER the slice . PASS ON EVIDENCE - same restart. The
+         sequence resumed and went on to open L5/L6 normally at 16:48/16:50.
+  T3-K2  sub-case (a), killed BETWEEN the profitable close and the slice - NOT EXERCISED.
+         The window is sub-second (16:32:32.358 -> .614) and is not hittable by hand.
+         REMAINS INHERITED on the X-3 abort-path identity argument. Jeff's call whether
+         that ever needs a deliberate test harness.
+  K-4    comments across a PARTIAL CLOSE ...... **FAIL** - see below. Row CLOSED, answer
+         is NO.
+  L-3    level-0 anchor hazard ................ **DEFENDED, PROVEN LIVE** - see below.
+  T3-X4  broker partial rejection ............. still not naturally occurring; unchanged.
+
+*** K-4 FAIL - COMMENTS DO NOT SURVIVE A PARTIAL CLOSE, AND THE CAUSE IS OURS ***
+At 16:42:58 the EA read the sliced anchor's comment as EMPTY:
+  "RebuildLiveMap: position 1786381814 has our magic but unparseable level comment ''"
+Every UNTOUCHED level kept its tag (xauusd_l2_buy .. xauusd_l6_buy). Only the position
+that was PARTIALLY CLOSED lost it. Confirmed in the live Trade tab (Comment column blank
+for 1786381814, populated for all others).
+ROOT CAUSE IDENTIFIED FROM THE BROKER REPORT - IT IS NOT A BROKER QUIRK, IT IS TRTM'S OWN
+CODE: the Orders sheet shows every EA-opened order carrying its tag, but ALL FOUR closing
+market orders carry NO comment (11:32:30 sell 0.12, 11:32:31 sell 0.11, 11:32:32 sell 0.02
+= THE SLICE, 11:35:49 sell 0.10). MT5 surfaces a position's comment as that of the LAST
+order to modify it, so the untagged slice order overwrote the position comment.
+=> SliceLegAtMarket (1498) sends its partial close WITHOUT a comment. Tag the slice order
+   with the same _lN_ string and the position comment survives. This is a FIXABLE TRTM
+   defect, not a broker limitation, and it is therefore NOT Vantage-specific: any MT5
+   broker will do this.
+IMPORTANT NUANCE FOR ANY FIX: the ORDER/DEAL comment persists in account history
+(the history view still shows xauusd_l1_buy for that ticket) while the POSITION comment is
+gone. History is NOT a runtime recovery source - PositionGetString(POSITION_COMMENT)
+returned "" and that is what the money paths read.
+ESCALATES E9-O6 (comment-integrity detection) from theoretical to demonstrated.
+
+*** L-3 DEFENDED - b39's O2b FIX PROVEN ON LIVE EVIDENCE ***
+The blank comment did NOT produce lvl=0. RebuildLiveMap logged a WARN and assigned a SAFE
+level: "counted as L1 (never 0: a level-0 position would become the anchor). Manual review
+advised." So the level-0 anchor hazard - CRITICAL in the b39 matrix, and the reason K-4
+mattered - is defended in shipped code. L-3 stays DEFENSIVE, does NOT become ACTIVE.
+This closes on EVIDENCE what was previously locked-decision-plus-inspection (E9-O2b).
+L-1/L-2/L-4 remain open on inspection (still need a deliberately corrupted comment).
+
+OBSERVABILITY: NO GAP. An earlier reading of a truncated journal suggested fire 2 went
+unlogged; the full log shows fire 2 fully emitted (FIRE line, two Closed lines, the slice
+line, two liveness lines, Structure, and the exit re-applies). Stage 10 emission intact.
+
+CARRIED OUT OF RUN H:
+  (1) K-4 fix - tag the slice order in SliceLegAtMarket. Needs Gate 1; touches sealed E6
+      money-path code. Highest-value item from this run.
+  (2) E9-M1 root cause narrowed to the reconcile path (see the E9-M1 section).
+  (3) T3-K2(a) still inherited.
+  (4) T3-DS1 dashboard visual confirm STILL not done.
+
+## E9-M1 PARKED DEFECT - MANUAL TP SURVIVES A STRUCTURAL RELEASE (found 2026-08-18)
+FOUND LIVE on Vantage Cent XAUUSD.sc (magic 725639), b40, log
+tests/2026.08.18 095950.169.txt lines 41-46. NOT a b39/b40 defect - the faulty code is
+SEALED Stage 8 b24/b25. b39 only makes it EASIER TO HIT (watcher adoption and the enforce
+loop now land in the same millisecond).
+
+SYMPTOM: Jeff set a manual TP 4407.20. Recovery L2 opened. Expected (and DESIGNED)
+behaviour: manual TP RELEASES on a level add and the computed recovery TP (4401.83) takes
+over. Observed: line 45 "Manual TP 4407.20 ADOPTED (was 4401.83)" - the released value was
+immediately RE-ADOPTED as if it were a fresh trader edit, and propagated to both tickets.
+CORROBORATION: ReleaseManualTP() logs a WARN on every non-zero release. There is NO
+"Manual TP ... RELEASED" line anywhere in the log, so the release either never saw a
+non-zero manualTP or its effect was undone within the tick.
+
+DESIGN INTENT IS NOT IN QUESTION - it is already coded and correct in principle
+(TRTM.mq5:206-208): manualTP RELEASES on structural change (level add 2625, level close
+960, trail-arm 1388); manualSL PERSISTS by design (M3-4 / M7-4, locked). Jeff re-confirmed
+this intent 2026-08-18. So this is a DEFECT, not a change request.
+
+ROOT CAUSE - NARROWED 2026-08-18 BY RUN H EVIDENCE. The defect is in the RECONCILE
+classification path, NOT the level-add release path. Run H proved the level-add release
+works correctly (see below), so the original inspection hypothesis about
+ReleaseManualTP/g_lastAppliedTP ordering on the level-add path is WRONG and is retained
+below only as a rejected line of inquiry.
+WHAT RUN H PROVED (tests/2026.08.18 124554.100.txt, Vantage demo 25948001):
+  16:35:50  "Exits applied to ticket 1786381814: TP 4401.17"   <- the EA's OWN computed
+            value, applied by the EA itself after Tier 3 fire 2.
+  16:41:17  Deinit (reason 1) - clean.
+  16:42:58  "Reconcile: TP edited to 4401.17 while EA was offline (computed 4401.67)
+             - adopted as manual (M7-5)"                        <- MISCLASSIFIED.
+  NOTHING WAS EDITED BY THE TRADER. On restart the EA recomputed 4401.67 (four legs at
+  different weights after the slice), compared it to the 4401.17 it had applied itself
+  6 minutes earlier, saw a 0.50 difference, and adopted its OWN value as a manual TP.
+  ReconcileManualExits has NO equivalent of the b25 g_lastAppliedTP guard - g_lastAppliedTP
+  is a RUNTIME global (1041) that resets to 0.0 on init (1082), so after a restart there is
+  no memory of what the EA last applied and every stale broker value looks like a trader
+  edit. The persisted state carries manualTP/manualSL but NOT lastAppliedTP/SL.
+THE RELEASE PATH IS PROVEN GOOD (same log, 16:48:00):
+  "Manual TP 4401.17 RELEASED - level add (L5) (structure changed: computed target
+   re-asserted)" - and it was NOT re-adopted on the following passes. So ReleaseManualTP +
+  the b25 guard behave correctly on a level add within one session. Jeff's design intent
+  (TP releases on structure change, SL persists) is intact in the running code.
+CONSEQUENCE: the 2026-08-18 Cent-account case (log 095950.169, line 45) must be re-read.
+  That one adopted on a LEVEL ADD, not a reconcile, so it is either a SECOND distinct
+  instance or the sequence had a prior reconcile that seeded manualTP. Gate 1 must
+  establish which before scoping a fix - do NOT assume one root cause covers both.
+CANDIDATE FIXES to weigh at Gate 1 (NOT decided): (a) persist lastAppliedTP/SL in the
+  state file so reconcile can apply the b25 guard across a restart; (b) on reconcile, treat
+  a broker TP that equals the value implied by the PERSISTED level set as the EA's own,
+  not a manual edit; (c) suppress manual-TP adoption entirely at reconcile when the
+  recomputed target differs only because the level set changed. (a) is the smallest and
+  most direct - the guard already exists, it just cannot see across an init.
+[REJECTED HYPOTHESIS, recorded so it is not re-derived: the b25 anti-oscillation guard
+ (1595-1601) suppresses a stale broker value only while it equals g_lastAppliedTP;
+ ReleaseManualTP (1132) clears g_state.manualTP but never g_lastAppliedTP, and the enforce
+ loop advances g_lastAppliedTP at 1869 after a PARTIAL apply. Plausible on inspection, but
+ Run H's 16:48:00 release line disproves it as the operative cause on the level-add path.]
+
+DO NOT HOTFIX. Touches sealed b24/b25/b28 classification code with one-shot logging side
+effects; needs its own Gate 1 -> matrix -> plan. Candidate fixes to weigh at Gate 1
+(NOT decided): (a) ReleaseManualTP also clears g_lastAppliedTP; (b) suppress
+DetectManualExitEdits for one pass after a structural release (reuse the existing
+g_manualDetectSkipOnce mechanism, 1555); (c) make g_lastAppliedTP per-ticket rather than
+global. (b) has precedent in the codebase and is the smallest.
+
+## E9-M2 PARKED (cosmetic, same log) - STALE PROJECTION IN THE Structure: LINE
+AdoptUntrackedLevel calls ReleaseManualTP (2625) BEFORE LogStructure (2629), so on
+2026-08-18 line 44 printed "projected at TP +263.00" against a target that line 45 changed
+in the same millisecond. Display only, no money path, no state. Misleads a cold read of
+the journal, which is why it is recorded rather than ignored.
 
 ## Environment note
 ALL charts are DEMO; multi-symbol attachments are test surface.
@@ -2053,6 +2234,68 @@ part (restart across a live sequence, no orphan); R-1 NOW COMPLETE.
 STILL OPEN: A-1/A-2/A-5 + W-1..W-6 (Vantage async reproduction - THE DEFECT b39 EXISTS
 TO FIX, still entirely unverified), F-1..F-5 (flat-state rebuild), L-1..L-4, O-1..O-5,
 K-1/K-2/K-4 (Run H on Vantage).
+  [SUPERSEDED 2026-08-18 for A-1 and W-1..W-6 - see "WATCHER CAVEAT RETIRED" below.]
+
+## WATCHER CAVEAT RETIRED - A-1 + W-1..W-6 CLOSED ON LIVE EVIDENCE (2026-08-18)
+SEALED BY JEFF 2026-08-18. The single largest inspection-only hole in the sealed build is
+closed. WatchUntrackedLevels HAS NOW ADOPTED A POSITION.
+
+EVIDENCE: tests/2026.08.18 095950.169.txt - Vantage CENT LIVE, XAUUSD.sc, magic 725639,
+build b40 (behaviourally identical to b39 - documentation-only delta, so this evidence
+applies to the b39 seal without qualification). THE SAME ACCOUNT AND SYMBOL THAT PRODUCED
+THE 2026-07-27 INCIDENT, which is what the caveat demanded.
+NOT a designed test - it occurred unprompted during ordinary use. The timing tail that was
+"not reproducible on demand" reproduced itself.
+
+THE THREE-LINE RETIREMENT SIGNATURE, IN ORDER, WITHIN 97 ms:
+  L42  10:35:01.229  "Recovery L2: order accepted but no position yet (asynchronous fill)
+                      - the watcher will register it as soon as it appears"
+  L43  10:35:01.326  "Watcher: L2 REGISTERED ticket 520795347 0.55 lots @ 4396.53"
+  L46  10:35:01.352  "Exits applied to ticket 520795347: TP 4407.20 SL none"
+The fast path MISSED (L42 is b39's INFO-on-miss demotion, not an ERROR - previously this
+was the path that produced the unmanaged orphan). The watcher caught it. Exits landed.
+The defined failure mode - "an orphan with NO watcher line is a b39 DEFECT" - did NOT occur.
+
+ROW-BY-ROW:
+  A-1 async fill registers ............ CLOSED ON EVIDENCE. Fast path missed, watcher
+                                        registered, position managed.
+  W-1 watcher runs while LIVE ......... CLOSED ON EVIDENCE. Sequence was live (L1 open
+                                        since 10:02:35) when L2 was adopted.
+  W-2 adopts own tagged untracked ..... CLOSED ON EVIDENCE. Ticket 520795347, our magic,
+                                        level parsed correctly as L2.
+  W-3 MUST-NOT: never adopts magic-0 .. CLOSED ON EVIDENCE. No foreign/magic-0 adoption
+                                        anywhere in the run.
+  W-4 MUST-NOT: never double-registers  CLOSED ON EVIDENCE. L2 appears exactly once; the
+                                        Structure line reads 2 level(s) / 1.05 lots =
+                                        0.50 + 0.55 EXACTLY. Zero DUPLICATE lines.
+  W-5 logs ticket/volume/price ........ CLOSED ON EVIDENCE. L43 carries all three
+                                        (the // W-5 comment at TRTM.mq5:2627).
+  W-6 O(positions), no alloc, silent .. CLOSED **SPLIT** (Jeff's call 2026-08-18, on my
+                                        recommendation, over closing it whole):
+        - SILENCE/behaviour half: ON EVIDENCE. Zero watcher lines across the healthy
+          synchronous cycles at 10:01:36, 10:01:48 and 10:02:35 - the watcher stayed
+          silent when there was nothing to do (R-4's no-new-noise property).
+        - COMPLEXITY half (O(positions), no allocation): REMAINS ON INSPECTION. It is a
+          structural property of the loop and is NOT observable from a journal. Recorded
+          as inspection-only rather than rounded up to a pass, to hold the honesty
+          standard the b39 seal set for itself.
+
+ARITHMETIC AUDIT (recomputed, not taken from the log):
+  L1 0.50 @ 4402.40, L2 0.55 @ 4396.53. Lot-weighted avg entry =
+  (0.50*4402.40 + 0.55*4396.53) / 1.05 = (2201.2000 + 2418.0915) / 1.05
+  = 4619.2915 / 1.05 = 4399.3252.
+  Computed TP reported 4401.83 => +250.8 pts above avg entry, consistent with the AvgTP
+  target on this config. Structure line's level count and lot total both reconcile.
+
+WHAT THIS DOES NOT CLOSE: A-2 (unchanged), F-1..F-5 (flat-state rebuild still never
+triggered - this adoption was in the LIVE state, not the flat state), L-1..L-4,
+K-1/K-2/K-4 (Run H still not run). Run H remains the top outstanding item.
+  [SUPERSEDED 2026-08-18: RUN H IS DONE. See "RUN H - EXECUTED 2026-08-18" - K-1/K-2(b)
+   PASS, K-4 FAIL, L-3 defended. F-1..F-5 and L-1/L-2/L-4 remain open as stated.]
+
+INCIDENTAL FROM THE SAME LOG: the manual-TP re-adoption defect, parked as E9-M1 (see the
+E9-M1 section near the head of this file). It is a SEALED-Stage-8 defect surfaced by this
+run, NOT a b39/b40 regression, and it does not qualify any row closed above.
 
 ## EVIDENCE-BASE AMENDMENT - VANTAGE TEST ACCOUNT (2026-07-29)
 Jeff created a VANTAGE STANDARD ECN **DEMO** account for b39 testing rather than risk the
@@ -2148,13 +2391,19 @@ WHAT IS AND IS NOT PROVEN:
   PROVEN - b39 does not break anything. 3 brokers, 3 symbol suffixes (.s / + / .sc),
     tester + live, restart with open positions, two Tier 3 fires recomputed to the cent.
     R-1/R-2/R-3/R-4, A-3, A-5, O-3, O-4, K-3, TP-10, E9-P2 all closed on EVIDENCE.
-  NOT PROVEN - WatchUntrackedLevels has never adopted a position. A-1 and W-1..W-6 close
+  NOT PROVEN [AS OF THE b39 SEAL 2026-07-30 - NO LONGER TRUE, SEE THE AMENDMENT BELOW] -
+    WatchUntrackedLevels has never adopted a position. A-1 and W-1..W-6 close
     on CODE INSPECTION only. What is inspected-but-unexercised is narrow: the DISPATCH
     from WatchUntrackedLevels. Its admission filter (IsAdoptableOurPosition) and its
     adoption body (AdoptUntrackedLevel) are BOTH exercised on every run - every single
     "Recovery fast path: L<n> REGISTERED" line in Runs 1-5 went through the same
     AdoptUntrackedLevel, and every registration on 3 brokers went through the same
     IsAdoptableOurPosition. The untested part is the per-tick loop that calls them.
+  AMENDMENT 2026-08-18: THE DISPATCH LOOP IS NOW EXERCISED. The one narrow gap named
+    directly above closed on live evidence - WatchUntrackedLevels adopted L2 on Vantage
+    Cent LIVE (tests/2026.08.18 095950.169.txt). A-1 + W-1..W-5 on evidence, W-6 split.
+    The "NOT PROVEN" heading above is retained as the record of the seal-time position;
+    it is NOT the current status. See "WATCHER CAVEAT RETIRED" for the full audit.
 RISK POSTURE ACCEPTED: b39 on the Cent account is strictly SAFER than b38 today. Worst
   case the watcher never fires and behaviour equals b38; best case it saves a position
   from going unmanaged. b38's behaviour in that scenario is KNOWN-BAD (2026-07-27).
