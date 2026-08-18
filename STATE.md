@@ -133,6 +133,82 @@ date: 2026-07-30
 # (d094c65) and E4-b36 went up with it. Hygiene: 0 bare LF, ASCII-only, brace delta
 # -1 (baseline-preserved), parens balanced; no new global, no new persisted field.
 
+## b41 - GATE 1 OPEN (2026-08-18). TWO DEFECTS, ONE BUILD, TWO GATES, SEQUENCED.
+LOCKED DECISION b41-S1 (scope + sequencing, Jeff's call 2026-08-18): ONE BUILD carrying
+  BOTH the K-4 comment fix and the E9-M1 manual-TP-at-reconcile fix, but with SEPARATE
+  Gate 1s run in sequence - K-4's decisions locked FIRST and its touch point landed
+  FIRST, E9-M1's gated behind a diagnostic question that must resolve before it is scoped.
+  WHY: both defects can only be verified against the SAME test shape - a sequence run to
+  4+ levels, a Tier 3 fire, then a restart over the sliced anchor (exactly Run H's shape,
+  now proven producible on the Vantage demo). One build means ONE such run instead of two.
+  WHY SEQUENCED RATHER THAN MERGED: they are not equally ready. K-4's root cause is PROVEN
+  from the broker report (untagged slice order), is one touch point, and needs NO state-
+  schema change. E9-M1's leading fix candidate (persist lastAppliedTP/SL) IS a state-schema
+  change, and it still carries an unresolved diagnostic question (below). Gating them
+  together would put a one-line emission fix behind a schema change in the same unsealed
+  build - and K-4 is the one with a live consequence today (every sliced position loses its
+  identity, contained only by b39's O2b guard).
+  ESCAPE HATCH, EXPLICIT: if E9-M1 does not resolve cleanly at its Gate 1, K-4 SHIPS ALONE
+  as b41 and E9-M1 waits for b42. No coupling penalty is accepted to keep them together.
+  REJECTED: (a) two separate builds - honest but costs two multi-level live runs, and the
+  second would re-run the identical setup for no new coverage; (b) one build, one merged
+  Gate 1 - fewer gate cycles, but couples a schema change to an emission fix and blocks the
+  urgent item behind the harder one; (c) K-4 alone now, E9-M1 never scheduled - rejected,
+  E9-M1 is a live misclassification on a money path and parking it indefinitely is how it
+  gets forgotten.
+GATE 1a (K-4) - OPEN, decisions being taken now.
+LOCKED DECISION K4-D1 (slice order comment, Jeff's call 2026-08-18): THE SLICE ORDER
+  CARRIES THE ANCHOR'S EXISTING TAG, RE-DERIVED from the same builder that writes it on
+  open (the "_l" + level + "_" + buy/sell idiom at 2231). The position comment is therefore
+  overwritten with the STRING IT ALREADY HAD, so it survives the partial close unchanged.
+  ParseTag (671) keeps working untouched, RebuildLiveMap parses the real level, and b39's
+  O2b fallback never fires on a sliced anchor. This restores the invariant E6's K-1
+  inheritance argument ASSUMED but never verified ("level survives a partial close").
+  WHY MINIMAL: the fix makes the slice comment-NEUTRAL rather than comment-DESTROYING, and
+  it reuses an existing sealed builder instead of inventing a format. CTrade's
+  PositionClosePartial has a comment overload, so this is a parameter addition, not a
+  rewrite of SliceLegAtMarket.
+  REJECTED: (a) a distinct slice marker (e.g. _l1_buy_s) recording that a slice occurred -
+  genuinely useful for E9-O6 comment-integrity work, but ParseTag would have to tolerate
+  the suffix, pulling SEALED Stage 1 comment PARSING into a build that otherwise only
+  touches comment WRITING; (b) echo the anchor's current comment back verbatim via
+  PositionGetString - cannot drift from the builder, but silently re-blanks a position
+  whose comment is ALREADY empty (an adopted magic-0 L1, or anything sliced twice before
+  this fix), which is exactly the failure case being repaired.
+  NOT RETROACTIVE, ACCEPTED: positions already sliced under b40 keep their blank comments
+  and will still hit the O2b guard on restart. That is fine - O2b is proven to work
+  (Run H, 2026-08-18).
+LOCKED DECISION K4-D2 (how the tag is re-derived, Jeff's call 2026-08-18): EXTRACT A
+  SHARED HELPER. The tag builder is currently THREE INLINE LINES (2229-2231) inside the
+  recovery-open path, and SliceLegAtMarket is a different function with no access to it.
+  Extract BuildLevelTag(level, dir) and call it from BOTH sites, so there is exactly ONE
+  definition of the tag format.
+  WHY: option (b) below would duplicate the format across two call sites - which is
+  PRECISELY the maintenance hazard already logged as E9-P6 (AdoptionCandidateExists
+  duplicating TryAdopt's admission logic and needing to be kept in step). That hazard was
+  accepted once, inside a hotfix, under protest. Knowingly creating a SECOND instance of
+  the same pattern is a step backwards, and the whole point of K-4's fix is that a tag
+  which silently diverges from its parser is what caused this defect class.
+  COST ACCEPTED: this edits the SEALED Stage 4 recovery-open path - three lines become one
+  call. Behaviour-identical by construction, and provable the way b40's comment-only claim
+  was proven: a filtered diff showing the open path's emitted string is unchanged. Gate
+  Zero + a live re-run of the recovery-open path (any multi-level sequence) must both
+  confirm the tag on a NEWLY opened level is byte-identical to b40's.
+  REJECTED: (a) duplicate the three lines inside SliceLegAtMarket - zero sealed-code edit,
+  but creates the E9-P6 hazard a second time deliberately; (b) read the anchor's live
+  comment and pass it through with a rebuild fallback - this is rejected D1 option (c)
+  wearing a hat, and adds a branch to a money path for a case O2b already covers.
+  SIGNATURE NOTE (implementation detail for Gate 3, not a locked decision):
+  SliceLegAtMarket takes (ticket, level, sliceVol) and does NOT currently carry direction.
+  It can either take a dir parameter or read g_state.direction, which is available
+  globally. Parameter preferred for testability; either is acceptable.
+GATE 1b (E9-M1) - BLOCKED ON A DIAGNOSTIC, not on Jeff. Must first establish whether the
+  2026-08-18 Cent-account case (log 095950.169 line 45, adopted on a LEVEL ADD) is a
+  SECOND distinct instance or was seeded by a prior reconcile - Run H proved the level-add
+  path itself is sound, so one root cause may not cover both. Desk work, no chart time.
+NEXT: lock K-4's decisions, then run the E9-M1 diagnostic, then ONE matrix covering
+  whatever survives, then Gate 3 plan, then build.
+
 ## RUN H - EXECUTED 2026-08-18. T3-K1/K2(b) PASS, K-4 FAIL, L-3 DEFENDED.
 The oldest outstanding debt in the project - overdue since the E6 seal 2026-07-26, doubly
 so after b39 rewrote the sequence-rebuild code - IS NOW RUN.
