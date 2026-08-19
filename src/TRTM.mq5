@@ -2228,25 +2228,6 @@ void EvaluateRecovery()
    // so the prospective fill price itself must satisfy the trigger. Without
    // this, spread >> interval stacks levels on top of each other (observed
    // on weekend BTCUST: L4 filled ABOVE L3's entry).
-   // ===== TEMPORARY DIAGNOSTIC (2026-08-19) - REMOVE BEFORE ANY SEAL =====
-   // Investigating a live defect: twelve consecutive forfeits reported a fill-side price
-   // FROZEN at 4363.94 while M1 bar closes climbed 4370 -> 4387 (236 pts). Market Watch
-   // was confirmed ticking at the time, so the terminal HAS live quotes. This probe prints
-   // the cached SymbolInfoDouble values next to a fresh SymbolInfoTick, plus the tick's own
-   // timestamp, so we can see WHICH read is stale rather than infer it. NOT a fix.
-   MqlTick g_probeTick;
-   bool    g_probeOk = SymbolInfoTick(_Symbol, g_probeTick);
-   Log(LOG_WARN, StringFormat("QUOTE PROBE [%s]: SymbolInfoDouble bid=%s ask=%s | SymbolInfoTick ok=%s bid=%s ask=%s last=%s tickTime=%s | TimeCurrent=%s",
-                              _Symbol,
-                              DoubleToString(SymbolInfoDouble(_Symbol, SYMBOL_BID), _Digits),
-                              DoubleToString(SymbolInfoDouble(_Symbol, SYMBOL_ASK), _Digits),
-                              g_probeOk ? "Y" : "N",
-                              DoubleToString(g_probeTick.bid, _Digits),
-                              DoubleToString(g_probeTick.ask, _Digits),
-                              DoubleToString(g_probeTick.last, _Digits),
-                              TimeToString(g_probeTick.time, TIME_DATE | TIME_SECONDS),
-                              TimeToString(TimeCurrent(), TIME_DATE | TIME_SECONDS)));
-   // ===== END TEMPORARY DIAGNOSTIC =====
    double entrySidePx = (dir > 0) ? SymbolInfoDouble(_Symbol, SYMBOL_ASK)
                                   : SymbolInfoDouble(_Symbol, SYMBOL_BID);
    bool fillOk = (dir < 0) ? (entrySidePx >= trigger) : (entrySidePx <= trigger);
@@ -3902,28 +3883,6 @@ string NextTriggerRowText()
       return "n/a";
    if(InpMaxRecoveryTrades > 0 && (nextLvl - 1) > InpMaxRecoveryTrades)
       return StringFormat("max %d levels reached", InpMaxRecoveryTrades);
-   // ===== TEMPORARY DIAGNOSTIC (2026-08-19) - REMOVE BEFORE ANY SEAL =====
-   // The panel showed a FROZEN ask across minutes of real movement, same symptom as the
-   // recovery forfeit. This path runs every 500ms from OnTimer, so it samples far more
-   // often than the bar-close forfeit does. Throttled to one line per 10s to avoid
-   // flooding the file log. NOT a fix.
-   static datetime s_probeLast = 0;
-   if(TimeCurrent() - s_probeLast >= 10)
-     {
-      s_probeLast = TimeCurrent();
-      MqlTick pt;
-      bool pok = SymbolInfoTick(_Symbol, pt);
-      Log(LOG_WARN, StringFormat("QUOTE PROBE (panel) [%s]: SymbolInfoDouble bid=%s ask=%s | SymbolInfoTick ok=%s bid=%s ask=%s tickTime=%s | TimeCurrent=%s",
-                                 _Symbol,
-                                 DoubleToString(SymbolInfoDouble(_Symbol, SYMBOL_BID), _Digits),
-                                 DoubleToString(SymbolInfoDouble(_Symbol, SYMBOL_ASK), _Digits),
-                                 pok ? "Y" : "N",
-                                 DoubleToString(pt.bid, _Digits),
-                                 DoubleToString(pt.ask, _Digits),
-                                 TimeToString(pt.time, TIME_DATE | TIME_SECONDS),
-                                 TimeToString(TimeCurrent(), TIME_DATE | TIME_SECONDS)));
-     }
-   // ===== END TEMPORARY DIAGNOSTIC =====
    if(g_state.direction > 0)
       return StringFormat("L%d @ %s | ask %s <=",
                           nextLvl, DoubleToString(trigger, _Digits),

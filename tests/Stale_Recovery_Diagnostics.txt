@@ -1,0 +1,939 @@
+Experts Tab:
+2026.08.19 08:58:10.472	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] === TRTM b40 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.08.19 08:58:10.478	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.08.19 08:58:10.486	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] State persistence self-test: PASS
+2026.08.19 08:58:10.486	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Log cleanup: 1 file(s) older than 14d deleted (oldest kept: 20260806)
+2026.08.19 08:58:10.491	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Reconcile complete: FLAT
+2026.08.19 08:58:10.494	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.08.19 08:58:10.494	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Init complete - b40 (adoption, exits, recovery active)
+2026.08.19 09:01:46.958	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Deinit (reason 3) - state clean (flat)
+2026.08.19 09:01:47.962	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] === TRTM b40 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.08.19 09:01:47.962	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.08.19 09:01:47.969	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] State persistence self-test: PASS
+2026.08.19 09:01:47.969	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Reconcile complete: FLAT
+2026.08.19 09:01:47.989	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.08.19 09:01:47.989	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Init complete - b40 (adoption, exits, recovery active)
+2026.08.19 09:02:03.014	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Pending BUY placement line created at 4330.70 - drag to price, then CONFIRM (line is NOT persisted across restarts)
+2026.08.19 09:02:07.042	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] BUY LIMIT placed: 0.02 lots @ 4328.75 (order 2026331700). Fill registers as L1; the order is canceled if a sequence starts first (P8).
+2026.08.19 09:02:17.640	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Own L1 position 2026331700 found while FLAT (pending fill or recovered send) - registering
+2026.08.19 09:02:17.640	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Structure: 1 level(s), 0.02 lots | projected at TP n/a | at SL n/a
+2026.08.19 09:02:17.640	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] EA L1 REGISTERED: ticket 2026331700 BUY 0.02 lots @ 4328.40. Exits apply next tick.
+2026.08.19 09:04:36.794	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] CLOSE ARMED: floating PnL +7.32 - click CONFIRM within 10s to close the whole sequence at market
+2026.08.19 09:04:37.695	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Close CONFIRMED by user
+2026.08.19 09:04:37.695	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Closing sequence at market: user close button (confirmed)
+2026.08.19 09:04:37.972	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Closed L1 ticket 2026331700 @ 0.00
+2026.08.19 09:04:38.138	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Liveness: L1 ticket 2026331700 closed by EA (market close) - removed from sequence
+2026.08.19 09:04:38.138	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Sequence fully closed - back to FLAT, overrides reset to input defaults, flat marker saved
+2026.08.19 09:04:50.044	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Pending SELL placement line created at 4331.46 - drag to price, then CONFIRM (line is NOT persisted across restarts)
+2026.08.19 09:04:59.401	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] SELL LIMIT placed: 0.02 lots @ 4339.37 (order 2026355645). Fill registers as L1; the order is canceled if a sequence starts first (P8).
+2026.08.19 09:06:37.216	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Own L1 position 2026355645 found while FLAT (pending fill or recovered send) - registering
+2026.08.19 09:06:37.216	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Structure: 1 level(s), 0.02 lots | projected at TP n/a | at SL n/a
+2026.08.19 09:06:37.216	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] EA L1 REGISTERED: ticket 2026355645 SELL 0.02 lots @ 4339.33. Exits apply next tick.
+2026.08.19 09:06:47.399	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Deinit (reason 3) - state saved (sequence alive)
+2026.08.19 09:06:48.388	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] === TRTM b40 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.08.19 09:06:48.389	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.08.19 09:06:48.396	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] State persistence self-test: PASS
+2026.08.19 09:06:48.396	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] Reconcile: flags restored (trailOverride=F beOverride=F trailingActive=F beApplied=F)
+2026.08.19 09:06:48.396	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] Structure: 1 level(s), 0.02 lots | projected at TP n/a | at SL n/a
+2026.08.19 09:06:48.396	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] Reconcile complete: dir=SELL levels=1
+2026.08.19 09:06:48.435	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.08.19 09:06:48.435	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] Init complete - b40 (adoption, exits, recovery active)
+2026.08.19 09:07:12.030	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] Deinit (reason 3) - state saved (sequence alive)
+2026.08.19 09:07:13.018	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] === TRTM b40 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.08.19 09:07:13.018	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.08.19 09:07:13.025	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] State persistence self-test: PASS
+2026.08.19 09:07:13.025	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Reconcile: flags restored (trailOverride=F beOverride=F trailingActive=F beApplied=F)
+2026.08.19 09:07:13.025	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Structure: 1 level(s), 0.02 lots | projected at TP n/a | at SL n/a
+2026.08.19 09:07:13.025	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Reconcile complete: dir=SELL levels=1
+2026.08.19 09:07:13.065	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.08.19 09:07:13.065	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Init complete - b40 (adoption, exits, recovery active)
+2026.08.19 09:07:18.477	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Deinit (reason 3) - state saved (sequence alive)
+2026.08.19 09:07:19.477	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] === TRTM b40 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.08.19 09:07:19.477	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.08.19 09:07:19.483	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] State persistence self-test: PASS
+2026.08.19 09:07:19.483	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] Reconcile: flags restored (trailOverride=F beOverride=F trailingActive=F beApplied=F)
+2026.08.19 09:07:19.483	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] Structure: 1 level(s), 0.02 lots | projected at TP n/a | at SL n/a
+2026.08.19 09:07:19.483	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] Reconcile complete: dir=SELL levels=1
+2026.08.19 09:07:19.493	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.08.19 09:07:19.493	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] Init complete - b40 (adoption, exits, recovery active)
+2026.08.19 09:08:48.419	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] Deinit (reason 3) - state saved (sequence alive)
+2026.08.19 09:08:49.413	TRTM (XAUUSD.s,M30)	[TRTM][INFO ] === TRTM b40 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.08.19 09:08:49.413	TRTM (XAUUSD.s,M30)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.08.19 09:08:49.420	TRTM (XAUUSD.s,M30)	[TRTM][INFO ] State persistence self-test: PASS
+2026.08.19 09:08:49.420	TRTM (XAUUSD.s,M30)	[TRTM][INFO ] Reconcile: flags restored (trailOverride=F beOverride=F trailingActive=F beApplied=F)
+2026.08.19 09:08:49.421	TRTM (XAUUSD.s,M30)	[TRTM][INFO ] Structure: 1 level(s), 0.02 lots | projected at TP n/a | at SL n/a
+2026.08.19 09:08:49.421	TRTM (XAUUSD.s,M30)	[TRTM][INFO ] Reconcile complete: dir=SELL levels=1
+2026.08.19 09:08:49.460	TRTM (XAUUSD.s,M30)	[TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.08.19 09:08:49.460	TRTM (XAUUSD.s,M30)	[TRTM][INFO ] Init complete - b40 (adoption, exits, recovery active)
+2026.08.19 09:08:51.632	TRTM (XAUUSD.s,M30)	[TRTM][INFO ] Deinit (reason 3) - state saved (sequence alive)
+2026.08.19 09:08:52.631	TRTM (XAUUSD.s,H1)	[TRTM][INFO ] === TRTM b40 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.08.19 09:08:52.631	TRTM (XAUUSD.s,H1)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.08.19 09:08:52.637	TRTM (XAUUSD.s,H1)	[TRTM][INFO ] State persistence self-test: PASS
+2026.08.19 09:08:52.637	TRTM (XAUUSD.s,H1)	[TRTM][INFO ] Reconcile: flags restored (trailOverride=F beOverride=F trailingActive=F beApplied=F)
+2026.08.19 09:08:52.638	TRTM (XAUUSD.s,H1)	[TRTM][INFO ] Structure: 1 level(s), 0.02 lots | projected at TP n/a | at SL n/a
+2026.08.19 09:08:52.638	TRTM (XAUUSD.s,H1)	[TRTM][INFO ] Reconcile complete: dir=SELL levels=1
+2026.08.19 09:08:52.708	TRTM (XAUUSD.s,H1)	[TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.08.19 09:08:52.708	TRTM (XAUUSD.s,H1)	[TRTM][INFO ] Init complete - b40 (adoption, exits, recovery active)
+2026.08.19 09:08:58.551	TRTM (XAUUSD.s,H1)	[TRTM][INFO ] Deinit (reason 3) - state saved (sequence alive)
+2026.08.19 09:08:59.556	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] === TRTM b40 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.08.19 09:08:59.556	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.08.19 09:08:59.563	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] State persistence self-test: PASS
+2026.08.19 09:08:59.564	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] Reconcile: flags restored (trailOverride=F beOverride=F trailingActive=F beApplied=F)
+2026.08.19 09:08:59.564	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] Structure: 1 level(s), 0.02 lots | projected at TP n/a | at SL n/a
+2026.08.19 09:08:59.564	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] Reconcile complete: dir=SELL levels=1
+2026.08.19 09:08:59.571	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.08.19 09:08:59.571	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] Init complete - b40 (adoption, exits, recovery active)
+2026.08.19 09:12:08.929	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] Deinit (reason 3) - state saved (sequence alive)
+2026.08.19 09:12:09.907	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] === TRTM b40 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.08.19 09:12:09.907	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.08.19 09:12:09.914	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] State persistence self-test: PASS
+2026.08.19 09:12:09.914	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Reconcile: flags restored (trailOverride=F beOverride=F trailingActive=F beApplied=F)
+2026.08.19 09:12:09.914	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Structure: 1 level(s), 0.02 lots | projected at TP n/a | at SL n/a
+2026.08.19 09:12:09.914	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Reconcile complete: dir=SELL levels=1
+2026.08.19 09:12:09.969	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.08.19 09:12:09.969	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Init complete - b40 (adoption, exits, recovery active)
+2026.08.19 09:19:00.794	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] TRAILING ACTIVATED @ 4336.28: TP removed, recovery gated, SL trails 200 pts behind (PERIOD_M1 bar-close mode)
+2026.08.19 09:19:01.033	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Exits applied to ticket 2026355645: TP none SL 4338.28
+2026.08.19 09:19:11.387	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Liveness: L1 ticket 2026355645 SL hit @ 4338.33 - removed from sequence
+2026.08.19 09:19:11.387	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Sequence fully closed - back to FLAT, overrides reset to input defaults, flat marker saved
+2026.08.19 09:21:53.022	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] SELL ARMED: 0.02 lots (Fixed 0.02) - click CONFIRM within 10s to execute
+2026.08.19 09:21:54.051	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] L1 SELL OPENED via button: 0.02 lots @ 0.00 (deal 0)
+2026.08.19 09:21:54.051	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] L1 order accepted but no position yet (asynchronous fill) - the flat-state watcher will register it as soon as it appears
+2026.08.19 09:21:54.309	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Own L1 position 2026438084 found while FLAT (pending fill or recovered send) - registering
+2026.08.19 09:21:54.310	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Structure: 1 level(s), 0.02 lots | projected at TP n/a | at SL n/a
+2026.08.19 09:21:54.310	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] EA L1 REGISTERED: ticket 2026438084 SELL 0.02 lots @ 4335.63. Exits apply next tick.
+2026.08.19 09:22:00.865	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] TRAILING ACTIVATED @ 4333.19: TP removed, recovery gated, SL trails 200 pts behind (PERIOD_M1 bar-close mode)
+2026.08.19 09:22:01.593	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Exits applied to ticket 2026438084: TP none SL 4335.19
+2026.08.19 09:22:28.590	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Liveness: L1 ticket 2026438084 SL hit @ 4335.27 - removed from sequence
+2026.08.19 09:22:28.590	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Sequence fully closed - back to FLAT, overrides reset to input defaults, flat marker saved
+2026.08.19 09:22:32.250	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] SELL ARMED: 0.02 lots (Fixed 0.02) - click CONFIRM within 10s to execute
+2026.08.19 09:22:32.907	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] L1 SELL OPENED via button: 0.02 lots @ 0.00 (deal 0)
+2026.08.19 09:22:32.907	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] L1 order accepted but no position yet (asynchronous fill) - the flat-state watcher will register it as soon as it appears
+2026.08.19 09:22:33.898	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Own L1 position 2026444182 found while FLAT (pending fill or recovered send) - registering
+2026.08.19 09:22:33.899	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Structure: 1 level(s), 0.02 lots | projected at TP n/a | at SL n/a
+2026.08.19 09:22:33.899	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] EA L1 REGISTERED: ticket 2026444182 SELL 0.02 lots @ 4335.34. Exits apply next tick.
+2026.08.19 09:24:13.127	TRTM (XAUUSD.s,M5)	[TRTM][WARN ] Trailing override flipped for this sequence: effective OFF
+2026.08.19 09:29:00.921	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4340.46 vs trigger 4340.34 (worst entry 4335.34 + 500 pts)
+2026.08.19 09:29:01.243	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Recovery L2 OPENED: 0.03 lots SELL @ 0.00 (deal 0)
+2026.08.19 09:29:01.243	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Recovery L2: order accepted but no position yet (asynchronous fill) - the watcher will register it as soon as it appears
+2026.08.19 09:29:01.847	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Watcher: L2 REGISTERED ticket 2026465870 0.03 lots @ 4340.59
+2026.08.19 09:29:01.847	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Structure: 2 level(s), 0.05 lots | projected at TP +12.50 | at SL n/a
+2026.08.19 09:29:02.061	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Exits applied to ticket 2026444182: TP 4335.99 SL none (replaced user-set TP 4332.38 SL none)
+2026.08.19 09:29:02.276	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Exits applied to ticket 2026465870: TP 4335.99 SL none
+2026.08.19 09:31:32.224	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Deinit (reason 3) - state saved (sequence alive)
+2026.08.19 09:31:33.228	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] === TRTM b40 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.08.19 09:31:33.229	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.08.19 09:31:33.235	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] State persistence self-test: PASS
+2026.08.19 09:31:33.236	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Reconcile: flags restored (trailOverride=T beOverride=F trailingActive=F beApplied=F)
+2026.08.19 09:31:33.236	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Structure: 2 level(s), 0.05 lots | projected at TP +12.50 | at SL n/a
+2026.08.19 09:31:33.236	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Reconcile complete: dir=SELL levels=2
+2026.08.19 09:31:33.322	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.08.19 09:31:33.322	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Init complete - b40 (adoption, exits, recovery active)
+2026.08.19 09:32:01.050	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4346.58 vs trigger 4345.59 (worst entry 4340.59 + 500 pts)
+2026.08.19 09:32:01.268	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery L3 OPENED: 0.04 lots SELL @ 0.00 (deal 0)
+2026.08.19 09:32:01.268	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery L3: order accepted but no position yet (asynchronous fill) - the watcher will register it as soon as it appears
+2026.08.19 09:32:01.554	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Watcher: L3 REGISTERED ticket 2026476756 0.04 lots @ 4346.61
+2026.08.19 09:32:01.554	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Structure: 3 level(s), 0.09 lots | projected at TP +22.49 | at SL n/a
+2026.08.19 09:32:01.768	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Exits applied to ticket 2026444182: TP 4339.60 SL none
+2026.08.19 09:32:01.983	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Exits applied to ticket 2026465870: TP 4339.60 SL none
+2026.08.19 09:32:02.197	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Exits applied to ticket 2026476756: TP 4339.60 SL none
+2026.08.19 09:38:00.826	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4353.29 vs trigger 4351.61 (worst entry 4346.61 + 500 pts)
+2026.08.19 09:38:01.044	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery L4 OPENED: 0.05 lots SELL @ 0.00 (deal 0)
+2026.08.19 09:38:01.044	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery L4: order accepted but no position yet (asynchronous fill) - the watcher will register it as soon as it appears
+2026.08.19 09:38:01.242	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Watcher: L4 REGISTERED ticket 2026494371 0.05 lots @ 4353.21
+2026.08.19 09:38:01.242	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Structure: 4 level(s), 0.14 lots | projected at TP +34.96 | at SL n/a
+2026.08.19 09:38:01.458	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Exits applied to ticket 2026444182: TP 4343.57 SL none
+2026.08.19 09:38:01.680	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Exits applied to ticket 2026465870: TP 4343.57 SL none
+2026.08.19 09:38:01.925	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Exits applied to ticket 2026476756: TP 4343.57 SL none
+2026.08.19 09:38:02.140	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Exits applied to ticket 2026494371: TP 4343.57 SL none
+2026.08.19 09:40:18.399	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Deinit (reason 3) - state saved (sequence alive)
+2026.08.19 09:40:19.405	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] === TRTM b40 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.08.19 09:40:19.405	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.08.19 09:40:19.413	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] State persistence self-test: PASS
+2026.08.19 09:40:19.413	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Reconcile: flags restored (trailOverride=T beOverride=F trailingActive=F beApplied=F)
+2026.08.19 09:40:19.413	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Structure: 4 level(s), 0.14 lots | projected at TP +34.96 | at SL n/a
+2026.08.19 09:40:19.413	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Reconcile complete: dir=SELL levels=4
+2026.08.19 09:40:19.483	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.08.19 09:40:19.483	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Init complete - b40 (adoption, exits, recovery active)
+2026.08.19 09:40:29.446	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Deinit (reason 3) - state saved (sequence alive)
+2026.08.19 09:40:30.443	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] === TRTM b40 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.08.19 09:40:30.443	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.08.19 09:40:30.450	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] State persistence self-test: PASS
+2026.08.19 09:40:30.450	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] Reconcile: flags restored (trailOverride=T beOverride=F trailingActive=F beApplied=F)
+2026.08.19 09:40:30.450	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] Structure: 4 level(s), 0.14 lots | projected at TP +34.96 | at SL n/a
+2026.08.19 09:40:30.450	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] Reconcile complete: dir=SELL levels=4
+2026.08.19 09:40:30.492	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.08.19 09:40:30.492	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] Init complete - b40 (adoption, exits, recovery active)
+2026.08.19 09:44:03.095	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] Deinit (reason 3) - state saved (sequence alive)
+2026.08.19 09:44:04.089	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] === TRTM b40 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.08.19 09:44:04.090	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.08.19 09:44:04.096	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] State persistence self-test: PASS
+2026.08.19 09:44:04.096	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Reconcile: flags restored (trailOverride=T beOverride=F trailingActive=F beApplied=F)
+2026.08.19 09:44:04.096	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Structure: 4 level(s), 0.14 lots | projected at TP +34.96 | at SL n/a
+2026.08.19 09:44:04.096	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Reconcile complete: dir=SELL levels=4
+2026.08.19 09:44:04.167	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.08.19 09:44:04.167	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Init complete - b40 (adoption, exits, recovery active)
+2026.08.19 09:49:44.281	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Deinit (reason 3) - state saved (sequence alive)
+2026.08.19 09:49:45.273	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] === TRTM b40 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.08.19 09:49:45.273	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.08.19 09:49:45.279	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] State persistence self-test: PASS
+2026.08.19 09:49:45.279	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] Reconcile: flags restored (trailOverride=T beOverride=F trailingActive=F beApplied=F)
+2026.08.19 09:49:45.280	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] Structure: 4 level(s), 0.14 lots | projected at TP +34.96 | at SL n/a
+2026.08.19 09:49:45.280	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] Reconcile complete: dir=SELL levels=4
+2026.08.19 09:49:45.447	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.08.19 09:49:45.447	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] Init complete - b40 (adoption, exits, recovery active)
+2026.08.19 10:08:44.572	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] Deinit (reason 3) - state saved (sequence alive)
+2026.08.19 10:08:45.557	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] === TRTM b40 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.08.19 10:08:45.558	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.08.19 10:08:45.565	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] State persistence self-test: PASS
+2026.08.19 10:08:45.565	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Reconcile: flags restored (trailOverride=T beOverride=F trailingActive=F beApplied=F)
+2026.08.19 10:08:45.565	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Structure: 4 level(s), 0.14 lots | projected at TP +34.96 | at SL n/a
+2026.08.19 10:08:45.565	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Reconcile complete: dir=SELL levels=4
+2026.08.19 10:08:45.697	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.08.19 10:08:45.697	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Init complete - b40 (adoption, exits, recovery active)
+2026.08.19 10:18:49.323	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Deinit (reason 3) - state saved (sequence alive)
+2026.08.19 10:18:50.325	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] === TRTM b40 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.08.19 10:18:50.325	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.08.19 10:18:50.331	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] State persistence self-test: PASS
+2026.08.19 10:18:50.331	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Reconcile: flags restored (trailOverride=T beOverride=F trailingActive=F beApplied=F)
+2026.08.19 10:18:50.331	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Structure: 4 level(s), 0.14 lots | projected at TP +34.96 | at SL n/a
+2026.08.19 10:18:50.331	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Reconcile complete: dir=SELL levels=4
+2026.08.19 10:18:50.362	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.08.19 10:18:50.362	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Init complete - b40 (adoption, exits, recovery active)
+2026.08.19 10:19:00.980	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4358.95 vs trigger 4358.21 (worst entry 4353.21 + 500 pts)
+2026.08.19 10:19:01.221	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery L5 OPENED: 0.06 lots SELL @ 0.00 (deal 0)
+2026.08.19 10:19:01.221	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery L5: order accepted but no position yet (asynchronous fill) - the watcher will register it as soon as it appears
+2026.08.19 10:19:01.229	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Deinit (reason 3) - state saved (sequence alive)
+2026.08.19 10:19:02.075	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] === TRTM b40 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.08.19 10:19:02.076	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.08.19 10:19:02.082	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] State persistence self-test: PASS
+2026.08.19 10:19:02.082	TRTM (XAUUSD.s,M5)	[TRTM][WARN ] Reconcile: level count file=4 vs broker=5 - broker wins
+2026.08.19 10:19:02.082	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Reconcile: flags restored (trailOverride=T beOverride=F trailingActive=F beApplied=F)
+2026.08.19 10:19:02.083	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Structure: 5 level(s), 0.20 lots | projected at TP +49.90 | at SL n/a
+2026.08.19 10:19:02.083	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Reconcile complete: dir=SELL levels=5
+2026.08.19 10:19:02.086	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.08.19 10:19:02.087	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Init complete - b40 (adoption, exits, recovery active)
+2026.08.19 10:19:02.415	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Exits applied to ticket 2026444182: TP 4347.41 SL none (replaced user-set TP 4343.57 SL none)
+2026.08.19 10:19:02.647	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Exits applied to ticket 2026465870: TP 4347.41 SL none (replaced user-set TP 4343.57 SL none)
+2026.08.19 10:19:02.881	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Exits applied to ticket 2026476756: TP 4347.41 SL none (replaced user-set TP 4343.57 SL none)
+2026.08.19 10:19:03.113	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Exits applied to ticket 2026494371: TP 4347.41 SL none (replaced user-set TP 4343.57 SL none)
+2026.08.19 10:19:03.347	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Exits applied to ticket 2026578298: TP 4347.41 SL none
+2026.08.19 10:53:34.867	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Tier 3 FIRE: SELL group 2 leg(s) (anchor L1 slice 0.01 of 0.02 + 1 profitable) | sliced-VWAP 4355.50 far 4353.48 margin 202.0 pts >= 200/lot
+2026.08.19 10:53:35.085	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Closed L5 ticket 2026578298 @ 0.00
+2026.08.19 10:53:35.302	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Tier 3: sliced L1 ticket 2026444182 by 0.01 lot (remaining 0.02) @ 0.00
+2026.08.19 10:53:35.523	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Liveness: L5 ticket 2026578298 closed by EA (market close) - removed from sequence
+2026.08.19 10:53:35.524	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Structure: 4 level(s), 0.13 lots | projected at TP +32.53 | at SL n/a
+2026.08.19 10:53:35.739	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Exits applied to ticket 2026444182: TP 4344.39 SL none
+2026.08.19 10:53:35.956	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Exits applied to ticket 2026465870: TP 4344.39 SL none
+2026.08.19 10:53:36.170	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Exits applied to ticket 2026476756: TP 4344.39 SL none
+2026.08.19 10:53:36.385	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Exits applied to ticket 2026494371: TP 4344.39 SL none
+2026.08.19 11:39:01.104	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4360.33 vs trigger 4358.21 (worst entry 4353.21 + 500 pts)
+2026.08.19 11:39:01.332	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Recovery L5 OPENED: 0.06 lots SELL @ 0.00 (deal 0)
+2026.08.19 11:39:01.332	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Recovery L5: order accepted but no position yet (asynchronous fill) - the watcher will register it as soon as it appears
+2026.08.19 11:39:01.611	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Watcher: L5 REGISTERED ticket 2026694073 0.06 lots @ 4360.20
+2026.08.19 11:39:01.611	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Structure: 5 level(s), 0.19 lots | projected at TP +47.59 | at SL n/a
+2026.08.19 11:39:01.825	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Exits applied to ticket 2026444182: TP 4348.59 SL none
+2026.08.19 11:39:02.040	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Exits applied to ticket 2026465870: TP 4348.59 SL none
+2026.08.19 11:39:02.264	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Exits applied to ticket 2026476756: TP 4348.59 SL none
+2026.08.19 11:39:02.477	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Exits applied to ticket 2026494371: TP 4348.59 SL none
+2026.08.19 11:39:02.691	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Exits applied to ticket 2026694073: TP 4348.59 SL none
+2026.08.19 11:59:02.727	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Tier 2 FIRE: SELL group 2 leg(s) (anchor L1 + 1 profitable) | P/L 9.51 >= 8.97 (1.00% x bal 896.94)
+2026.08.19 11:59:02.960	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Closed L5 ticket 2026694073 @ 0.00
+2026.08.19 11:59:03.178	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Closed L1 ticket 2026444182 @ 0.00
+2026.08.19 11:59:05.414	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Liveness: L5 ticket 2026694073 closed by EA (market close) - removed from sequence
+2026.08.19 11:59:05.414	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Liveness: L1 ticket 2026444182 closed by EA (market close) - removed from sequence
+2026.08.19 11:59:05.414	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Structure: 3 level(s), 0.12 lots | projected at TP +29.94 | at SL n/a
+2026.08.19 11:59:05.629	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Exits applied to ticket 2026465870: TP 4345.36 SL none
+2026.08.19 11:59:05.843	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Exits applied to ticket 2026476756: TP 4345.36 SL none
+2026.08.19 11:59:06.058	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Exits applied to ticket 2026494371: TP 4345.36 SL none
+2026.08.19 12:12:31.820	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Deinit (reason 3) - state saved (sequence alive)
+2026.08.19 12:12:32.802	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] === TRTM b40 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.08.19 12:12:32.803	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.08.19 12:12:32.808	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] State persistence self-test: PASS
+2026.08.19 12:12:32.808	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] Reconcile: flags restored (trailOverride=T beOverride=F trailingActive=F beApplied=F)
+2026.08.19 12:12:32.809	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] Structure: 3 level(s), 0.12 lots | projected at TP +29.94 | at SL n/a
+2026.08.19 12:12:32.809	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] Reconcile complete: dir=SELL levels=3
+2026.08.19 12:12:32.833	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.08.19 12:12:32.833	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] Init complete - b40 (adoption, exits, recovery active)
+2026.08.19 12:43:30.145	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] CLOSE ARMED: floating PnL +26.58 - click CONFIRM within 10s to close the whole sequence at market
+2026.08.19 12:43:40.348	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] Confirm window canceled (CLOSE was armed): 10s confirm window expired
+2026.08.19 12:43:46.700	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] CLOSE ARMED: floating PnL +28.14 - click CONFIRM within 10s to close the whole sequence at market
+2026.08.19 12:43:47.547	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] Close CONFIRMED by user
+2026.08.19 12:43:47.547	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] Closing sequence at market: user close button (confirmed)
+2026.08.19 12:43:47.764	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] Closed L2 ticket 2026465870 @ 0.00
+2026.08.19 12:43:47.982	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] Closed L3 ticket 2026476756 @ 0.00
+2026.08.19 12:43:48.200	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] Closed L4 ticket 2026494371 @ 0.00
+2026.08.19 12:43:48.534	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] Liveness: L4 ticket 2026494371 closed by EA (market close) - removed from sequence
+2026.08.19 12:43:48.534	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] Liveness: L3 ticket 2026476756 closed by EA (market close) - removed from sequence
+2026.08.19 12:43:48.534	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] Liveness: L2 ticket 2026465870 closed by EA (market close) - removed from sequence
+2026.08.19 12:43:48.534	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] Sequence fully closed - back to FLAT, overrides reset to input defaults, flat marker saved
+2026.08.19 14:12:56.369	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] Deinit (reason 3) - state clean (flat)
+2026.08.19 14:12:57.353	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] === TRTM b40 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.08.19 14:12:57.353	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.08.19 14:12:57.361	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] State persistence self-test: PASS
+2026.08.19 14:12:57.361	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Reconcile complete: FLAT
+2026.08.19 14:12:57.417	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.08.19 14:12:57.417	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Init complete - b40 (adoption, exits, recovery active)
+2026.08.19 14:16:26.214	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Deinit (reason 2) - state clean (flat)
+2026.08.19 14:16:26.350	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] === TRTM b41 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.08.19 14:16:26.350	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.08.19 14:16:26.356	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] State persistence self-test: PASS
+2026.08.19 14:16:26.357	TRTM (XAUUSD.s,M5)	[TRTM][WARN ] StateLoad: schema mismatch or missing (found 4, expected 5) - DISCARDING the state file. Override flags (trail/BE), manual SL ownership and any adopted-L1 record are LOST; the sequence rebuilds from broker positions. On the b41 upgrade this is EXPECTED EXACTLY ONCE - deploy on a FLAT sequence to avoid it.
+2026.08.19 14:16:26.357	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Reconcile complete: FLAT
+2026.08.19 14:16:26.358	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.08.19 14:16:26.358	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Init complete - b41 (adoption, exits, recovery active)
+2026.08.19 19:40:01.716	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] BUY ARMED: 0.02 lots (Fixed 0.02) - click CONFIRM within 10s to execute
+2026.08.19 19:40:03.483	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] L1 BUY OPENED via button: 0.02 lots @ 0.00 (deal 0)
+2026.08.19 19:40:03.483	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] L1 order accepted but no position yet (asynchronous fill) - the flat-state watcher will register it as soon as it appears
+2026.08.19 19:40:05.198	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Own L1 position 2027521342 found while FLAT (pending fill or recovered send) - registering
+2026.08.19 19:40:05.199	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Structure: 1 level(s), 0.02 lots | projected at TP n/a | at SL n/a
+2026.08.19 19:40:05.199	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] EA L1 REGISTERED: ticket 2027521342 BUY 0.02 lots @ 4368.25. Exits apply next tick.
+2026.08.19 19:42:19.138	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Deinit (reason 3) - state saved (sequence alive)
+2026.08.19 19:42:20.140	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] === TRTM b41 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.08.19 19:42:20.140	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.08.19 19:42:20.146	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] State persistence self-test: PASS
+2026.08.19 19:42:20.146	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] Reconcile: flags restored (trailOverride=F beOverride=F trailingActive=F beApplied=F)
+2026.08.19 19:42:20.146	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] Structure: 1 level(s), 0.02 lots | projected at TP n/a | at SL n/a
+2026.08.19 19:42:20.146	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] Reconcile complete: dir=BUY levels=1
+2026.08.19 19:42:20.219	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.08.19 19:42:20.219	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] Init complete - b41 (adoption, exits, recovery active)
+2026.08.19 19:42:27.603	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] Deinit (reason 3) - state saved (sequence alive)
+2026.08.19 19:42:28.605	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] === TRTM b41 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.08.19 19:42:28.605	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.08.19 19:42:28.611	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] State persistence self-test: PASS
+2026.08.19 19:42:28.611	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Reconcile: flags restored (trailOverride=F beOverride=F trailingActive=F beApplied=F)
+2026.08.19 19:42:28.611	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Structure: 1 level(s), 0.02 lots | projected at TP n/a | at SL n/a
+2026.08.19 19:42:28.611	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Reconcile complete: dir=BUY levels=1
+2026.08.19 19:42:28.701	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.08.19 19:42:28.701	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Init complete - b41 (adoption, exits, recovery active)
+2026.08.19 19:42:43.057	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Deinit (reason 3) - state saved (sequence alive)
+2026.08.19 19:42:43.216	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] === TRTM b41 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.08.19 19:42:43.216	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.08.19 19:42:43.221	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] State persistence self-test: PASS
+2026.08.19 19:42:43.221	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Reconcile: flags restored (trailOverride=F beOverride=F trailingActive=F beApplied=F)
+2026.08.19 19:42:43.222	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Structure: 1 level(s), 0.02 lots | projected at TP n/a | at SL n/a
+2026.08.19 19:42:43.222	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Reconcile complete: dir=BUY levels=1
+2026.08.19 19:42:43.249	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.08.19 19:42:43.249	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Init complete - b41 (adoption, exits, recovery active)
+2026.08.19 19:42:52.178	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Deinit (reason 3) - state saved (sequence alive)
+2026.08.19 19:42:53.181	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] === TRTM b41 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.08.19 19:42:53.181	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.08.19 19:42:53.187	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] State persistence self-test: PASS
+2026.08.19 19:42:53.187	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Reconcile: flags restored (trailOverride=F beOverride=F trailingActive=F beApplied=F)
+2026.08.19 19:42:53.187	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Structure: 1 level(s), 0.02 lots | projected at TP n/a | at SL n/a
+2026.08.19 19:42:53.187	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Reconcile complete: dir=BUY levels=1
+2026.08.19 19:42:53.306	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.08.19 19:42:53.306	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Init complete - b41 (adoption, exits, recovery active)
+2026.08.19 19:43:02.630	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Deinit (reason 3) - state saved (sequence alive)
+2026.08.19 19:43:03.636	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] === TRTM b41 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.08.19 19:43:03.637	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.08.19 19:43:03.643	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] State persistence self-test: PASS
+2026.08.19 19:43:03.643	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Reconcile: flags restored (trailOverride=F beOverride=F trailingActive=F beApplied=F)
+2026.08.19 19:43:03.644	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Structure: 1 level(s), 0.02 lots | projected at TP n/a | at SL n/a
+2026.08.19 19:43:03.644	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Reconcile complete: dir=BUY levels=1
+2026.08.19 19:43:03.684	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.08.19 19:43:03.684	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Init complete - b41 (adoption, exits, recovery active)
+2026.08.19 19:45:32.590	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Deinit (reason 2) - state saved (sequence alive)
+2026.08.19 19:45:32.725	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] === TRTM b40 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.08.19 19:45:32.725	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.08.19 19:45:32.731	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] State persistence self-test: PASS
+2026.08.19 19:45:32.731	TRTM (XAUUSD.s,M1)	[TRTM][WARN ] StateLoad: schema mismatch or missing (found 5, expected 4) - discarding file
+2026.08.19 19:45:32.731	TRTM (XAUUSD.s,M1)	[TRTM][ERROR] Reconcile: 1 live level(s) but NO state file - overrides reset to defaults, adoptionTime set to now. Any tagged magic-0 L1 is NOT auto-grafted: manual review required.
+2026.08.19 19:45:32.732	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Structure: 1 level(s), 0.02 lots | projected at TP n/a | at SL n/a
+2026.08.19 19:45:32.732	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Reconcile complete: dir=BUY levels=1
+2026.08.19 19:45:32.733	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.08.19 19:45:32.733	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Init complete - b40 (adoption, exits, recovery active)
+2026.08.19 19:46:07.991	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Deinit (reason 1) - state saved (sequence alive)
+2026.08.19 19:46:15.814	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] === TRTM b40 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.08.19 19:46:15.814	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.08.19 19:46:15.820	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] State persistence self-test: PASS
+2026.08.19 19:46:15.820	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Reconcile: flags restored (trailOverride=F beOverride=F trailingActive=F beApplied=F)
+2026.08.19 19:46:15.821	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Structure: 1 level(s), 0.02 lots | projected at TP n/a | at SL n/a
+2026.08.19 19:46:15.821	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Reconcile complete: dir=BUY levels=1
+2026.08.19 19:46:15.822	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.08.19 19:46:15.822	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Init complete - b40 (adoption, exits, recovery active)
+2026.08.19 19:49:17.269	TRTM (XAUUSD.s,M1)	[TRTM][WARN ] Liveness: L1 ticket 2027521342 closed externally (manual/unknown) - removed from sequence
+2026.08.19 19:49:17.269	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Sequence fully closed - back to FLAT, overrides reset to input defaults, flat marker saved
+2026.08.19 19:50:11.140	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Deinit (reason 2) - state clean (flat)
+2026.08.19 19:50:11.275	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] === TRTM b41 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.08.19 19:50:11.275	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.08.19 19:50:11.282	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] State persistence self-test: PASS
+2026.08.19 19:50:11.282	TRTM (XAUUSD.s,M1)	[TRTM][WARN ] StateLoad: schema mismatch or missing (found 4, expected 5) - DISCARDING the state file. Override flags (trail/BE), manual SL ownership and any adopted-L1 record are LOST; the sequence rebuilds from broker positions. On the b41 upgrade this is EXPECTED EXACTLY ONCE - deploy on a FLAT sequence to avoid it.
+2026.08.19 19:50:11.283	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Reconcile complete: FLAT
+2026.08.19 19:50:11.284	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.08.19 19:50:11.284	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Init complete - b41 (adoption, exits, recovery active)
+2026.08.19 19:50:57.791	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Pending BUY placement line created at 4366.06 - drag to price, then CONFIRM (line is NOT persisted across restarts)
+2026.08.19 19:51:02.845	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] BUY LIMIT placed: 0.02 lots @ 4363.71 (order 2027543028). Fill registers as L1; the order is canceled if a sequence starts first (P8).
+2026.08.19 19:51:22.932	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Pending order 2027543028 CANCELED: user cancel button
+2026.08.19 19:52:02.196	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Deinit (reason 5) - state clean (flat)
+2026.08.19 19:52:02.196	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] === TRTM b41 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.08.19 19:52:02.202	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.08.19 19:52:02.209	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] State persistence self-test: PASS
+2026.08.19 19:52:02.209	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Reconcile complete: FLAT
+2026.08.19 19:52:02.210	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.08.19 19:52:02.210	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Init complete - b41 (adoption, exits, recovery active)
+2026.08.19 19:52:06.737	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] BUY ARMED: 0.02 lots (Fixed 0.02) - click CONFIRM within 10s to execute
+2026.08.19 19:52:08.311	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] L1 BUY OPENED via button: 0.02 lots @ 0.00 (deal 0)
+2026.08.19 19:52:08.311	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] L1 order accepted but no position yet (asynchronous fill) - the flat-state watcher will register it as soon as it appears
+2026.08.19 19:52:08.787	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Own L1 position 2027545297 found while FLAT (pending fill or recovered send) - registering
+2026.08.19 19:52:08.787	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Structure: 1 level(s), 0.02 lots | projected at TP n/a | at SL n/a
+2026.08.19 19:52:08.787	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] EA L1 REGISTERED: ticket 2027545297 BUY 0.02 lots @ 4364.05. Exits apply next tick.
+2026.08.19 19:52:38.137	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] CLOSE ARMED: floating PnL +0.32 - click CONFIRM within 10s to close the whole sequence at market
+2026.08.19 19:52:38.599	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Close CONFIRMED by user
+2026.08.19 19:52:38.599	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Closing sequence at market: user close button (confirmed)
+2026.08.19 19:52:38.818	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Closed L1 ticket 2027545297 @ 0.00
+2026.08.19 19:52:39.124	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Liveness: L1 ticket 2027545297 closed by EA (market close) - removed from sequence
+2026.08.19 19:52:39.124	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Sequence fully closed - back to FLAT, overrides reset to input defaults, flat marker saved
+2026.08.19 19:52:53.735	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Deinit (reason 6) - state clean (flat)
+2026.08.19 19:52:53.789	Experts	automated trading is disabled because the account has been changed
+2026.08.19 19:52:53.892	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] === TRTM b41 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.08.19 19:52:53.892	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.08.19 19:52:53.899	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] State persistence self-test: PASS
+2026.08.19 19:52:53.899	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Reconcile complete: FLAT
+2026.08.19 19:52:53.900	TRTM (XAUUSD.s,M1)	[TRTM][WARN ] AutoTrading is OFF (toolbar Algo Trading button) - every entry, pending, and exit write will be rejected with 10027 until it is enabled
+2026.08.19 19:52:53.900	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.08.19 19:52:53.900	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Init complete - b41 (adoption, exits, recovery active)
+2026.08.19 19:52:58.766	Experts	automated trading is enabled
+2026.08.19 19:53:17.814	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] SELL ARMED: 0.02 lots (Fixed 0.02) - click CONFIRM within 10s to execute
+2026.08.19 19:53:18.955	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] L1 SELL OPENED via button: 0.02 lots @ 4364.93 (deal 439805698)
+2026.08.19 19:53:18.956	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Structure: 1 level(s), 0.02 lots | projected at TP n/a | at SL n/a
+2026.08.19 19:53:18.956	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] EA L1 REGISTERED: ticket 742972617 SELL 0.02 lots @ 4364.93. Exits apply next tick.
+2026.08.19 19:54:24.617	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Deinit (reason 5) - state saved (sequence alive)
+2026.08.19 19:54:24.617	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] === TRTM b41 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.08.19 19:54:24.622	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.08.19 19:54:24.628	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] State persistence self-test: PASS
+2026.08.19 19:54:24.628	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Reconcile: flags restored (trailOverride=F beOverride=F trailingActive=F beApplied=F)
+2026.08.19 19:54:24.629	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Structure: 1 level(s), 0.02 lots | projected at TP n/a | at SL n/a
+2026.08.19 19:54:24.629	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Reconcile complete: dir=SELL levels=1
+2026.08.19 19:54:24.630	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.08.19 19:54:24.630	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Init complete - b41 (adoption, exits, recovery active)
+2026.08.19 19:54:55.802	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Deinit (reason 1) - state saved (sequence alive)
+2026.08.19 19:55:08.321	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] === TRTM b41 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.08.19 19:55:08.321	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.08.19 19:55:08.328	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] State persistence self-test: PASS
+2026.08.19 19:55:08.328	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Reconcile: flags restored (trailOverride=F beOverride=F trailingActive=F beApplied=F)
+2026.08.19 19:55:08.329	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Structure: 1 level(s), 0.02 lots | projected at TP n/a | at SL n/a
+2026.08.19 19:55:08.329	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Reconcile complete: dir=SELL levels=1
+2026.08.19 19:55:08.330	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.08.19 19:55:08.330	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Init complete - b41 (adoption, exits, recovery active)
+2026.08.19 19:55:26.855	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] CLOSE ARMED: floating PnL -2.24 - click CONFIRM within 10s to close the whole sequence at market
+2026.08.19 19:55:27.280	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Close CONFIRMED by user
+2026.08.19 19:55:27.280	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Closing sequence at market: user close button (confirmed)
+2026.08.19 19:55:27.485	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Closed L1 ticket 742972617 @ 4366.06
+2026.08.19 19:55:27.498	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Liveness: L1 ticket 742972617 closed by EA (market close) - removed from sequence
+2026.08.19 19:55:27.498	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Sequence fully closed - back to FLAT, overrides reset to input defaults, flat marker saved
+2026.08.19 19:55:28.811	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] BUY ARMED: 0.02 lots (Fixed 0.02) - click CONFIRM within 10s to execute
+2026.08.19 19:55:29.548	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] L1 BUY OPENED via button: 0.02 lots @ 4366.06 (deal 439808194)
+2026.08.19 19:55:29.549	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Structure: 1 level(s), 0.02 lots | projected at TP n/a | at SL n/a
+2026.08.19 19:55:29.549	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] EA L1 REGISTERED: ticket 742976000 BUY 0.02 lots @ 4366.06. Exits apply next tick.
+2026.08.19 20:02:00.615	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4364.10 vs trigger 4364.56 (worst entry 4366.06 - 150 pts)
+2026.08.19 20:02:00.819	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery L2 OPENED: 0.03 lots BUY @ 4363.91 (deal 439814424)
+2026.08.19 20:02:00.820	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery fast path: L2 REGISTERED ticket 742984349 0.03 lots @ 4363.91
+2026.08.19 20:02:00.820	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Structure: 2 level(s), 0.05 lots | projected at TP +12.50 | at SL n/a
+2026.08.19 20:02:01.066	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Exits applied to ticket 742976000: TP 4367.27 SL none
+2026.08.19 20:02:01.274	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Exits applied to ticket 742984349: TP 4367.27 SL none
+2026.08.19 20:08:48.194	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Liveness: L2 ticket 742984349 TP hit @ 4367.55 - removed from sequence
+2026.08.19 20:08:48.194	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Liveness: L1 ticket 742976000 TP hit @ 4367.55 - removed from sequence
+2026.08.19 20:08:48.194	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Sequence fully closed - back to FLAT, overrides reset to input defaults, flat marker saved
+2026.08.19 20:17:39.210	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] SELL ARMED: 0.02 lots (Fixed 0.02) - click CONFIRM within 10s to execute
+2026.08.19 20:17:40.021	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] L1 SELL OPENED via button: 0.02 lots @ 4367.87 (deal 439855947)
+2026.08.19 20:17:40.021	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Structure: 1 level(s), 0.02 lots | projected at TP n/a | at SL n/a
+2026.08.19 20:17:40.021	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] EA L1 REGISTERED: ticket 743032051 SELL 0.02 lots @ 4367.87. Exits apply next tick.
+2026.08.19 20:21:00.677	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4370.73 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 20:21:00.677	TRTM (XAUUSD.s,M1)	[TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 20:22:00.638	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4371.77 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 20:22:00.638	TRTM (XAUUSD.s,M1)	[TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 20:23:00.630	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4372.56 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 20:23:00.630	TRTM (XAUUSD.s,M1)	[TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 20:24:00.639	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4369.53 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 20:24:00.639	TRTM (XAUUSD.s,M1)	[TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 20:25:00.638	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4370.24 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 20:25:00.638	TRTM (XAUUSD.s,M1)	[TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 20:26:00.632	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4369.65 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 20:26:00.632	TRTM (XAUUSD.s,M1)	[TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 20:29:00.641	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4369.98 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 20:29:00.641	TRTM (XAUUSD.s,M1)	[TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 20:32:00.649	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4370.56 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 20:32:00.649	TRTM (XAUUSD.s,M1)	[TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 20:33:00.698	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4373.80 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 20:33:00.698	TRTM (XAUUSD.s,M1)	[TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 20:34:00.655	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4379.20 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 20:34:00.655	TRTM (XAUUSD.s,M1)	[TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 20:35:00.649	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4384.57 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 20:35:00.649	TRTM (XAUUSD.s,M1)	[TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 20:36:00.654	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4387.36 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 20:36:00.654	TRTM (XAUUSD.s,M1)	[TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 20:37:00.658	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4395.97 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 20:37:00.658	TRTM (XAUUSD.s,M1)	[TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 20:38:00.657	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4407.02 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 20:38:00.657	TRTM (XAUUSD.s,M1)	[TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 20:39:00.653	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4415.14 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 20:39:00.653	TRTM (XAUUSD.s,M1)	[TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 20:40:00.660	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4412.66 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 20:40:00.660	TRTM (XAUUSD.s,M1)	[TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 20:41:00.662	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4416.61 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 20:41:00.662	TRTM (XAUUSD.s,M1)	[TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 20:42:00.669	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4410.16 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 20:42:00.669	TRTM (XAUUSD.s,M1)	[TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 20:43:00.663	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4412.24 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 20:43:00.663	TRTM (XAUUSD.s,M1)	[TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 20:44:00.665	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4411.06 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 20:44:00.665	TRTM (XAUUSD.s,M1)	[TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 20:45:00.674	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4417.44 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 20:45:00.674	TRTM (XAUUSD.s,M1)	[TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 20:46:02.407	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4419.87 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 20:46:02.407	TRTM (XAUUSD.s,M1)	[TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 20:47:00.660	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4414.30 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 20:47:00.660	TRTM (XAUUSD.s,M1)	[TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 20:48:00.662	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4412.58 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 20:48:00.662	TRTM (XAUUSD.s,M1)	[TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 20:49:00.675	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4417.85 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 20:49:00.675	TRTM (XAUUSD.s,M1)	[TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 20:49:29.561	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Deinit (reason 2) - state saved (sequence alive)
+2026.08.19 20:49:29.695	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] === TRTM b41 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.08.19 20:49:29.695	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.08.19 20:49:29.700	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] State persistence self-test: PASS
+2026.08.19 20:49:29.700	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Reconcile: flags restored (trailOverride=F beOverride=F trailingActive=F beApplied=F)
+2026.08.19 20:49:29.700	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Structure: 1 level(s), 0.02 lots | projected at TP n/a | at SL n/a
+2026.08.19 20:49:29.700	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Reconcile complete: dir=SELL levels=1
+2026.08.19 20:49:29.702	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.08.19 20:49:29.703	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Init complete - b41 (adoption, exits, recovery active)
+2026.08.19 20:49:29.703	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4417.85 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 20:49:29.703	TRTM (XAUUSD.s,M1)	[TRTM][WARN ] QUOTE PROBE [XAUUSD.s]: SymbolInfoDouble bid=4363.94 ask=4364.24 | SymbolInfoTick ok=Y bid=4363.94 ask=4364.24 last=0.00 tickTime=2026.08.19 14:52:52 | TimeCurrent=2026.08.19 15:49:29
+2026.08.19 20:49:29.703	TRTM (XAUUSD.s,M1)	[TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 20:50:00.675	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4417.54 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 20:50:00.675	TRTM (XAUUSD.s,M1)	[TRTM][WARN ] QUOTE PROBE [XAUUSD.s]: SymbolInfoDouble bid=4363.94 ask=4364.24 | SymbolInfoTick ok=Y bid=4363.94 ask=4364.24 last=0.00 tickTime=2026.08.19 14:52:52 | TimeCurrent=2026.08.19 15:50:00
+2026.08.19 20:50:00.675	TRTM (XAUUSD.s,M1)	[TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 20:51:00.682	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4414.10 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 20:51:00.682	TRTM (XAUUSD.s,M1)	[TRTM][WARN ] QUOTE PROBE [XAUUSD.s]: SymbolInfoDouble bid=4363.94 ask=4364.24 | SymbolInfoTick ok=Y bid=4363.94 ask=4364.24 last=0.00 tickTime=2026.08.19 14:52:52 | TimeCurrent=2026.08.19 15:51:00
+2026.08.19 20:51:00.682	TRTM (XAUUSD.s,M1)	[TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 20:52:00.678	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4421.83 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 20:52:00.678	TRTM (XAUUSD.s,M1)	[TRTM][WARN ] QUOTE PROBE [XAUUSD.s]: SymbolInfoDouble bid=4363.94 ask=4364.24 | SymbolInfoTick ok=Y bid=4363.94 ask=4364.24 last=0.00 tickTime=2026.08.19 14:52:52 | TimeCurrent=2026.08.19 15:52:00
+2026.08.19 20:52:00.678	TRTM (XAUUSD.s,M1)	[TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 20:53:00.677	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4418.41 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 20:53:00.677	TRTM (XAUUSD.s,M1)	[TRTM][WARN ] QUOTE PROBE [XAUUSD.s]: SymbolInfoDouble bid=4363.94 ask=4364.24 | SymbolInfoTick ok=Y bid=4363.94 ask=4364.24 last=0.00 tickTime=2026.08.19 14:52:52 | TimeCurrent=2026.08.19 15:53:00
+2026.08.19 20:53:00.677	TRTM (XAUUSD.s,M1)	[TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 20:54:00.682	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4424.65 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 20:54:00.682	TRTM (XAUUSD.s,M1)	[TRTM][WARN ] QUOTE PROBE [XAUUSD.s]: SymbolInfoDouble bid=4363.94 ask=4364.24 | SymbolInfoTick ok=Y bid=4363.94 ask=4364.24 last=0.00 tickTime=2026.08.19 14:52:52 | TimeCurrent=2026.08.19 15:54:00
+2026.08.19 20:54:00.682	TRTM (XAUUSD.s,M1)	[TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 20:55:00.677	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4428.73 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 20:55:00.677	TRTM (XAUUSD.s,M1)	[TRTM][WARN ] QUOTE PROBE [XAUUSD.s]: SymbolInfoDouble bid=4363.94 ask=4364.24 | SymbolInfoTick ok=Y bid=4363.94 ask=4364.24 last=0.00 tickTime=2026.08.19 14:52:52 | TimeCurrent=2026.08.19 15:55:00
+2026.08.19 20:55:00.677	TRTM (XAUUSD.s,M1)	[TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 20:56:00.698	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4427.89 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 20:56:00.698	TRTM (XAUUSD.s,M1)	[TRTM][WARN ] QUOTE PROBE [XAUUSD.s]: SymbolInfoDouble bid=4363.94 ask=4364.24 | SymbolInfoTick ok=Y bid=4363.94 ask=4364.24 last=0.00 tickTime=2026.08.19 14:52:52 | TimeCurrent=2026.08.19 15:56:00
+2026.08.19 20:56:00.698	TRTM (XAUUSD.s,M1)	[TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 20:57:00.691	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4437.82 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 20:57:00.691	TRTM (XAUUSD.s,M1)	[TRTM][WARN ] QUOTE PROBE [XAUUSD.s]: SymbolInfoDouble bid=4363.94 ask=4364.24 | SymbolInfoTick ok=Y bid=4363.94 ask=4364.24 last=0.00 tickTime=2026.08.19 14:52:52 | TimeCurrent=2026.08.19 15:57:00
+2026.08.19 20:57:00.691	TRTM (XAUUSD.s,M1)	[TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 20:58:00.683	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4438.89 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 20:58:00.683	TRTM (XAUUSD.s,M1)	[TRTM][WARN ] QUOTE PROBE [XAUUSD.s]: SymbolInfoDouble bid=4363.94 ask=4364.24 | SymbolInfoTick ok=Y bid=4363.94 ask=4364.24 last=0.00 tickTime=2026.08.19 14:52:52 | TimeCurrent=2026.08.19 15:58:00
+2026.08.19 20:58:00.683	TRTM (XAUUSD.s,M1)	[TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 20:59:00.683	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4436.15 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 20:59:00.683	TRTM (XAUUSD.s,M1)	[TRTM][WARN ] QUOTE PROBE [XAUUSD.s]: SymbolInfoDouble bid=4363.94 ask=4364.24 | SymbolInfoTick ok=Y bid=4363.94 ask=4364.24 last=0.00 tickTime=2026.08.19 14:52:52 | TimeCurrent=2026.08.19 15:59:00
+2026.08.19 20:59:00.683	TRTM (XAUUSD.s,M1)	[TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+
+
+Journal's Tab:
+2026.08.19 08:58:08.545	Terminal	MetaTrader 5 x64 build 6090 started for MetaQuotes Ltd.
+2026.08.19 08:58:08.546	Terminal	Windows 11 build 26200, 12 x AMD Ryzen 5 9600X 6-Core, AVX2, 12 / 31 Gb memory, 719 / 930 Gb disk, UAC, GMT+8
+2026.08.19 08:58:08.546	Terminal	C:\Users\jpesm\AppData\Roaming\MetaQuotes\Terminal\D0E8209F77C8CF37AD8BF550E51FF075
+2026.08.19 08:58:08.546	MCP	bind error on 127.0.0.1:22346 [Only one usage of each socket address (protocol/network address/port) is normally permitted. (10048)]
+2026.08.19 08:58:09.347	Indicators	custom indicator Multi_TF_SR (XAUUSD.s,M1) loaded succesfully
+2026.08.19 08:58:09.364	Experts	expert TRTM (XAUUSD.s,M1) loaded successfully
+2026.08.19 08:58:09.483	Indicators	custom indicator Multi_TF_SR (GBPUSD.s,M15) loaded succesfully
+2026.08.19 08:58:09.882	Network	'71138024': authorized on DooTechnology-Live through Access Server 1 - Hong Kong (ping: 209.13 ms, build 5830)
+2026.08.19 08:58:09.882	Network	'71138024': previous successful authorization performed from 120.29.79.111 on 2026.08.18 16:52:51
+2026.08.19 09:21:54.051	Trades	'71138024': order #2026438084 sell 0.02 / 0.02 XAUUSD.s at market done in 217.730 ms
+2026.08.19 09:21:54.194	Trades	'71138024': deal #1933362179 sell 0.02 XAUUSD.s at 4335.63 done (based on order #2026438084)
+2026.08.19 09:21:54.791	Notifications	notification 'added order #2026438084 sell 0.02 XAUUSD.s at market, xauusds_l1_sell' sent to '0D4F398A'
+2026.08.19 09:21:55.043	Notifications	notification 'deal #1933362179 sell 0.02 XAUUSD.s at 4335.63 done, based on order #2026438084 sell 0.02 XAUUSD.s at market' sent to '0D4F398A'
+2026.08.19 09:22:00.865	Trades	'71138024': modify #2026438084 sell 0.02 XAUUSD.s sl: 0.00, tp: 0.00 -> sl: 4335.19, tp: 0.00
+2026.08.19 09:22:01.562	Trades	'71138024': accepted modify #2026438084 sell 0.02 XAUUSD.s sl: 0.00, tp: 0.00 -> sl: 4335.19, tp: 0.00
+2026.08.19 09:22:01.593	Trades	'71138024': modify #2026438084 sell 0.02 XAUUSD.s -> sl: 4335.19, tp: 0.00 done in 728.392 ms
+2026.08.19 09:22:02.329	Notifications	notification 'position sell 0.02 XAUUSD.s modified: sl: 0.00, tp: 0.00 -> sl: 4335.19, tp: 0.00' sent to '0D4F398A'
+2026.08.19 09:22:28.581	Trades	'71138024': deal #1933367169 buy 0.02 XAUUSD.s at 4335.27 done (based on order #2026443360)
+2026.08.19 09:22:29.162	Notifications	notification 'added order #2026443360 buy 0.02 XAUUSD.s at 4335.19, [sl 4335.19], due stop loss' sent to '0D4F398A'
+2026.08.19 09:22:29.408	Notifications	notification 'deal #1933367169 buy 0.02 XAUUSD.s at 4335.27 done, profit: 0.72 USD, based on order #2026443360 buy 0.02 XAUUSD.s at 4335.19' sent to '0D4F398A'
+2026.08.19 09:22:32.689	Trades	'71138024': market sell 0.02 XAUUSD.s
+2026.08.19 09:22:32.896	Trades	'71138024': accepted market sell 0.02 XAUUSD.s
+2026.08.19 09:22:32.903	Trades	'71138024': market sell 0.02 XAUUSD.s placed for execution
+2026.08.19 09:22:32.907	Trades	'71138024': order #2026444182 sell 0.02 / 0.02 XAUUSD.s at market done in 217.750 ms
+2026.08.19 09:22:33.069	Trades	'71138024': deal #1933368100 sell 0.02 XAUUSD.s at 4335.34 done (based on order #2026444182)
+2026.08.19 09:22:33.638	Notifications	notification 'added order #2026444182 sell 0.02 XAUUSD.s at market, xauusds_l1_sell' sent to '0D4F398A'
+2026.08.19 09:22:33.885	Notifications	notification 'deal #1933368100 sell 0.02 XAUUSD.s at 4335.34 done' sent to '0D4F398A'
+2026.08.19 09:24:19.225	Trades	'71138024': modify #2026444182 sell 0.02 XAUUSD.s sl: 0.00, tp: 0.00 -> sl: 0.00, tp: 4332.38
+2026.08.19 09:24:19.429	Trades	'71138024': accepted modify #2026444182 sell 0.02 XAUUSD.s sl: 0.00, tp: 0.00 -> sl: 0.00, tp: 4332.38
+2026.08.19 09:24:19.438	Trades	'71138024': modify #2026444182 sell 0.02 XAUUSD.s -> sl: 0.00, tp: 4332.38 done in 213.251 ms
+2026.08.19 09:24:20.175	Notifications	notification 'position sell 0.02 XAUUSD.s modified: sl: 0.00, tp: 0.00 -> sl: 0.00, tp: 4332.38' sent to '0D4F398A'
+2026.08.19 09:29:00.921	Trades	'71138024': market sell 0.03 XAUUSD.s
+2026.08.19 09:29:01.242	Trades	'71138024': accepted market sell 0.03 XAUUSD.s
+2026.08.19 09:29:01.242	Trades	'71138024': market sell 0.03 XAUUSD.s placed for execution
+2026.08.19 09:29:01.243	Trades	'71138024': order #2026465870 sell 0.03 / 0.03 XAUUSD.s at market done in 322.237 ms
+2026.08.19 09:29:01.287	Trades	'71138024': deal #1933389192 sell 0.03 XAUUSD.s at 4340.59 done (based on order #2026465870)
+2026.08.19 09:29:01.848	Trades	'71138024': modify #2026444182 sell 0.02 XAUUSD.s sl: 0.00, tp: 4332.38 -> sl: 0.00, tp: 4335.99
+2026.08.19 09:29:01.973	Notifications	notification 'added order #2026465870 sell 0.03 XAUUSD.s at market, xauusds_l2_sell' sent to '0D4F398A'
+2026.08.19 09:29:02.053	Trades	'71138024': accepted modify #2026444182 sell 0.02 XAUUSD.s sl: 0.00, tp: 4332.38 -> sl: 0.00, tp: 4335.99
+2026.08.19 09:29:02.061	Trades	'71138024': modify #2026444182 sell 0.02 XAUUSD.s -> sl: 0.00, tp: 4335.99 done in 213.670 ms
+2026.08.19 09:29:02.061	Trades	'71138024': modify #2026465870 sell 0.03 XAUUSD.s sl: 0.00, tp: 0.00 -> sl: 0.00, tp: 4335.99
+2026.08.19 09:29:02.216	Notifications	notification 'deal #1933389192 sell 0.03 XAUUSD.s at 4340.59 done, based on order #2026465870 sell 0.03 XAUUSD.s at market' sent to '0D4F398A'
+2026.08.19 09:29:02.266	Trades	'71138024': accepted modify #2026465870 sell 0.03 XAUUSD.s sl: 0.00, tp: 0.00 -> sl: 0.00, tp: 4335.99
+2026.08.19 09:29:02.276	Trades	'71138024': modify #2026465870 sell 0.03 XAUUSD.s -> sl: 0.00, tp: 4335.99 done in 214.675 ms
+2026.08.19 09:29:02.462	Notifications	notification 'position sell 0.02 XAUUSD.s modified: sl: 0.00, tp: 4332.38 -> sl: 0.00, tp: 4335.99' sent to '0D4F398A'
+2026.08.19 09:29:02.707	Notifications	notification 'position sell 0.03 XAUUSD.s modified: sl: 0.00, tp: 0.00 -> sl: 0.00, tp: 4335.99' sent to '0D4F398A'
+2026.08.19 09:31:33.227	Indicators	custom indicator Multi_TF_SR (XAUUSD.s,M1) loaded succesfully
+2026.08.19 09:31:33.238	Indicators	custom indicator Multi_TF_SR (XAUUSD.s,M5) removed
+2026.08.19 09:32:01.050	Trades	'71138024': market sell 0.04 XAUUSD.s
+2026.08.19 09:32:01.256	Trades	'71138024': accepted market sell 0.04 XAUUSD.s
+2026.08.19 09:32:01.264	Trades	'71138024': market sell 0.04 XAUUSD.s placed for execution
+2026.08.19 09:32:01.268	Trades	'71138024': order #2026476756 sell 0.04 / 0.04 XAUUSD.s at market done in 218.263 ms
+2026.08.19 09:32:01.427	Trades	'71138024': deal #1933399386 sell 0.04 XAUUSD.s at 4346.61 done (based on order #2026476756)
+2026.08.19 09:32:01.554	Trades	'71138024': modify #2026444182 sell 0.02 XAUUSD.s sl: 0.00, tp: 4335.99 -> sl: 0.00, tp: 4339.60
+2026.08.19 09:32:01.759	Trades	'71138024': accepted modify #2026444182 sell 0.02 XAUUSD.s sl: 0.00, tp: 4335.99 -> sl: 0.00, tp: 4339.60
+2026.08.19 09:32:01.768	Trades	'71138024': modify #2026444182 sell 0.02 XAUUSD.s -> sl: 0.00, tp: 4339.60 done in 214.126 ms
+2026.08.19 09:32:01.768	Trades	'71138024': modify #2026465870 sell 0.03 XAUUSD.s sl: 0.00, tp: 4335.99 -> sl: 0.00, tp: 4339.60
+2026.08.19 09:32:01.975	Trades	'71138024': accepted modify #2026465870 sell 0.03 XAUUSD.s sl: 0.00, tp: 4335.99 -> sl: 0.00, tp: 4339.60
+2026.08.19 09:32:01.983	Trades	'71138024': modify #2026465870 sell 0.03 XAUUSD.s -> sl: 0.00, tp: 4339.60 done in 214.813 ms
+2026.08.19 09:32:01.983	Trades	'71138024': modify #2026476756 sell 0.04 XAUUSD.s sl: 0.00, tp: 0.00 -> sl: 0.00, tp: 4339.60
+2026.08.19 09:32:02.012	Notifications	notification 'added order #2026476756 sell 0.04 XAUUSD.s at market, xauusds_l3_sell' sent to '0D4F398A'
+2026.08.19 09:32:02.188	Trades	'71138024': accepted modify #2026476756 sell 0.04 XAUUSD.s sl: 0.00, tp: 0.00 -> sl: 0.00, tp: 4339.60
+2026.08.19 09:32:02.197	Trades	'71138024': modify #2026476756 sell 0.04 XAUUSD.s -> sl: 0.00, tp: 4339.60 done in 213.607 ms
+2026.08.19 09:32:02.262	Notifications	notification 'deal #1933399386 sell 0.04 XAUUSD.s at 4346.61 done, based on order #2026476756 sell 0.04 XAUUSD.s at market' sent to '0D4F398A'
+2026.08.19 09:32:02.515	Notifications	notification 'position sell 0.02 XAUUSD.s modified: sl: 0.00, tp: 4335.99 -> sl: 0.00, tp: 4339.60' sent to '0D4F398A'
+2026.08.19 09:32:02.766	Notifications	notification 'position sell 0.03 XAUUSD.s modified: sl: 0.00, tp: 4335.99 -> sl: 0.00, tp: 4339.60' sent to '0D4F398A'
+2026.08.19 09:32:03.019	Notifications	notification 'position sell 0.04 XAUUSD.s modified: sl: 0.00, tp: 0.00 -> sl: 0.00, tp: 4339.60' sent to '0D4F398A'
+2026.08.19 09:38:00.826	Trades	'71138024': market sell 0.05 XAUUSD.s
+2026.08.19 09:38:01.031	Trades	'71138024': accepted market sell 0.05 XAUUSD.s
+2026.08.19 09:38:01.041	Trades	'71138024': market sell 0.05 XAUUSD.s placed for execution
+2026.08.19 09:38:01.044	Trades	'71138024': order #2026494371 sell 0.05 / 0.05 XAUUSD.s at market done in 217.481 ms
+2026.08.19 09:38:01.195	Trades	'71138024': deal #1933416201 sell 0.05 XAUUSD.s at 4353.21 done (based on order #2026494371)
+2026.08.19 09:38:01.242	Trades	'71138024': modify #2026444182 sell 0.02 XAUUSD.s sl: 0.00, tp: 4339.60 -> sl: 0.00, tp: 4343.57
+2026.08.19 09:38:01.448	Trades	'71138024': accepted modify #2026444182 sell 0.02 XAUUSD.s sl: 0.00, tp: 4339.60 -> sl: 0.00, tp: 4343.57
+2026.08.19 09:38:01.458	Trades	'71138024': modify #2026444182 sell 0.02 XAUUSD.s -> sl: 0.00, tp: 4343.57 done in 215.465 ms
+2026.08.19 09:38:01.458	Trades	'71138024': modify #2026465870 sell 0.03 XAUUSD.s sl: 0.00, tp: 4339.60 -> sl: 0.00, tp: 4343.57
+2026.08.19 09:38:01.672	Trades	'71138024': accepted modify #2026465870 sell 0.03 XAUUSD.s sl: 0.00, tp: 4339.60 -> sl: 0.00, tp: 4343.57
+2026.08.19 09:38:01.680	Trades	'71138024': modify #2026465870 sell 0.03 XAUUSD.s -> sl: 0.00, tp: 4343.57 done in 221.849 ms
+2026.08.19 09:38:01.680	Trades	'71138024': modify #2026476756 sell 0.04 XAUUSD.s sl: 0.00, tp: 4339.60 -> sl: 0.00, tp: 4343.57
+2026.08.19 09:38:01.778	Notifications	notification 'added order #2026494371 sell 0.05 XAUUSD.s at market, xauusds_l4_sell' sent to '0D4F398A'
+2026.08.19 09:38:01.916	Trades	'71138024': accepted modify #2026476756 sell 0.04 XAUUSD.s sl: 0.00, tp: 4339.60 -> sl: 0.00, tp: 4343.57
+2026.08.19 09:38:01.925	Trades	'71138024': modify #2026476756 sell 0.04 XAUUSD.s -> sl: 0.00, tp: 4343.57 done in 245.097 ms
+2026.08.19 09:38:01.925	Trades	'71138024': modify #2026494371 sell 0.05 XAUUSD.s sl: 0.00, tp: 0.00 -> sl: 0.00, tp: 4343.57
+2026.08.19 09:38:02.131	Trades	'71138024': accepted modify #2026494371 sell 0.05 XAUUSD.s sl: 0.00, tp: 0.00 -> sl: 0.00, tp: 4343.57
+2026.08.19 09:38:02.140	Trades	'71138024': modify #2026494371 sell 0.05 XAUUSD.s -> sl: 0.00, tp: 4343.57 done in 214.776 ms
+2026.08.19 09:38:02.587	Notifications	notification 'deal #1933416201 sell 0.05 XAUUSD.s at 4353.21 done, based on order #2026494371 sell 0.05 XAUUSD.s at market' sent to '0D4F398A'
+2026.08.19 09:38:02.831	Notifications	notification 'position sell 0.02 XAUUSD.s modified: sl: 0.00, tp: 4339.60 -> sl: 0.00, tp: 4343.57' sent to '0D4F398A'
+2026.08.19 09:38:03.074	Notifications	notification 'position sell 0.03 XAUUSD.s modified: sl: 0.00, tp: 4339.60 -> sl: 0.00, tp: 4343.57' sent to '0D4F398A'
+2026.08.19 09:38:03.319	Notifications	notification 'position sell 0.04 XAUUSD.s modified: sl: 0.00, tp: 4339.60 -> sl: 0.00, tp: 4343.57' sent to '0D4F398A'
+2026.08.19 09:38:03.561	Notifications	notification 'position sell 0.05 XAUUSD.s modified: sl: 0.00, tp: 0.00 -> sl: 0.00, tp: 4343.57' sent to '0D4F398A'
+2026.08.19 09:40:19.402	Indicators	custom indicator Multi_TF_SR (XAUUSD.s,M5) loaded succesfully
+2026.08.19 09:40:19.439	Indicators	custom indicator Multi_TF_SR (XAUUSD.s,M1) removed
+2026.08.19 09:40:30.442	Indicators	custom indicator Multi_TF_SR (XAUUSD.s,M15) loaded succesfully
+2026.08.19 09:40:30.453	Indicators	custom indicator Multi_TF_SR (XAUUSD.s,M5) removed
+2026.08.19 09:44:04.088	Indicators	custom indicator Multi_TF_SR (XAUUSD.s,M5) loaded succesfully
+2026.08.19 09:44:04.098	Indicators	custom indicator Multi_TF_SR (XAUUSD.s,M15) removed
+2026.08.19 09:49:45.271	Indicators	custom indicator Multi_TF_SR (XAUUSD.s,M15) loaded succesfully
+2026.08.19 09:49:45.310	Indicators	custom indicator Multi_TF_SR (XAUUSD.s,M5) removed
+2026.08.19 10:08:45.555	Indicators	custom indicator Multi_TF_SR (XAUUSD.s,M5) loaded succesfully
+2026.08.19 10:08:45.569	Indicators	custom indicator Multi_TF_SR (XAUUSD.s,M15) removed
+2026.08.19 10:18:50.324	Indicators	custom indicator Multi_TF_SR (XAUUSD.s,M1) loaded succesfully
+2026.08.19 10:18:50.332	Indicators	custom indicator Multi_TF_SR (XAUUSD.s,M5) removed
+2026.08.19 10:19:00.980	Trades	'71138024': market sell 0.06 XAUUSD.s
+2026.08.19 10:19:01.205	Trades	'71138024': accepted market sell 0.06 XAUUSD.s
+2026.08.19 10:19:01.214	Trades	'71138024': market sell 0.06 XAUUSD.s placed for execution
+2026.08.19 10:19:01.221	Trades	'71138024': order #2026578298 sell 0.06 / 0.06 XAUUSD.s at market done in 241.323 ms
+2026.08.19 10:19:01.371	Trades	'71138024': deal #1933495698 sell 0.06 XAUUSD.s at 4358.86 done (based on order #2026578298)
+2026.08.19 10:19:01.946	Notifications	notification 'added order #2026578298 sell 0.06 XAUUSD.s at market, xauusds_l5_sell' sent to '0D4F398A'
+2026.08.19 10:19:02.074	Indicators	custom indicator Multi_TF_SR (XAUUSD.s,M5) loaded succesfully
+2026.08.19 10:19:02.083	Indicators	custom indicator Multi_TF_SR (XAUUSD.s,M1) removed
+2026.08.19 10:19:02.180	Trades	'71138024': modify #2026444182 sell 0.02 XAUUSD.s sl: 0.00, tp: 4343.57 -> sl: 0.00, tp: 4347.41
+2026.08.19 10:19:02.195	Notifications	notification 'deal #1933495698 sell 0.06 XAUUSD.s at 4358.86 done, based on order #2026578298 sell 0.06 XAUUSD.s at market' sent to '0D4F398A'
+2026.08.19 10:19:02.404	Trades	'71138024': accepted modify #2026444182 sell 0.02 XAUUSD.s sl: 0.00, tp: 4343.57 -> sl: 0.00, tp: 4347.41
+2026.08.19 10:19:02.415	Trades	'71138024': modify #2026444182 sell 0.02 XAUUSD.s -> sl: 0.00, tp: 4347.41 done in 234.601 ms
+2026.08.19 10:19:02.415	Trades	'71138024': modify #2026465870 sell 0.03 XAUUSD.s sl: 0.00, tp: 4343.57 -> sl: 0.00, tp: 4347.41
+2026.08.19 10:19:02.638	Trades	'71138024': accepted modify #2026465870 sell 0.03 XAUUSD.s sl: 0.00, tp: 4343.57 -> sl: 0.00, tp: 4347.41
+2026.08.19 10:19:02.647	Trades	'71138024': modify #2026465870 sell 0.03 XAUUSD.s -> sl: 0.00, tp: 4347.41 done in 232.632 ms
+2026.08.19 10:19:02.647	Trades	'71138024': modify #2026476756 sell 0.04 XAUUSD.s sl: 0.00, tp: 4343.57 -> sl: 0.00, tp: 4347.41
+2026.08.19 10:19:02.871	Trades	'71138024': accepted modify #2026476756 sell 0.04 XAUUSD.s sl: 0.00, tp: 4343.57 -> sl: 0.00, tp: 4347.41
+2026.08.19 10:19:02.881	Trades	'71138024': modify #2026476756 sell 0.04 XAUUSD.s -> sl: 0.00, tp: 4347.41 done in 233.293 ms
+2026.08.19 10:19:02.881	Trades	'71138024': modify #2026494371 sell 0.05 XAUUSD.s sl: 0.00, tp: 4343.57 -> sl: 0.00, tp: 4347.41
+2026.08.19 10:19:03.105	Trades	'71138024': accepted modify #2026494371 sell 0.05 XAUUSD.s sl: 0.00, tp: 4343.57 -> sl: 0.00, tp: 4347.41
+2026.08.19 10:19:03.113	Trades	'71138024': modify #2026494371 sell 0.05 XAUUSD.s -> sl: 0.00, tp: 4347.41 done in 232.808 ms
+2026.08.19 10:19:03.114	Trades	'71138024': modify #2026578298 sell 0.06 XAUUSD.s sl: 0.00, tp: 0.00 -> sl: 0.00, tp: 4347.41
+2026.08.19 10:19:03.166	Notifications	notification 'position sell 0.02 XAUUSD.s modified: sl: 0.00, tp: 4343.57 -> sl: 0.00, tp: 4347.41' sent to '0D4F398A'
+2026.08.19 10:19:03.338	Trades	'71138024': accepted modify #2026578298 sell 0.06 XAUUSD.s sl: 0.00, tp: 0.00 -> sl: 0.00, tp: 4347.41
+2026.08.19 10:19:03.347	Trades	'71138024': modify #2026578298 sell 0.06 XAUUSD.s -> sl: 0.00, tp: 4347.41 done in 233.665 ms
+2026.08.19 10:19:03.416	Notifications	notification 'position sell 0.03 XAUUSD.s modified: sl: 0.00, tp: 4343.57 -> sl: 0.00, tp: 4347.41' sent to '0D4F398A'
+2026.08.19 10:19:03.665	Notifications	notification 'position sell 0.04 XAUUSD.s modified: sl: 0.00, tp: 4343.57 -> sl: 0.00, tp: 4347.41' sent to '0D4F398A'
+2026.08.19 10:19:03.915	Notifications	notification 'position sell 0.05 XAUUSD.s modified: sl: 0.00, tp: 4343.57 -> sl: 0.00, tp: 4347.41' sent to '0D4F398A'
+2026.08.19 10:19:04.166	Notifications	notification 'position sell 0.06 XAUUSD.s modified: sl: 0.00, tp: 0.00 -> sl: 0.00, tp: 4347.41' sent to '0D4F398A'
+2026.08.19 10:53:34.867	Trades	'71138024': market buy 0.06 XAUUSD.s, close #2026578298 sell 0.06 XAUUSD.s 4358.86
+2026.08.19 10:53:35.072	Trades	'71138024': accepted market buy 0.06 XAUUSD.s, close #2026578298 sell 0.06 XAUUSD.s 4358.86
+2026.08.19 10:53:35.081	Trades	'71138024': market buy 0.06 XAUUSD.s, close #2026578298 sell 0.06 XAUUSD.s 4358.86 placed for execution
+2026.08.19 10:53:35.085	Trades	'71138024': order #2026633275 buy 0.06 / 0.06 XAUUSD.s at market done in 217.660 ms
+2026.08.19 10:53:35.085	Trades	'71138024': market buy 0.01 XAUUSD.s, close #2026444182 sell 0.02 XAUUSD.s 4335.34
+2026.08.19 10:53:35.232	Trades	'71138024': deal #1933546302 buy 0.06 XAUUSD.s at 4353.47 done (based on order #2026633275)
+2026.08.19 10:53:35.288	Trades	'71138024': accepted market buy 0.01 XAUUSD.s, close #2026444182 sell 0.02 XAUUSD.s 4335.34
+2026.08.19 10:53:35.297	Trades	'71138024': market buy 0.01 XAUUSD.s, close #2026444182 sell 0.02 XAUUSD.s 4335.34 placed for execution
+2026.08.19 10:53:35.302	Trades	'71138024': order #2026633308 buy 0.01 / 0.01 XAUUSD.s at market done in 217.381 ms
+2026.08.19 10:53:35.447	Trades	'71138024': deal #1933546330 buy 0.01 XAUUSD.s at 4353.46 done (based on order #2026633308)
+2026.08.19 10:53:35.524	Trades	'71138024': modify #2026444182 sell 0.01 XAUUSD.s sl: 0.00, tp: 4347.41 -> sl: 0.00, tp: 4344.39
+2026.08.19 10:53:35.730	Trades	'71138024': accepted modify #2026444182 sell 0.01 XAUUSD.s sl: 0.00, tp: 4347.41 -> sl: 0.00, tp: 4344.39
+2026.08.19 10:53:35.739	Trades	'71138024': modify #2026444182 sell 0.01 XAUUSD.s -> sl: 0.00, tp: 4344.39 done in 215.118 ms
+2026.08.19 10:53:35.739	Trades	'71138024': modify #2026465870 sell 0.03 XAUUSD.s sl: 0.00, tp: 4347.41 -> sl: 0.00, tp: 4344.39
+2026.08.19 10:53:35.809	Notifications	notification 'added order #2026633275 buy 0.06 XAUUSD.s at market' sent to '0D4F398A'
+2026.08.19 10:53:35.946	Trades	'71138024': accepted modify #2026465870 sell 0.03 XAUUSD.s sl: 0.00, tp: 4347.41 -> sl: 0.00, tp: 4344.39
+2026.08.19 10:53:35.956	Trades	'71138024': modify #2026465870 sell 0.03 XAUUSD.s -> sl: 0.00, tp: 4344.39 done in 216.929 ms
+2026.08.19 10:53:35.956	Trades	'71138024': modify #2026476756 sell 0.04 XAUUSD.s sl: 0.00, tp: 4347.41 -> sl: 0.00, tp: 4344.39
+2026.08.19 10:53:36.054	Notifications	notification 'deal #1933546302 buy 0.06 XAUUSD.s at 4353.47 done, profit: 32.34 USD, based on order #2026633275 buy 0.06 XAUUSD.s at market' sent to '0D4F398A'
+2026.08.19 10:53:36.160	Trades	'71138024': accepted modify #2026476756 sell 0.04 XAUUSD.s sl: 0.00, tp: 4347.41 -> sl: 0.00, tp: 4344.39
+2026.08.19 10:53:36.170	Trades	'71138024': modify #2026476756 sell 0.04 XAUUSD.s -> sl: 0.00, tp: 4344.39 done in 213.757 ms
+2026.08.19 10:53:36.170	Trades	'71138024': modify #2026494371 sell 0.05 XAUUSD.s sl: 0.00, tp: 4347.41 -> sl: 0.00, tp: 4344.39
+2026.08.19 10:53:36.300	Notifications	notification 'added order #2026633308 buy 0.01 XAUUSD.s at market' sent to '0D4F398A'
+2026.08.19 10:53:36.373	Trades	'71138024': accepted modify #2026494371 sell 0.05 XAUUSD.s sl: 0.00, tp: 4347.41 -> sl: 0.00, tp: 4344.39
+2026.08.19 10:53:36.385	Trades	'71138024': modify #2026494371 sell 0.05 XAUUSD.s -> sl: 0.00, tp: 4344.39 done in 214.599 ms
+2026.08.19 10:53:36.545	Notifications	notification 'deal #1933546330 buy 0.01 XAUUSD.s at 4353.46 done, profit: -18.12 USD, based on order #2026633308 buy 0.01 XAUUSD.s at market' sent to '0D4F398A'
+2026.08.19 10:53:36.790	Notifications	notification 'position sell 0.01 XAUUSD.s modified: sl: 0.00, tp: 4347.41 -> sl: 0.00, tp: 4344.39' sent to '0D4F398A'
+2026.08.19 10:53:37.036	Notifications	notification 'position sell 0.03 XAUUSD.s modified: sl: 0.00, tp: 4347.41 -> sl: 0.00, tp: 4344.39' sent to '0D4F398A'
+2026.08.19 10:53:37.281	Notifications	notification 'position sell 0.04 XAUUSD.s modified: sl: 0.00, tp: 4347.41 -> sl: 0.00, tp: 4344.39' sent to '0D4F398A'
+2026.08.19 10:53:37.542	Notifications	notification 'position sell 0.05 XAUUSD.s modified: sl: 0.00, tp: 4347.41 -> sl: 0.00, tp: 4344.39' sent to '0D4F398A'
+2026.08.19 11:39:01.104	Trades	'71138024': market sell 0.06 XAUUSD.s
+2026.08.19 11:39:01.313	Trades	'71138024': accepted market sell 0.06 XAUUSD.s
+2026.08.19 11:39:01.322	Trades	'71138024': market sell 0.06 XAUUSD.s placed for execution
+2026.08.19 11:39:01.332	Trades	'71138024': order #2026694073 sell 0.06 / 0.06 XAUUSD.s at market done in 227.617 ms
+2026.08.19 11:39:01.465	Trades	'71138024': deal #1933603135 sell 0.06 XAUUSD.s at 4360.20 done (based on order #2026694073)
+2026.08.19 11:39:01.611	Trades	'71138024': modify #2026444182 sell 0.01 XAUUSD.s sl: 0.00, tp: 4344.39 -> sl: 0.00, tp: 4348.59
+2026.08.19 11:39:01.817	Trades	'71138024': accepted modify #2026444182 sell 0.01 XAUUSD.s sl: 0.00, tp: 4344.39 -> sl: 0.00, tp: 4348.59
+2026.08.19 11:39:01.825	Trades	'71138024': modify #2026444182 sell 0.01 XAUUSD.s -> sl: 0.00, tp: 4348.59 done in 213.585 ms
+2026.08.19 11:39:01.825	Trades	'71138024': modify #2026465870 sell 0.03 XAUUSD.s sl: 0.00, tp: 4344.39 -> sl: 0.00, tp: 4348.59
+2026.08.19 11:39:02.032	Trades	'71138024': accepted modify #2026465870 sell 0.03 XAUUSD.s sl: 0.00, tp: 4344.39 -> sl: 0.00, tp: 4348.59
+2026.08.19 11:39:02.040	Trades	'71138024': modify #2026465870 sell 0.03 XAUUSD.s -> sl: 0.00, tp: 4348.59 done in 215.120 ms
+2026.08.19 11:39:02.040	Trades	'71138024': modify #2026476756 sell 0.04 XAUUSD.s sl: 0.00, tp: 4344.39 -> sl: 0.00, tp: 4348.59
+2026.08.19 11:39:02.053	Notifications	notification 'added order #2026694073 sell 0.06 XAUUSD.s at market, xauusds_l5_sell' sent to '0D4F398A'
+2026.08.19 11:39:02.247	Trades	'71138024': accepted modify #2026476756 sell 0.04 XAUUSD.s sl: 0.00, tp: 4344.39 -> sl: 0.00, tp: 4348.59
+2026.08.19 11:39:02.264	Trades	'71138024': modify #2026476756 sell 0.04 XAUUSD.s -> sl: 0.00, tp: 4348.59 done in 223.450 ms
+2026.08.19 11:39:02.264	Trades	'71138024': modify #2026494371 sell 0.05 XAUUSD.s sl: 0.00, tp: 4344.39 -> sl: 0.00, tp: 4348.59
+2026.08.19 11:39:02.301	Notifications	notification 'deal #1933603135 sell 0.06 XAUUSD.s at 4360.20 done, based on order #2026694073 sell 0.06 XAUUSD.s at market' sent to '0D4F398A'
+2026.08.19 11:39:02.469	Trades	'71138024': accepted modify #2026494371 sell 0.05 XAUUSD.s sl: 0.00, tp: 4344.39 -> sl: 0.00, tp: 4348.59
+2026.08.19 11:39:02.477	Trades	'71138024': modify #2026494371 sell 0.05 XAUUSD.s -> sl: 0.00, tp: 4348.59 done in 213.391 ms
+2026.08.19 11:39:02.477	Trades	'71138024': modify #2026694073 sell 0.06 XAUUSD.s sl: 0.00, tp: 0.00 -> sl: 0.00, tp: 4348.59
+2026.08.19 11:39:02.548	Notifications	notification 'position sell 0.01 XAUUSD.s modified: sl: 0.00, tp: 4344.39 -> sl: 0.00, tp: 4348.59' sent to '0D4F398A'
+2026.08.19 11:39:02.683	Trades	'71138024': accepted modify #2026694073 sell 0.06 XAUUSD.s sl: 0.00, tp: 0.00 -> sl: 0.00, tp: 4348.59
+2026.08.19 11:39:02.691	Trades	'71138024': modify #2026694073 sell 0.06 XAUUSD.s -> sl: 0.00, tp: 4348.59 done in 214.027 ms
+2026.08.19 11:39:02.798	Notifications	notification 'position sell 0.03 XAUUSD.s modified: sl: 0.00, tp: 4344.39 -> sl: 0.00, tp: 4348.59' sent to '0D4F398A'
+2026.08.19 11:39:03.045	Notifications	notification 'position sell 0.04 XAUUSD.s modified: sl: 0.00, tp: 4344.39 -> sl: 0.00, tp: 4348.59' sent to '0D4F398A'
+2026.08.19 11:39:03.291	Notifications	notification 'position sell 0.05 XAUUSD.s modified: sl: 0.00, tp: 4344.39 -> sl: 0.00, tp: 4348.59' sent to '0D4F398A'
+2026.08.19 11:39:03.537	Notifications	notification 'position sell 0.06 XAUUSD.s modified: sl: 0.00, tp: 0.00 -> sl: 0.00, tp: 4348.59' sent to '0D4F398A'
+2026.08.19 11:59:02.727	Trades	'71138024': market buy 0.06 XAUUSD.s, close #2026694073 sell 0.06 XAUUSD.s 4360.20
+2026.08.19 11:59:02.936	Trades	'71138024': accepted market buy 0.06 XAUUSD.s, close #2026694073 sell 0.06 XAUUSD.s 4360.20
+2026.08.19 11:59:02.957	Trades	'71138024': market buy 0.06 XAUUSD.s, close #2026694073 sell 0.06 XAUUSD.s 4360.20 placed for execution
+2026.08.19 11:59:02.960	Trades	'71138024': order #2026709249 buy 0.06 / 0.06 XAUUSD.s at market done in 232.755 ms
+2026.08.19 11:59:02.960	Trades	'71138024': market buy 0.01 XAUUSD.s, close #2026444182 sell 0.01 XAUUSD.s 4335.34
+2026.08.19 11:59:03.112	Trades	'71138024': deal #1933617821 buy 0.06 XAUUSD.s at 4355.33 done (based on order #2026709249)
+2026.08.19 11:59:03.166	Trades	'71138024': accepted market buy 0.01 XAUUSD.s, close #2026444182 sell 0.01 XAUUSD.s 4335.34
+2026.08.19 11:59:03.174	Trades	'71138024': market buy 0.01 XAUUSD.s, close #2026444182 sell 0.01 XAUUSD.s 4335.34 placed for execution
+2026.08.19 11:59:03.178	Trades	'71138024': order #2026709274 buy 0.01 / 0.01 XAUUSD.s at market done in 217.874 ms
+2026.08.19 11:59:03.348	Trades	'71138024': deal #1933617840 buy 0.01 XAUUSD.s at 4355.37 done (based on order #2026709274)
+2026.08.19 11:59:03.691	Notifications	notification 'added order #2026709249 buy 0.06 XAUUSD.s at market' sent to '0D4F398A'
+2026.08.19 11:59:03.942	Notifications	notification 'deal #1933617821 buy 0.06 XAUUSD.s at 4355.33 done, profit: 29.22 USD, based on order #2026709249 buy 0.06 XAUUSD.s at market' sent to '0D4F398A'
+2026.08.19 11:59:04.193	Notifications	notification 'added order #2026709274 buy 0.01 XAUUSD.s at market' sent to '0D4F398A'
+2026.08.19 11:59:04.444	Notifications	notification 'deal #1933617840 buy 0.01 XAUUSD.s at 4355.37 done, profit: -20.03 USD, based on order #2026709274 buy 0.01 XAUUSD.s at market' sent to '0D4F398A'
+2026.08.19 11:59:05.415	Trades	'71138024': modify #2026465870 sell 0.03 XAUUSD.s sl: 0.00, tp: 4348.59 -> sl: 0.00, tp: 4345.36
+2026.08.19 11:59:05.618	Trades	'71138024': accepted modify #2026465870 sell 0.03 XAUUSD.s sl: 0.00, tp: 4348.59 -> sl: 0.00, tp: 4345.36
+2026.08.19 11:59:05.629	Trades	'71138024': modify #2026465870 sell 0.03 XAUUSD.s -> sl: 0.00, tp: 4345.36 done in 214.065 ms
+2026.08.19 11:59:05.629	Trades	'71138024': modify #2026476756 sell 0.04 XAUUSD.s sl: 0.00, tp: 4348.59 -> sl: 0.00, tp: 4345.36
+2026.08.19 11:59:05.835	Trades	'71138024': accepted modify #2026476756 sell 0.04 XAUUSD.s sl: 0.00, tp: 4348.59 -> sl: 0.00, tp: 4345.36
+2026.08.19 11:59:05.843	Trades	'71138024': modify #2026476756 sell 0.04 XAUUSD.s -> sl: 0.00, tp: 4345.36 done in 213.846 ms
+2026.08.19 11:59:05.843	Trades	'71138024': modify #2026494371 sell 0.05 XAUUSD.s sl: 0.00, tp: 4348.59 -> sl: 0.00, tp: 4345.36
+2026.08.19 11:59:06.054	Trades	'71138024': accepted modify #2026494371 sell 0.05 XAUUSD.s sl: 0.00, tp: 4348.59 -> sl: 0.00, tp: 4345.36
+2026.08.19 11:59:06.058	Trades	'71138024': modify #2026494371 sell 0.05 XAUUSD.s -> sl: 0.00, tp: 4345.36 done in 215.255 ms
+2026.08.19 11:59:06.386	Notifications	notification 'position sell 0.03 XAUUSD.s modified: sl: 0.00, tp: 4348.59 -> sl: 0.00, tp: 4345.36' sent to '0D4F398A'
+2026.08.19 11:59:06.638	Notifications	notification 'position sell 0.04 XAUUSD.s modified: sl: 0.00, tp: 4348.59 -> sl: 0.00, tp: 4345.36' sent to '0D4F398A'
+2026.08.19 11:59:06.890	Notifications	notification 'position sell 0.05 XAUUSD.s modified: sl: 0.00, tp: 4348.59 -> sl: 0.00, tp: 4345.36' sent to '0D4F398A'
+2026.08.19 12:12:32.801	Indicators	custom indicator Multi_TF_SR (XAUUSD.s,M15) loaded succesfully
+2026.08.19 12:12:32.810	Indicators	custom indicator Multi_TF_SR (XAUUSD.s,M5) removed
+2026.08.19 12:43:47.547	Trades	'71138024': market buy 0.03 XAUUSD.s, close #2026465870 sell 0.03 XAUUSD.s 4340.59
+2026.08.19 12:43:47.753	Trades	'71138024': accepted market buy 0.03 XAUUSD.s, close #2026465870 sell 0.03 XAUUSD.s 4340.59
+2026.08.19 12:43:47.761	Trades	'71138024': market buy 0.03 XAUUSD.s, close #2026465870 sell 0.03 XAUUSD.s 4340.59 placed for execution
+2026.08.19 12:43:47.764	Trades	'71138024': order #2026759102 buy 0.03 / 0.03 XAUUSD.s at market done in 217.577 ms
+2026.08.19 12:43:47.764	Trades	'71138024': market buy 0.04 XAUUSD.s, close #2026476756 sell 0.04 XAUUSD.s 4346.61
+2026.08.19 12:43:47.908	Trades	'71138024': deal #1933661105 buy 0.03 XAUUSD.s at 4345.51 done (based on order #2026759102)
+2026.08.19 12:43:47.970	Trades	'71138024': accepted market buy 0.04 XAUUSD.s, close #2026476756 sell 0.04 XAUUSD.s 4346.61
+2026.08.19 12:43:47.978	Trades	'71138024': market buy 0.04 XAUUSD.s, close #2026476756 sell 0.04 XAUUSD.s 4346.61 placed for execution
+2026.08.19 12:43:47.982	Trades	'71138024': order #2026759103 buy 0.04 / 0.04 XAUUSD.s at market done in 217.666 ms
+2026.08.19 12:43:47.982	Trades	'71138024': market buy 0.05 XAUUSD.s, close #2026494371 sell 0.05 XAUUSD.s 4353.21
+2026.08.19 12:43:48.142	Trades	'71138024': deal #1933661106 buy 0.04 XAUUSD.s at 4345.51 done (based on order #2026759103)
+2026.08.19 12:43:48.187	Trades	'71138024': accepted market buy 0.05 XAUUSD.s, close #2026494371 sell 0.05 XAUUSD.s 4353.21
+2026.08.19 12:43:48.196	Trades	'71138024': market buy 0.05 XAUUSD.s, close #2026494371 sell 0.05 XAUUSD.s 4353.21 placed for execution
+2026.08.19 12:43:48.200	Trades	'71138024': order #2026759104 buy 0.05 / 0.05 XAUUSD.s at market done in 217.978 ms
+2026.08.19 12:43:48.353	Trades	'71138024': deal #1933661107 buy 0.05 XAUUSD.s at 4345.51 done (based on order #2026759104)
+2026.08.19 12:43:48.522	Notifications	notification 'added order #2026759102 buy 0.03 XAUUSD.s at market' sent to '0D4F398A'
+2026.08.19 12:43:48.778	Notifications	notification 'deal #1933661105 buy 0.03 XAUUSD.s at 4345.51 done, profit: -14.76 USD, based on order #2026759102 buy 0.03 XAUUSD.s at market' sent to '0D4F398A'
+2026.08.19 12:43:49.036	Notifications	notification 'added order #2026759103 buy 0.04 XAUUSD.s at market' sent to '0D4F398A'
+2026.08.19 12:43:49.294	Notifications	notification 'deal #1933661106 buy 0.04 XAUUSD.s at 4345.51 done, profit: 4.40 USD, based on order #2026759103 buy 0.04 XAUUSD.s at market' sent to '0D4F398A'
+2026.08.19 12:43:49.552	Notifications	notification 'added order #2026759104 buy 0.05 XAUUSD.s at market' sent to '0D4F398A'
+2026.08.19 12:43:49.808	Notifications	notification 'deal #1933661107 buy 0.05 XAUUSD.s at 4345.51 done, profit: 38.50 USD, based on order #2026759104 buy 0.05 XAUUSD.s at market' sent to '0D4F398A'
+2026.08.19 14:12:57.351	Indicators	custom indicator Multi_TF_SR (XAUUSD.s,M5) loaded succesfully
+2026.08.19 14:12:57.363	Indicators	custom indicator Multi_TF_SR (XAUUSD.s,M15) removed
+2026.08.19 14:16:26.230	Experts	expert TRTM (XAUUSD.s,M5) removed
+2026.08.19 14:16:26.236	Experts	expert TRTM (XAUUSD.s,M5) loaded successfully
+2026.08.19 14:58:11.178	Network	'71138024': scanning network for access points
+2026.08.19 14:59:18.285	Network	'71138024': scanning network finished
+2026.08.19 19:40:03.264	Trades	'71138024': market buy 0.02 XAUUSD.s
+2026.08.19 19:40:03.471	Trades	'71138024': accepted market buy 0.02 XAUUSD.s
+2026.08.19 19:40:03.479	Trades	'71138024': market buy 0.02 XAUUSD.s placed for execution
+2026.08.19 19:40:03.483	Trades	'71138024': order #2027521342 buy 0.02 / 0.02 XAUUSD.s at market done in 219.450 ms
+2026.08.19 19:40:03.621	Trades	'71138024': deal #1934363656 buy 0.02 XAUUSD.s at 4368.25 done (based on order #2027521342)
+2026.08.19 19:40:04.206	Notifications	notification 'added order #2027521342 buy 0.02 XAUUSD.s at market, xauusds_l1_buy' sent to '0D4F398A'
+2026.08.19 19:40:04.450	Notifications	notification 'deal #1934363656 buy 0.02 XAUUSD.s at 4368.25 done, based on order #2027521342 buy 0.02 XAUUSD.s at market' sent to '0D4F398A'
+2026.08.19 19:42:20.139	Indicators	custom indicator Multi_TF_SR (XAUUSD.s,M15) loaded succesfully
+2026.08.19 19:42:20.159	Indicators	custom indicator Multi_TF_SR (XAUUSD.s,M5) removed
+2026.08.19 19:42:28.603	Indicators	custom indicator Multi_TF_SR (XAUUSD.s,M5) loaded succesfully
+2026.08.19 19:42:28.642	Indicators	custom indicator Multi_TF_SR (XAUUSD.s,M15) removed
+2026.08.19 19:42:43.215	Indicators	custom indicator Multi_TF_SR (XAUUSD.s,M1) loaded succesfully
+2026.08.19 19:42:43.224	Indicators	custom indicator Multi_TF_SR (XAUUSD.s,M5) removed
+2026.08.19 19:42:53.180	Indicators	custom indicator Multi_TF_SR (XAUUSD.s,M5) loaded succesfully
+2026.08.19 19:42:53.189	Indicators	custom indicator Multi_TF_SR (XAUUSD.s,M1) removed
+2026.08.19 19:43:03.635	Indicators	custom indicator Multi_TF_SR (XAUUSD.s,M1) loaded succesfully
+2026.08.19 19:43:03.646	Indicators	custom indicator Multi_TF_SR (XAUUSD.s,M5) removed
+2026.08.19 19:45:32.605	Experts	expert TRTM (XAUUSD.s,M1) removed
+2026.08.19 19:45:32.612	Experts	expert TRTM (XAUUSD.s,M1) loaded successfully
+2026.08.19 19:46:08.006	Experts	expert TRTM (XAUUSD.s,M1) removed
+2026.08.19 19:46:11.771	Experts	expert TRTM (XAUUSD.s,M1) loaded successfully
+2026.08.19 19:47:56.694	Trades	'71138024': market buy 0.03 XAUUSD.s
+2026.08.19 19:47:56.901	Trades	'71138024': accepted market buy 0.03 XAUUSD.s
+2026.08.19 19:47:56.909	Trades	'71138024': market buy 0.03 XAUUSD.s placed for execution
+2026.08.19 19:47:56.915	Trades	'71138024': order #2027540500 buy 0.03 / 0.03 XAUUSD.s at market done in 220.534 ms
+2026.08.19 19:47:57.077	Trades	'71138024': deal #1934382216 buy 0.03 XAUUSD.s at 4366.48 done (based on order #2027540500)
+2026.08.19 19:47:57.648	Notifications	notification 'added order #2027540500 buy 0.03 XAUUSD.s at market' sent to '0D4F398A'
+2026.08.19 19:47:57.897	Notifications	notification 'deal #1934382216 buy 0.03 XAUUSD.s at 4366.48 done, based on order #2027540500 buy 0.03 XAUUSD.s at market' sent to '0D4F398A'
+2026.08.19 19:48:31.425	Trades	'71138024': buy limit 0.04 XAUUSD.s at 4363.75
+2026.08.19 19:48:31.634	Trades	'71138024': accepted buy limit 0.04 XAUUSD.s at 4363.75
+2026.08.19 19:48:31.644	Trades	'71138024': order #2027540738 buy limit 0.04 / 0.04 XAUUSD.s at 4363.75 done in 218.793 ms
+2026.08.19 19:48:32.403	Notifications	notification 'added order #2027540738 buy limit 0.04 XAUUSD.s at 4363.75' sent to '0D4F398A'
+2026.08.19 19:49:15.656	Trades	'71138024': bulk closing of all positions started
+2026.08.19 19:49:15.657	Trades	'71138024': market sell 0.02 XAUUSD.s, close #2027521342 buy 0.02 XAUUSD.s 4368.25
+2026.08.19 19:49:15.657	Trades	'71138024': market sell 0.03 XAUUSD.s, close #2027540500 buy 0.03 XAUUSD.s 4366.48
+2026.08.19 19:49:15.863	Trades	'71138024': accepted market sell 0.02 XAUUSD.s, close #2027521342 buy 0.02 XAUUSD.s 4368.25
+2026.08.19 19:49:15.863	Trades	'71138024': accepted market sell 0.03 XAUUSD.s, close #2027540500 buy 0.03 XAUUSD.s 4366.48
+2026.08.19 19:49:15.871	Trades	'71138024': market sell 0.02 XAUUSD.s, close #2027521342 buy 0.02 XAUUSD.s 4368.25 placed for execution
+2026.08.19 19:49:15.872	Trades	'71138024': market sell 0.03 XAUUSD.s, close #2027540500 buy 0.03 XAUUSD.s 4366.48 placed for execution
+2026.08.19 19:49:15.876	Trades	'71138024': order #2027541911 sell 0.02 / 0.02 XAUUSD.s at market done in 219.102 ms
+2026.08.19 19:49:15.876	Trades	'71138024': order #2027541912 sell 0.03 / 0.03 XAUUSD.s at market done in 219.142 ms
+2026.08.19 19:49:16.024	Trades	'71138024': deal #1934383499 sell 0.03 XAUUSD.s at 4367.31 done (based on order #2027541912)
+2026.08.19 19:49:16.044	Trades	'71138024': deal #1934383500 sell 0.02 XAUUSD.s at 4367.31 done (based on order #2027541911)
+2026.08.19 19:49:16.599	Notifications	notification 'added order #2027541911 sell 0.02 XAUUSD.s at market' sent to '0D4F398A'
+2026.08.19 19:49:16.844	Notifications	notification 'added order #2027541912 sell 0.03 XAUUSD.s at market' sent to '0D4F398A'
+2026.08.19 19:49:17.090	Notifications	notification 'deal #1934383499 sell 0.03 XAUUSD.s at 4367.31 done, profit: 2.49 USD, based on order #2027541912 sell 0.03 XAUUSD.s at market' sent to '0D4F398A'
+2026.08.19 19:49:17.399	Notifications	notification 'deal #1934383500 sell 0.02 XAUUSD.s at 4367.31 done, profit: -1.88 USD, based on order #2027541911 sell 0.02 XAUUSD.s at market' sent to '0D4F398A'
+2026.08.19 19:50:11.155	Experts	expert TRTM (XAUUSD.s,M1) removed
+2026.08.19 19:50:11.161	Experts	expert TRTM (XAUUSD.s,M1) loaded successfully
+2026.08.19 19:50:54.976	Trades	'71138024': cancel order #2027540738 buy limit 0.04 XAUUSD.s at 4363.75
+2026.08.19 19:50:55.183	Trades	'71138024': accepted cancel order #2027540738 buy limit 0.04 XAUUSD.s at 4363.75
+2026.08.19 19:50:55.193	Trades	'71138024': cancel #2027540738 buy limit 0.04 XAUUSD.s at 4363.75 done in 216.279 ms
+2026.08.19 19:50:55.951	Notifications	notification 'canceled order #2027540738 buy limit 0.04 XAUUSD.s at 4363.75' sent to '0D4F398A'
+2026.08.19 19:51:02.630	Trades	'71138024': buy limit 0.02 XAUUSD.s at 4363.71
+2026.08.19 19:51:02.835	Trades	'71138024': accepted buy limit 0.02 XAUUSD.s at 4363.71
+2026.08.19 19:51:02.845	Trades	'71138024': order #2027543028 buy limit 0.02 / 0.02 XAUUSD.s at 4363.71 done in 215.220 ms
+2026.08.19 19:51:03.579	Notifications	notification 'added order #2027543028 buy limit 0.02 XAUUSD.s at 4363.71, xauusds_l1_buy' sent to '0D4F398A'
+2026.08.19 19:51:22.716	Trades	'71138024': cancel order #2027543028 buy limit 0.02 XAUUSD.s at 4363.71
+2026.08.19 19:51:22.922	Trades	'71138024': accepted cancel order #2027543028 buy limit 0.02 XAUUSD.s at 4363.71
+2026.08.19 19:51:22.932	Trades	'71138024': cancel #2027543028 buy limit 0.02 XAUUSD.s at market done in 216.139 ms
+2026.08.19 19:51:23.696	Notifications	notification 'canceled order #2027543028 buy limit 0.02 XAUUSD.s at 4363.71, xauusds_l1_buy' sent to '0D4F398A'
+2026.08.19 19:52:08.091	Trades	'71138024': market buy 0.02 XAUUSD.s
+2026.08.19 19:52:08.299	Trades	'71138024': accepted market buy 0.02 XAUUSD.s
+2026.08.19 19:52:08.307	Trades	'71138024': market buy 0.02 XAUUSD.s placed for execution
+2026.08.19 19:52:08.311	Trades	'71138024': order #2027545297 buy 0.02 / 0.02 XAUUSD.s at market done in 219.477 ms
+2026.08.19 19:52:08.465	Trades	'71138024': deal #1934386712 buy 0.02 XAUUSD.s at 4364.05 done (based on order #2027545297)
+2026.08.19 19:52:09.060	Notifications	notification 'added order #2027545297 buy 0.02 XAUUSD.s at market, xauusds_l1_buy' sent to '0D4F398A'
+2026.08.19 19:52:09.312	Notifications	notification 'deal #1934386712 buy 0.02 XAUUSD.s at 4364.05 done, based on order #2027545297 buy 0.02 XAUUSD.s at market' sent to '0D4F398A'
+2026.08.19 19:52:38.599	Trades	'71138024': market sell 0.02 XAUUSD.s, close #2027545297 buy 0.02 XAUUSD.s 4364.05
+2026.08.19 19:52:38.805	Trades	'71138024': accepted market sell 0.02 XAUUSD.s, close #2027545297 buy 0.02 XAUUSD.s 4364.05
+2026.08.19 19:52:38.815	Trades	'71138024': market sell 0.02 XAUUSD.s, close #2027545297 buy 0.02 XAUUSD.s 4364.05 placed for execution
+2026.08.19 19:52:38.818	Trades	'71138024': order #2027545631 sell 0.02 / 0.02 XAUUSD.s at market done in 218.890 ms
+2026.08.19 19:52:38.955	Trades	'71138024': deal #1934387075 sell 0.02 XAUUSD.s at 4364.24 done (based on order #2027545631)
+2026.08.19 19:52:39.563	Notifications	notification 'added order #2027545631 sell 0.02 XAUUSD.s at market' sent to '0D4F398A'
+2026.08.19 19:52:39.817	Notifications	notification 'deal #1934387075 sell 0.02 XAUUSD.s at 4364.24 done, profit: 0.38 USD' sent to '0D4F398A'
+2026.08.19 19:52:53.400	Network	'71138024': disconnected from DooTechnology-Live
+2026.08.19 19:52:53.750	Experts	expert TRTM (XAUUSD.s,M1) removed
+2026.08.19 19:52:53.752	Experts	expert TRTM (XAUUSD.s,M1) loaded successfully
+2026.08.19 19:52:53.789	Experts	automated trading is disabled because the account has been changed
+2026.08.19 19:52:54.190	Network	'567094': authorized on DooTechnology-Demo through Access Server 1 - Hong Kong (ping: 204.76 ms, build 5830)
+2026.08.19 19:52:54.190	Network	'567094': previous successful authorization performed from 120.29.79.111 on 2026.08.13 15:44:51
+2026.08.19 19:52:54.530	Network	'567094': terminal synchronized with Doo Technology Singapore Pte. Ltd.: 0 positions, 0 orders, 85 symbols, 0 spreads
+2026.08.19 19:52:54.530	Network	'567094': trading has been enabled, demo account - hedging mode
+2026.08.19 19:52:54.530	Network	'567094': balance management has been disabled - demo account
+2026.08.19 19:52:55.280	Network	'567094': scanning network for access points
+2026.08.19 19:52:58.766	Experts	automated trading is enabled
+2026.08.19 19:53:17.473	Network	'567094': scanning network finished
+2026.08.19 19:53:18.749	Trades	'567094': market sell 0.02 XAUUSD.s
+2026.08.19 19:53:18.953	Trades	'567094': accepted market sell 0.02 XAUUSD.s
+2026.08.19 19:53:18.953	Trades	'567094': deal #439805698 sell 0.02 XAUUSD.s at 4364.93 done (based on order #742972617)
+2026.08.19 19:53:18.955	Trades	'567094': order #742972617 sell 0.02 / 0.02 XAUUSD.s at 4364.93 done in 206.778 ms
+2026.08.19 19:53:19.704	Notifications	notification 'added order #742972617 sell 0.02 XAUUSD.s at market, xauusds_l1_sell' sent to '0D4F398A'
+2026.08.19 19:53:19.956	Notifications	notification 'deal #439805698 sell 0.02 XAUUSD.s at 4364.93 done, based on order #742972617 sell 0.02 XAUUSD.s at market' sent to '0D4F398A'
+2026.08.19 19:54:55.817	Experts	expert TRTM (XAUUSD.s,M1) removed
+2026.08.19 19:54:59.348	Experts	expert TRTM (XAUUSD.s,M1) loaded successfully
+2026.08.19 19:55:27.281	Trades	'567094': market buy 0.02 XAUUSD.s, close #742972617 sell 0.02 XAUUSD.s 4364.93
+2026.08.19 19:55:27.485	Trades	'567094': accepted market buy 0.02 XAUUSD.s, close #742972617 sell 0.02 XAUUSD.s 4364.93
+2026.08.19 19:55:27.485	Trades	'567094': deal #439808179 buy 0.02 XAUUSD.s at 4366.06 done (based on order #742975979)
+2026.08.19 19:55:27.485	Trades	'567094': order #742975979 buy 0.02 / 0.02 XAUUSD.s at 4366.06 done in 204.946 ms
+2026.08.19 19:55:28.251	Notifications	notification 'added order #742975979 buy 0.02 XAUUSD.s at market' sent to '0D4F398A'
+2026.08.19 19:55:28.505	Notifications	notification 'deal #439808179 buy 0.02 XAUUSD.s at 4366.06 done, profit: -2.26 USD, based on order #742975979 buy 0.02 XAUUSD.s at market' sent to '0D4F398A'
+2026.08.19 19:55:29.344	Trades	'567094': market buy 0.02 XAUUSD.s
+2026.08.19 19:55:29.547	Trades	'567094': accepted market buy 0.02 XAUUSD.s
+2026.08.19 19:55:29.548	Trades	'567094': deal #439808194 buy 0.02 XAUUSD.s at 4366.06 done (based on order #742976000)
+2026.08.19 19:55:29.548	Trades	'567094': order #742976000 buy 0.02 / 0.02 XAUUSD.s at 4366.06 done in 204.303 ms
+2026.08.19 19:55:30.292	Notifications	notification 'added order #742976000 buy 0.02 XAUUSD.s at market, xauusds_l1_buy' sent to '0D4F398A'
+2026.08.19 19:55:30.542	Notifications	notification 'deal #439808194 buy 0.02 XAUUSD.s at 4366.06 done, based on order #742976000 buy 0.02 XAUUSD.s at market' sent to '0D4F398A'
+2026.08.19 20:02:00.615	Trades	'567094': market buy 0.03 XAUUSD.s
+2026.08.19 20:02:00.818	Trades	'567094': accepted market buy 0.03 XAUUSD.s
+2026.08.19 20:02:00.818	Trades	'567094': deal #439814424 buy 0.03 XAUUSD.s at 4363.91 done (based on order #742984349)
+2026.08.19 20:02:00.819	Trades	'567094': order #742984349 buy 0.03 / 0.03 XAUUSD.s at 4363.91 done in 204.284 ms
+2026.08.19 20:02:00.861	Trades	'567094': modify #742976000 buy 0.02 XAUUSD.s sl: 0.00, tp: 0.00 -> sl: 0.00, tp: 4367.27
+2026.08.19 20:02:01.065	Trades	'567094': accepted modify #742976000 buy 0.02 XAUUSD.s sl: 0.00, tp: 0.00 -> sl: 0.00, tp: 4367.27
+2026.08.19 20:02:01.066	Trades	'567094': modify #742976000 buy 0.02 XAUUSD.s -> sl: 0.00, tp: 4367.27 done in 204.477 ms
+2026.08.19 20:02:01.066	Trades	'567094': modify #742984349 buy 0.03 XAUUSD.s sl: 0.00, tp: 0.00 -> sl: 0.00, tp: 4367.27
+2026.08.19 20:02:01.270	Trades	'567094': accepted modify #742984349 buy 0.03 XAUUSD.s sl: 0.00, tp: 0.00 -> sl: 0.00, tp: 4367.27
+2026.08.19 20:02:01.274	Trades	'567094': modify #742984349 buy 0.03 XAUUSD.s -> sl: 0.00, tp: 4367.27 done in 208.190 ms
+2026.08.19 20:02:01.632	Notifications	notification 'added order #742984349 buy 0.03 XAUUSD.s at market, xauusds_l2_buy' sent to '0D4F398A'
+2026.08.19 20:02:01.904	Notifications	notification 'deal #439814424 buy 0.03 XAUUSD.s at 4363.91 done, based on order #742984349 buy 0.03 XAUUSD.s at market' sent to '0D4F398A'
+2026.08.19 20:02:02.177	Notifications	notification 'position buy 0.02 XAUUSD.s modified: sl: 0.00, tp: 0.00 -> sl: 0.00, tp: 4367.27' sent to '0D4F398A'
+2026.08.19 20:02:02.446	Notifications	notification 'position buy 0.03 XAUUSD.s modified: sl: 0.00, tp: 0.00 -> sl: 0.00, tp: 4367.27' sent to '0D4F398A'
+2026.08.19 20:08:48.176	Trades	'567094': deal #439829647 sell 0.02 XAUUSD.s at 4367.55 done (based on order #743002814)
+2026.08.19 20:08:48.177	Trades	'567094': deal #439829651 sell 0.03 XAUUSD.s at 4367.55 done (based on order #743002819)
+2026.08.19 20:08:48.905	Notifications	notification 'added order #743002814 sell 0.02 XAUUSD.s at 4367.27, [tp 4367.27], due take profit' sent to '0D4F398A'
+2026.08.19 20:08:49.148	Notifications	notification 'added order #743002819 sell 0.03 XAUUSD.s at 4367.27, [tp 4367.27], due take profit' sent to '0D4F398A'
+2026.08.19 20:08:49.391	Notifications	notification 'deal #439829647 sell 0.02 XAUUSD.s at 4367.55 done, profit: 2.98 USD, based on order #743002814 sell 0.02 XAUUSD.s at 4367.27' sent to '0D4F398A'
+2026.08.19 20:08:49.636	Notifications	notification 'deal #439829651 sell 0.03 XAUUSD.s at 4367.55 done, profit: 10.92 USD, based on order #743002819 sell 0.03 XAUUSD.s at 4367.27' sent to '0D4F398A'
+2026.08.19 20:17:39.814	Trades	'567094': market sell 0.02 XAUUSD.s
+2026.08.19 20:17:40.019	Trades	'567094': accepted market sell 0.02 XAUUSD.s
+2026.08.19 20:17:40.020	Trades	'567094': deal #439855947 sell 0.02 XAUUSD.s at 4367.87 done (based on order #743032051)
+2026.08.19 20:17:40.021	Trades	'567094': order #743032051 sell 0.02 / 0.02 XAUUSD.s at 4367.87 done in 206.452 ms
+2026.08.19 20:17:40.781	Notifications	notification 'added order #743032051 sell 0.02 XAUUSD.s at market, xauusds_l1_sell' sent to '0D4F398A'
+2026.08.19 20:17:41.039	Notifications	notification 'deal #439855947 sell 0.02 XAUUSD.s at 4367.87 done, based on order #743032051 sell 0.02 XAUUSD.s at market' sent to '0D4F398A'
+2026.08.19 20:49:29.576	Experts	expert TRTM (XAUUSD.s,M1) removed
+2026.08.19 20:49:29.583	Experts	expert TRTM (XAUUSD.s,M1) loaded successfully
+
+
+After Removing Everything and closing the terminal:
+2026.08.19 21:13:40.641	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] === TRTM b41 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.08.19 21:13:40.642	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.08.19 21:13:40.647	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] State persistence self-test: PASS
+2026.08.19 21:13:40.647	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] Reconcile complete: FLAT
+2026.08.19 21:13:40.648	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.08.19 21:13:40.648	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] Init complete - b41 (adoption, exits, recovery active)
+2026.08.19 21:13:48.827	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] Deinit (reason 3) - state clean (flat)
+2026.08.19 21:13:49.829	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] === TRTM b41 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.08.19 21:13:49.829	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.08.19 21:13:49.837	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] State persistence self-test: PASS
+2026.08.19 21:13:49.837	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Reconcile complete: FLAT
+2026.08.19 21:13:49.853	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.08.19 21:13:49.854	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Init complete - b41 (adoption, exits, recovery active)
+2026.08.19 21:13:56.227	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] SELL ARMED: 0.02 lots (Fixed 0.02) - click CONFIRM within 10s to execute
+2026.08.19 21:13:57.875	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] L1 SELL OPENED via button: 0.02 lots @ 4458.43 (deal 440366406)
+2026.08.19 21:13:57.875	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Structure: 1 level(s), 0.02 lots | projected at TP n/a | at SL n/a
+2026.08.19 21:13:57.875	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] EA L1 REGISTERED: ticket 743608011 SELL 0.02 lots @ 4458.43. Exits apply next tick.
+2026.08.19 21:13:57.888	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] TRAILING ACTIVATED @ 4455.75: TP removed, recovery gated, SL trails 200 pts behind (PERIOD_M1 bar-close mode)
+2026.08.19 21:13:57.888	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Closing sequence at market: trail ratchet SL 4457.75 already exceeded by market (4458.64) - SL is a maximum acceptable loss
+2026.08.19 21:13:58.106	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Closed L1 ticket 743608011 @ 4458.58
+2026.08.19 21:13:58.215	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Liveness: L1 ticket 743608011 closed by EA (market close) - removed from sequence
+2026.08.19 21:13:58.215	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Sequence fully closed - back to FLAT, overrides reset to input defaults, flat marker saved

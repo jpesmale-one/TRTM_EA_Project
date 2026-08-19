@@ -464,7 +464,51 @@ ALSO FIXED: the 13 new header lines were 71 chars against a 70-char box border. 
 HYGIENE RE-VERIFIED AFTER THE CLEANUP: 0 bare LF, ASCII-only, brace -1 (baseline-preserved),
   paren 0, bracket 0.
 
-## *** b41 VERIFICATION PARKED 2026-08-19 - LIVE QUOTE DEFECT UNDER DIAGNOSIS ***
+## STALE-QUOTE INCIDENT 2026-08-19 - RESOLVED, NOT A TRTM DEFECT. PROBES REMOVED.
+OUTCOME: a TERMINAL RESTART cleared it. Nothing in TRTM was at fault, and no TRTM code
+change was made - the probe build was reverted to byte-identical b41 (d2354c4c1269874e /
+5063), confirmed by an EMPTY `git diff` against the scope-cut commit. The deployed build
+identity is therefore UNCHANGED and needs no recompile.
+PROOF THE FEED RECOVERED (21:13:57, after the restart): "L1 SELL OPENED @ 4458.43",
+"TRAILING ACTIVATED @ 4455.75", "trail ratchet SL 4457.75 already exceeded by market
+(4458.64)", "Closed L1 @ 4458.58" - four distinct live prices inside one second, against
+the frozen 4363.94 that had stood for over an hour.
+
+WHAT WAS ELIMINATED, AND HOW (this is the durable part - do not re-derive it):
+  NOT the accessor. The probe printed SymbolInfoDouble and a fresh SymbolInfoTick side by
+    side: both returned the IDENTICAL frozen values with ok=Y. Switching the money paths to
+    SymbolInfoTick would have fixed NOTHING. That was the leading hypothesis and it was
+    wrong.
+  NOT TRTM state. A full remove -> re-attach (21:05) rebuilt every global, re-ran
+    Reconcile, passed the self-test - and tickTime was STILL 14:52:52, unchanged. Nothing
+    the EA owns survives a re-init, so the stale tick lived BELOW the EA.
+  NOT SymbolSelect. A re-init already does strictly more than SymbolSelect would, and it
+    did not help - so the "add SymbolSelect(_Symbol,true)" fix I was about to propose would
+    have been useless. Recorded so it is not proposed again.
+  NOT the account switch DIRECTLY. The live->demo switch is real (Journal 19:52:53 local =
+    14:52 server; ticket format changes 2027545297 -> 742972617 at exactly that boundary),
+    and tickTime froze in that gap - BUT the EA went on reading live, MOVING prices for ~25
+    minutes afterwards (14:53:18 @ 4364.93 ... 15:02:00 @ 4363.91). So the switch alone does
+    not explain it.
+  NOT the chart, refresh, or another EA. Jeff confirmed the symbol is XAUUSD.s, chart
+    Refresh did nothing, no other EA was running, and the terminal had been up all day.
+MECHANISM NOT ESTABLISHED. The terminal's symbol cache held a dead tick that neither a
+  chart refresh nor an EA re-init could dislodge, and only a terminal restart cleared. Three
+  successive theories failed against evidence today; a fourth is not offered. The probe is
+  what killed each one - it earned its cost.
+OPERATIONAL LESSON: after switching accounts in a running terminal, RESTART THE TERMINAL
+  before trusting quotes. A chart refresh and an EA re-attach are NOT sufficient.
+
+THE REAL DELIVERABLE - A STALE-QUOTE GUARD, -> E9 (E9-Q1), own Gate 1, NOT part of b41:
+  For over an hour TRTM read a dead quote as truth and silently refused every recovery
+  entry. Worse, the forfeit WARN actively MISDIAGNOSED it - "spread pushes entry inside the
+  interval" - which is what sent the first several exchanges of this investigation chasing a
+  spread problem that did not exist. A guard comparing MqlTick.time against TimeCurrent()
+  would have said "quote is 73 minutes stale, refusing to trade" on the FIRST forfeit.
+  That gap is real, cheap to close, and independent of whatever caused this incident. It is
+  exactly the class of failure that bites an unattended EA.
+
+## *** [RESOLVED - see above] b41 VERIFICATION PARKED 2026-08-19 - LIVE QUOTE DEFECT ***
 FOUND BY JEFF during the b41 verification run, on the DASHBOARD first ("the ask is not
 capturing the latest price") and then confirmed in the journal.
 EVIDENCE - tests/2026.08.19 195529.548.txt, DooTechnology XAUUSD.s, magic 715358:

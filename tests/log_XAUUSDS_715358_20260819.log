@@ -1,0 +1,566 @@
+2026.08.19 03:58:09 [TRTM][INFO ] === TRTM b40 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.08.19 03:58:09 [TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.08.19 03:58:09 [TRTM][INFO ] Log cleanup: 1 file(s) older than 14d deleted (oldest kept: 20260806)
+2026.08.19 03:58:09 [TRTM][INFO ] State persistence self-test: PASS
+2026.08.19 03:58:09 [TRTM][INFO ] Reconcile complete: FLAT
+2026.08.19 03:58:09 [TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.08.19 03:58:09 [TRTM][INFO ] Init complete - b40 (adoption, exits, recovery active)
+2026.08.19 04:01:46 [TRTM][INFO ] Deinit (reason 3) - state clean (flat)
+2026.08.19 04:01:47 [TRTM][INFO ] === TRTM b40 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.08.19 04:01:47 [TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.08.19 04:01:47 [TRTM][INFO ] State persistence self-test: PASS
+2026.08.19 04:01:47 [TRTM][INFO ] Reconcile complete: FLAT
+2026.08.19 04:01:47 [TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.08.19 04:01:47 [TRTM][INFO ] Init complete - b40 (adoption, exits, recovery active)
+2026.08.19 04:02:02 [TRTM][INFO ] Pending BUY placement line created at 4330.70 - drag to price, then CONFIRM (line is NOT persisted across restarts)
+2026.08.19 04:02:06 [TRTM][INFO ] BUY LIMIT placed: 0.02 lots @ 4328.75 (order 2026331700). Fill registers as L1; the order is canceled if a sequence starts first (P8).
+2026.08.19 04:02:16 [TRTM][INFO ] Own L1 position 2026331700 found while FLAT (pending fill or recovered send) - registering
+2026.08.19 04:02:16 [TRTM][INFO ] Structure: 1 level(s), 0.02 lots | projected at TP n/a | at SL n/a
+2026.08.19 04:02:16 [TRTM][INFO ] EA L1 REGISTERED: ticket 2026331700 BUY 0.02 lots @ 4328.40. Exits apply next tick.
+2026.08.19 04:04:36 [TRTM][INFO ] CLOSE ARMED: floating PnL +7.32 - click CONFIRM within 10s to close the whole sequence at market
+2026.08.19 04:04:36 [TRTM][INFO ] Close CONFIRMED by user
+2026.08.19 04:04:36 [TRTM][INFO ] Closing sequence at market: user close button (confirmed)
+2026.08.19 04:04:37 [TRTM][INFO ] Closed L1 ticket 2026331700 @ 0.00
+2026.08.19 04:04:37 [TRTM][INFO ] Liveness: L1 ticket 2026331700 closed by EA (market close) - removed from sequence
+2026.08.19 04:04:37 [TRTM][INFO ] Sequence fully closed - back to FLAT, overrides reset to input defaults, flat marker saved
+2026.08.19 04:04:49 [TRTM][INFO ] Pending SELL placement line created at 4331.46 - drag to price, then CONFIRM (line is NOT persisted across restarts)
+2026.08.19 04:04:58 [TRTM][INFO ] SELL LIMIT placed: 0.02 lots @ 4339.37 (order 2026355645). Fill registers as L1; the order is canceled if a sequence starts first (P8).
+2026.08.19 04:06:36 [TRTM][INFO ] Own L1 position 2026355645 found while FLAT (pending fill or recovered send) - registering
+2026.08.19 04:06:36 [TRTM][INFO ] Structure: 1 level(s), 0.02 lots | projected at TP n/a | at SL n/a
+2026.08.19 04:06:36 [TRTM][INFO ] EA L1 REGISTERED: ticket 2026355645 SELL 0.02 lots @ 4339.33. Exits apply next tick.
+2026.08.19 04:06:46 [TRTM][INFO ] Deinit (reason 3) - state saved (sequence alive)
+2026.08.19 04:06:47 [TRTM][INFO ] === TRTM b40 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.08.19 04:06:47 [TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.08.19 04:06:47 [TRTM][INFO ] State persistence self-test: PASS
+2026.08.19 04:06:47 [TRTM][INFO ] Reconcile: flags restored (trailOverride=F beOverride=F trailingActive=F beApplied=F)
+2026.08.19 04:06:47 [TRTM][INFO ] Structure: 1 level(s), 0.02 lots | projected at TP n/a | at SL n/a
+2026.08.19 04:06:47 [TRTM][INFO ] Reconcile complete: dir=SELL levels=1
+2026.08.19 04:06:47 [TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.08.19 04:06:47 [TRTM][INFO ] Init complete - b40 (adoption, exits, recovery active)
+2026.08.19 04:07:11 [TRTM][INFO ] Deinit (reason 3) - state saved (sequence alive)
+2026.08.19 04:07:12 [TRTM][INFO ] === TRTM b40 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.08.19 04:07:12 [TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.08.19 04:07:12 [TRTM][INFO ] State persistence self-test: PASS
+2026.08.19 04:07:12 [TRTM][INFO ] Reconcile: flags restored (trailOverride=F beOverride=F trailingActive=F beApplied=F)
+2026.08.19 04:07:12 [TRTM][INFO ] Structure: 1 level(s), 0.02 lots | projected at TP n/a | at SL n/a
+2026.08.19 04:07:12 [TRTM][INFO ] Reconcile complete: dir=SELL levels=1
+2026.08.19 04:07:12 [TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.08.19 04:07:12 [TRTM][INFO ] Init complete - b40 (adoption, exits, recovery active)
+2026.08.19 04:07:17 [TRTM][INFO ] Deinit (reason 3) - state saved (sequence alive)
+2026.08.19 04:07:18 [TRTM][INFO ] === TRTM b40 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.08.19 04:07:18 [TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.08.19 04:07:18 [TRTM][INFO ] State persistence self-test: PASS
+2026.08.19 04:07:18 [TRTM][INFO ] Reconcile: flags restored (trailOverride=F beOverride=F trailingActive=F beApplied=F)
+2026.08.19 04:07:18 [TRTM][INFO ] Structure: 1 level(s), 0.02 lots | projected at TP n/a | at SL n/a
+2026.08.19 04:07:18 [TRTM][INFO ] Reconcile complete: dir=SELL levels=1
+2026.08.19 04:07:18 [TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.08.19 04:07:18 [TRTM][INFO ] Init complete - b40 (adoption, exits, recovery active)
+2026.08.19 04:08:47 [TRTM][INFO ] Deinit (reason 3) - state saved (sequence alive)
+2026.08.19 04:08:48 [TRTM][INFO ] === TRTM b40 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.08.19 04:08:48 [TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.08.19 04:08:48 [TRTM][INFO ] State persistence self-test: PASS
+2026.08.19 04:08:48 [TRTM][INFO ] Reconcile: flags restored (trailOverride=F beOverride=F trailingActive=F beApplied=F)
+2026.08.19 04:08:48 [TRTM][INFO ] Structure: 1 level(s), 0.02 lots | projected at TP n/a | at SL n/a
+2026.08.19 04:08:48 [TRTM][INFO ] Reconcile complete: dir=SELL levels=1
+2026.08.19 04:08:48 [TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.08.19 04:08:48 [TRTM][INFO ] Init complete - b40 (adoption, exits, recovery active)
+2026.08.19 04:08:50 [TRTM][INFO ] Deinit (reason 3) - state saved (sequence alive)
+2026.08.19 04:08:51 [TRTM][INFO ] === TRTM b40 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.08.19 04:08:51 [TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.08.19 04:08:51 [TRTM][INFO ] State persistence self-test: PASS
+2026.08.19 04:08:51 [TRTM][INFO ] Reconcile: flags restored (trailOverride=F beOverride=F trailingActive=F beApplied=F)
+2026.08.19 04:08:51 [TRTM][INFO ] Structure: 1 level(s), 0.02 lots | projected at TP n/a | at SL n/a
+2026.08.19 04:08:51 [TRTM][INFO ] Reconcile complete: dir=SELL levels=1
+2026.08.19 04:08:51 [TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.08.19 04:08:51 [TRTM][INFO ] Init complete - b40 (adoption, exits, recovery active)
+2026.08.19 04:08:57 [TRTM][INFO ] Deinit (reason 3) - state saved (sequence alive)
+2026.08.19 04:08:58 [TRTM][INFO ] === TRTM b40 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.08.19 04:08:58 [TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.08.19 04:08:58 [TRTM][INFO ] State persistence self-test: PASS
+2026.08.19 04:08:58 [TRTM][INFO ] Reconcile: flags restored (trailOverride=F beOverride=F trailingActive=F beApplied=F)
+2026.08.19 04:08:58 [TRTM][INFO ] Structure: 1 level(s), 0.02 lots | projected at TP n/a | at SL n/a
+2026.08.19 04:08:58 [TRTM][INFO ] Reconcile complete: dir=SELL levels=1
+2026.08.19 04:08:58 [TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.08.19 04:08:58 [TRTM][INFO ] Init complete - b40 (adoption, exits, recovery active)
+2026.08.19 04:12:08 [TRTM][INFO ] Deinit (reason 3) - state saved (sequence alive)
+2026.08.19 04:12:09 [TRTM][INFO ] === TRTM b40 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.08.19 04:12:09 [TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.08.19 04:12:09 [TRTM][INFO ] State persistence self-test: PASS
+2026.08.19 04:12:09 [TRTM][INFO ] Reconcile: flags restored (trailOverride=F beOverride=F trailingActive=F beApplied=F)
+2026.08.19 04:12:09 [TRTM][INFO ] Structure: 1 level(s), 0.02 lots | projected at TP n/a | at SL n/a
+2026.08.19 04:12:09 [TRTM][INFO ] Reconcile complete: dir=SELL levels=1
+2026.08.19 04:12:09 [TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.08.19 04:12:09 [TRTM][INFO ] Init complete - b40 (adoption, exits, recovery active)
+2026.08.19 04:19:00 [TRTM][INFO ] TRAILING ACTIVATED @ 4336.28: TP removed, recovery gated, SL trails 200 pts behind (PERIOD_M1 bar-close mode)
+2026.08.19 04:19:00 [TRTM][INFO ] Exits applied to ticket 2026355645: TP none SL 4338.28
+2026.08.19 04:19:10 [TRTM][INFO ] Liveness: L1 ticket 2026355645 SL hit @ 4338.33 - removed from sequence
+2026.08.19 04:19:10 [TRTM][INFO ] Sequence fully closed - back to FLAT, overrides reset to input defaults, flat marker saved
+2026.08.19 04:21:52 [TRTM][INFO ] SELL ARMED: 0.02 lots (Fixed 0.02) - click CONFIRM within 10s to execute
+2026.08.19 04:21:53 [TRTM][INFO ] L1 SELL OPENED via button: 0.02 lots @ 0.00 (deal 0)
+2026.08.19 04:21:53 [TRTM][INFO ] L1 order accepted but no position yet (asynchronous fill) - the flat-state watcher will register it as soon as it appears
+2026.08.19 04:21:53 [TRTM][INFO ] Own L1 position 2026438084 found while FLAT (pending fill or recovered send) - registering
+2026.08.19 04:21:53 [TRTM][INFO ] Structure: 1 level(s), 0.02 lots | projected at TP n/a | at SL n/a
+2026.08.19 04:21:53 [TRTM][INFO ] EA L1 REGISTERED: ticket 2026438084 SELL 0.02 lots @ 4335.63. Exits apply next tick.
+2026.08.19 04:22:00 [TRTM][INFO ] TRAILING ACTIVATED @ 4333.19: TP removed, recovery gated, SL trails 200 pts behind (PERIOD_M1 bar-close mode)
+2026.08.19 04:22:00 [TRTM][INFO ] Exits applied to ticket 2026438084: TP none SL 4335.19
+2026.08.19 04:22:27 [TRTM][INFO ] Liveness: L1 ticket 2026438084 SL hit @ 4335.27 - removed from sequence
+2026.08.19 04:22:27 [TRTM][INFO ] Sequence fully closed - back to FLAT, overrides reset to input defaults, flat marker saved
+2026.08.19 04:22:31 [TRTM][INFO ] SELL ARMED: 0.02 lots (Fixed 0.02) - click CONFIRM within 10s to execute
+2026.08.19 04:22:32 [TRTM][INFO ] L1 SELL OPENED via button: 0.02 lots @ 0.00 (deal 0)
+2026.08.19 04:22:32 [TRTM][INFO ] L1 order accepted but no position yet (asynchronous fill) - the flat-state watcher will register it as soon as it appears
+2026.08.19 04:22:33 [TRTM][INFO ] Own L1 position 2026444182 found while FLAT (pending fill or recovered send) - registering
+2026.08.19 04:22:33 [TRTM][INFO ] Structure: 1 level(s), 0.02 lots | projected at TP n/a | at SL n/a
+2026.08.19 04:22:33 [TRTM][INFO ] EA L1 REGISTERED: ticket 2026444182 SELL 0.02 lots @ 4335.34. Exits apply next tick.
+2026.08.19 04:24:12 [TRTM][WARN ] Trailing override flipped for this sequence: effective OFF
+2026.08.19 04:29:00 [TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4340.46 vs trigger 4340.34 (worst entry 4335.34 + 500 pts)
+2026.08.19 04:29:00 [TRTM][INFO ] Recovery L2 OPENED: 0.03 lots SELL @ 0.00 (deal 0)
+2026.08.19 04:29:00 [TRTM][INFO ] Recovery L2: order accepted but no position yet (asynchronous fill) - the watcher will register it as soon as it appears
+2026.08.19 04:29:01 [TRTM][INFO ] Watcher: L2 REGISTERED ticket 2026465870 0.03 lots @ 4340.59
+2026.08.19 04:29:01 [TRTM][INFO ] Structure: 2 level(s), 0.05 lots | projected at TP +12.50 | at SL n/a
+2026.08.19 04:29:01 [TRTM][INFO ] Exits applied to ticket 2026444182: TP 4335.99 SL none (replaced user-set TP 4332.38 SL none)
+2026.08.19 04:29:01 [TRTM][INFO ] Exits applied to ticket 2026465870: TP 4335.99 SL none
+2026.08.19 04:31:31 [TRTM][INFO ] Deinit (reason 3) - state saved (sequence alive)
+2026.08.19 04:31:32 [TRTM][INFO ] === TRTM b40 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.08.19 04:31:32 [TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.08.19 04:31:32 [TRTM][INFO ] State persistence self-test: PASS
+2026.08.19 04:31:32 [TRTM][INFO ] Reconcile: flags restored (trailOverride=T beOverride=F trailingActive=F beApplied=F)
+2026.08.19 04:31:32 [TRTM][INFO ] Structure: 2 level(s), 0.05 lots | projected at TP +12.50 | at SL n/a
+2026.08.19 04:31:32 [TRTM][INFO ] Reconcile complete: dir=SELL levels=2
+2026.08.19 04:31:32 [TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.08.19 04:31:32 [TRTM][INFO ] Init complete - b40 (adoption, exits, recovery active)
+2026.08.19 04:32:00 [TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4346.58 vs trigger 4345.59 (worst entry 4340.59 + 500 pts)
+2026.08.19 04:32:00 [TRTM][INFO ] Recovery L3 OPENED: 0.04 lots SELL @ 0.00 (deal 0)
+2026.08.19 04:32:00 [TRTM][INFO ] Recovery L3: order accepted but no position yet (asynchronous fill) - the watcher will register it as soon as it appears
+2026.08.19 04:32:00 [TRTM][INFO ] Watcher: L3 REGISTERED ticket 2026476756 0.04 lots @ 4346.61
+2026.08.19 04:32:00 [TRTM][INFO ] Structure: 3 level(s), 0.09 lots | projected at TP +22.49 | at SL n/a
+2026.08.19 04:32:00 [TRTM][INFO ] Exits applied to ticket 2026444182: TP 4339.60 SL none
+2026.08.19 04:32:01 [TRTM][INFO ] Exits applied to ticket 2026465870: TP 4339.60 SL none
+2026.08.19 04:32:01 [TRTM][INFO ] Exits applied to ticket 2026476756: TP 4339.60 SL none
+2026.08.19 04:38:00 [TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4353.29 vs trigger 4351.61 (worst entry 4346.61 + 500 pts)
+2026.08.19 04:38:00 [TRTM][INFO ] Recovery L4 OPENED: 0.05 lots SELL @ 0.00 (deal 0)
+2026.08.19 04:38:00 [TRTM][INFO ] Recovery L4: order accepted but no position yet (asynchronous fill) - the watcher will register it as soon as it appears
+2026.08.19 04:38:00 [TRTM][INFO ] Watcher: L4 REGISTERED ticket 2026494371 0.05 lots @ 4353.21
+2026.08.19 04:38:00 [TRTM][INFO ] Structure: 4 level(s), 0.14 lots | projected at TP +34.96 | at SL n/a
+2026.08.19 04:38:00 [TRTM][INFO ] Exits applied to ticket 2026444182: TP 4343.57 SL none
+2026.08.19 04:38:00 [TRTM][INFO ] Exits applied to ticket 2026465870: TP 4343.57 SL none
+2026.08.19 04:38:01 [TRTM][INFO ] Exits applied to ticket 2026476756: TP 4343.57 SL none
+2026.08.19 04:38:01 [TRTM][INFO ] Exits applied to ticket 2026494371: TP 4343.57 SL none
+2026.08.19 04:40:17 [TRTM][INFO ] Deinit (reason 3) - state saved (sequence alive)
+2026.08.19 04:40:18 [TRTM][INFO ] === TRTM b40 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.08.19 04:40:18 [TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.08.19 04:40:18 [TRTM][INFO ] State persistence self-test: PASS
+2026.08.19 04:40:18 [TRTM][INFO ] Reconcile: flags restored (trailOverride=T beOverride=F trailingActive=F beApplied=F)
+2026.08.19 04:40:18 [TRTM][INFO ] Structure: 4 level(s), 0.14 lots | projected at TP +34.96 | at SL n/a
+2026.08.19 04:40:18 [TRTM][INFO ] Reconcile complete: dir=SELL levels=4
+2026.08.19 04:40:18 [TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.08.19 04:40:18 [TRTM][INFO ] Init complete - b40 (adoption, exits, recovery active)
+2026.08.19 04:40:28 [TRTM][INFO ] Deinit (reason 3) - state saved (sequence alive)
+2026.08.19 04:40:29 [TRTM][INFO ] === TRTM b40 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.08.19 04:40:29 [TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.08.19 04:40:29 [TRTM][INFO ] State persistence self-test: PASS
+2026.08.19 04:40:29 [TRTM][INFO ] Reconcile: flags restored (trailOverride=T beOverride=F trailingActive=F beApplied=F)
+2026.08.19 04:40:29 [TRTM][INFO ] Structure: 4 level(s), 0.14 lots | projected at TP +34.96 | at SL n/a
+2026.08.19 04:40:29 [TRTM][INFO ] Reconcile complete: dir=SELL levels=4
+2026.08.19 04:40:29 [TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.08.19 04:40:29 [TRTM][INFO ] Init complete - b40 (adoption, exits, recovery active)
+2026.08.19 04:44:02 [TRTM][INFO ] Deinit (reason 3) - state saved (sequence alive)
+2026.08.19 04:44:03 [TRTM][INFO ] === TRTM b40 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.08.19 04:44:03 [TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.08.19 04:44:03 [TRTM][INFO ] State persistence self-test: PASS
+2026.08.19 04:44:03 [TRTM][INFO ] Reconcile: flags restored (trailOverride=T beOverride=F trailingActive=F beApplied=F)
+2026.08.19 04:44:03 [TRTM][INFO ] Structure: 4 level(s), 0.14 lots | projected at TP +34.96 | at SL n/a
+2026.08.19 04:44:03 [TRTM][INFO ] Reconcile complete: dir=SELL levels=4
+2026.08.19 04:44:03 [TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.08.19 04:44:03 [TRTM][INFO ] Init complete - b40 (adoption, exits, recovery active)
+2026.08.19 04:49:43 [TRTM][INFO ] Deinit (reason 3) - state saved (sequence alive)
+2026.08.19 04:49:44 [TRTM][INFO ] === TRTM b40 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.08.19 04:49:44 [TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.08.19 04:49:44 [TRTM][INFO ] State persistence self-test: PASS
+2026.08.19 04:49:44 [TRTM][INFO ] Reconcile: flags restored (trailOverride=T beOverride=F trailingActive=F beApplied=F)
+2026.08.19 04:49:44 [TRTM][INFO ] Structure: 4 level(s), 0.14 lots | projected at TP +34.96 | at SL n/a
+2026.08.19 04:49:44 [TRTM][INFO ] Reconcile complete: dir=SELL levels=4
+2026.08.19 04:49:44 [TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.08.19 04:49:44 [TRTM][INFO ] Init complete - b40 (adoption, exits, recovery active)
+2026.08.19 05:08:43 [TRTM][INFO ] Deinit (reason 3) - state saved (sequence alive)
+2026.08.19 05:08:44 [TRTM][INFO ] === TRTM b40 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.08.19 05:08:44 [TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.08.19 05:08:44 [TRTM][INFO ] State persistence self-test: PASS
+2026.08.19 05:08:44 [TRTM][INFO ] Reconcile: flags restored (trailOverride=T beOverride=F trailingActive=F beApplied=F)
+2026.08.19 05:08:44 [TRTM][INFO ] Structure: 4 level(s), 0.14 lots | projected at TP +34.96 | at SL n/a
+2026.08.19 05:08:44 [TRTM][INFO ] Reconcile complete: dir=SELL levels=4
+2026.08.19 05:08:44 [TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.08.19 05:08:44 [TRTM][INFO ] Init complete - b40 (adoption, exits, recovery active)
+2026.08.19 05:18:48 [TRTM][INFO ] Deinit (reason 3) - state saved (sequence alive)
+2026.08.19 05:18:49 [TRTM][INFO ] === TRTM b40 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.08.19 05:18:49 [TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.08.19 05:18:49 [TRTM][INFO ] State persistence self-test: PASS
+2026.08.19 05:18:49 [TRTM][INFO ] Reconcile: flags restored (trailOverride=T beOverride=F trailingActive=F beApplied=F)
+2026.08.19 05:18:49 [TRTM][INFO ] Structure: 4 level(s), 0.14 lots | projected at TP +34.96 | at SL n/a
+2026.08.19 05:18:49 [TRTM][INFO ] Reconcile complete: dir=SELL levels=4
+2026.08.19 05:18:49 [TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.08.19 05:18:49 [TRTM][INFO ] Init complete - b40 (adoption, exits, recovery active)
+2026.08.19 05:19:00 [TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4358.95 vs trigger 4358.21 (worst entry 4353.21 + 500 pts)
+2026.08.19 05:19:00 [TRTM][INFO ] Recovery L5 OPENED: 0.06 lots SELL @ 0.00 (deal 0)
+2026.08.19 05:19:00 [TRTM][INFO ] Recovery L5: order accepted but no position yet (asynchronous fill) - the watcher will register it as soon as it appears
+2026.08.19 05:19:00 [TRTM][INFO ] Deinit (reason 3) - state saved (sequence alive)
+2026.08.19 05:19:01 [TRTM][INFO ] === TRTM b40 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.08.19 05:19:01 [TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.08.19 05:19:01 [TRTM][INFO ] State persistence self-test: PASS
+2026.08.19 05:19:01 [TRTM][WARN ] Reconcile: level count file=4 vs broker=5 - broker wins
+2026.08.19 05:19:01 [TRTM][INFO ] Reconcile: flags restored (trailOverride=T beOverride=F trailingActive=F beApplied=F)
+2026.08.19 05:19:01 [TRTM][INFO ] Structure: 5 level(s), 0.20 lots | projected at TP +49.90 | at SL n/a
+2026.08.19 05:19:01 [TRTM][INFO ] Reconcile complete: dir=SELL levels=5
+2026.08.19 05:19:01 [TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.08.19 05:19:01 [TRTM][INFO ] Init complete - b40 (adoption, exits, recovery active)
+2026.08.19 05:19:01 [TRTM][INFO ] Exits applied to ticket 2026444182: TP 4347.41 SL none (replaced user-set TP 4343.57 SL none)
+2026.08.19 05:19:01 [TRTM][INFO ] Exits applied to ticket 2026465870: TP 4347.41 SL none (replaced user-set TP 4343.57 SL none)
+2026.08.19 05:19:01 [TRTM][INFO ] Exits applied to ticket 2026476756: TP 4347.41 SL none (replaced user-set TP 4343.57 SL none)
+2026.08.19 05:19:02 [TRTM][INFO ] Exits applied to ticket 2026494371: TP 4347.41 SL none (replaced user-set TP 4343.57 SL none)
+2026.08.19 05:19:02 [TRTM][INFO ] Exits applied to ticket 2026578298: TP 4347.41 SL none
+2026.08.19 05:53:33 [TRTM][INFO ] Tier 3 FIRE: SELL group 2 leg(s) (anchor L1 slice 0.01 of 0.02 + 1 profitable) | sliced-VWAP 4355.50 far 4353.48 margin 202.0 pts >= 200/lot
+2026.08.19 05:53:34 [TRTM][INFO ] Closed L5 ticket 2026578298 @ 0.00
+2026.08.19 05:53:34 [TRTM][INFO ] Tier 3: sliced L1 ticket 2026444182 by 0.01 lot (remaining 0.02) @ 0.00
+2026.08.19 05:53:34 [TRTM][INFO ] Liveness: L5 ticket 2026578298 closed by EA (market close) - removed from sequence
+2026.08.19 05:53:34 [TRTM][INFO ] Structure: 4 level(s), 0.13 lots | projected at TP +32.53 | at SL n/a
+2026.08.19 05:53:34 [TRTM][INFO ] Exits applied to ticket 2026444182: TP 4344.39 SL none
+2026.08.19 05:53:35 [TRTM][INFO ] Exits applied to ticket 2026465870: TP 4344.39 SL none
+2026.08.19 05:53:35 [TRTM][INFO ] Exits applied to ticket 2026476756: TP 4344.39 SL none
+2026.08.19 05:53:35 [TRTM][INFO ] Exits applied to ticket 2026494371: TP 4344.39 SL none
+2026.08.19 06:39:00 [TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4360.33 vs trigger 4358.21 (worst entry 4353.21 + 500 pts)
+2026.08.19 06:39:00 [TRTM][INFO ] Recovery L5 OPENED: 0.06 lots SELL @ 0.00 (deal 0)
+2026.08.19 06:39:00 [TRTM][INFO ] Recovery L5: order accepted but no position yet (asynchronous fill) - the watcher will register it as soon as it appears
+2026.08.19 06:39:00 [TRTM][INFO ] Watcher: L5 REGISTERED ticket 2026694073 0.06 lots @ 4360.20
+2026.08.19 06:39:00 [TRTM][INFO ] Structure: 5 level(s), 0.19 lots | projected at TP +47.59 | at SL n/a
+2026.08.19 06:39:00 [TRTM][INFO ] Exits applied to ticket 2026444182: TP 4348.59 SL none
+2026.08.19 06:39:01 [TRTM][INFO ] Exits applied to ticket 2026465870: TP 4348.59 SL none
+2026.08.19 06:39:01 [TRTM][INFO ] Exits applied to ticket 2026476756: TP 4348.59 SL none
+2026.08.19 06:39:01 [TRTM][INFO ] Exits applied to ticket 2026494371: TP 4348.59 SL none
+2026.08.19 06:39:01 [TRTM][INFO ] Exits applied to ticket 2026694073: TP 4348.59 SL none
+2026.08.19 06:59:01 [TRTM][INFO ] Tier 2 FIRE: SELL group 2 leg(s) (anchor L1 + 1 profitable) | P/L 9.51 >= 8.97 (1.00% x bal 896.94)
+2026.08.19 06:59:01 [TRTM][INFO ] Closed L5 ticket 2026694073 @ 0.00
+2026.08.19 06:59:02 [TRTM][INFO ] Closed L1 ticket 2026444182 @ 0.00
+2026.08.19 06:59:04 [TRTM][INFO ] Liveness: L5 ticket 2026694073 closed by EA (market close) - removed from sequence
+2026.08.19 06:59:04 [TRTM][INFO ] Liveness: L1 ticket 2026444182 closed by EA (market close) - removed from sequence
+2026.08.19 06:59:04 [TRTM][INFO ] Structure: 3 level(s), 0.12 lots | projected at TP +29.94 | at SL n/a
+2026.08.19 06:59:04 [TRTM][INFO ] Exits applied to ticket 2026465870: TP 4345.36 SL none
+2026.08.19 06:59:04 [TRTM][INFO ] Exits applied to ticket 2026476756: TP 4345.36 SL none
+2026.08.19 06:59:04 [TRTM][INFO ] Exits applied to ticket 2026494371: TP 4345.36 SL none
+2026.08.19 07:12:30 [TRTM][INFO ] Deinit (reason 3) - state saved (sequence alive)
+2026.08.19 07:12:31 [TRTM][INFO ] === TRTM b40 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.08.19 07:12:31 [TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.08.19 07:12:31 [TRTM][INFO ] State persistence self-test: PASS
+2026.08.19 07:12:31 [TRTM][INFO ] Reconcile: flags restored (trailOverride=T beOverride=F trailingActive=F beApplied=F)
+2026.08.19 07:12:31 [TRTM][INFO ] Structure: 3 level(s), 0.12 lots | projected at TP +29.94 | at SL n/a
+2026.08.19 07:12:31 [TRTM][INFO ] Reconcile complete: dir=SELL levels=3
+2026.08.19 07:12:31 [TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.08.19 07:12:31 [TRTM][INFO ] Init complete - b40 (adoption, exits, recovery active)
+2026.08.19 07:43:29 [TRTM][INFO ] CLOSE ARMED: floating PnL +26.58 - click CONFIRM within 10s to close the whole sequence at market
+2026.08.19 07:43:39 [TRTM][INFO ] Confirm window canceled (CLOSE was armed): 10s confirm window expired
+2026.08.19 07:43:45 [TRTM][INFO ] CLOSE ARMED: floating PnL +28.14 - click CONFIRM within 10s to close the whole sequence at market
+2026.08.19 07:43:46 [TRTM][INFO ] Close CONFIRMED by user
+2026.08.19 07:43:46 [TRTM][INFO ] Closing sequence at market: user close button (confirmed)
+2026.08.19 07:43:46 [TRTM][INFO ] Closed L2 ticket 2026465870 @ 0.00
+2026.08.19 07:43:46 [TRTM][INFO ] Closed L3 ticket 2026476756 @ 0.00
+2026.08.19 07:43:47 [TRTM][INFO ] Closed L4 ticket 2026494371 @ 0.00
+2026.08.19 07:43:47 [TRTM][INFO ] Liveness: L4 ticket 2026494371 closed by EA (market close) - removed from sequence
+2026.08.19 07:43:47 [TRTM][INFO ] Liveness: L3 ticket 2026476756 closed by EA (market close) - removed from sequence
+2026.08.19 07:43:47 [TRTM][INFO ] Liveness: L2 ticket 2026465870 closed by EA (market close) - removed from sequence
+2026.08.19 07:43:47 [TRTM][INFO ] Sequence fully closed - back to FLAT, overrides reset to input defaults, flat marker saved
+2026.08.19 09:12:56 [TRTM][INFO ] Deinit (reason 3) - state clean (flat)
+2026.08.19 09:12:57 [TRTM][INFO ] === TRTM b40 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.08.19 09:12:57 [TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.08.19 09:12:57 [TRTM][INFO ] State persistence self-test: PASS
+2026.08.19 09:12:57 [TRTM][INFO ] Reconcile complete: FLAT
+2026.08.19 09:12:57 [TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.08.19 09:12:57 [TRTM][INFO ] Init complete - b40 (adoption, exits, recovery active)
+2026.08.19 09:16:25 [TRTM][INFO ] Deinit (reason 2) - state clean (flat)
+2026.08.19 09:16:26 [TRTM][INFO ] === TRTM b41 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.08.19 09:16:26 [TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.08.19 09:16:26 [TRTM][INFO ] State persistence self-test: PASS
+2026.08.19 09:16:26 [TRTM][WARN ] StateLoad: schema mismatch or missing (found 4, expected 5) - DISCARDING the state file. Override flags (trail/BE), manual SL ownership and any adopted-L1 record are LOST; the sequence rebuilds from broker positions. On the b41 upgrade this is EXPECTED EXACTLY ONCE - deploy on a FLAT sequence to avoid it.
+2026.08.19 09:16:26 [TRTM][INFO ] Reconcile complete: FLAT
+2026.08.19 09:16:26 [TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.08.19 09:16:26 [TRTM][INFO ] Init complete - b41 (adoption, exits, recovery active)
+2026.08.19 14:40:01 [TRTM][INFO ] BUY ARMED: 0.02 lots (Fixed 0.02) - click CONFIRM within 10s to execute
+2026.08.19 14:40:03 [TRTM][INFO ] L1 BUY OPENED via button: 0.02 lots @ 0.00 (deal 0)
+2026.08.19 14:40:03 [TRTM][INFO ] L1 order accepted but no position yet (asynchronous fill) - the flat-state watcher will register it as soon as it appears
+2026.08.19 14:40:04 [TRTM][INFO ] Own L1 position 2027521342 found while FLAT (pending fill or recovered send) - registering
+2026.08.19 14:40:04 [TRTM][INFO ] Structure: 1 level(s), 0.02 lots | projected at TP n/a | at SL n/a
+2026.08.19 14:40:04 [TRTM][INFO ] EA L1 REGISTERED: ticket 2027521342 BUY 0.02 lots @ 4368.25. Exits apply next tick.
+2026.08.19 14:42:18 [TRTM][INFO ] Deinit (reason 3) - state saved (sequence alive)
+2026.08.19 14:42:19 [TRTM][INFO ] === TRTM b41 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.08.19 14:42:19 [TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.08.19 14:42:19 [TRTM][INFO ] State persistence self-test: PASS
+2026.08.19 14:42:19 [TRTM][INFO ] Reconcile: flags restored (trailOverride=F beOverride=F trailingActive=F beApplied=F)
+2026.08.19 14:42:19 [TRTM][INFO ] Structure: 1 level(s), 0.02 lots | projected at TP n/a | at SL n/a
+2026.08.19 14:42:19 [TRTM][INFO ] Reconcile complete: dir=BUY levels=1
+2026.08.19 14:42:19 [TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.08.19 14:42:19 [TRTM][INFO ] Init complete - b41 (adoption, exits, recovery active)
+2026.08.19 14:42:27 [TRTM][INFO ] Deinit (reason 3) - state saved (sequence alive)
+2026.08.19 14:42:28 [TRTM][INFO ] === TRTM b41 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.08.19 14:42:28 [TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.08.19 14:42:28 [TRTM][INFO ] State persistence self-test: PASS
+2026.08.19 14:42:28 [TRTM][INFO ] Reconcile: flags restored (trailOverride=F beOverride=F trailingActive=F beApplied=F)
+2026.08.19 14:42:28 [TRTM][INFO ] Structure: 1 level(s), 0.02 lots | projected at TP n/a | at SL n/a
+2026.08.19 14:42:28 [TRTM][INFO ] Reconcile complete: dir=BUY levels=1
+2026.08.19 14:42:28 [TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.08.19 14:42:28 [TRTM][INFO ] Init complete - b41 (adoption, exits, recovery active)
+2026.08.19 14:42:42 [TRTM][INFO ] Deinit (reason 3) - state saved (sequence alive)
+2026.08.19 14:42:42 [TRTM][INFO ] === TRTM b41 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.08.19 14:42:42 [TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.08.19 14:42:42 [TRTM][INFO ] State persistence self-test: PASS
+2026.08.19 14:42:42 [TRTM][INFO ] Reconcile: flags restored (trailOverride=F beOverride=F trailingActive=F beApplied=F)
+2026.08.19 14:42:42 [TRTM][INFO ] Structure: 1 level(s), 0.02 lots | projected at TP n/a | at SL n/a
+2026.08.19 14:42:42 [TRTM][INFO ] Reconcile complete: dir=BUY levels=1
+2026.08.19 14:42:42 [TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.08.19 14:42:42 [TRTM][INFO ] Init complete - b41 (adoption, exits, recovery active)
+2026.08.19 14:42:51 [TRTM][INFO ] Deinit (reason 3) - state saved (sequence alive)
+2026.08.19 14:42:52 [TRTM][INFO ] === TRTM b41 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.08.19 14:42:52 [TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.08.19 14:42:52 [TRTM][INFO ] State persistence self-test: PASS
+2026.08.19 14:42:52 [TRTM][INFO ] Reconcile: flags restored (trailOverride=F beOverride=F trailingActive=F beApplied=F)
+2026.08.19 14:42:52 [TRTM][INFO ] Structure: 1 level(s), 0.02 lots | projected at TP n/a | at SL n/a
+2026.08.19 14:42:52 [TRTM][INFO ] Reconcile complete: dir=BUY levels=1
+2026.08.19 14:42:52 [TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.08.19 14:42:52 [TRTM][INFO ] Init complete - b41 (adoption, exits, recovery active)
+2026.08.19 14:43:02 [TRTM][INFO ] Deinit (reason 3) - state saved (sequence alive)
+2026.08.19 14:43:03 [TRTM][INFO ] === TRTM b41 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.08.19 14:43:03 [TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.08.19 14:43:03 [TRTM][INFO ] State persistence self-test: PASS
+2026.08.19 14:43:03 [TRTM][INFO ] Reconcile: flags restored (trailOverride=F beOverride=F trailingActive=F beApplied=F)
+2026.08.19 14:43:03 [TRTM][INFO ] Structure: 1 level(s), 0.02 lots | projected at TP n/a | at SL n/a
+2026.08.19 14:43:03 [TRTM][INFO ] Reconcile complete: dir=BUY levels=1
+2026.08.19 14:43:03 [TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.08.19 14:43:03 [TRTM][INFO ] Init complete - b41 (adoption, exits, recovery active)
+2026.08.19 14:45:32 [TRTM][INFO ] Deinit (reason 2) - state saved (sequence alive)
+2026.08.19 14:45:32 [TRTM][INFO ] === TRTM b40 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.08.19 14:45:32 [TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.08.19 14:45:32 [TRTM][INFO ] State persistence self-test: PASS
+2026.08.19 14:45:32 [TRTM][WARN ] StateLoad: schema mismatch or missing (found 5, expected 4) - discarding file
+2026.08.19 14:45:32 [TRTM][ERROR] Reconcile: 1 live level(s) but NO state file - overrides reset to defaults, adoptionTime set to now. Any tagged magic-0 L1 is NOT auto-grafted: manual review required.
+2026.08.19 14:45:32 [TRTM][INFO ] Structure: 1 level(s), 0.02 lots | projected at TP n/a | at SL n/a
+2026.08.19 14:45:32 [TRTM][INFO ] Reconcile complete: dir=BUY levels=1
+2026.08.19 14:45:32 [TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.08.19 14:45:32 [TRTM][INFO ] Init complete - b40 (adoption, exits, recovery active)
+2026.08.19 14:46:07 [TRTM][INFO ] Deinit (reason 1) - state saved (sequence alive)
+2026.08.19 14:46:15 [TRTM][INFO ] === TRTM b40 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.08.19 14:46:15 [TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.08.19 14:46:15 [TRTM][INFO ] State persistence self-test: PASS
+2026.08.19 14:46:15 [TRTM][INFO ] Reconcile: flags restored (trailOverride=F beOverride=F trailingActive=F beApplied=F)
+2026.08.19 14:46:15 [TRTM][INFO ] Structure: 1 level(s), 0.02 lots | projected at TP n/a | at SL n/a
+2026.08.19 14:46:15 [TRTM][INFO ] Reconcile complete: dir=BUY levels=1
+2026.08.19 14:46:15 [TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.08.19 14:46:15 [TRTM][INFO ] Init complete - b40 (adoption, exits, recovery active)
+2026.08.19 14:49:16 [TRTM][WARN ] Liveness: L1 ticket 2027521342 closed externally (manual/unknown) - removed from sequence
+2026.08.19 14:49:16 [TRTM][INFO ] Sequence fully closed - back to FLAT, overrides reset to input defaults, flat marker saved
+2026.08.19 14:50:10 [TRTM][INFO ] Deinit (reason 2) - state clean (flat)
+2026.08.19 14:50:10 [TRTM][INFO ] === TRTM b41 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.08.19 14:50:10 [TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.08.19 14:50:10 [TRTM][INFO ] State persistence self-test: PASS
+2026.08.19 14:50:10 [TRTM][WARN ] StateLoad: schema mismatch or missing (found 4, expected 5) - DISCARDING the state file. Override flags (trail/BE), manual SL ownership and any adopted-L1 record are LOST; the sequence rebuilds from broker positions. On the b41 upgrade this is EXPECTED EXACTLY ONCE - deploy on a FLAT sequence to avoid it.
+2026.08.19 14:50:10 [TRTM][INFO ] Reconcile complete: FLAT
+2026.08.19 14:50:10 [TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.08.19 14:50:10 [TRTM][INFO ] Init complete - b41 (adoption, exits, recovery active)
+2026.08.19 14:50:57 [TRTM][INFO ] Pending BUY placement line created at 4366.06 - drag to price, then CONFIRM (line is NOT persisted across restarts)
+2026.08.19 14:51:02 [TRTM][INFO ] BUY LIMIT placed: 0.02 lots @ 4363.71 (order 2027543028). Fill registers as L1; the order is canceled if a sequence starts first (P8).
+2026.08.19 14:51:22 [TRTM][INFO ] Pending order 2027543028 CANCELED: user cancel button
+2026.08.19 14:52:01 [TRTM][INFO ] Deinit (reason 5) - state clean (flat)
+2026.08.19 14:52:01 [TRTM][INFO ] === TRTM b41 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.08.19 14:52:01 [TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.08.19 14:52:01 [TRTM][INFO ] State persistence self-test: PASS
+2026.08.19 14:52:01 [TRTM][INFO ] Reconcile complete: FLAT
+2026.08.19 14:52:01 [TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.08.19 14:52:01 [TRTM][INFO ] Init complete - b41 (adoption, exits, recovery active)
+2026.08.19 14:52:06 [TRTM][INFO ] BUY ARMED: 0.02 lots (Fixed 0.02) - click CONFIRM within 10s to execute
+2026.08.19 14:52:07 [TRTM][INFO ] L1 BUY OPENED via button: 0.02 lots @ 0.00 (deal 0)
+2026.08.19 14:52:07 [TRTM][INFO ] L1 order accepted but no position yet (asynchronous fill) - the flat-state watcher will register it as soon as it appears
+2026.08.19 14:52:08 [TRTM][INFO ] Own L1 position 2027545297 found while FLAT (pending fill or recovered send) - registering
+2026.08.19 14:52:08 [TRTM][INFO ] Structure: 1 level(s), 0.02 lots | projected at TP n/a | at SL n/a
+2026.08.19 14:52:08 [TRTM][INFO ] EA L1 REGISTERED: ticket 2027545297 BUY 0.02 lots @ 4364.05. Exits apply next tick.
+2026.08.19 14:52:37 [TRTM][INFO ] CLOSE ARMED: floating PnL +0.32 - click CONFIRM within 10s to close the whole sequence at market
+2026.08.19 14:52:38 [TRTM][INFO ] Close CONFIRMED by user
+2026.08.19 14:52:38 [TRTM][INFO ] Closing sequence at market: user close button (confirmed)
+2026.08.19 14:52:38 [TRTM][INFO ] Closed L1 ticket 2027545297 @ 0.00
+2026.08.19 14:52:38 [TRTM][INFO ] Liveness: L1 ticket 2027545297 closed by EA (market close) - removed from sequence
+2026.08.19 14:52:38 [TRTM][INFO ] Sequence fully closed - back to FLAT, overrides reset to input defaults, flat marker saved
+2026.08.19 14:52:52 [TRTM][INFO ] Deinit (reason 6) - state clean (flat)
+2026.08.19 14:52:52 [TRTM][INFO ] === TRTM b41 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.08.19 14:52:52 [TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.08.19 14:52:52 [TRTM][INFO ] State persistence self-test: PASS
+2026.08.19 14:52:52 [TRTM][INFO ] Reconcile complete: FLAT
+2026.08.19 14:52:52 [TRTM][WARN ] AutoTrading is OFF (toolbar Algo Trading button) - every entry, pending, and exit write will be rejected with 10027 until it is enabled
+2026.08.19 14:52:52 [TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.08.19 14:52:52 [TRTM][INFO ] Init complete - b41 (adoption, exits, recovery active)
+2026.08.19 14:53:17 [TRTM][INFO ] SELL ARMED: 0.02 lots (Fixed 0.02) - click CONFIRM within 10s to execute
+2026.08.19 14:53:18 [TRTM][INFO ] L1 SELL OPENED via button: 0.02 lots @ 4364.93 (deal 439805698)
+2026.08.19 14:53:18 [TRTM][INFO ] Structure: 1 level(s), 0.02 lots | projected at TP n/a | at SL n/a
+2026.08.19 14:53:18 [TRTM][INFO ] EA L1 REGISTERED: ticket 742972617 SELL 0.02 lots @ 4364.93. Exits apply next tick.
+2026.08.19 14:54:24 [TRTM][INFO ] Deinit (reason 5) - state saved (sequence alive)
+2026.08.19 14:54:24 [TRTM][INFO ] === TRTM b41 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.08.19 14:54:24 [TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.08.19 14:54:24 [TRTM][INFO ] State persistence self-test: PASS
+2026.08.19 14:54:24 [TRTM][INFO ] Reconcile: flags restored (trailOverride=F beOverride=F trailingActive=F beApplied=F)
+2026.08.19 14:54:24 [TRTM][INFO ] Structure: 1 level(s), 0.02 lots | projected at TP n/a | at SL n/a
+2026.08.19 14:54:24 [TRTM][INFO ] Reconcile complete: dir=SELL levels=1
+2026.08.19 14:54:24 [TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.08.19 14:54:24 [TRTM][INFO ] Init complete - b41 (adoption, exits, recovery active)
+2026.08.19 14:54:55 [TRTM][INFO ] Deinit (reason 1) - state saved (sequence alive)
+2026.08.19 14:55:07 [TRTM][INFO ] === TRTM b41 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.08.19 14:55:07 [TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.08.19 14:55:07 [TRTM][INFO ] State persistence self-test: PASS
+2026.08.19 14:55:07 [TRTM][INFO ] Reconcile: flags restored (trailOverride=F beOverride=F trailingActive=F beApplied=F)
+2026.08.19 14:55:07 [TRTM][INFO ] Structure: 1 level(s), 0.02 lots | projected at TP n/a | at SL n/a
+2026.08.19 14:55:07 [TRTM][INFO ] Reconcile complete: dir=SELL levels=1
+2026.08.19 14:55:07 [TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.08.19 14:55:07 [TRTM][INFO ] Init complete - b41 (adoption, exits, recovery active)
+2026.08.19 14:55:26 [TRTM][INFO ] CLOSE ARMED: floating PnL -2.24 - click CONFIRM within 10s to close the whole sequence at market
+2026.08.19 14:55:26 [TRTM][INFO ] Close CONFIRMED by user
+2026.08.19 14:55:26 [TRTM][INFO ] Closing sequence at market: user close button (confirmed)
+2026.08.19 14:55:26 [TRTM][INFO ] Closed L1 ticket 742972617 @ 4366.06
+2026.08.19 14:55:26 [TRTM][INFO ] Liveness: L1 ticket 742972617 closed by EA (market close) - removed from sequence
+2026.08.19 14:55:26 [TRTM][INFO ] Sequence fully closed - back to FLAT, overrides reset to input defaults, flat marker saved
+2026.08.19 14:55:28 [TRTM][INFO ] BUY ARMED: 0.02 lots (Fixed 0.02) - click CONFIRM within 10s to execute
+2026.08.19 14:55:28 [TRTM][INFO ] L1 BUY OPENED via button: 0.02 lots @ 4366.06 (deal 439808194)
+2026.08.19 14:55:28 [TRTM][INFO ] Structure: 1 level(s), 0.02 lots | projected at TP n/a | at SL n/a
+2026.08.19 14:55:28 [TRTM][INFO ] EA L1 REGISTERED: ticket 742976000 BUY 0.02 lots @ 4366.06. Exits apply next tick.
+2026.08.19 15:02:00 [TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4364.10 vs trigger 4364.56 (worst entry 4366.06 - 150 pts)
+2026.08.19 15:02:00 [TRTM][INFO ] Recovery L2 OPENED: 0.03 lots BUY @ 4363.91 (deal 439814424)
+2026.08.19 15:02:00 [TRTM][INFO ] Recovery fast path: L2 REGISTERED ticket 742984349 0.03 lots @ 4363.91
+2026.08.19 15:02:00 [TRTM][INFO ] Structure: 2 level(s), 0.05 lots | projected at TP +12.50 | at SL n/a
+2026.08.19 15:02:00 [TRTM][INFO ] Exits applied to ticket 742976000: TP 4367.27 SL none
+2026.08.19 15:02:00 [TRTM][INFO ] Exits applied to ticket 742984349: TP 4367.27 SL none
+2026.08.19 15:08:47 [TRTM][INFO ] Liveness: L2 ticket 742984349 TP hit @ 4367.55 - removed from sequence
+2026.08.19 15:08:47 [TRTM][INFO ] Liveness: L1 ticket 742976000 TP hit @ 4367.55 - removed from sequence
+2026.08.19 15:08:47 [TRTM][INFO ] Sequence fully closed - back to FLAT, overrides reset to input defaults, flat marker saved
+2026.08.19 15:17:38 [TRTM][INFO ] SELL ARMED: 0.02 lots (Fixed 0.02) - click CONFIRM within 10s to execute
+2026.08.19 15:17:39 [TRTM][INFO ] L1 SELL OPENED via button: 0.02 lots @ 4367.87 (deal 439855947)
+2026.08.19 15:17:39 [TRTM][INFO ] Structure: 1 level(s), 0.02 lots | projected at TP n/a | at SL n/a
+2026.08.19 15:17:39 [TRTM][INFO ] EA L1 REGISTERED: ticket 743032051 SELL 0.02 lots @ 4367.87. Exits apply next tick.
+2026.08.19 15:21:00 [TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4370.73 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 15:21:00 [TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 15:22:00 [TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4371.77 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 15:22:00 [TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 15:23:00 [TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4372.56 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 15:23:00 [TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 15:24:00 [TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4369.53 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 15:24:00 [TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 15:25:00 [TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4370.24 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 15:25:00 [TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 15:26:00 [TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4369.65 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 15:26:00 [TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 15:29:00 [TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4369.98 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 15:29:00 [TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 15:32:00 [TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4370.56 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 15:32:00 [TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 15:33:00 [TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4373.80 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 15:33:00 [TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 15:34:00 [TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4379.20 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 15:34:00 [TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 15:35:00 [TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4384.57 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 15:35:00 [TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 15:36:00 [TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4387.36 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 15:36:00 [TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 15:37:00 [TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4395.97 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 15:37:00 [TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 15:38:00 [TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4407.02 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 15:38:00 [TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 15:39:00 [TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4415.14 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 15:39:00 [TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 15:40:00 [TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4412.66 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 15:40:00 [TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 15:41:00 [TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4416.61 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 15:41:00 [TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 15:42:00 [TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4410.16 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 15:42:00 [TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 15:43:00 [TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4412.24 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 15:43:00 [TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 15:44:00 [TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4411.06 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 15:44:00 [TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 15:45:00 [TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4417.44 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 15:45:00 [TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 15:46:00 [TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4419.87 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 15:46:00 [TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 15:47:00 [TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4414.30 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 15:47:00 [TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 15:48:00 [TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4412.58 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 15:48:00 [TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 15:49:00 [TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4417.85 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 15:49:00 [TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 15:49:28 [TRTM][INFO ] Deinit (reason 2) - state saved (sequence alive)
+2026.08.19 15:49:29 [TRTM][INFO ] === TRTM b41 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.08.19 15:49:29 [TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.08.19 15:49:29 [TRTM][INFO ] State persistence self-test: PASS
+2026.08.19 15:49:29 [TRTM][INFO ] Reconcile: flags restored (trailOverride=F beOverride=F trailingActive=F beApplied=F)
+2026.08.19 15:49:29 [TRTM][INFO ] Structure: 1 level(s), 0.02 lots | projected at TP n/a | at SL n/a
+2026.08.19 15:49:29 [TRTM][INFO ] Reconcile complete: dir=SELL levels=1
+2026.08.19 15:49:29 [TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.08.19 15:49:29 [TRTM][INFO ] Init complete - b41 (adoption, exits, recovery active)
+2026.08.19 15:49:29 [TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4417.85 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 15:49:29 [TRTM][WARN ] QUOTE PROBE [XAUUSD.s]: SymbolInfoDouble bid=4363.94 ask=4364.24 | SymbolInfoTick ok=Y bid=4363.94 ask=4364.24 last=0.00 tickTime=2026.08.19 14:52:52 | TimeCurrent=2026.08.19 15:49:29
+2026.08.19 15:49:29 [TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 15:50:00 [TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4417.54 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 15:50:00 [TRTM][WARN ] QUOTE PROBE [XAUUSD.s]: SymbolInfoDouble bid=4363.94 ask=4364.24 | SymbolInfoTick ok=Y bid=4363.94 ask=4364.24 last=0.00 tickTime=2026.08.19 14:52:52 | TimeCurrent=2026.08.19 15:50:00
+2026.08.19 15:50:00 [TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 15:51:00 [TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4414.10 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 15:51:00 [TRTM][WARN ] QUOTE PROBE [XAUUSD.s]: SymbolInfoDouble bid=4363.94 ask=4364.24 | SymbolInfoTick ok=Y bid=4363.94 ask=4364.24 last=0.00 tickTime=2026.08.19 14:52:52 | TimeCurrent=2026.08.19 15:51:00
+2026.08.19 15:51:00 [TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 15:52:00 [TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4421.83 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 15:52:00 [TRTM][WARN ] QUOTE PROBE [XAUUSD.s]: SymbolInfoDouble bid=4363.94 ask=4364.24 | SymbolInfoTick ok=Y bid=4363.94 ask=4364.24 last=0.00 tickTime=2026.08.19 14:52:52 | TimeCurrent=2026.08.19 15:52:00
+2026.08.19 15:52:00 [TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 15:53:00 [TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4418.41 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 15:53:00 [TRTM][WARN ] QUOTE PROBE [XAUUSD.s]: SymbolInfoDouble bid=4363.94 ask=4364.24 | SymbolInfoTick ok=Y bid=4363.94 ask=4364.24 last=0.00 tickTime=2026.08.19 14:52:52 | TimeCurrent=2026.08.19 15:53:00
+2026.08.19 15:53:00 [TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 15:54:00 [TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4424.65 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 15:54:00 [TRTM][WARN ] QUOTE PROBE [XAUUSD.s]: SymbolInfoDouble bid=4363.94 ask=4364.24 | SymbolInfoTick ok=Y bid=4363.94 ask=4364.24 last=0.00 tickTime=2026.08.19 14:52:52 | TimeCurrent=2026.08.19 15:54:00
+2026.08.19 15:54:00 [TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 15:55:00 [TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4428.73 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 15:55:00 [TRTM][WARN ] QUOTE PROBE [XAUUSD.s]: SymbolInfoDouble bid=4363.94 ask=4364.24 | SymbolInfoTick ok=Y bid=4363.94 ask=4364.24 last=0.00 tickTime=2026.08.19 14:52:52 | TimeCurrent=2026.08.19 15:55:00
+2026.08.19 15:55:00 [TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 15:56:00 [TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4427.89 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 15:56:00 [TRTM][WARN ] QUOTE PROBE [XAUUSD.s]: SymbolInfoDouble bid=4363.94 ask=4364.24 | SymbolInfoTick ok=Y bid=4363.94 ask=4364.24 last=0.00 tickTime=2026.08.19 14:52:52 | TimeCurrent=2026.08.19 15:56:00
+2026.08.19 15:56:00 [TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 15:57:00 [TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4437.82 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 15:57:00 [TRTM][WARN ] QUOTE PROBE [XAUUSD.s]: SymbolInfoDouble bid=4363.94 ask=4364.24 | SymbolInfoTick ok=Y bid=4363.94 ask=4364.24 last=0.00 tickTime=2026.08.19 14:52:52 | TimeCurrent=2026.08.19 15:57:00
+2026.08.19 15:57:00 [TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 15:58:00 [TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4438.89 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 15:58:00 [TRTM][WARN ] QUOTE PROBE [XAUUSD.s]: SymbolInfoDouble bid=4363.94 ask=4364.24 | SymbolInfoTick ok=Y bid=4363.94 ask=4364.24 last=0.00 tickTime=2026.08.19 14:52:52 | TimeCurrent=2026.08.19 15:58:00
+2026.08.19 15:58:00 [TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 15:59:00 [TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4436.15 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 15:59:00 [TRTM][WARN ] QUOTE PROBE [XAUUSD.s]: SymbolInfoDouble bid=4363.94 ask=4364.24 | SymbolInfoTick ok=Y bid=4363.94 ask=4364.24 last=0.00 tickTime=2026.08.19 14:52:52 | TimeCurrent=2026.08.19 15:59:00
+2026.08.19 15:59:00 [TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 16:00:00 [TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4438.78 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 16:00:00 [TRTM][WARN ] QUOTE PROBE [XAUUSD.s]: SymbolInfoDouble bid=4363.94 ask=4364.24 | SymbolInfoTick ok=Y bid=4363.94 ask=4364.24 last=0.00 tickTime=2026.08.19 14:52:52 | TimeCurrent=2026.08.19 16:00:00
+2026.08.19 16:00:00 [TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 16:01:00 [TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4437.18 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 16:01:00 [TRTM][WARN ] QUOTE PROBE [XAUUSD.s]: SymbolInfoDouble bid=4363.94 ask=4364.24 | SymbolInfoTick ok=Y bid=4363.94 ask=4364.24 last=0.00 tickTime=2026.08.19 14:52:52 | TimeCurrent=2026.08.19 16:01:00
+2026.08.19 16:01:00 [TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 16:02:00 [TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4439.66 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 16:02:00 [TRTM][WARN ] QUOTE PROBE [XAUUSD.s]: SymbolInfoDouble bid=4363.94 ask=4364.24 | SymbolInfoTick ok=Y bid=4363.94 ask=4364.24 last=0.00 tickTime=2026.08.19 14:52:52 | TimeCurrent=2026.08.19 16:02:00
+2026.08.19 16:02:00 [TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 16:03:00 [TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4430.99 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 16:03:00 [TRTM][WARN ] QUOTE PROBE [XAUUSD.s]: SymbolInfoDouble bid=4363.94 ask=4364.24 | SymbolInfoTick ok=Y bid=4363.94 ask=4364.24 last=0.00 tickTime=2026.08.19 14:52:52 | TimeCurrent=2026.08.19 16:03:00
+2026.08.19 16:03:00 [TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 16:04:00 [TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4431.20 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 16:04:00 [TRTM][WARN ] QUOTE PROBE [XAUUSD.s]: SymbolInfoDouble bid=4363.94 ask=4364.24 | SymbolInfoTick ok=Y bid=4363.94 ask=4364.24 last=0.00 tickTime=2026.08.19 14:52:52 | TimeCurrent=2026.08.19 16:04:00
+2026.08.19 16:04:00 [TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 16:05:00 [TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4427.47 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 16:05:00 [TRTM][WARN ] QUOTE PROBE [XAUUSD.s]: SymbolInfoDouble bid=4363.94 ask=4364.24 | SymbolInfoTick ok=Y bid=4363.94 ask=4364.24 last=0.00 tickTime=2026.08.19 14:52:52 | TimeCurrent=2026.08.19 16:05:00
+2026.08.19 16:05:00 [TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 16:05:00 [TRTM][INFO ] Deinit (reason 1) - state saved (sequence alive)
+2026.08.19 16:05:22 [TRTM][INFO ] === TRTM b41 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.08.19 16:05:22 [TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.08.19 16:05:22 [TRTM][INFO ] State persistence self-test: PASS
+2026.08.19 16:05:22 [TRTM][INFO ] Reconcile: flags restored (trailOverride=F beOverride=F trailingActive=F beApplied=F)
+2026.08.19 16:05:22 [TRTM][INFO ] Structure: 1 level(s), 0.02 lots | projected at TP n/a | at SL n/a
+2026.08.19 16:05:22 [TRTM][INFO ] Reconcile complete: dir=SELL levels=1
+2026.08.19 16:05:22 [TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.08.19 16:05:22 [TRTM][INFO ] Init complete - b41 (adoption, exits, recovery active)
+2026.08.19 16:05:22 [TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4427.47 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 16:05:22 [TRTM][WARN ] QUOTE PROBE [XAUUSD.s]: SymbolInfoDouble bid=4363.94 ask=4364.24 | SymbolInfoTick ok=Y bid=4363.94 ask=4364.24 last=0.00 tickTime=2026.08.19 14:52:52 | TimeCurrent=2026.08.19 16:05:22
+2026.08.19 16:05:22 [TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 16:06:00 [TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4427.49 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 16:06:00 [TRTM][WARN ] QUOTE PROBE [XAUUSD.s]: SymbolInfoDouble bid=4363.94 ask=4364.24 | SymbolInfoTick ok=Y bid=4363.94 ask=4364.24 last=0.00 tickTime=2026.08.19 14:52:52 | TimeCurrent=2026.08.19 16:06:00
+2026.08.19 16:06:00 [TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 16:07:00 [TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4427.80 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 16:07:00 [TRTM][WARN ] QUOTE PROBE [XAUUSD.s]: SymbolInfoDouble bid=4363.94 ask=4364.24 | SymbolInfoTick ok=Y bid=4363.94 ask=4364.24 last=0.00 tickTime=2026.08.19 14:52:52 | TimeCurrent=2026.08.19 16:07:00
+2026.08.19 16:07:00 [TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
