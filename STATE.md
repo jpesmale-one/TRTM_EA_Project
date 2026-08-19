@@ -4,11 +4,29 @@
 # runtime copy, all compared to this manifest. Match = aligned in one
 # line. Disk + git are truth, never conversation or auto memory.
 
-build: b40
+build: b41
 file: TRTM.mq5
-sha256_16: 2e902e9032d820a9
-lines: 4974
-date: 2026-07-30
+sha256_16: d2354c4c1269874e
+lines: 5063
+date: 2026-08-19
+# b41 SEALED BY JEFF 2026-08-19. E9-M1 reconcile discriminator + state schema 4 -> 5.
+#   REPO src    = b41 (d2354c4c1269874e / 5063)  <- this manifest tracks REPO.
+#   MT5 runtime = b41 (d2354c4c1269874e / 5063) - DEPLOYED on a FLAT sequence 2026-08-19
+#     19:50 (Doo XAUUSD.s, magic 715358) per b41-C1's condition. Repo and runtime ALIGNED.
+# GATE ZERO: PASSED 2026-08-19 - 0 errors, 0 warnings, AFTER the K-4 withdrawal (the only
+#   warning was the withdrawn code's string->number conversion).
+# HYGIENE: 0 bare LF, ASCII-only, brace delta -1 (baseline-preserved), paren 0, bracket 0.
+# DELTA: +89 lines (4974 -> 5063). NO new input, NO new global. TWO new PERSISTED fields.
+# GATE 4 CLOSED ON EVIDENCE 2026-08-19 (tests/2026.08.19 212941.548..txt):
+#   B-1 the row RUN H FAILED - reconcile no longer adopts the EA's own applied TP.
+#   B-2 discriminator proven: a removal REVERTED, a real edit ADOPTED, back to back.
+#   D-1 Tier 3 fire recomputed INDEPENDENTLY on BOTH derivations, agreeing to 8 decimals.
+#   C-1..C-5 closed at deploy (self-test PASS, the strengthened discard WARN fired verbatim).
+# SCOPE CUT, ON THE RECORD: K-4 (Group A, rows A-1..A-8) was WITHDRAWN at Gate Zero when
+#   the fix proved impossible as planned - CTrade cannot comment a close. Those rows are
+#   NEITHER CLOSED NOR FAILED, and K-4 is parked to E9. b41-S1's escape hatch fired in the
+#   opposite direction from the one it predicted.
+# Prior SEALED build: b40 (2e902e9032d820a9 / 4974, documentation-only, 2026-07-30).
 # b40 - DOCUMENTATION-ONLY BUILD, 2026-07-30. NOT a behaviour change.
 #   REPO src    = b40 (2e902e9032d820a9 / 4974)  <- this manifest tracks REPO.
 #   MT5 runtime = b40 (2e902e9032d820a9 / 4974) - DEPLOYED + RECOMPILED by Jeff

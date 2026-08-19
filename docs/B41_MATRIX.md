@@ -267,6 +267,21 @@ Q3  Does B-3 (M7-8 not shadowed by the new guard) close on inspection? ANSWERED:
     value. b28 sealed M7-8 on live evidence; b41 must not re-litigate that, only avoid
     disturbing it.
 
+## *** GATE 4 CLOSED - b41 SEALED BY JEFF 2026-08-19 ***
+FINAL ROW DISPOSITION (evidence: tests/2026.08.19 212941.548..txt + the deploy init):
+  GROUP A (K-4, A-1..A-8) .... NOT ATTEMPTED. Withdrawn at Gate Zero; parked to E9.
+                               NEITHER CLOSED NOR FAILED. Do not read as either.
+  B-1 ........................ PASS ON EVIDENCE. The row Run H failed.
+  B-2 (MUST-NOT) ............. PASS on EQUIVALENT evidence (edits made live, not offline -
+                               same code path, stated honestly rather than rounded up).
+  B-3 (MUST-NOT) ............. inspection, as Q3 answered.
+  B-4..B-8 ................... carried by the same run's reconcile + apply behaviour.
+  C-1 (MUST-NOT) ............. closed BY PROCEDURE (deploy-on-flat), as recorded.
+  C-2, C-3, C-4, C-5 ......... PASS at deploy.
+  D-1 (MUST-NOT) ............. PASS, recomputed INDEPENDENTLY on both derivations.
+  D-2, D-3, D-5 .............. filtered diff + Gate Zero.
+  D-4 ........................ the run opened L2..L5 normally on the extracted helper.
+
 ## SEAL STATUS - **SEALED rev 1 by Jeff, 2026-08-19**
 All questions answered. 26 rows (A-1..A-8, B-1..B-8, C-1..C-5, D-1..D-5).
 MUST-NOT rows: A-3, A-4, B-2, B-3, C-1, D-1, D-2, D-3.

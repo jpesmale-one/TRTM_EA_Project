@@ -1,127 +1,69 @@
-# TRTM - Session continuation prompt template
+# TRTM CONTINUATION PROMPT - paste this to start the next session
+# Regenerated 2026-08-19 after the b41 seal. Supersedes the b40-era version.
 
-Standard way to resume TRTM after a session break. At each break (when the
-handover is written), fill the `{{PLACEHOLDERS}}` below from STATE.md's
-header + the handover you just wrote, then paste the filled block as the
-FIRST message of the next session.
+Resume TRTM. Run the section 0 resume protocol FIRST: git status + sha256_16
++ wc -l of src/TRTM.mq5 AND the MT5 runtime copy, all compared to STATE.md
+(expect build b41, d2354c4c1269874e, 5063 lines). Repo and runtime are
+ALIGNED and DEPLOYED - report "repo and runtime aligned at b41" in one line.
+A mismatch on EITHER side is a real STOP. NOTE: PowerShell's Measure-Object
+-Line UNDERCOUNTS this file; count LF bytes or use wc. The sha256 settles it.
 
-Keep the fixed scaffolding (resume protocol, gate order, MT5 boundary)
-verbatim - it protects against cold-start drift. Only the `{{...}}` change.
+Then read docs/HANDOVER_2026-08-19_b41_sealed.md and STATE.md. E1, E4, E5,
+E6, b39, b40 and b41 are ALL SEALED - do NOT re-open them. Run H is DONE
+(2026-08-18): T3-K1 and T3-K2(b) PASS on evidence, K-4 FAIL, L-3 DEFENDED.
+b39's watcher caveat was RETIRED 2026-08-18 when WatchUntrackedLevels
+adopted on the live Cent account, unprompted.
 
----
+b41 SEALED 2026-08-19 fixes E9-M1 (reconcile adopted the EA's OWN last
+applied TP as a trader edit after a restart) by PERSISTING lastAppliedTP/SL,
+state schema 4 -> 5. B-1 - the row Run H failed - PASSES on evidence.
 
-## Template (copy, fill the placeholders, paste)
+READ THIS BEFORE TOUCHING TIER 3: b41 was PLANNED to also fix K-4 (a Tier 3
+slice BLANKS the surviving anchor's _lN_ comment). GATE ZERO REJECTED IT -
+CTrade CANNOT comment a close; PositionClosePartial's third parameter is a
+ulong DEVIATION and the implementation never sets m_request.comment. The
+Gate 3 plan asserted an overload existed and did not verify it. Rows A-1..A-8
+are NEITHER CLOSED NOR FAILED - not attempted. K-4 is PARKED TO E9 with O6.
+Contained meanwhile by b39's O2b (unparseable tag -> maxLvl+1, never 0),
+proven by Run H. Residual risk: a restart that scans the sliced anchor AFTER
+other levels anchors FormBasketGroup on the wrong position; TP/PL arithmetic
+is unaffected.
 
-```
-Resume TRTM. Run the section 0 resume protocol FIRST: git status +
-sha256_16 + wc -l of src/TRTM.mq5 AND the MT5 runtime copy, all compared
-to STATE.md (expect build {{BUILD}}, {{SHA256_16}}, {{LINES}} lines).
-Report aligned in one line, or STOP on mismatch.
-
-Then read {{HANDOVER_FILE}} and STATE.md. {{STATUS_LINE}}
-
-{{RESUME_TASK}}
-
-{{REFERENCE_EA_CAVEAT}}
-
-Gate order holds: locked decisions -> sealed matrix (money paths) ->
-confirmed plan -> build -> evidence-audited verification -> seal on my
-explicit word. One question per message, concrete numbers, your rec each;
-record every decision + rejected alternatives in STATE.md's locked-
-decisions log. No code before a confirmed plan; no matrix before locked
-decisions. Do not touch the MT5 tree (deploy is my manual step); recompute
-every money number before any PASS.
-
-{{OPEN_NOTES}}
-```
-
----
-
-## Placeholder key (where each value comes from)
-
-| Placeholder | Fill from |
-|---|---|
-| `{{BUILD}}` / `{{SHA256_16}}` / `{{LINES}}` | STATE.md header (`build:` / `sha256_16:` / `lines:`). |
-| `{{HANDOVER_FILE}}` | The handover just written, e.g. `docs/HANDOVER_YYYY-MM-DD_<item>_<build>.md`. |
-| `{{STATUS_LINE}}` | One line on where things stand, e.g. "E1 sealed; E4 is now unblocked." |
-| `{{RESUME_TASK}}` | The concrete next action. Two shapes: **(a) new item** - "Open {{ITEM}}'s Gate 1. Work its open sub-decisions ONE at a time, starting with the most foundational." **(b) resume mid-pipeline** - "Resume {{ITEM}} at Gate {{N}} ({{WHERE}}, e.g. matrix rows Mx-My unsealed / checklist at S-x). Do not re-plan sealed rows." |
-| `{{REFERENCE_EA_CAVEAT}}` | Include ONLY if the item derives from a reference EA: "This item is reverse-engineered from a reference EA (Shadow) - treat it as reference, never spec; each point is tagged OBSERVED or CHOSEN in docs/ENHANCEMENT_INPUT_*.md." Otherwise delete the line. |
-| `{{OPEN_NOTES}}` | Carry-forwards: unpushed commits, open findings (F-numbers), empirical re-checks flagged in the handover. Delete if none. |
-
----
-
-## Current instance - pre-filled for the NEXT break (b39 SEALED with caveat; Run H next)
-
-```
-Resume TRTM. Run the section 0 resume protocol FIRST: git status +
-sha256_16 + wc -l of src/TRTM.mq5 AND the MT5 runtime copy, all compared
-to STATE.md (expect build b40, 2e902e9032d820a9, 4974 lines). Repo and
-runtime are ALIGNED and DEPLOYED - report "repo and runtime aligned at b40"
-in one line. A mismatch on EITHER side is a real STOP.
-
-Then read docs/HANDOVER_2026-07-30_b39_sealed.md and STATE.md. E1, E4, E5, E6
-and b39 are ALL SEALED (do NOT re-open). b40 changed COMMENTS ONLY - proven by
-a filtered diff showing exactly one non-comment line changed (the build tag) -
-so every b39 evidence row carries forward unchanged. The three drawdown-
-reduction valves stack T2 percent -> T1 points -> T3 partial slice, one fire
-per tick, all default OFF.
-
-b39 (async-fill registration hotfix) is SEALED WITH ONE EXPLICIT CAVEAT, and
-you must not lose it: A-1 and W-1..W-6 closed on CODE INSPECTION, NOT evidence.
-WatchUntrackedLevels has NEVER adopted a position in any run. On Vantage the
-TRADE_RETCODE_PLACED signature is ROUTINE (reproduced live) but the fill lands
-within the tick, so the fast path never missed. The registration MISS is a
-TIMING TAIL, not reproducible on demand, and the Cent account is LIVE MONEY -
-we are not chasing it there. It is PARKED, not abandoned: if it recurs the
-journal is the reproduction. "order accepted but no position yet" ->
-"Watcher: L<n> REGISTERED" -> "Exits applied" closes the rows on live evidence
-and RETIRES the caveat; an orphan with NO watcher line is a b39 DEFECT -
-capture the log and reopen. Do NOT quietly mark those rows verified.
-
-TOP PRIORITY THIS SESSION is RUN H, unless I say otherwise. Run H is T3-K1/K2
-against an ACTUAL SLICED ANCHOR, ON VANTAGE - overdue since the E6 seal (closed
-by INHERITANCE there, never exercised) and now doubly so because b39 REWROTE
-the sequence-rebuild code it exercises. It also carries K-4: confirm empirically
-whether Vantage preserves position comments across a PARTIAL CLOSE. A rewrite
-there would make L-2/L-3 ACTIVE rather than defensive and escalate E9-O6.
-Note the constraint learned the hard way: tester inputs LOCK once a run starts
-and a tester restart REPLAYS from the beginning, so any restart-with-open-
-positions row MUST be run on a LIVE chart (remove EA -> re-attach), not the
-tester.
+TOP PRIORITY THIS SESSION is E9-Q1 - the STALE-QUOTE GUARD - unless I say
+otherwise. On 2026-08-19 TRTM read a FROZEN quote as truth for 73 minutes:
+recovery was silently dead, and the forfeit WARN blamed SPREAD, which
+misdirected the whole investigation. The incident itself was NOT a TRTM
+defect (a terminal restart cleared it; three theories failed against evidence
+and are recorded as eliminated in STATE.md - do not re-derive them). The GAP
+is real: a MqlTick.time vs TimeCurrent() check would have named it on the
+first forfeit. Own Gate 1, own matrix.
 
 Gate order holds: locked decisions -> sealed matrix (money paths) ->
 confirmed plan -> build -> evidence-audited verification -> seal on my
 explicit word. One question per message, concrete numbers, your rec each;
-record every decision + rejected alternatives in STATE.md's locked-
-decisions log. No code before a confirmed plan; no matrix before locked
-decisions. Do not touch the MT5 tree (deploy is my manual step); recompute
-every money number before any PASS.
+record every decision + rejected alternatives in STATE.md's locked-decisions
+log. No code before a confirmed plan; no matrix before locked decisions. Do
+not touch the MT5 tree (deploy is my manual step); recompute every money
+number before any PASS. VERIFY library signatures against the MT5 Include
+tree before planning against them - that is what K-4 cost us.
 
 Also carried forward:
-(1) NOT PUSHED - origin/main is at 8722fcc; SIX commits are local-only
-(oldest first): 37daf7e E6-b38 seal, 09a0d77 b39 Gate 1+2, aed4b26 b39 seal
-+ evidence, 68009ed b39 handover + continuation, d22cb44 b40 docs build,
-704761d handover realign. Verify with `git log --oneline 8722fcc..HEAD`.
-Pushing is my call, ask before doing it.
-(2) MAINTENANCE HAZARD from b39: AdoptionCandidateExists duplicates TryAdopt's
-admission logic and MUST be kept in step. Deliberately not unified inside a
-hotfix (it would re-open sealed Stage 2 code with one-shot logging side
-effects). -> E9.
-(3) STILL OPEN ON INSPECTION besides the watcher: L-1..L-4 (unreachable without
-a DELIBERATELY corrupted comment - decide before any future seal whether those
-close on evidence or inspection) and F-1..F-5 (flat-state rebuild never
-triggered in any run).
-(4) T3-DS1 dashboard never visually confirmed (display-only, no money path).
-(5) E9 now holds: O3 filling-mode negotiation, O4 netting guard (TRTM is
-structurally HEDGING-ONLY with NO guard today), O5 execution-mode init
-guidance, O6 comment-integrity detection, PLUS b39's deferrals - E9-O2e
-(never-filled timeout), W-7 (account-scoped identity), and item (2).
-(6) E8 (profit-funded follow-on slice) unblocked since E6, own Gate 1 pending,
+(1) NOT PUSHED - roughly EIGHTEEN commits are local-only; origin/main was at
+8722fcc, then 854c077 before the 2026-08-18/19 sessions. Verify with
+`git log --oneline origin/main..HEAD`. Pushing is my call, ask before doing it.
+(2) E9 now holds: Q1 stale-quote guard (NEW, top priority), K-4 slice comment
++ O6 comment-integrity, M4 (adoptedL1 unrecoverable on state-file loss), M2
+(stale projection line), O3 filling-mode, O4 netting guard, O5 exemode init,
+O2e never-filled timeout, W-7 account-scoped identity, P6 AdoptionCandidate-
+Exists/TryAdopt duplication.
+(3) STILL OPEN ON INSPECTION: L-1/L-2/L-4 (need a deliberately corrupted
+comment), F-1..F-5 (flat-state rebuild never triggered), T3-K2 sub-case (a),
+T3-DS1 dashboard visual confirm.
+(4) TEST-DESIGN RULES THAT COST REAL RUNS: InpTier3MinTrades must stay >= 4
+(at 2 the profitable group IS the whole basket, M-1 stands down, Tier 3 can
+never fire); InpEntryLotSize 0.05 for Tier 3 runs; InpEnableTrailing MUST be
+false for verification runs (it killed sequences twice); restart-with-open-
+positions rows MUST be a LIVE chart, never the tester; after switching
+accounts in a running terminal, RESTART THE TERMINAL before trusting quotes.
+(5) E8 (profit-funded follow-on slice) unblocked since E6, own Gate 1 pending,
 never opened. E2 draggable exit lines, E3 auto-entry still in the backlog.
-Open findings: F3 (impossible in TRTM - empty OnTradeTransaction), F4 (design
-note), F5 (E5 evidence-only, resolved).
-```
-
-> After each future break, replace this "Current instance" block with a
-> freshly filled one for the next resume, so the file always carries a
-> ready-to-paste prompt.
