@@ -366,7 +366,9 @@ ONE OPEN QUESTION (QP1): whether to also SEED the runtime globals from the file 
 ## b41 BUILT 2026-08-19 - GATE ZERO NOT YET RUN, NOT DEPLOYED
 Plan CONFIRMED by Jeff (QP1 answered: INCLUDE the seeding). All TEN touch points written
 per docs/B41_PLAN_2026-08-19_gate3.md, plus ONE addition noted below.
-  BUILD b41  sha256_16 79b367bfa57b0b14  /  5045 lines  (b40 was 2e902e9032d820a9 / 4974)
+  BUILD b41  sha256_16 dba6c661efdbc09f  /  5055 lines  (b40 was 2e902e9032d820a9 / 4974)
+  (identity revised 2026-08-19 by a COMMENT-ONLY header cleanup folded in BEFORE Gate Zero -
+   see "b41 HEADER CLEANUP" below. The pre-cleanup code build was 79b367bfa57b0b14 / 5045.)
   DELTA +71 lines. The plan predicted ~+51 (~5025); the overrun is COMMENT VOLUME, not
   extra logic - the filtered diff below is exactly the ten planned edits and nothing else.
   Stated plainly rather than quietly: the estimate was low, the code was not.
@@ -397,6 +399,33 @@ HYGIENE INCIDENT WORTH RECORDING: an intermediate edit normalized the file to ba
   (5041 bare LF at one point). Caught by the hygiene check BEFORE any commit and repaired -
   the file is CRLF throughout again, 0 bare LF. No bad state was ever committed, but the
   lesson is that the scripted edits must preserve line endings explicitly.
+
+## b41 HEADER CLEANUP - COMMENT-ONLY, folded in 2026-08-19 BEFORE Gate Zero
+Jeff asked for a stale-comment sweep (the same class of work b40 existed to do). Folded
+into b41 rather than deferred to a b42 docs build BECAUSE b41 had not been compiled or
+deployed - there was no build identity carrying evidence to invalidate. (Contrast E6-b38,
+which deliberately deferred exactly this kind of edit: there, a comment-only change WOULD
+have broken a sealed build's identity. That reasoning does not apply to an uncompiled build.)
+PROVEN COMMENT-ONLY: `git diff -U0` filtered to non-comment lines is EMPTY - zero
+executable lines changed. Same proof standard b40 used.
+THREE FIXES:
+  1. THE IMPORTANT ONE - the file header still said the b39 watcher "has never adopted a
+     position in testing". FALSE since 2026-08-18: it adopted on the LIVE Cent account,
+     unprompted, and Jeff retired the caveat. A cold start reads this header first, so a
+     retired caveat presented as live is exactly the "comment that lies" b40 was built to
+     eliminate. Now records the retirement and how it happened.
+  2. Provenance list ended at b39 - b40 and b41 were absent, and the Stage 8 line did not
+     record that b41 extended its reconcile classification. Both added.
+  3. LINE-NUMBER ROT I INTRODUCED MYSELF, one day old: BuildLevelTag's comment (written
+     2026-08-19 in the b41 build) said "ParseTag (671)". b41's own edits had already pushed
+     ParseTag to 685. This is precisely the rot b40 fixed twice, reintroduced by me in the
+     very build after it. Replaced with a function-name reference, per b40's own rule that
+     line numbers rot on every build. Worth recording as a recurring failure mode, not a
+     one-off slip.
+ALSO FIXED: the 13 new header lines were 71 chars against a 70-char box border. Trimmed to
+  match; the whole header block is now uniformly 70.
+HYGIENE RE-VERIFIED AFTER THE CLEANUP: 0 bare LF, ASCII-only, brace -1 (baseline-preserved),
+  paren 0, bracket 0.
 
 NEXT: GATE ZERO - Jeff compiles in MetaEditor (0 errors / 0 warnings expected), then
   DEPLOY ON A FLAT SEQUENCE per b41-C1, then the single verification run.

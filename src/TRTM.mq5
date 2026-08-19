@@ -10,7 +10,8 @@
 //|   [X] Stage 5: GUI panel + dashboard                             |
 //|   [X] Stage 6: BE + Trailing (runtime override buttons)          |
 //|   [X] Stage 7: SafetyLayer + instance lock + log retention       |
-//|   [X] Stage 8: Manual exit ownership (b24-b28)                   |
+//|   [X] Stage 8: Manual exit ownership (b24-b28; reconcile         |
+//|                classification extended by b41, E9-M1)            |
 //|   [X] Stage 9: Tester interactive mode (button polling)          |
 //|   [X] Stage 10: Observability (guard announcements)              |
 //|                                                                  |
@@ -21,8 +22,17 @@
 //|   [X] E6  Drawdown Reduction Tier 3 - anchor slice  (E6-b38)     |
 //|       Tiers dispatch T2 -> T1 -> T3, exactly ONE fire per tick.  |
 //|   [X] b39 async-fill registration hotfix (watcher-primary)       |
-//|           SEALED WITH A CAVEAT - see STATE.md: the watcher       |
-//|           itself has never adopted a position in testing.        |
+//|           SEALED. Its one caveat - that WatchUntrackedLevels     |
+//|           had never actually adopted - was RETIRED 2026-08-18    |
+//|           when it adopted on the LIVE Cent account, unprompted.  |
+//|   [X] b40 documentation-only build (comment corrections)         |
+//|   [X] b41 K-4 slice comment fix + E9-M1 reconcile discriminator  |
+//|           K-4: a Tier 3 slice used to BLANK the anchor's _lN_    |
+//|           tag, because MT5 takes a position's comment from the   |
+//|           last order to touch it and the slice order carried     |
+//|           none. Found live on Vantage 2026-08-18 (Run H).        |
+//|           E9-M1: reconcile adopted the EA's OWN last applied TP  |
+//|           as a trader edit after a restart. State schema 4 -> 5. |
 //|                                                                  |
 //|  BACKLOG: E2 draggable exit lines, E3 auto-entry, E8 profit-     |
 //|  funded follow-on slice, E9 broker hardening. See STATE.md.      |
@@ -1519,7 +1529,7 @@ bool CloseLegAtMarket(const ulong ticket, const int level)
 // definition, so the tag a level is OPENED with and the tag its SLICE re-asserts can
 // never drift. Duplicating it was rejected at Gate 1: that is exactly the E9-P6 hazard
 // (AdoptionCandidateExists vs TryAdopt), and a tag that silently diverges from ParseTag
-// is what caused K-4 in the first place. ParseTag (671) is the reader; this is the
+// is what caused K-4 in the first place. ParseTag is the reader; this is the
 // writer; they must stay in step.
 string BuildLevelTag(const int level, const int dir)
   {
