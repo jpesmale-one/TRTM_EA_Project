@@ -464,6 +464,45 @@ ALSO FIXED: the 13 new header lines were 71 chars against a 70-char box border. 
 HYGIENE RE-VERIFIED AFTER THE CLEANUP: 0 bare LF, ASCII-only, brace -1 (baseline-preserved),
   paren 0, bracket 0.
 
+## *** b41 VERIFICATION PARKED 2026-08-19 - LIVE QUOTE DEFECT UNDER DIAGNOSIS ***
+FOUND BY JEFF during the b41 verification run, on the DASHBOARD first ("the ask is not
+capturing the latest price") and then confirmed in the journal.
+EVIDENCE - tests/2026.08.19 195529.548.txt, DooTechnology XAUUSD.s, magic 715358:
+  TWELVE consecutive "Recovery L2 FORFEITED" lines, 20:21 -> 20:36, every one reporting the
+  fill-side price as EXACTLY 4363.94, while the M1 bar closes in the SAME log lines climbed
+  4370.73 -> 4387.36. That is 236 points of real movement against a quote that never moved
+  by one tick. A spread artifact cannot do this.
+  The frozen 4363.94 is ~L2's fill price from the PREVIOUS sequence at 20:02 (4363.91), so
+  the value appears stuck at roughly that moment.
+  CORROBORATION: the panel's Next row showed a frozen "ask 4364.24" across two screenshots
+  minutes apart - the same quote, other side of the spread (4363.94 + ~30pts).
+JEFF CONFIRMED Market Watch was TICKING for XAUUSD.s at the time, and that the chart symbol
+  IS XAUUSD.s. So the terminal HAS live quotes; something in the read path does not see them.
+WHY THIS IS SERIOUS: the forfeit guard is a MONEY PATH (EvaluateRecovery's entry-side
+  guard). With the quote frozen on the wrong side of the trigger, recovery is PERMANENTLY
+  DEAD for that sequence - it can never satisfy the condition. The earlier BUY sequence
+  worked only because the frozen value happened to sit on the favourable side. That is luck,
+  not correctness.
+NOT A b41 REGRESSION: b41 touched reconcile classification and persistence only; it does not
+  go near quote reading. This defect is older and was simply never observed before. It does,
+  however, BLOCK the b41 verification run, so it jumps the queue.
+DIAGNOSIS IN PROGRESS - TEMPORARY PROBE BUILD (4418e3c468752f26 / 5104 lines), NOT A FIX:
+  two "QUOTE PROBE" log lines added, printing SymbolInfoDouble's cached bid/ask NEXT TO a
+  fresh SymbolInfoTick, plus the tick's own timestamp and TimeCurrent:
+    (1) in EvaluateRecovery immediately before the entry-side guard - samples at the exact
+        instant of the bad read, but only fires on a bar close;
+    (2) in NextTriggerRowText, throttled to one line per 10s - the panel path runs every
+        500ms from OnTimer, so it samples far more often.
+  READING THE RESULT: if SymbolInfoTick returns LIVE values while SymbolInfoDouble returns
+  the frozen one, the fix is mechanical (switch the money-path reads to SymbolInfoTick). If
+  BOTH are stale, the problem is terminal-side and TRTM cannot fix it in code.
+  BOTH PROBES ARE MARKED "TEMPORARY DIAGNOSTIC ... REMOVE BEFORE ANY SEAL" in the source.
+  THEY MUST NOT SHIP. They log at WARN deliberately so they are impossible to miss.
+NOTE ON THE PANEL ROW, separate and lower priority: in BAR-CLOSE mode the Next row displays
+  "ask <x> <=" as though a live tick decided the entry, but the decision uses the CLOSED M1
+  bar's close (visible in the same log: "bar closed 4370.73 vs trigger"). The row implies a
+  basis that is not in force. Display honesty, same family as E9-M2. Park, do not fix now.
+
 ## b41 GATE ZERO PASSED + DEPLOYED 2026-08-19
 COMPILE: clean after the K-4 withdrawal (the string->number warning was the withdrawn
   code; nothing else touches CTrade).

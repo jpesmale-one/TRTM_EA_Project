@@ -1,0 +1,40 @@
+2026.08.19 19:55:29.548	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] L1 BUY OPENED via button: 0.02 lots @ 4366.06 (deal 439808194)
+2026.08.19 19:55:29.549	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Structure: 1 level(s), 0.02 lots | projected at TP n/a | at SL n/a
+2026.08.19 19:55:29.549	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] EA L1 REGISTERED: ticket 742976000 BUY 0.02 lots @ 4366.06. Exits apply next tick.
+2026.08.19 20:02:00.615	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4364.10 vs trigger 4364.56 (worst entry 4366.06 - 150 pts)
+2026.08.19 20:02:00.819	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery L2 OPENED: 0.03 lots BUY @ 4363.91 (deal 439814424)
+2026.08.19 20:02:00.820	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery fast path: L2 REGISTERED ticket 742984349 0.03 lots @ 4363.91
+2026.08.19 20:02:00.820	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Structure: 2 level(s), 0.05 lots | projected at TP +12.50 | at SL n/a
+2026.08.19 20:02:01.066	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Exits applied to ticket 742976000: TP 4367.27 SL none
+2026.08.19 20:02:01.274	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Exits applied to ticket 742984349: TP 4367.27 SL none
+2026.08.19 20:08:48.194	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Liveness: L2 ticket 742984349 TP hit @ 4367.55 - removed from sequence
+2026.08.19 20:08:48.194	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Liveness: L1 ticket 742976000 TP hit @ 4367.55 - removed from sequence
+2026.08.19 20:08:48.194	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Sequence fully closed - back to FLAT, overrides reset to input defaults, flat marker saved
+2026.08.19 20:17:39.210	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] SELL ARMED: 0.02 lots (Fixed 0.02) - click CONFIRM within 10s to execute
+2026.08.19 20:17:40.021	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] L1 SELL OPENED via button: 0.02 lots @ 4367.87 (deal 439855947)
+2026.08.19 20:17:40.021	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Structure: 1 level(s), 0.02 lots | projected at TP n/a | at SL n/a
+2026.08.19 20:17:40.021	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] EA L1 REGISTERED: ticket 743032051 SELL 0.02 lots @ 4367.87. Exits apply next tick.
+2026.08.19 20:21:00.677	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4370.73 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 20:21:00.677	TRTM (XAUUSD.s,M1)	[TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 20:22:00.638	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4371.77 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 20:22:00.638	TRTM (XAUUSD.s,M1)	[TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 20:23:00.630	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4372.56 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 20:23:00.630	TRTM (XAUUSD.s,M1)	[TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 20:24:00.639	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4369.53 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 20:24:00.639	TRTM (XAUUSD.s,M1)	[TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 20:25:00.638	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4370.24 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 20:25:00.638	TRTM (XAUUSD.s,M1)	[TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 20:26:00.632	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4369.65 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 20:26:00.632	TRTM (XAUUSD.s,M1)	[TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 20:29:00.641	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4369.98 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 20:29:00.641	TRTM (XAUUSD.s,M1)	[TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 20:32:00.649	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4370.56 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 20:32:00.649	TRTM (XAUUSD.s,M1)	[TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 20:33:00.698	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4373.80 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 20:33:00.698	TRTM (XAUUSD.s,M1)	[TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 20:34:00.655	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4379.20 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 20:34:00.655	TRTM (XAUUSD.s,M1)	[TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 20:35:00.649	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4384.57 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 20:35:00.649	TRTM (XAUUSD.s,M1)	[TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.08.19 20:36:00.654	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4387.36 vs trigger 4369.37 (worst entry 4367.87 + 150 pts)
+2026.08.19 20:36:00.654	TRTM (XAUUSD.s,M1)	[TRTM][WARN ] Recovery L2 FORFEITED: fill-side price 4363.94 does not satisfy trigger 4369.37 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
