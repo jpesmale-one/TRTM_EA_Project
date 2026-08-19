@@ -464,6 +464,66 @@ ALSO FIXED: the 13 new header lines were 71 chars against a 70-char box border. 
 HYGIENE RE-VERIFIED AFTER THE CLEANUP: 0 bare LF, ASCII-only, brace -1 (baseline-preserved),
   paren 0, bracket 0.
 
+## b41 VERIFICATION RUN COMPLETE 2026-08-19 - B-1, B-2, D-1 ALL PASS ON EVIDENCE
+EVIDENCE: tests/2026.08.19 212941.548..txt, DooTechnology XAUUSD.s, magic 715358, b41
+(d2354c4c1269874e / 5063), live chart M1. Config per the sealed matrix's verification
+shape: entry 0.05, Tier 3 ON, MinTrades 4, MinProfitPts 200, MinLots 0.02, ClosePercent 50,
+Tiers 1+2 OFF, trailing OFF, BE OFF, SL 0, interval 150, RecoveryTF M1.
+
+B-1 *** THE ROW RUN H FAILED - NOW PASSES *** CLOSED ON EVIDENCE.
+  21:50:01  "Exits applied to ticket 743845988: TP 4457.93"  <- the EA's OWN computed value,
+            propagated to all FOUR tickets.
+  21:50:27  "Deinit (reason 1) - state saved (sequence alive)"
+  21:50:36  init -> "Reconcile: flags restored" -> "Structure: 4 level(s), 0.26 lots" ->
+            "Reconcile complete: dir=BUY levels=4"
+  THERE IS NO "adopted as manual (M7-5)" LINE. Under b40 this is EXACTLY where Run H
+  produced "TP edited to 4401.17 while EA was offline (computed 4401.67) - adopted as
+  manual (M7-5)". The E9-M1 defect is FIXED.
+  NOTE ON THE SILENCE: the new E9-M1 log line did not fire either, and that is correct -
+  the broker value MATCHED the persisted lastAppliedTP, so the branch reached its "do not
+  adopt" conclusion. The row is proven by the ABSENCE of the M7-5 adoption plus the correct
+  rebuild (4 levels / 0.26 lots, identical to pre-restart), not by a new line.
+
+B-2 MUST-NOT (a GENUINE trader edit is STILL adopted) - CLOSED ON EQUIVALENT EVIDENCE.
+  The run exercised BOTH classification outcomes back to back:
+  21:50:49  "Manual TP REMOVAL on ticket 743853940 - reverted to 4457.93 (removals are
+            never adopted)"                                    -> REVERT branch
+  21:51:06  "Manual TP 4459.25 ADOPTED (was 4455.85) - RISK: target moved 340 pts farther
+            from price"                                        -> ADOPT branch, then
+            propagated to all four positions.
+  SO THE FIX IS A DISCRIMINATOR, NOT BLANKET SUPPRESSION - which is the whole point of this
+  MUST-NOT row.
+  HONEST QUALIFICATION, NOT ROUNDED UP: B-2 as written asks for an edit made while the EA
+  is OFFLINE. These were made LIVE. The classification code path is the same and the
+  outcome is the one the row demands, so it closes on EQUIVALENT evidence - not identical.
+  Recorded this way deliberately.
+
+D-1 MUST-NOT (Tier 3 arithmetic unchanged, recomputed on BOTH derivations) - CLOSED ON
+  EVIDENCE, and RECOMPUTED INDEPENDENTLY HERE rather than taken from the log:
+  21:52:26  "Tier 3 FIRE: BUY group 3 leg(s) (anchor L1 slice 0.02 of 0.05 + 2 profitable)
+            | sliced-VWAP 4450.13 far 4452.37 margin 223.7 pts >= 200/lot"
+  Sliced group = L1 slice 0.02 @ 4461.52 + L4 0.08 @ 4450.44 + L5 0.09 @ 4447.33.
+    VWAP  = (0.02*4461.52 + 0.08*4450.44 + 0.09*4447.33) / 0.19
+          = 845.5253 / 0.19 = 4450.1332      -> log 4450.13  MATCH
+    margin= 4452.37 - 4450.1332 = 2.2368     = 223.7 pts     -> log 223.7  MATCH
+  BOTH DERIVATIONS (the E6 standard):
+    leg-by-leg  sum((far - entry) * vol) = 0.42500000
+    marginPts x sumVol = 2.2368 * 0.19    = 0.42500000
+    AGREE to 8 decimal places.
+  Structure after the fire: 0.35 - 0.09 (L5) - 0.08 (L4) - 0.02 (slice) = 0.16, and the log
+  reads "Structure: 3 level(s), 0.16 lots". MATCH. Anchor survives at 0.03 of its 0.05.
+  => E6's money path is UNCHANGED by b41.
+
+BONUS ROW, NOT REQUIRED BUT WORTH RECORDING: at 21:52:27 the fire's level closes triggered
+  "Manual TP 4459.25 RELEASED - level close (structure changed: computed target
+  re-asserted)" and the computed 4459.67 re-asserted on the three survivors. That is the
+  b24 structural-release rule working correctly on a LEVEL CLOSE - the same asymmetric
+  TP-releases/SL-persists behaviour whose intent Jeff re-confirmed on 2026-08-18, and it
+  independently corroborates the E9M1-D2 decision to leave that path alone.
+
+GROUP A (K-4) NOT ATTEMPTED - withdrawn from b41 at Gate Zero. Rows A-1..A-8 are neither
+  closed nor failed. K-4 is parked to E9.
+
 ## STALE-QUOTE INCIDENT 2026-08-19 - RESOLVED, NOT A TRTM DEFECT. PROBES REMOVED.
 OUTCOME: a TERMINAL RESTART cleared it. Nothing in TRTM was at fault, and no TRTM code
 change was made - the probe build was reverted to byte-identical b41 (d2354c4c1269874e /

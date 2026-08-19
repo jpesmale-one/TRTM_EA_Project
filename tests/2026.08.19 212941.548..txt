@@ -1,0 +1,120 @@
+2026.08.19 21:29:41.548	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] === TRTM b41 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.08.19 21:29:41.548	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.08.19 21:29:41.554	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] State persistence self-test: PASS
+2026.08.19 21:29:41.554	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Reconcile: flags restored (trailOverride=F beOverride=F trailingActive=F beApplied=F)
+2026.08.19 21:29:41.555	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Structure: 1 level(s), 0.05 lots | projected at TP n/a | at SL n/a
+2026.08.19 21:29:41.555	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Reconcile complete: dir=BUY levels=1
+2026.08.19 21:29:41.558	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.08.19 21:29:41.558	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Init complete - b41 (adoption, exits, recovery active)
+2026.08.19 21:31:00.745	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4456.52 vs trigger 4458.13 (worst entry 4459.63 - 150 pts)
+2026.08.19 21:31:00.961	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery L2 OPENED: 0.06 lots BUY @ 4456.93 (deal 440448908)
+2026.08.19 21:31:00.961	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery fast path: L2 REGISTERED ticket 743713467 0.06 lots @ 4456.93
+2026.08.19 21:31:00.961	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Structure: 2 level(s), 0.11 lots | projected at TP +27.53 | at SL n/a
+2026.08.19 21:31:01.192	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Exits applied to ticket 743701387: TP 4460.66 SL none
+2026.08.19 21:31:01.398	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Exits applied to ticket 743713467: TP 4460.66 SL none
+2026.08.19 21:31:11.746	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Liveness: L1 ticket 743701387 TP hit @ 4460.72 - removed from sequence
+2026.08.19 21:31:11.746	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Structure: 1 level(s), 0.00 lots | projected at TP n/a | at SL n/a
+2026.08.19 21:31:12.008	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Liveness: L2 ticket 743713467 TP hit @ 4460.72 - removed from sequence
+2026.08.19 21:31:12.008	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Sequence fully closed - back to FLAT, overrides reset to input defaults, flat marker saved
+2026.08.19 21:31:14.480	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] BUY ARMED: 0.05 lots (Fixed 0.05) - click CONFIRM within 10s to execute
+2026.08.19 21:31:15.220	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] L1 BUY OPENED via button: 0.05 lots @ 4461.31 (deal 440452838)
+2026.08.19 21:31:15.220	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Structure: 1 level(s), 0.05 lots | projected at TP n/a | at SL n/a
+2026.08.19 21:31:15.220	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] EA L1 REGISTERED: ticket 743718210 BUY 0.05 lots @ 4461.31. Exits apply next tick.
+2026.08.19 21:36:00.740	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4452.12 vs trigger 4459.81 (worst entry 4461.31 - 150 pts)
+2026.08.19 21:36:01.645	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery L2 OPENED: 0.06 lots BUY @ 4452.34 (deal 440486454)
+2026.08.19 21:36:01.645	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery fast path: L2 REGISTERED ticket 743759368 0.06 lots @ 4452.34
+2026.08.19 21:36:01.645	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Structure: 2 level(s), 0.11 lots | projected at TP +27.53 | at SL n/a
+2026.08.19 21:36:01.938	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Exits applied to ticket 743718210: TP 4458.92 SL none
+2026.08.19 21:36:02.695	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Exits applied to ticket 743759368: TP 4458.92 SL none
+2026.08.19 21:37:00.750	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4443.31 vs trigger 4450.84 (worst entry 4452.34 - 150 pts)
+2026.08.19 21:37:00.955	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery L3 OPENED: 0.07 lots BUY @ 4443.37 (deal 440498498)
+2026.08.19 21:37:00.956	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery fast path: L3 REGISTERED ticket 743773656 0.07 lots @ 4443.37
+2026.08.19 21:37:00.956	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Structure: 3 level(s), 0.18 lots | projected at TP +44.94 | at SL n/a
+2026.08.19 21:37:01.200	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Exits applied to ticket 743718210: TP 4453.84 SL none
+2026.08.19 21:37:01.405	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Exits applied to ticket 743759368: TP 4453.84 SL none
+2026.08.19 21:37:01.609	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Exits applied to ticket 743773656: TP 4453.84 SL none
+2026.08.19 21:37:59.248	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Liveness: L3 ticket 743773656 TP hit @ 4453.85 - removed from sequence
+2026.08.19 21:37:59.248	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Liveness: L2 ticket 743759368 TP hit @ 4453.85 - removed from sequence
+2026.08.19 21:37:59.248	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Liveness: L1 ticket 743718210 TP hit @ 4453.85 - removed from sequence
+2026.08.19 21:37:59.248	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Sequence fully closed - back to FLAT, overrides reset to input defaults, flat marker saved
+2026.08.19 21:38:08.198	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] BUY ARMED: 0.05 lots (Fixed 0.05) - click CONFIRM within 10s to execute
+2026.08.19 21:38:09.125	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] L1 BUY OPENED via button: 0.05 lots @ 4453.11 (deal 440511052)
+2026.08.19 21:38:09.125	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Structure: 1 level(s), 0.05 lots | projected at TP n/a | at SL n/a
+2026.08.19 21:38:09.125	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] EA L1 REGISTERED: ticket 743788451 BUY 0.05 lots @ 4453.11. Exits apply next tick.
+2026.08.19 21:42:58.646	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] CLOSE ARMED: floating PnL +15.15 - click CONFIRM within 10s to close the whole sequence at market
+2026.08.19 21:42:59.067	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Close CONFIRMED by user
+2026.08.19 21:42:59.068	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Closing sequence at market: user close button (confirmed)
+2026.08.19 21:42:59.273	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Closed L1 ticket 743788451 @ 4455.75
+2026.08.19 21:42:59.280	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Liveness: L1 ticket 743788451 closed by EA (market close) - removed from sequence
+2026.08.19 21:42:59.280	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Sequence fully closed - back to FLAT, overrides reset to input defaults, flat marker saved
+2026.08.19 21:43:00.459	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] BUY ARMED: 0.05 lots (Fixed 0.05) - click CONFIRM within 10s to execute
+2026.08.19 21:43:01.225	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] L1 BUY OPENED via button: 0.05 lots @ 4456.60 (deal 440547213)
+2026.08.19 21:43:01.226	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Structure: 1 level(s), 0.05 lots | projected at TP n/a | at SL n/a
+2026.08.19 21:43:01.226	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] EA L1 REGISTERED: ticket 743832001 BUY 0.05 lots @ 4456.60. Exits apply next tick.
+2026.08.19 21:44:11.888	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] CLOSE ARMED: floating PnL +27.70 - click CONFIRM within 10s to close the whole sequence at market
+2026.08.19 21:44:12.331	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Close CONFIRMED by user
+2026.08.19 21:44:12.331	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Closing sequence at market: user close button (confirmed)
+2026.08.19 21:44:12.537	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Closed L1 ticket 743832001 @ 4461.83
+2026.08.19 21:44:12.543	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Liveness: L1 ticket 743832001 closed by EA (market close) - removed from sequence
+2026.08.19 21:44:12.543	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Sequence fully closed - back to FLAT, overrides reset to input defaults, flat marker saved
+2026.08.19 21:44:13.229	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] BUY ARMED: 0.05 lots (Fixed 0.05) - click CONFIRM within 10s to execute
+2026.08.19 21:44:13.951	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] L1 BUY OPENED via button: 0.05 lots @ 4461.52 (deal 440559181)
+2026.08.19 21:44:13.952	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Structure: 1 level(s), 0.05 lots | projected at TP n/a | at SL n/a
+2026.08.19 21:44:13.952	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] EA L1 REGISTERED: ticket 743845988 BUY 0.05 lots @ 4461.52. Exits apply next tick.
+2026.08.19 21:46:00.754	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4457.96 vs trigger 4460.02 (worst entry 4461.52 - 150 pts)
+2026.08.19 21:46:00.959	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery L2 OPENED: 0.06 lots BUY @ 4458.18 (deal 440564988)
+2026.08.19 21:46:00.959	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery fast path: L2 REGISTERED ticket 743853940 0.06 lots @ 4458.18
+2026.08.19 21:46:00.959	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Structure: 2 level(s), 0.11 lots | projected at TP +27.52 | at SL n/a
+2026.08.19 21:46:01.207	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Exits applied to ticket 743845988: TP 4462.20 SL none
+2026.08.19 21:46:01.409	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Exits applied to ticket 743853940: TP 4462.20 SL none
+2026.08.19 21:48:01.095	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4455.04 vs trigger 4456.68 (worst entry 4458.18 - 150 pts)
+2026.08.19 21:48:01.300	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery L3 OPENED: 0.07 lots BUY @ 4454.43 (deal 440577803)
+2026.08.19 21:48:01.301	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery fast path: L3 REGISTERED ticket 743869306 0.07 lots @ 4454.43
+2026.08.19 21:48:01.301	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Structure: 3 level(s), 0.18 lots | projected at TP +45.01 | at SL n/a
+2026.08.19 21:48:01.720	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Exits applied to ticket 743845988: TP 4460.15 SL none
+2026.08.19 21:48:01.922	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Exits applied to ticket 743853940: TP 4460.15 SL none
+2026.08.19 21:48:02.126	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Exits applied to ticket 743869306: TP 4460.15 SL none
+2026.08.19 21:50:00.763	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4450.30 vs trigger 4452.93 (worst entry 4454.43 - 150 pts)
+2026.08.19 21:50:00.967	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery L4 OPENED: 0.08 lots BUY @ 4450.44 (deal 440587088)
+2026.08.19 21:50:00.968	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery fast path: L4 REGISTERED ticket 743881327 0.08 lots @ 4450.44
+2026.08.19 21:50:00.968	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Structure: 4 level(s), 0.26 lots | projected at TP +64.97 | at SL n/a
+2026.08.19 21:50:01.217	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Exits applied to ticket 743845988: TP 4457.93 SL none
+2026.08.19 21:50:01.422	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Exits applied to ticket 743853940: TP 4457.93 SL none
+2026.08.19 21:50:01.626	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Exits applied to ticket 743869306: TP 4457.93 SL none
+2026.08.19 21:50:01.829	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Exits applied to ticket 743881327: TP 4457.93 SL none
+2026.08.19 21:50:27.957	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Deinit (reason 1) - state saved (sequence alive)
+2026.08.19 21:50:36.169	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] === TRTM b41 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.08.19 21:50:36.169	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.08.19 21:50:36.174	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] State persistence self-test: PASS
+2026.08.19 21:50:36.175	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Reconcile: flags restored (trailOverride=F beOverride=F trailingActive=F beApplied=F)
+2026.08.19 21:50:36.175	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Structure: 4 level(s), 0.26 lots | projected at TP +64.97 | at SL n/a
+2026.08.19 21:50:36.175	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Reconcile complete: dir=BUY levels=4
+2026.08.19 21:50:36.176	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.08.19 21:50:36.176	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Init complete - b41 (adoption, exits, recovery active)
+2026.08.19 21:50:49.265	TRTM (XAUUSD.s,M1)	[TRTM][WARN ] Manual TP REMOVAL on ticket 743853940 - reverted to 4457.93 (removals are never adopted; deliberate no-TP belongs in config)
+2026.08.19 21:50:49.468	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Exits applied to ticket 743853940: TP 4457.93 SL none
+2026.08.19 21:51:00.776	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery signal: PERIOD_M1 bar closed 4447.08 vs trigger 4448.94 (worst entry 4450.44 - 150 pts)
+2026.08.19 21:51:00.981	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery L5 OPENED: 0.09 lots BUY @ 4447.33 (deal 440591508)
+2026.08.19 21:51:00.981	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Recovery fast path: L5 REGISTERED ticket 743887878 0.09 lots @ 4447.33
+2026.08.19 21:51:00.981	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Structure: 5 level(s), 0.35 lots | projected at TP +87.57 | at SL n/a
+2026.08.19 21:51:01.227	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Exits applied to ticket 743845988: TP 4455.85 SL none
+2026.08.19 21:51:01.431	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Exits applied to ticket 743853940: TP 4455.85 SL none
+2026.08.19 21:51:01.635	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Exits applied to ticket 743869306: TP 4455.85 SL none
+2026.08.19 21:51:01.837	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Exits applied to ticket 743881327: TP 4455.85 SL none
+2026.08.19 21:51:02.042	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Exits applied to ticket 743887878: TP 4455.85 SL none
+2026.08.19 21:51:06.017	TRTM (XAUUSD.s,M1)	[TRTM][WARN ] Manual TP 4459.25 ADOPTED (was 4455.85) - RISK: target moved 340 pts farther from price; the sequence must run further before banking (trader's responsibility)
+2026.08.19 21:51:06.227	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Exits applied to ticket 743853940: TP 4459.25 SL none
+2026.08.19 21:51:06.432	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Exits applied to ticket 743869306: TP 4459.25 SL none
+2026.08.19 21:51:06.635	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Exits applied to ticket 743881327: TP 4459.25 SL none
+2026.08.19 21:51:06.837	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Exits applied to ticket 743887878: TP 4459.25 SL none
+2026.08.19 21:52:26.268	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Tier 3 FIRE: BUY group 3 leg(s) (anchor L1 slice 0.02 of 0.05 + 2 profitable) | sliced-VWAP 4450.13 far 4452.37 margin 223.7 pts >= 200/lot
+2026.08.19 21:52:26.473	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Closed L5 ticket 743887878 @ 4452.37
+2026.08.19 21:52:26.677	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Closed L4 ticket 743881327 @ 4452.27
+2026.08.19 21:52:26.885	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Tier 3: sliced L1 ticket 743845988 by 0.02 lot (remaining 0.03) @ 4452.33
+2026.08.19 21:52:27.014	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Liveness: L5 ticket 743887878 closed by EA (market close) - removed from sequence
+2026.08.19 21:52:27.014	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Liveness: L4 ticket 743881327 closed by EA (market close) - removed from sequence
+2026.08.19 21:52:27.014	TRTM (XAUUSD.s,M1)	[TRTM][WARN ] Manual TP 4459.25 RELEASED - level close (structure changed: computed target re-asserted)
+2026.08.19 21:52:27.014	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Structure: 3 level(s), 0.16 lots | projected at TP +40.07 | at SL n/a
+2026.08.19 21:52:27.223	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Exits applied to ticket 743845988: TP 4459.67 SL none
+2026.08.19 21:52:27.426	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Exits applied to ticket 743853940: TP 4459.67 SL none
+2026.08.19 21:52:27.635	TRTM (XAUUSD.s,M1)	[TRTM][INFO ] Exits applied to ticket 743869306: TP 4459.67 SL none
