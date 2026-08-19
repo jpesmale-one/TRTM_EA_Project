@@ -363,7 +363,43 @@ ONE OPEN QUESTION (QP1): whether to also SEED the runtime globals from the file 
   excluding it leaves a one-apply-cycle blind window after every restart, the same class of
   hole as E9-M1 itself.
 
-NEXT: Jeff answers QP1 and CONFIRMS the plan, then code.
+## b41 BUILT 2026-08-19 - GATE ZERO NOT YET RUN, NOT DEPLOYED
+Plan CONFIRMED by Jeff (QP1 answered: INCLUDE the seeding). All TEN touch points written
+per docs/B41_PLAN_2026-08-19_gate3.md, plus ONE addition noted below.
+  BUILD b41  sha256_16 79b367bfa57b0b14  /  5045 lines  (b40 was 2e902e9032d820a9 / 4974)
+  DELTA +71 lines. The plan predicted ~+51 (~5025); the overrun is COMMENT VOLUME, not
+  extra logic - the filtered diff below is exactly the ten planned edits and nothing else.
+  Stated plainly rather than quietly: the estimate was low, the code was not.
+HYGIENE: 0 bare LF, ASCII-only (0 bytes > 127), brace delta -1 (IDENTICAL to the sealed b40
+  baseline, preserved), paren 0, bracket 0.
+NEW INPUT: none. NEW GLOBAL: none. NEW PERSISTED FIELDS: two. SCHEMA: 4 -> 5.
+
+ONE ADDITION BEYOND THE TEN TOUCH POINTS (declared, not slipped in): the persistence
+  SELF-TEST was extended to round-trip lastAppliedTP/SL, following the b24 precedent that
+  added manualTP/SL to it. Matrix row C-2 requires the round-trip to cover the new fields
+  and the plan omitted the self-test as a touch point - that was a gap in the plan, not a
+  scope change. Two write lines + two assert lines.
+
+FILTERED DIFF (non-comment changed lines) maps 1:1 to the plan:
+  TRTM_BUILD b40 -> b41; TRTM_STATE_SCHEMA 4 -> 5; struct +2 fields; StateReset +2 defaults;
+  StateToJson +2; StateLoad +2 defaults +2 parses; the C-4 WARN text; BuildLevelTag (new);
+  SliceLegAtMarket signature + the tagged PositionClosePartial; its call site; the
+  recovery-open path's 3 lines -> 1 call; the apply site writing struct+global together;
+  the TP-side E9-M1 discriminator; the SL-side E9-M1 discriminator; the reconcile seeding.
+  NOTHING ELSE CHANGED.
+
+A-4 PROOF (matrix obligation 3): BuildLevelTag's body is TOKEN-IDENTICAL to the three lines
+  it replaced - same globals, same operators, same order (g_symbolNorm -> StringToLower ->
+  "_l" + level + "_" + buy/sell). The emitted string cannot differ. Live confirmation still
+  required at verification: L2..LN comments must match the Run H baseline byte-for-byte.
+
+HYGIENE INCIDENT WORTH RECORDING: an intermediate edit normalized the file to bare LF
+  (5041 bare LF at one point). Caught by the hygiene check BEFORE any commit and repaired -
+  the file is CRLF throughout again, 0 bare LF. No bad state was ever committed, but the
+  lesson is that the scripted edits must preserve line endings explicitly.
+
+NEXT: GATE ZERO - Jeff compiles in MetaEditor (0 errors / 0 warnings expected), then
+  DEPLOY ON A FLAT SEQUENCE per b41-C1, then the single verification run.
 
 ## RUN H - EXECUTED 2026-08-18. T3-K1/K2(b) PASS, K-4 FAIL, L-3 DEFENDED.
 The oldest outstanding debt in the project - overdue since the E6 seal 2026-07-26, doubly

@@ -38,7 +38,7 @@
 
 #include <Trade\Trade.mqh>
 
-#define TRTM_BUILD  "b40"     // internal build tag, bump per delivery
+#define TRTM_BUILD  "b41"     // internal build tag, bump per delivery
 
 //+------------------------------------------------------------------+
 //| ENUMS                                                            |
@@ -149,7 +149,7 @@ input int  InpLogRetentionDays = 14; // Delete own logs older than N days (0 = k
 //+------------------------------------------------------------------+
 #define TRTM_TAG              "TRTM"
 #define TRTM_DIR_BASE         "TRTM\\"          // under MQL5\Files\
-#define TRTM_STATE_SCHEMA     4                 // v4: +baseLot                 // bump on breaking state format change
+#define TRTM_STATE_SCHEMA     5                 // v5: +lastAppliedTP/SL (b41)  // bump on breaking state format change
 #define TRTM_MAX_LEVELS       64                // hard array bound, not a trading limit
 
 // Log levels
@@ -208,6 +208,12 @@ struct SequenceState
    double   manualSL;           // trader-owned SL (0 = not owned). PERSISTS across structure
                                 // changes (locked: trader's risk statement + level budget);
                                 // ends only on flat / re-edit / BE-trail supersession.
+   // --- b41 (E9M1-D1): the EA's OWN last applied exits, PERSISTED ---
+   double   lastAppliedTP;      // last TP the EA itself successfully applied (0 = none).
+                                // Persisted so the b25/M7-8 discriminator can see ACROSS an
+                                // init: without it reconcile reads the EA's own stale write
+                                // as a trader edit (E9-M1, proven Run H 2026-08-18).
+   double   lastAppliedSL;      // same, SL side.
    datetime adoptionTime;       // when L1 was adopted; intervals evaluated from here forward
    datetime lastCloseTime;      // when the previous sequence fully closed (stale-tag gate)
    datetime lastSaved;
@@ -431,6 +437,8 @@ void StateReset(SequenceState &s)
    s.beApplied      = false;
    s.manualTP       = 0.0;
    s.manualSL       = 0.0;
+   s.lastAppliedTP  = 0.0;   // b41
+   s.lastAppliedSL  = 0.0;   // b41
    s.adoptionTime   = 0;
    s.lastCloseTime  = 0;   // callers that reset after a close must re-set this AFTER StateReset
    s.lastSaved      = 0;
@@ -464,6 +472,8 @@ string StateToJson(const SequenceState &s)
    json += "\"beApplied\":"      + (s.beApplied      ? "true" : "false") + ",";
    json += "\"manualTP\":"       + DoubleToString(s.manualTP, 8) + ",";
    json += "\"manualSL\":"       + DoubleToString(s.manualSL, 8) + ",";
+   json += "\"lastAppliedTP\":"  + DoubleToString(s.lastAppliedTP, 8) + ",";
+   json += "\"lastAppliedSL\":"  + DoubleToString(s.lastAppliedSL, 8) + ",";
    json += "\"adoptionTime\":"   + (string)((long)s.adoptionTime) + ",";
    json += "\"lastCloseTime\":"  + (string)((long)s.lastCloseTime) + ",";
    json += "\"lastSaved\":"      + (string)((long)TimeCurrent());
@@ -587,7 +597,7 @@ bool StateLoad(SequenceState &s)
    long tmp;
    if(!JsonGetLong(json, "schema", tmp) || tmp != TRTM_STATE_SCHEMA)
      {
-      Log(LOG_WARN, StringFormat("StateLoad: schema mismatch or missing (found %d, expected %d) - discarding file", (int)tmp, TRTM_STATE_SCHEMA));
+      Log(LOG_WARN, StringFormat("StateLoad: schema mismatch or missing (found %d, expected %d) - DISCARDING the state file. Override flags (trail/BE), manual SL ownership and any adopted-L1 record are LOST; the sequence rebuilds from broker positions. On the b41 upgrade this is EXPECTED EXACTLY ONCE - deploy on a FLAT sequence to avoid it.", (int)tmp, TRTM_STATE_SCHEMA));
       return false;
      }
    StateReset(s);
@@ -613,6 +623,10 @@ bool StateLoad(SequenceState &s)
    s.manualSL = 0.0;   // not auto-initialized; absent key MUST mean "not owned" (M1-4)
    JsonGetDouble(json, "manualTP",     s.manualTP);
    JsonGetDouble(json, "manualSL",     s.manualSL);
+   s.lastAppliedTP = 0.0;   // b41: same idiom - absent key MUST mean "none applied"
+   s.lastAppliedSL = 0.0;
+   JsonGetDouble(json, "lastAppliedTP", s.lastAppliedTP);
+   JsonGetDouble(json, "lastAppliedSL", s.lastAppliedSL);
    if(JsonGetLong(json, "adoptionTime", tmp)) s.adoptionTime = (datetime)tmp;
    if(JsonGetLong(json, "lastCloseTime", tmp)) s.lastCloseTime = (datetime)tmp;
    if(JsonGetLong(json, "lastSaved", tmp))    s.lastSaved = (datetime)tmp;
@@ -1036,8 +1050,13 @@ void WatchDuplicateTags()
 //+------------------------------------------------------------------+
 CTrade g_trade;
 
-// In-memory enforcement state. Deliberately NOT persisted: under policy A
-// a restart simply recomputes and re-applies (scenario S7).
+// In-memory enforcement state, MIRRORED into the state file since b41.
+// HISTORICAL NOTE so this is not misread as a reversal: the original comment here said
+// these were "deliberately NOT persisted: under policy A a restart simply recomputes and
+// re-applies (scenario S7)". POLICY A WAS RETIRED WITH b24 - that rationale was already
+// dead, so b41 is not overturning a live decision, it is finishing an unfinished one.
+// Without persistence the b25/M7-8 discriminator is blind across an init and reconcile
+// adopts the EA's own last write as a trader edit (E9-M1, proven live Run H 2026-08-18).
 double   g_lastAppliedTP  = 0.0;
 double   g_lastAppliedSL  = 0.0;
 int      g_modifyFails    = 0;      // consecutive failures across attempts
@@ -1495,6 +1514,21 @@ bool CloseLegAtMarket(const ulong ticket, const int level)
    return true;
   }
 
+// b41 (K4-D2): THE single definition of a level's comment tag. Lifted VERBATIM from the
+// recovery-open path, which now calls this instead of building the string inline - one
+// definition, so the tag a level is OPENED with and the tag its SLICE re-asserts can
+// never drift. Duplicating it was rejected at Gate 1: that is exactly the E9-P6 hazard
+// (AdoptionCandidateExists vs TryAdopt), and a tag that silently diverges from ParseTag
+// is what caused K-4 in the first place. ParseTag (671) is the reader; this is the
+// writer; they must stay in step.
+string BuildLevelTag(const int level, const int dir)
+  {
+   string tag = g_symbolNorm;
+   StringToLower(tag);
+   tag += "_l" + (string)level + "_" + (dir > 0 ? "buy" : "sell");
+   return tag;
+  }
+
 // E6 (Tier 3, T3-O1): partial close of ONE anchor leg (sliceVol of its lots) via the
 // sealed CTrade wrapper. Sibling of CloseLegAtMarket. CRITICAL DIFFERENCE: does NOT
 // MarkEAClosed - the position SURVIVES the partial close, so flagging its ticket
@@ -1502,9 +1536,15 @@ bool CloseLegAtMarket(const ulong ticket, const int level)
 // EA-closed. The surviving anchor needs no liveness attribution (it does not
 // disappear; CheckSequenceLiveness retains it). Returns true on success OR a benign
 // 10036 race; false on a genuine failure (the O7 caller logs + accepts, no retry).
-bool SliceLegAtMarket(const ulong ticket, const int level, const double sliceVol)
+bool SliceLegAtMarket(const ulong ticket, const int level, const int dir, const double sliceVol)
   {
-   if(!g_trade.PositionClosePartial(ticket, sliceVol))
+   // b41 (K4-D1): the partial close MUST carry the anchor's tag. MT5 surfaces a position's
+   // comment as that of the LAST order to modify it, so an untagged slice order BLANKS the
+   // surviving anchor's _lN_ tag - proven live on Vantage 2026-08-18 (K-4 FAIL, Run H).
+   // Re-asserting the SAME string the position already carries makes the slice
+   // comment-NEUTRAL instead of comment-DESTROYING. Not a broker quirk: any MT5 broker
+   // behaves this way, so this is TRTM's own defect and TRTM's own fix.
+   if(!g_trade.PositionClosePartial(ticket, sliceVol, BuildLevelTag(level, dir)))
      {
       if((int)g_trade.ResultRetcode() == 10036)   // position already gone (race)
         {
@@ -1866,9 +1906,12 @@ void EnforceExits()
       g_modifyFails   = 0;
       g_nextModifyTry = 0;
       g_modifyAlerted = false;
-      if(tpPlaceable && tp > 0.0) g_lastAppliedTP = tp;
-      if(slPlaceable && sl > 0.0) g_lastAppliedSL = sl;
-      if(g_state.trailingActive)  g_lastAppliedTP = 0.0;   // TP is structurally gone past activation
+      // b41 (E9M1-D1/B-7): runtime global AND persisted field are written at this ONE
+      // site, together, so they cannot diverge. B-8: the trailing reset must clear both,
+      // or a stale TP could resurrect from the file after a trail-arm.
+      if(tpPlaceable && tp > 0.0) { g_lastAppliedTP = tp; g_state.lastAppliedTP = tp; }
+      if(slPlaceable && sl > 0.0) { g_lastAppliedSL = sl; g_state.lastAppliedSL = sl; }
+      if(g_state.trailingActive)  { g_lastAppliedTP = 0.0; g_state.lastAppliedTP = 0.0; }   // TP is structurally gone past activation
      }
   }
 
@@ -2226,9 +2269,7 @@ void EvaluateRecovery()
       return;
      }
 
-   string comment = g_symbolNorm;
-   StringToLower(comment);
-   comment += "_l" + (string)nextLvl + "_" + (dir > 0 ? "buy" : "sell");
+   string comment = BuildLevelTag(nextLvl, dir);   // b41 (K4-D2): was three inline lines; identical output
 
    g_trade.SetExpertMagicNumber(g_magic);
    g_trade.SetDeviationInPoints(InpDeviationFilter ? (ulong)InpMaxDeviationPts : 1000000);
@@ -2359,7 +2400,7 @@ bool FireGroupClose(const ulong &grp[], const int &grpLvl[],
    // anchor, which SURVIVES; Tier 1/2 pass the default 0.0 -> full close (unchanged).
    if(anchorSliceVol > 0.0)
      {
-      if(PositionSelectByTicket(anchorTk) && !SliceLegAtMarket(anchorTk, anchorLvl, anchorSliceVol))
+      if(PositionSelectByTicket(anchorTk) && !SliceLegAtMarket(anchorTk, anchorLvl, dir, anchorSliceVol))
          Log(LOG_WARN, StringFormat("%s: anchor L%d ticket %I64u SLICE failed after all profitables closed - anchor stays FULL, realized = pure profit (X-3/O7). Retargets next tick.",
                                     tierTag, anchorLvl, anchorTk));
      }
@@ -2819,6 +2860,17 @@ void ReconcileManualExits(const SequenceState &file, const bool haveFile)
             // rewrite, NOT a trader edit. Same accepted nuance as M5-6: a
             // genuine dead-edit to exactly the old value is reverted once.
             Log(LOG_INFO, StringFormat("Reconcile: survivors carry the released manual TP %s - EA's own stale write, not a trader edit (M7-8); computed %s re-asserts", DoubleToString(uTP, _Digits), DoubleToString(compTP, _Digits)));
+         // b41 (E9-M1): SECOND "EA's own" test, inserted AFTER M7-8 and never replacing it.
+         // M7-8 only arms when a MANUAL TP was owned pre-kill AND a level died in the death
+         // window; it therefore MISSED the case Run H exposed - a purely COMPUTED value the
+         // EA had applied itself, which reconcile then adopted as a trader edit because
+         // g_lastAppliedTP is a runtime global that resets on init. The persisted field
+         // closes exactly that hole. ORDER MATTERS AND MUST NOT BE SWAPPED: where both
+         // tests could match the same number they reach the SAME conclusion (do not
+         // adopt), and M7-8 running first keeps b28's sealed wording and behaviour
+         // bit-identical in every case it already covered (matrix B-3).
+         else if(haveFile && file.lastAppliedTP > 0.0 && MathAbs(uTP - file.lastAppliedTP) <= tol)
+            Log(LOG_INFO, StringFormat("Reconcile: broker TP %s is the EA's OWN last applied value (E9-M1), not a trader edit; computed %s re-asserts", DoubleToString(uTP, _Digits), DoubleToString(compTP, _Digits)));
          else
            {
             Log(LOG_INFO, StringFormat("Reconcile: TP edited to %s while EA was offline (computed %s) - adopted as manual (M7-5)", DoubleToString(uTP, _Digits), DoubleToString(compTP, _Digits)));
@@ -2857,8 +2909,16 @@ void ReconcileManualExits(const SequenceState &file, const bool haveFile)
       else if(slUni && uSL > tol && compSL > 0.0 && MathAbs(uSL - compSL) > tol &&
               (beFloor <= 0.0 || dir * (uSL - beFloor) > tol))
         {
-         Log(LOG_INFO, StringFormat("Reconcile: SL edited to %s while EA was offline (computed %s) - adopted as manual (M7-5); persists across level adds", DoubleToString(uSL, _Digits), DoubleToString(compSL, _Digits)));
-         g_state.manualSL = uSL;
+         // b41 (E9-M1): SL side of the same discriminator. There is no M7-8 analogue on
+         // this branch (the death-window release is TP-only, by the b24 asymmetric-
+         // lifetime decision), so this is the only "EA's own" test here.
+         if(haveFile && file.lastAppliedSL > 0.0 && MathAbs(uSL - file.lastAppliedSL) <= tol)
+            Log(LOG_INFO, StringFormat("Reconcile: broker SL %s is the EA's OWN last applied value (E9-M1), not a trader edit; computed %s re-asserts", DoubleToString(uSL, _Digits), DoubleToString(compSL, _Digits)));
+         else
+           {
+            Log(LOG_INFO, StringFormat("Reconcile: SL edited to %s while EA was offline (computed %s) - adopted as manual (M7-5); persists across level adds", DoubleToString(uSL, _Digits), DoubleToString(compSL, _Digits)));
+            g_state.manualSL = uSL;
+           }
         }
      }
 
@@ -2866,10 +2926,17 @@ void ReconcileManualExits(const SequenceState &file, const bool haveFile)
    // on the ratchet floor stays consistent - the floor is our own SL).
    for(int i = 0; i < g_state.levelCount; i++)
       MarkExitsApplied(g_state.tickets[i]);
+   // b41 (E9M1-D1, QP1): seed the runtime discriminator from the PERSISTED value first,
+   // so the b25 in-session guard starts WARM after a restart instead of blind for one
+   // apply cycle. A manual value still overrides below - it is the more specific claim.
+   if(haveFile && !g_state.trailingActive) g_lastAppliedTP = file.lastAppliedTP;
+   if(haveFile)                            g_lastAppliedSL = file.lastAppliedSL;
    if(g_state.manualTP > 0.0 && !g_state.trailingActive)
       g_lastAppliedTP = g_state.manualTP;
    if(g_state.manualSL > 0.0)
       g_lastAppliedSL = g_state.manualSL;
+   g_state.lastAppliedTP = g_lastAppliedTP;   // keep struct and runtime in step from tick 0
+   g_state.lastAppliedSL = g_lastAppliedSL;
    g_manualDetectSkipOnce = true;
    StateSave(g_state);
   }
@@ -3007,6 +3074,8 @@ bool RunStateSelfTest()
    w.baseLot        = 0.03;
    w.manualTP       = 1234.56789;   // b24: new persisted fields covered
    w.manualSL       = 987.654;
+   w.lastAppliedTP  = 2345.6789;    // b41: same, for the E9-M1 fields (matrix C-2)
+   w.lastAppliedSL  = 876.543;
 
    bool ok = StateSave(w);
    SequenceState r;
@@ -3017,6 +3086,8 @@ bool RunStateSelfTest()
    ok = ok && (r.levels[2] == 3);
    ok = ok && (r.trailOverride == true) && (r.beOverride == false);
    ok = ok && (r.trailingActive == true) && (r.beApplied == false);
+   ok = ok && (MathAbs(r.lastAppliedTP - w.lastAppliedTP) < 1e-6);   // b41 (C-2)
+   ok = ok && (MathAbs(r.lastAppliedSL - w.lastAppliedSL) < 1e-6);   // b41 (C-2)
    ok = ok && (r.adoptionTime == w.adoptionTime);
    ok = ok && (r.lastCloseTime == w.lastCloseTime);
    ok = ok && (MathAbs(r.baseLot - w.baseLot) < 0.0000001);
