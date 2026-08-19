@@ -363,10 +363,47 @@ ONE OPEN QUESTION (QP1): whether to also SEED the runtime globals from the file 
   excluding it leaves a one-apply-cycle blind window after every restart, the same class of
   hole as E9-M1 itself.
 
+## b41 SCOPE CUT 2026-08-19 - K-4 WITHDRAWN AT GATE ZERO, E9-M1 SHIPS ALONE
+GATE ZERO DID ITS JOB. The K-4 fix does not compile as planned:
+  "implicit conversion from 'string' to 'number'" at the PositionClosePartial call.
+ROOT CAUSE - A GATE 3 PLANNING ERROR, MINE: the plan stated "CTrade's
+  PositionClosePartial has a comment overload, so this is a parameter addition, not a
+  rewrite". IT DOES NOT. The signature is (ticket, volume, ulong DEVIATION) and the
+  implementation NEVER sets m_request.comment - only PositionOpen does (Trade.mqh 334).
+  The overload was INFERRED from PositionOpen's shape and never verified against the
+  header. Verified now, after the fact: Trade.mqh 104-105 and 599-640.
+HOW IT WOULD HAVE FAILED SILENTLY IF THE WARNING HAD BEEN IGNORED: it compiles as a
+  WARNING, not an error. The tag string converts to a garbage deviation, the slice order
+  still carries NO comment, and A-1 fails at the verification run - presenting as a broker
+  behaviour rather than as our own bug. Warnings are not cosmetic; this one was the defect.
+DECISION (Jeff, 2026-08-19): ADDRESS K-4 SEPARATELY LATER. Not fixed another way in b41.
+  WHY: the only remaining route is a hand-built MqlTradeRequest + OrderSend - a SECOND
+  close path, which the sealed E4 X-4 rationale deliberately avoided ("no new close path
+  invented"). That price is not justified against a defect b39's O2b ALREADY CONTAINS.
+  EVIDENCE FOR THE CONTAINMENT: Run H restarted over a blank-comment sliced anchor and
+  rebuilt CORRECTLY (T3-K1 PASS, 4 levels / 0.23 lots, anchor at L1).
+  RESIDUAL RISK, STATED HONESTLY: O2b assigns maxLvl+1, so if a restart scans the sliced
+  anchor AFTER other levels it gets a HIGH level and FormBasketGroup anchors on the wrong
+  position - affecting SL anchoring and the next Tier 3 slice target. Volumes and entries
+  are read live, so TP/PL arithmetic stays correct. Low-moderate, restart-only.
+  -> K-4 PARKED TO E9, alongside O6 comment-integrity detection (same problem area,
+     should be designed together).
+COST/BENEFIT CORRECTION ON THE RECORD: when K4-D1 was locked at Gate 1 I believed the fix
+  was a one-parameter addition. It is ~25 lines bypassing the sealed CTrade wrapper. Had
+  that been known at Gate 1, K-4 would likely not have been bundled into b41 at all.
+WHAT b41 STILL SHIPS: Group B (E9-M1) + Group C (schema 4->5) + Group D (regression).
+  b41-S1's escape hatch fired - in the OPPOSITE direction from the one it predicted.
+KEPT FROM THE K-4 WORK: BuildLevelTag (K4-D2). The one-definition rule stands on its own,
+  the extraction is proven behaviour-identical by filtered diff, and the eventual E9 fix
+  will call exactly it. Its sole caller today is the recovery-open path.
+
 ## b41 BUILT 2026-08-19 - GATE ZERO NOT YET RUN, NOT DEPLOYED
 Plan CONFIRMED by Jeff (QP1 answered: INCLUDE the seeding). All TEN touch points written
 per docs/B41_PLAN_2026-08-19_gate3.md, plus ONE addition noted below.
-  BUILD b41  sha256_16 dba6c661efdbc09f  /  5055 lines  (b40 was 2e902e9032d820a9 / 4974)
+  BUILD b41  sha256_16 d2354c4c1269874e  /  5063 lines  (b40 was 2e902e9032d820a9 / 4974)
+  (identity revised twice on 2026-08-19, both BEFORE any deploy: a comment-only header
+   cleanup, then the K-4 scope cut above. Earlier code builds for the record:
+   79b367bfa57b0b14 / 5045 (pre-cleanup) and dba6c661efdbc09f / 5055 (pre-scope-cut).)
   (identity revised 2026-08-19 by a COMMENT-ONLY header cleanup folded in BEFORE Gate Zero -
    see "b41 HEADER CLEANUP" below. The pre-cleanup code build was 79b367bfa57b0b14 / 5045.)
   DELTA +71 lines. The plan predicted ~+51 (~5025); the overrun is COMMENT VOLUME, not

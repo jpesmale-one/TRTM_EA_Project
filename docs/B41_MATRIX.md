@@ -1,3 +1,23 @@
+# *** GROUP A (K-4) WITHDRAWN FROM b41 - Jeff's call 2026-08-19, AFTER Gate Zero ***
+# The seal below stands as the record of what was agreed; Group A is NOT withdrawn
+# because it was wrong, but because the FIX turned out to be impossible as planned.
+# GATE ZERO FOUND IT: "implicit conversion from 'string' to 'number'" at the slice call.
+# CTrade::PositionClosePartial(ticket, volume, DEVIATION) - the third parameter is a
+# ulong, NOT a comment, and the implementation never sets m_request.comment at all
+# (Trade.mqh 599-640; only PositionOpen sets it, line 334). There is no comment overload.
+# THE GATE 3 PLAN ASSERTED ONE EXISTED AND DID NOT VERIFY IT. That is the error.
+# HOW IT WOULD HAVE FAILED SILENTLY: it compiled as a WARNING, not an error. The tag
+# string would have been converted to a garbage deviation, the slice order would still
+# have carried NO comment, and A-1 would have failed in the verification run - looking
+# like a broker behaviour rather than our own bug.
+# WHY NOT FIXED ANOTHER WAY NOW: the only route is a hand-built MqlTradeRequest +
+# OrderSend, i.e. a SECOND close path, which the sealed E4 X-4 rationale deliberately
+# avoided. Weighed against a defect b39's O2b ALREADY CONTAINS (Run H restart rebuilt
+# correctly from a blank comment), that is a bad trade today. -> E9, with O6.
+# ROWS A-1..A-8 ARE THEREFORE NOT CLOSED AND NOT ATTEMPTED IN b41. They are NOT failures.
+# b41 SHIPS GROUP B (E9-M1) + GROUP C (schema) + GROUP D (regression) ONLY.
+# This is b41-S1's escape hatch firing - in the opposite direction from the one predicted.
+#
 # b41 MATRIX - **SEALED rev 1 by Jeff 2026-08-19**
 # Gate 2 CLOSED. No row may be added, removed or reworded without Jeff re-opening the seal.
 # A Gate 3 code plan may now be drafted FROM this matrix.

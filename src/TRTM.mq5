@@ -1525,12 +1525,13 @@ bool CloseLegAtMarket(const ulong ticket, const int level)
   }
 
 // b41 (K4-D2): THE single definition of a level's comment tag. Lifted VERBATIM from the
-// recovery-open path, which now calls this instead of building the string inline - one
-// definition, so the tag a level is OPENED with and the tag its SLICE re-asserts can
-// never drift. Duplicating it was rejected at Gate 1: that is exactly the E9-P6 hazard
-// (AdoptionCandidateExists vs TryAdopt), and a tag that silently diverges from ParseTag
-// is what caused K-4 in the first place. ParseTag is the reader; this is the
-// writer; they must stay in step.
+// recovery-open path, which now calls this instead of building the string inline.
+// ParseTag is the reader; this is the writer; they must stay in step.
+// KEPT even though K-4's slice fix was PARKED out of b41 (CTrade cannot comment a close -
+// see SliceLegAtMarket): the one-definition rule stands on its own merit, the extraction is
+// proven behaviour-identical by filtered diff, and the E9 fix that finally tags the slice
+// will call exactly this. Duplicating the format was rejected at Gate 1 as a deliberate
+// repeat of the E9-P6 hazard (AdoptionCandidateExists vs TryAdopt).
 string BuildLevelTag(const int level, const int dir)
   {
    string tag = g_symbolNorm;
@@ -1546,15 +1547,22 @@ string BuildLevelTag(const int level, const int dir)
 // EA-closed. The surviving anchor needs no liveness attribution (it does not
 // disappear; CheckSequenceLiveness retains it). Returns true on success OR a benign
 // 10036 race; false on a genuine failure (the O7 caller logs + accepts, no retry).
-bool SliceLegAtMarket(const ulong ticket, const int level, const int dir, const double sliceVol)
+bool SliceLegAtMarket(const ulong ticket, const int level, const double sliceVol)
   {
-   // b41 (K4-D1): the partial close MUST carry the anchor's tag. MT5 surfaces a position's
-   // comment as that of the LAST order to modify it, so an untagged slice order BLANKS the
-   // surviving anchor's _lN_ tag - proven live on Vantage 2026-08-18 (K-4 FAIL, Run H).
-   // Re-asserting the SAME string the position already carries makes the slice
-   // comment-NEUTRAL instead of comment-DESTROYING. Not a broker quirk: any MT5 broker
-   // behaves this way, so this is TRTM's own defect and TRTM's own fix.
-   if(!g_trade.PositionClosePartial(ticket, sliceVol, BuildLevelTag(level, dir)))
+   // K-4 PARKED, NOT FIXED HERE (2026-08-19). A Tier 3 slice BLANKS the surviving anchor's
+   // _lN_ position comment: MT5 shows a position's comment as that of the LAST order to
+   // touch it, and this close order carries none. Proven live on Vantage (Run H, K-4 FAIL).
+   // WHY NOT FIXED IN b41: CTrade CANNOT comment a close. PositionClosePartial's third
+   // parameter is a ulong DEVIATION, and the implementation never sets m_request.comment -
+   // so the fix needs a hand-built MqlTradeRequest + OrderSend, i.e. a SECOND close path,
+   // which the sealed E4 X-4 rationale deliberately avoided. Not worth it for a defect
+   // b39's O2b already contains: an unparseable tag is assigned maxLvl+1 (never 0), so the
+   // anchor cannot be seized and Run H's restart rebuilt correctly. RESIDUAL RISK: on a
+   // restart where the sliced anchor is scanned AFTER other levels it is assigned a HIGH
+   // level, so FormBasketGroup anchors on the wrong position (SL anchoring + the next Tier 3
+   // slice target). Volumes and entries are still read live, so TP/PL arithmetic stays
+   // correct. -> E9, alongside O6 comment-integrity detection.
+   if(!g_trade.PositionClosePartial(ticket, sliceVol))
      {
       if((int)g_trade.ResultRetcode() == 10036)   // position already gone (race)
         {
@@ -2410,7 +2418,7 @@ bool FireGroupClose(const ulong &grp[], const int &grpLvl[],
    // anchor, which SURVIVES; Tier 1/2 pass the default 0.0 -> full close (unchanged).
    if(anchorSliceVol > 0.0)
      {
-      if(PositionSelectByTicket(anchorTk) && !SliceLegAtMarket(anchorTk, anchorLvl, dir, anchorSliceVol))
+      if(PositionSelectByTicket(anchorTk) && !SliceLegAtMarket(anchorTk, anchorLvl, anchorSliceVol))
          Log(LOG_WARN, StringFormat("%s: anchor L%d ticket %I64u SLICE failed after all profitables closed - anchor stays FULL, realized = pure profit (X-3/O7). Retargets next tick.",
                                     tierTag, anchorLvl, anchorTk));
      }
