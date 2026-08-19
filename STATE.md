@@ -464,8 +464,39 @@ ALSO FIXED: the 13 new header lines were 71 chars against a 70-char box border. 
 HYGIENE RE-VERIFIED AFTER THE CLEANUP: 0 bare LF, ASCII-only, brace -1 (baseline-preserved),
   paren 0, bracket 0.
 
-NEXT: GATE ZERO - Jeff compiles in MetaEditor (0 errors / 0 warnings expected), then
-  DEPLOY ON A FLAT SEQUENCE per b41-C1, then the single verification run.
+## b41 GATE ZERO PASSED + DEPLOYED 2026-08-19
+COMPILE: clean after the K-4 withdrawal (the string->number warning was the withdrawn
+  code; nothing else touches CTrade).
+DEPLOYED by Jeff 2026-08-19 19:50 on DooTechnology XAUUSD.s, magic 715358, chart M1.
+  NOTE: this is the DOO terminal, not the Vantage demo (758105) where Run H ran.
+INIT EVIDENCE - THREE GROUP C ROWS CLOSED ON THIS INIT ALONE:
+  C-3 "State persistence self-test: PASS" - and the self-test now ROUND-TRIPS
+      lastAppliedTP/SL, so a PASS proves the two new fields serialize, parse and compare.
+      C-2 (round-trip incl. new fields) closes with it.
+  C-4 THE STRENGTHENED WARN FIRED VERBATIM:
+      "StateLoad: schema mismatch or missing (found 4, expected 5) - DISCARDING the state
+       file. Override flags (trail/BE), manual SL ownership and any adopted-L1 record are
+       LOST; the sequence rebuilds from broker positions. On the b41 upgrade this is
+       EXPECTED EXACTLY ONCE - deploy on a FLAT sequence to avoid it."
+      "found 4, expected 5" proves the bump; the text names the consequence, which is
+      exactly the condition attached to b41-C1.
+  C-5 the gate still REJECTED a non-matching schema rather than silently accepting it.
+  C-1 SATISFIED BY PROCEDURE, not by code (as the sealed matrix records honestly):
+      "Reconcile complete: FLAT" - deployed on a flat sequence, so nothing was lost.
+INCIDENTAL: stops level 50 pts on this broker (20 on the Cent/Vantage terminals). Geometry
+  only, no bearing on b41.
+
+STILL OPEN - THE VERIFICATION RUN (Group B + D):
+  B-1 restart over a sequence whose TP the EA itself applied -> expect NO M7-5 adoption.
+  B-2 MUST-NOT: a GENUINE offline trader edit is STILL adopted (proves discriminator, not
+      blanket suppression).
+  D-1 Tier 3 fire arithmetic unchanged, recomputed on both derivations.
+  Broker choice: E9-M1 is fill-model INDEPENDENT, so Doo works for B-1/B-2. A Tier 3 fire
+  for D-1 needs the Run H config (entry 0.05, MinTrades 4, interval 150, RecoveryTF M1).
+  Restart legs MUST be a LIVE CHART - the tester replays from bar zero.
+
+NEXT: the single verification run (Groups B + D), then Gate 4, then seal on Jeff's word.
+  Rows A-1..A-8 are NOT attempted in b41 (K-4 withdrawn) and are neither closed nor failed.
 
 ## RUN H - EXECUTED 2026-08-18. T3-K1/K2(b) PASS, K-4 FAIL, L-3 DEFENDED.
 The oldest outstanding debt in the project - overdue since the E6 seal 2026-07-26, doubly
