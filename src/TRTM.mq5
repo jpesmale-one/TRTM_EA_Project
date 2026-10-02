@@ -48,7 +48,7 @@
 
 #include <Trade\Trade.mqh>
 
-#define TRTM_BUILD  "b42"     // internal build tag, bump per delivery
+#define TRTM_BUILD  "b44"     // internal build tag, bump per delivery
 
 //+------------------------------------------------------------------+
 //| ENUMS                                                            |
@@ -161,6 +161,14 @@ input int  InpLogRetentionDays = 14; // Delete own logs older than N days (0 = k
 #define TRTM_DIR_BASE         "TRTM\\"          // under MQL5\Files\
 #define TRTM_STATE_SCHEMA     5                 // v5: +lastAppliedTP/SL (b41)  // bump on breaking state format change
 #define TRTM_MAX_LEVELS       64                // hard array bound, not a trading limit
+// b43 (E9-Q2-D1, Jeff's call 2026-10-02): how long an UNKNOWN record is held before it is
+// deleted. An UNKNOWN ticket is one MT5 has NOT affirmed closed - not selectable, and no
+// closing deal in history. The record is KEPT so a live position can never be orphaned by a
+// momentary bad read; the bound stops a genuinely vanished ticket living in the file forever.
+// AGED FROM the state file's existing lastSaved field - deliberately NOT a new per-ticket
+// timestamp, because that would need schema 5 -> 6 and a schema bump DISCARDS the file (610),
+// destroying the very adoptedL1 record this build protects. A CONSTANT, not an input (B-4).
+#define TRTM_UNKNOWN_MAX_AGE_SEC  7776000         // 90 days
 
 // Log levels
 #define LOG_INFO   0
@@ -920,12 +928,17 @@ void TryAdopt()
 // the EA's OWN configured exit doing its job - logging it "closed
 // externally" was a misattribution. Read the closing deal's reason from
 // history; "closed externally" is reserved for manual/unknown closes.
-// Returns: 1 TP fill, 2 SL fill, 3 stop-out, 0 unknown/manual.
+// RETURNS (b43/E9-Q2 widened the contract - the old comment said "0 unknown/manual",
+// which conflated two opposite meanings and WAS the defect):
+//    1  TP fill        2  SL fill        3  stop-out
+//    0  CLOSED: a closing deal EXISTS, its reason is simply not TP/SL/SO (manual close).
+//   -1  NO CLOSING DEAL FOUND - history is unavailable or carries no DEAL_ENTRY_OUT.
+//       This is an ABSENCE OF EVIDENCE, not a close. Callers MUST NOT delete on it.
 int ClosingDealReason(const ulong posTicket, double &closePx)
   {
    closePx = 0.0;
    if(!HistorySelectByPosition((long)posTicket))
-      return 0;
+      return -1;   // b43: history unavailable != closed. NO EVIDENCE.
    for(int d = HistoryDealsTotal() - 1; d >= 0; d--)
      {
       ulong deal = HistoryDealGetTicket(d);
@@ -938,10 +951,25 @@ int ClosingDealReason(const ulong posTicket, double &closePx)
          case DEAL_REASON_TP: return 1;
          case DEAL_REASON_SL: return 2;
          case DEAL_REASON_SO: return 3;
-         default:             return 0;
+         default:             return 0;   // a closing deal EXISTS - manual close, a REAL close
         }
      }
-   return 0;
+   return -1;   // b43: no DEAL_ENTRY_OUT in history. NO EVIDENCE, not a close.
+  }
+
+// E9-Q2 (A-1/A-6, b43): THE ONE place that answers "has MT5 AFFIRMED this ticket is gone?".
+// Returns true ONLY on affirmative evidence of closure (a closing deal exists). An ABSENCE
+// of evidence returns FALSE, and that is what keeps the record alive.
+// 2026-09-18 23:54:59: an unpopulated position cache at init was read as "closed while EA
+// was offline"; StateReset + StateSave then destroyed the adoptedL1 record for ticket
+// 2940935091, which ran with no TP, no SL and no recovery for FIVE DAYS. Nothing had
+// closed - all nine positions reappeared on 09-21. AN ABSENCE MUST NEVER DELETE.
+// Both callers (liveness and reconcile) consume THIS, so the judgement is not duplicated
+// (the E9-P6 lesson).
+bool TicketConfirmedClosed(const ulong ticket, int &reason, double &closePx)
+  {
+   reason = ClosingDealReason(ticket, closePx);
+   return (reason >= 0);   // -1 = no closing deal = UNKNOWN = NOT confirmed closed
   }
 
 // Verifies all tracked tickets still exist at the broker. Externally
@@ -958,8 +986,24 @@ void CheckSequenceLiveness()
       else
         {
          // b20: broker-side exits attributed as what they are.
+         // b43 (E9-Q2, A-1/C-1/C-2): reason -1 means MT5 has NOT affirmed closure - the
+         // position is not selectable AND history carries no closing deal. That is an
+         // ABSENCE of evidence, and through b42 this branch DELETED the ticket anyway
+         // while calling it "closed externally". Without this gate the reconcile fix at
+         // the flat branch would be DEFEATED ON THE NEXT TICK: reconcile keeps the record
+         // at init and liveness prunes it moments later.
          double cpx = 0.0;
-         int reason = ClosingDealReason(g_state.tickets[i], cpx);
+         int reason = 0;
+         if(!TicketConfirmedClosed(g_state.tickets[i], reason, cpx))
+           {
+            // One-shot per ticket per init: liveness runs EVERY tick, so an unthrottled
+            // WARN would flood the log (C-2). The text names what is NOT known and claims
+            // NO cause - "closed externally" is exactly the false claim b43 removes (C-1).
+            if(!AlreadyLogged("unkticket:" + (string)g_state.tickets[i]))
+               Log(LOG_WARN, StringFormat("Liveness: L%d ticket %I64u is NOT selectable and has NO closing deal in history - MT5 has not confirmed it closed, so the record is KEPT (E9-Q2). No cause is asserted. If the position is genuinely gone the record expires after %d days.",
+                                          g_state.levels[i], g_state.tickets[i], TRTM_UNKNOWN_MAX_AGE_SEC / 86400));
+            continue;   // KEEP it: do not remove, do not shift the arrays, do not save
+           }
          if(reason == 1)
             Log(LOG_INFO, StringFormat("Liveness: L%d ticket %I64u TP hit @ %s - removed from sequence", g_state.levels[i], g_state.tickets[i], DoubleToString(cpx, _Digits)));
          else if(reason == 2)
@@ -3042,16 +3086,84 @@ void Reconcile()
            }
         }
       else if(l1Ticket > 0)
-         Log(LOG_WARN, StringFormat("Reconcile: recorded adopted L1 ticket %I64u no longer exists - closed while EA was offline", l1Ticket));
+        {
+         // b43 (E9-Q2, A-1/C-1): THIS IS THE FIRST LINE OF THE 2026-09-18 LOG. Through b42 it
+         // asserted "closed while EA was offline" purely because PositionSelectByTicket had
+         // failed - and the position was alive the whole time. Classify before claiming.
+         int    l1Reason = 0;
+         double l1Cpx    = 0.0;
+         if(TicketConfirmedClosed(l1Ticket, l1Reason, l1Cpx))
+            Log(LOG_WARN, StringFormat("Reconcile: recorded adopted L1 ticket %I64u CONFIRMED closed while the EA was offline (closing deal found in history%s)",
+                                       l1Ticket,
+                                       l1Reason == 1 ? ", TP hit" : l1Reason == 2 ? ", SL hit"
+                                       : l1Reason == 3 ? ", stop-out" : ""));
+         else
+            Log(LOG_WARN, StringFormat("Reconcile: recorded adopted L1 ticket %I64u is NOT selectable and has NO closing deal in history - MT5 has not confirmed it closed, so the record is KEPT (E9-Q2). No cause is asserted.", l1Ticket));
+        }
      }
 
    if(live.levelCount == 0)
      {
       // Flat at the broker (any tagged magic-0 positions are handled by
       // the OnTick adoption scan, subject to the stale-tag gate).
+      // b43 (E9-Q2, A-1/A-4/A-5/B-1/B-2): *** THIS IS THE 2026-09-18 SITE. ***
+      // Through b42 ANY empty live map at init led straight to StateReset + StateSave, so an
+      // unpopulated position cache DESTROYED the record - including the adoptedL1 ticket,
+      // whose only copy this file is (RebuildLiveMap cannot see a magic-0 position).
+      // NOW: classify EVERY ticket the file claims before writing anything. Deletion goes
+      // MT5 -> file and needs AFFIRMATIVE evidence; an absence keeps the record.
       if(haveFile && file.levelCount > 0)
         {
-         Log(LOG_WARN, StringFormat("Reconcile: file claims %d level(s) but broker is flat - sequence closed while EA was offline", file.levelCount));
+         int    unknownN = 0;
+         string unknownList = "";
+         for(int i = 0; i < file.levelCount; i++)
+           {
+            int    r = 0;
+            double cpx = 0.0;
+            if(!TicketConfirmedClosed(file.tickets[i], r, cpx))
+              {
+               unknownN++;
+               unknownList += (unknownList == "" ? "#" : ", #") + (string)file.tickets[i];
+              }
+           }
+         if(unknownN > 0)
+           {
+            // A-1/A-4: at least one claimed ticket is UNKNOWN. DO NOT reset, DO NOT save -
+            // the record must survive this init. OnTick settles it: b39/F-2 re-adopts our
+            // magic levels, and the adoptedL1 record is still here for a later reconcile.
+            // B-1/B-2: unless the record is already past the age bound, in which case the
+            // ticket really is gone and holding it forever serves nothing.
+            long ageSec = (long)TimeCurrent() - (long)file.lastSaved;
+            if(ageSec > TRTM_UNKNOWN_MAX_AGE_SEC)
+               Log(LOG_WARN, StringFormat("Reconcile: %d claimed ticket(s) %s are NOT selectable and have NO closing deal, and this record is %d days old (bound %d) - EXPIRED, discarding it (E9-Q2 B-1).",
+                                          unknownN, unknownList, (int)(ageSec / 86400), TRTM_UNKNOWN_MAX_AGE_SEC / 86400));
+            else
+              {
+               Log(LOG_WARN, StringFormat("Reconcile: file claims %d level(s) and the broker reads EMPTY, but %d ticket(s) %s have NO closing deal in history - MT5 has NOT confirmed they closed. The record is KEPT and NOTHING is written (E9-Q2 A-1). No cause is asserted. Record age %d of %d days.",
+                                          file.levelCount, unknownN, unknownList,
+                                          (int)(ageSec / 86400), TRTM_UNKNOWN_MAX_AGE_SEC / 86400));
+               // b44 (E9-Q2-D2, A-7/A-8/A-9): leave g_state FLAT. "Keep the record" means
+               // PRESERVE THE FILE, not resurrect an unconfirmed ticket as a live sequence.
+               // b43 did `g_state = file` here, so levelCount stayed 1 and OnDeinit's
+               // `if(levelCount > 0) StateSave()` REWROTE the file on the next deinit -
+               // the A-8 FAIL Jeff caught on 2026-10-03 from a "#0" in one log line.
+               // The record survives ON DISK, untouched, for a later reconcile.
+               // StateReset (not just levelCount = 0) also clears tickets[]/levels[], so no
+               // level-0 remnant can reach FormBasketGroup and seize the Tier 3 anchor (A-9).
+               // THE lastCloseTime CARRY IS LOAD-BEARING: g_state is a zero-initialised
+               // global, and all three stale-tag gates read `lastCloseTime > 0`, so a zero
+               // anchor would make the gate STAND DOWN and every tagged magic-0 position
+               // become adoptable - including stale ones the EA must refuse. Without this
+               // line A-7 would fix one defect and open another.
+               StateReset(g_state);
+               g_state.lastCloseTime = lastClose;
+               return;           // NO StateSave - the file on disk is left exactly as it is
+              }
+           }
+         else
+            // A-5: every claimed ticket is CONFIRMED closed. This is a genuine flat, and it
+            // MUST still anchor the stale-tag gate or a stale tagged L1 becomes adoptable.
+            Log(LOG_WARN, StringFormat("Reconcile: file claims %d level(s) but every one is CONFIRMED closed in history - sequence closed while EA was offline", file.levelCount));
          // Best available bound for the gate: the last moment the terminal
          // saw the sequence alive. Anything opened after that is fresh.
          if(lastClose < file.lastSaved)

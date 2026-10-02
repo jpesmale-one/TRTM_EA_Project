@@ -1,0 +1,34 @@
+2026.10.03 00:58:46.362	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] === TRTM b44 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.10.03 00:58:46.362	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.10.03 00:58:46.367	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] State persistence self-test: PASS
+2026.10.03 00:58:46.368	TRTM (XAUUSD.s,M5)	[TRTM][WARN ] Reconcile: recorded adopted L1 ticket 999999999 is NOT selectable and has NO closing deal in history - MT5 has not confirmed it closed, so the record is KEPT (E9-Q2). No cause is asserted.
+2026.10.03 00:58:46.368	TRTM (XAUUSD.s,M5)	[TRTM][WARN ] Reconcile: 1 claimed ticket(s) #999999999 are NOT selectable and have NO closing deal, and this record is 95 days old (bound 90) - EXPIRED, discarding it (E9-Q2 B-1).
+2026.10.03 00:58:46.368	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Reconcile complete: FLAT
+2026.10.03 00:58:46.369	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Account margin mode: HEDGING
+2026.10.03 00:58:46.369	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.10.03 00:58:46.369	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Init complete - b44 (adoption, exits, recovery active)
+2026.10.03 01:01:24.745	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] BUY ARMED: 0.01 lots (Fixed 0.01) - click CONFIRM within 10s to execute
+2026.10.03 01:01:26.041	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] L1 BUY OPENED via button: 0.01 lots @ 4141.51 (deal 554930992)
+2026.10.03 01:01:26.042	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Structure: 1 level(s), 0.01 lots | projected at TP +3.00 | at SL n/a
+2026.10.03 01:01:26.042	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] EA L1 REGISTERED: ticket 890591787 BUY 0.01 lots @ 4141.51. Exits apply next tick.
+2026.10.03 01:01:26.260	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Exits applied to ticket 890591787: TP 4144.51 SL none
+2026.10.03 01:02:21.849	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Deinit (reason 1) - state saved (sequence alive)
+2026.10.03 01:02:28.730	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] === TRTM b44 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.10.03 01:02:28.730	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.10.03 01:02:28.735	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] State persistence self-test: PASS
+2026.10.03 01:02:28.735	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Reconcile: flags restored (trailOverride=F beOverride=F trailingActive=F beApplied=F)
+2026.10.03 01:02:28.736	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Structure: 1 level(s), 0.01 lots | projected at TP +3.00 | at SL n/a
+2026.10.03 01:02:28.736	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Reconcile complete: dir=BUY levels=1
+2026.10.03 01:02:28.741	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Account margin mode: HEDGING
+2026.10.03 01:02:28.741	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.10.03 01:02:28.741	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Init complete - b44 (adoption, exits, recovery active)
+2026.10.03 01:03:36.512	TRTM (XAUUSD.s,M5)	[TRTM][WARN ] Liveness: L1 ticket 890591787 closed externally (manual/unknown) - removed from sequence
+2026.10.03 01:03:36.512	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Sequence fully closed - back to FLAT, overrides reset to input defaults, flat marker saved
+2026.10.03 01:03:57.957	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Deinit (reason 1) - state clean (flat)
+2026.10.03 01:04:03.108	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] === TRTM b44 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.10.03 01:04:03.108	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.10.03 01:04:03.113	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] State persistence self-test: PASS
+2026.10.03 01:04:03.113	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Reconcile complete: FLAT
+2026.10.03 01:04:03.115	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Account margin mode: HEDGING
+2026.10.03 01:04:03.115	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.10.03 01:04:03.115	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Init complete - b44 (adoption, exits, recovery active)

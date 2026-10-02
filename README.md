@@ -351,6 +351,23 @@ Inputs dialog, which restores *all* defaults. Reload your `.set`.
 **Nothing happens when I click in the Strategy Tester.** Buttons are
 polled on tick there, so the tester must be *running*, not paused.
 
+**A log line says a ticket "is NOT selectable and has NO closing
+deal".** (b43 and later.) TRTM is telling you it does not know what
+happened to a position it was tracking: MT5 cannot find the position,
+*and* there is no record in the trade history of it ever closing. Those
+are two different questions, and TRTM now asks both before deciding.
+
+Before b43 it asked only the first, and an empty answer was treated as
+"the position closed". On 2026-09-18 that was wrong - the terminal had
+simply not finished loading its position list yet. TRTM declared the
+sequence closed, erased its own record, and a live position was left
+with no take-profit and no stop-loss for five days.
+
+So now: no closing deal means no deletion. **TRTM keeps the record and
+says so.** The position stays managed if it turns out to be alive. If it
+really is gone, the record is dropped automatically after 90 days.
+Nothing is lost by waiting; a lot can be lost by guessing.
+
 **A log line says "NO ORDER SENT".** (b42 and later.) It means TRTM
 decided to close, slice or re-dress a position, and by the moment it
 actually made the call, the terminal no longer recognised that position.

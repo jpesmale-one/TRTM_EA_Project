@@ -29,11 +29,47 @@
 # with an empty git diff. It worked, but it depended on memory. This does not.
 # ############################################################################
 
-build: b42
+build: b44
 file: TRTM.mq5
-sha256_16: 9209dbe131c9d651
-lines: 5112
-date: 2026-10-02
+sha256_16: 57bc3811df272e40
+lines: 5224
+date: 2026-10-03
+# *** b44 SEALED BY JEFF 2026-10-03 *** E9-Q2 directional record management. Gate 6 closed.
+#   All six gates cleared. Gate 4 COMPLETE: all 25 matrix rows disposed, 13 on LIVE evidence.
+#   THE DEFECT IT CLOSES: on 2026-09-18 reconcile read an unpopulated position cache as
+#   "broker is flat", called StateReset + StateSave, and PERMANENTLY destroyed the adoptedL1
+#   record for ticket 2940935091 - which then ran with no TP, no SL and no recovery for FIVE
+#   DAYS until Jeff closed it by hand. b44 makes deletion require AFFIRMATIVE evidence.
+#   REPO src    = b44 (57bc3811df272e40 / 5224)  <- this manifest tracks REPO.
+#   MT5 runtime = b44 (57bc3811df272e40 / 5224) ALIGNED 2026-10-03 - compiled by Jeff at
+#     the LIVE path and verified byte-identical. Every verification run above used it.
+# E9-Q2-D2: the b43 GATE 4 FAIL fix. An UNKNOWN record is NEVER loaded into g_state - "keep
+#   the record" means PRESERVE THE FILE, not resurrect an unconfirmed ticket as a live
+#   sequence. Implements sealed matrix rev 2 rows A-7 / A-8 / A-9.
+# DELTA FROM b43: +14 lines (2 code, 12 comment). ONE statement changed:
+#   `g_state = file;`  ->  `StateReset(g_state); g_state.lastCloseTime = lastClose;`
+#   Verified by direct diff against the b43 baseline - nothing else differs but the tag.
+# HYGIENE: 0 bare LF, ASCII-only, brace delta -1 (baseline-preserved), paren 0, bracket 0.
+# NO new input, NO new global, NO new persisted field, schema STAYS 5, NO new file.
+# Prior build: b43 (88fa5ce0cbea7920 / 5210, Gate Zero passed 2026-10-03, NOT sealed - it
+#   carries the A-8 defect and must NOT be deployed).
+# b43 BUILT 2026-10-02. GATE ZERO PASSED 2026-10-03 00:00:40 (XAUUSDS 715358, clean init).
+#   NOT SEALED - Groups A/B verification outstanding (the fixtures).
+#   REPO src    = b43 (88fa5ce0cbea7920 / 5210)  <- this manifest tracks REPO.
+#   MT5 runtime = b43 (88fa5ce0cbea7920 / 5210) ALIGNED 2026-10-03, verified byte-identical
+#     at the LIVE path with 0 probe markers.
+# C-4 PASSED AT GATE ZERO, ON EVIDENCE: the init logged "Reconcile complete: FLAT" and
+#   NOTHING ELSE NEW. The state file was a flat marker (levelCount 0), so the unchanged
+#   `if(haveFile && file.levelCount > 0)` guard correctly SKIPPED the whole classification
+#   block. A healthy run gains ZERO new log lines - the UNKNOWN path is unreachable when
+#   there is nothing to classify. That is the must-NOT row, closed on a real init.
+#   The self-test also PASSED with TRTM_UNKNOWN_MAX_AGE_SEC in scope (no schema impact).
+# E9-Q2: directional record management. The EA no longer deletes a position record on an
+#   ABSENCE of evidence - deletion requires MT5 to AFFIRM closure via a closing deal.
+# HYGIENE: 0 bare LF, ASCII-only, brace delta -1 (baseline-preserved), paren 0, bracket 0.
+# DELTA: +98 lines (5112 -> 5210): 58 code, 47 comment, rest blank. NO new input, NO new
+#   global, NO new persisted field, state schema UNCHANGED at 5, NO new file.
+# Prior SEALED build: b42 (9209dbe131c9d651 / 5112, sealed 2026-10-02, commit 83af0ba).
 # *** b42 SEALED BY JEFF 2026-10-02 *** E9-Q3 retcode validity. All six gates cleared.
 #   Built 2026-09-24. Gate Zero passed 2026-09-24 (USDCADS) and again on genuinely clean b42
 #   2026-10-02 13:14:52 (XAUUSDS) after the probe incident. Gate 4 complete: A-1/A-2/D-3 and
@@ -3768,3 +3804,414 @@ E9 REMAINS OPEN with: Q1 stale-quote guard, Q2 false-flat reconcile (a REAL unma
   defect, evidenced 2026-09-18), Q4 slice-selection race (why the anchor became unselectable -
   b42 NAMES the event, it does not explain or retry it), K-4 + O6, M4, M2, O3, O4, O5, O2e,
   W-7, P6. See the live-findings block for Q2/Q4 provenance.
+
+## LOCKED DECISION E9-Q2-D1 (record management, Jeff's call 2026-10-02): DIRECTIONAL RECORD
+## MANAGEMENT INSIDE THE EXISTING STATE FILE. Jeff's own design, refined against the code.
+
+THE RULE, IN JEFF'S WORDS: deletion goes MT5 -> file; reconciliation goes file -> MT5.
+  A ticket leaves the record ONLY when MT5 affirmatively states it is gone.
+  A ticket is restored by proposing it FROM the file and having MT5 CONFIRM it by ticket.
+WHY THAT ASYMMETRY IS THE WHOLE FIX: the 2026-09-18 failure went file -> "broker is flat"
+  and then DELETED. That is deletion driven by an ABSENCE. Under this rule an absence can
+  never delete anything.
+
+MECHANISM. At init, for each ticket the file claims, reconcile asks TWO INDEPENDENT questions:
+    (1) PositionSelectByTicket  - is it in the position list?
+    (2) HistorySelectByPosition - does it have a CLOSING DEAL?
+  select OK              -> ALIVE   -> restore to the sequence
+  select FAIL + deal     -> CLOSED  -> delete from the record, log the reason (TP/SL/SO/manual)
+  select FAIL + NO deal  -> UNKNOWN -> KEEP THE RECORD, WRITE NOTHING, one-shot WARN
+  The third row IS 2026-09-18. THE KEY TECHNICAL FACT: HistorySelectByPosition is a DIFFERENT
+  DATA SOURCE from PositionsTotal() and they fail INDEPENDENTLY. An unpopulated position cache
+  says NOTHING about history. History is therefore the affirmative evidence that separates
+  "closed" from "I cannot see it yet" - the distinction the EA collapsed on 09-18.
+
+THE 90-DAY UNKNOWN EXPIRY (Jeff's call): an UNKNOWN record is deleted once it is older than
+  90 days, AGED FROM THE FILE'S EXISTING lastSaved FIELD - NO new per-ticket timestamp, NO
+  schema bump, schema STAYS AT 5.
+  WHY lastSaved IS THE RIGHT CLOCK: it refreshes on every write, so a record holding a LIVE
+  sequence never ages - correct, nothing should expire while the EA is actively managing it.
+  A record untouched for 90 days is STRANDED by definition, which is exactly the case the
+  expiry exists to clean.
+  ACCEPTED BEHAVIOUR DIFFERENCE, ON THE RECORD: if a sequence has live tickets AND an UNKNOWN
+  one, the UNKNOWN never ages out because the live siblings keep the file fresh. Jeff and I
+  agree this is DESIRABLE, not a shortcut - an unknown ticket alongside live siblings is the
+  case most deserving of a standing WARN rather than silent deletion.
+
+SCOPE IS ONE SITE. All StateReset/StateSave sites were enumerated and classified:
+    744  AdoptPosition      - builds a record after an adoption.      SAFE, untouched.
+    991  CheckSequenceLiveness - per-ticket, MT5 -> file, already uses ClosingDealReason.
+         SAFE, untouched - AND IT IS THE MODEL FOR THIS FIX. It has never misfired.
+    3463 RegisterButtonL1   - builds a record after a registration.   SAFE, untouched.
+    3060 Reconcile flat branch - StateReset + StateSave on live.levelCount == 0 at init.
+         *** THIS IS THE DEFECT. ONE LINE IS THE WHOLE BUG. ***
+
+FIXES: E9-Q2 completely. E9-M4's OVERWRITE case completely.
+DOES NOT FIX - A DOCUMENTED DESIGN LIMIT, NOT A GAP: E9-M4's true file-LOSS case. If the
+  state file is deleted, or the terminal/data folder changes, a magic-0 adopted position has
+  NO magic (invisible to RebuildLiveMap), NO reliable tag (see the C rejection), and NO
+  record. IT IS UNRECOVERABLE IN CODE. This is to be DOCUMENTED, never pretended away.
+  CORRECTION ON THE RECORD: an earlier framing this session called Q2 and M4 "the same defect
+  at different widths". WRONG. Q2 is fixable; M4's file-loss case is a design limit. Said
+  plainly so the next reader does not expect M4 to close.
+
+REJECTED (D) write our magic onto the adopted position at adoption time: NOT AVAILABLE.
+  MT5 CANNOT MODIFY POSITION_MAGIC - stated in the source header at TRTM.mq5 636 and the
+  reason adopted L1s stay magic-0 forever. Verified before proposing, not assumed.
+REJECTED (C) re-derive adoption from the comment tag at reconcile (STATE.md's own candidate
+  (b), and MY recommendation until Jeff refuted it): UNSAFE, not merely incomplete.
+  JEFF'S OBJECTION, CONFIRMED IN CODE ON BOTH COUNTS:
+    (i)  a MOBILE adoption never had a tag. AdoptPosition records adoptedL1 + the ticket but
+         stores NOTHING distinguishing tagged from untagged - the `untagged` flag only reaches
+         the log line and the Alert. There is nothing to match on.
+    (ii) FormBasketGroup picks the LOWEST LEVEL as anchor with NO magic check, so an adopted
+         L1 is ALWAYS the Tier 3 slice anchor while it lives - and K-4 blanks the surviving
+         anchor's comment (Run-H-proven; ticket 2942227144 kept its ticket across two slices
+         on 09-10/09-11 while losing its comment entirely, visible in the 09-23 O2b WARN).
+    THE COMPOUND FAILURE THAT KILLS IT: a BLANKED tagged adoption becomes indistinguishable
+    from an untagged one, so C would fall through to the untagged fallback - which adopts THE
+    OLDEST magic-0 position, not necessarily the right one. That is a WRONG-POSITION ADOPTION
+    ON A MONEY PATH, and it would fail silently. C is withdrawn.
+REJECTED (A) simply decline to write on an unconfirmed read: strictly WEAKER than the locked
+  option. A declines to decide; the locked option DECIDES CORRECTLY using history. A was my
+  recommendation when the goal was an urgent hotfix; Jeff chose a permanent fix instead, which
+  is the better call and makes A redundant.
+REJECTED per-ticket unknownSince[] array with schema 5 -> 6: the bump costs what it is meant
+  to protect. StateLoad DISCARDS the file on a schema mismatch (610), destroying the adoptedL1
+  record - THE EXACT DEFECT UNDER REPAIR. b41 absorbed that with deploy-on-flat (b41-C1) for
+  ONE instance; there are now EIGHT live instances, so it would mean eight flat-sequence
+  windows or eight discards. Precision not worth that.
+REJECTED aging from the ticket's own POSITION_TIME: unavailable by construction - if the
+  position cannot be selected, its open time cannot be read.
+
+TICKET NUMBER IS THE ONLY DURABLE IDENTITY, and the state file already stores it. A slice
+  preserves the ticket while destroying the comment (evidence above). The fix therefore is
+  NOT "find a better identity" but "STOP DESTROYING THE RECORD THAT HOLDS THE TICKET".
+
+## b43 BUILT 2026-10-02 - E9-Q2 DIRECTIONAL RECORD MANAGEMENT. GATE ZERO NOT RUN.
+IDENTITY: 88fa5ce0cbea7920 / 5210 lines (+98 from b42's 5112: 58 code, 47 comment).
+GATES CLEARED: Gate 1 (E9-Q2-D1 locked 2026-10-02), Gate 2 (docs/Q2_MATRIX.md SEALED rev 1,
+  22 rows, 16 must-NOT, QQ1 resolved in-matrix), Gate 3 (docs/Q2_PLAN_2026-10-02_gate3.md
+  CONFIRMED). NEXT: Gate Zero (Jeff compiles), then Gate 4, then seal on Jeff's word.
+
+THE SIX TOUCH POINTS AS BUILT:
+  TP5  173  NEW CONSTANT TRTM_UNKNOWN_MAX_AGE_SEC = 7776000 (90 days). A #define, not an
+            input (B-4). Comment explains WHY it ages from lastSaved and not a new field.
+  TP1  937  ClosingDealReason CONTRACT WIDENED. Two of its three `return 0` sites become
+            `return -1`:
+              history unavailable      -> -1  NO EVIDENCE
+              no DEAL_ENTRY_OUT found  -> -1  NO EVIDENCE
+              default (deal EXISTS)    ->  0  GENUINELY CLOSED (manual) - still deletes
+            The header comment was rewritten: the old one said "0 unknown/manual", which
+            CONFLATED the two opposite meanings and WAS the defect. A comment that lies is
+            worse than none (b40's lesson).
+  TP2  969  NEW HELPER TicketConfirmedClosed(ticket, reason, closePx) -> bool. The ONE place
+            that answers "has MT5 AFFIRMED this ticket is gone?". Returns true only when a
+            closing deal exists. VERIFIED AFTER THE BUILD: ClosingDealReason is now called
+            from NOWHERE ELSE - all three consumers go through this helper, so no path can
+            read -1 as a close (A-6, and the E9-P6 anti-duplication lesson).
+  TP3  997  CheckSequenceLiveness - the UNKNOWN gate. On -1 the ticket is KEPT, the arrays
+            are NOT shifted, nothing is saved, and a ONE-SHOT-per-ticket WARN fires via the
+            existing AlreadyLogged registry (C-2 - liveness runs every tick; unthrottled
+            would flood). WITHOUT THIS SITE THE RECONCILE FIX IS DEFEATED IN ONE TICK.
+  TP4a 3095 Reconcile's adoptedL1 restore branch - THE FIRST LINE OF THE 09-18 LOG. It used
+            to assert "no longer exists - closed while EA was offline" purely because the
+            select failed. Now classifies first and names TP/SL/stop-out when a deal exists.
+  TP4b 3118 Reconcile FLAT BRANCH - *** THE 09-18 SITE. *** Classifies EVERY ticket the file
+            claims before writing. Any UNKNOWN -> keep the record, carry it into g_state,
+            RETURN WITHOUT StateReset OR StateSave. All CONFIRMED -> genuine flat, resets
+            exactly as before.
+  TP6  51   TRTM_BUILD "b42" -> "b43".
+
+A-5 VERIFIED BY INSPECTION AFTER THE BUILD - THE ONE WAY THIS COULD HAVE BROKEN SOMETHING:
+  a genuine flat still falls through to StateReset -> g_state.lastCloseTime = lastClose ->
+  StateSave, byte-unchanged. The stale-tag gate anchor survives. Had this regressed, a stale
+  tagged L1 would silently become adoptable again - which is why A-5 is a must-NOT row with
+  its own live-evidence requirement rather than an inspection row.
+  ALSO VERIFIED: the `if(haveFile && file.levelCount > 0)` guard is unchanged, so a genuinely
+  first run (no file) or a flat marker with levelCount 0 skips the entire new block. And the
+  B-1 expired branch deliberately FALLS THROUGH to the same reset - correct, an expired
+  UNKNOWN should be discarded.
+
+DIFF DISCIPLINE - every deletion in the whole file, and why:
+  TRTM_BUILD "b42"                             -> "b43"
+  `return 0;` x2                               -> `return -1;` (the no-evidence paths)
+  `default: return 0;`                         -> same + comment (a REAL close, still deletes)
+  `int reason = ClosingDealReason(...)`         -> the TicketConfirmedClosed gate
+  "no longer exists - closed while EA was offline"      -> classified, NO false cause
+  "broker is flat - sequence closed while EA was offline" -> classified, NO false cause
+  THE LAST TWO STRINGS ARE THE POINT OF THE BUILD. They are the two lines that lied on 09-18.
+
+HYGIENE (recomputed on the built file): 5210 lines, 0 bare LF, 0 non-ASCII, brace delta -1
+  IDENTICAL to baseline, paren 0, bracket 0.
+LINE-DELTA NOTE: plan estimated +74, build is +98. The 24-line overrun is COMMENT-weighted
+  (47 of the 98 are comment) - provenance markers and the 09-18 explanation written into the
+  source, the same pattern as b42's TP4. No unplanned code. Recorded so a later reader does
+  not have to re-derive it.
+
+WHAT b43 DOES NOT TOUCH (the UNCHANGED list, as built):
+  - The three SAFE StateReset sites: AdoptPosition, liveness' genuine all-closed reset,
+    RegisterButtonL1. (D-1)
+  - b20 attribution text/levels for TP/SL/stop-out/EA-closed. Only the no-evidence branch
+    changed. (D-2)
+  - b39/F-2 orphan rebuild, FindUntrackedOurSeed, CheckOwnPendingFillWhenFlat. (D-3)
+  - Every lastCloseTime write and the stale-tag gate. (D-4)
+  - All 20 `if(!PositionSelectByTicket(...)) continue;` guards - a KEPT-but-unselectable
+    record is INERT to ComputeTargets, FormBasketGroup, EnforceExits and the projections.
+    This pre-existing defensiveness is what makes "keep the record" safe. (D-5)
+  - StateToJson / StateLoad field lists; TRTM_STATE_SCHEMA stays 5; the self-test. (D-6)
+  - ReconcileManualExits and b41's lastAppliedTP/SL discriminator. (D-7)
+  - b42's TradeTargetLive and all three no-send gates. Q3 is sealed and untouched.
+  - Adoption, the panel, the instance lock, all three tiers, every quote read.
+
+RISK, STATED PLAINLY AND HIGHER THAN b42: this build changes what the EA DOES, not only what
+  it says. b42 changed reason text and a branch's reachability; b43 changes WHETHER A RECORD
+  IS DELETED. THE DIRECTION IS BENIGN - every change makes the EA delete LESS. A false UNKNOWN
+  keeps a record that should have gone: a stale ticket, inert per D-5, surfaced by a WARN, and
+  expired at 90 days. The failure it prevents is the opposite and far worse - a record deleted
+  while the position is ALIVE, which cost five days of an unmanaged money path on 09-18.
+  WATCH ITEM FOR THE RUN: the COUNT of UNKNOWN WARNs during normal running. If they appear on
+  healthy restarts the classifier is too eager and something in the history read is unreliable
+  on this broker. That would be a FINDING, not noise.
+
+GATE 4 PLAN - what needs live evidence vs inspection:
+  LIVE/FORCED: A-1 + B-1 + B-2 via the fabricated-ticket fixtures already staged at
+    scratchpad/q2_fixtures/ (ticket 999999999; lastSaved at 0d / 89d / 91d). Jeff copies each
+    over MQL5/Files/TRTM/state_XAUUSDS_715358.json on the FLAT XAUUSDS chart and re-inits.
+    NO probe build, NO code change, nothing temporary in the source - this deliberately avoids
+    the probe hazard that bit b42 (see the 2026-10-02 probe incident).
+  LIVE: A-5 (a sequence genuinely closed at the broker, then a restart - expect the flat
+    marker AND lastCloseTime set), A-2/D-2 (a real TP or SL close, attribution unchanged),
+    A-3 (any normal restart over a live sequence).
+  INSPECTION + FILTERED DIFF: A-4, A-6, B-3, B-4, C-1, C-3, C-4, D-1..D-8.
+  OPTIONAL BEFORE/AFTER, Jeff's call: running the A-1 fixture against SEALED b42 FIRST would
+    reproduce the defect on the record for contrast. One extra init, not required by any row.
+
+## *** b43 GATE 4 FAIL 2026-10-03 - FOUND BY JEFF ON THE FIRST FIXTURE RUN ***
+## A-1's CORE ASSERTION PASSED. A SECOND DEFECT, MINE, WAS EXPOSED BY THE SAME RUN.
+
+JEFF'S OBSERVATION, VERBATIM: "I'm not sure if it's seeing the 999999 ticket". He was right,
+and chasing it found a real defect that the row itself would not have caught.
+
+WHAT PASSED - A-1's substance, on evidence (tests/ the 2026-10-03 00:13:45 + 00:17:38 inits):
+  "Reconcile: file claims 1 level(s) and the broker reads EMPTY, but 1 ticket(s) #0 have NO
+   closing deal in history - MT5 has NOT confirmed they closed. The record is KEPT and
+   NOTHING is written (E9-Q2 A-1). No cause is asserted. Record age 0 of 90 days."
+  NO "Reconcile complete: FLAT". NO "closed while EA was offline". The reconcile path did
+  exactly what the matrix demands, on BOTH inits. Under b42 that fixture would have been
+  wiped on the spot. The CLASSIFIER AND THE RECONCILE KEEP-PATH ARE PROVEN CORRECT.
+
+WHAT FAILED - the ticket printed as #0, and the FIXTURE FILE ON DISK WAS REWRITTEN TO
+  {"tickets":[0],"levels":[0], ... "lastSaved":1790968657}
+  The fixture as generated and VALIDATED held tickets:[999999999], levels:[1]. The parser was
+  cleared of blame by emulating JsonGetArray against the exact fixture bytes: it returns
+  (true, [999999999]). The file the EA read on the SECOND init was already corrupt, written
+  by the FIRST instance.
+
+ROOT CAUSE - MINE, AND IT IS A DESIGN ERROR NOT A TYPO:
+  The keep path does `g_state = file; return;` (3145). That leaves g_state.levelCount = 1
+  holding a ticket the EA has just decided is UNKNOWN. The EA therefore treats an
+  UNCONFIRMED record as a LIVE SEQUENCE:
+    (1) OnDeinit runs `if(g_state.levelCount > 0) StateSave(g_state);` and logs "state saved
+        (sequence alive)" - SO THE NEXT DEINIT REWRITES THE FILE. The matrix row says
+        "NOTHING is written"; OnDeinit violates that one deinit later.
+    (2) the whole OnTick engine chain runs against it every tick;
+    (3) liveness re-evaluates it forever - visible at 00:13:45.103 as
+        "Liveness: L0 ticket 0 is NOT selectable and has NO closing deal..."
+  THE L0 IN THAT LINE IS ITS OWN HAZARD: level 0 is exactly what b39's L-3 rule forbids,
+  because FormBasketGroup picks the LOWEST level as anchor and a level-0 entry would seize
+  the Tier 3 anchor. The corruption propagates into anchor selection.
+
+HONESTY NOTE ON THE DIAGNOSIS: I could not pin the exact statement that zeroed the arrays
+  while leaving levelCount at 1 - `g_state = file` is a struct copy, StateToJson writes
+  tickets[i]/levels[i] for i < levelCount, and scope is valid at the assignment, so the
+  round-trip SHOULD have preserved 999999999. The decisive first-init evidence was
+  overwritten before capture. I stopped drilling because OPTION A REMOVES THE WRITE
+  ENTIRELY, which makes the question moot rather than unanswered. If the zeroing mechanism
+  matters later, the reproduction is: fresh fixture, ONE init, capture, then read the file
+  BEFORE any deinit.
+
+LOCKED DECISION E9-Q2-D2 (keep-path semantics, Jeff's call 2026-10-03): OPTION A - AN
+  UNKNOWN RECORD IS NEVER LOADED INTO g_state.
+  "Keep the record" means PRESERVE THE FILE UNTOUCHED - it does NOT mean resurrect the
+  record as a live sequence. On the UNKNOWN path reconcile logs, leaves the file alone, and
+  leaves g_state FLAT. The record survives ON DISK for a later reconcile, and the EA does
+  not pretend to manage a ticket it cannot see.
+  CONSEQUENCE, ACCEPTED: OnTick's flat-state paths then run (CheckOwnPendingFillWhenFlat,
+  TryAdopt). That is CORRECT - the EA genuinely has no confirmed sequence. b39/F-2 still
+  re-adopts any magic-owned orphan, which is the self-heal path that saved the eight levels
+  on 2026-09-21.
+  ALSO REQUIRED: OnDeinit must not write a flat g_state over a kept record. With g_state
+  flat its `levelCount > 0` guard is already false, so it writes nothing - but the plan must
+  VERIFY that rather than assume it, because that guard is the thing that corrupted the
+  fixture.
+  REJECTED (B) load it but mark it inert with a new flag: needs schema 5 -> 6, which Gate 1
+  already rejected on the grounds that a schema bump DISCARDS the file and destroys the very
+  adoptedL1 record under repair - with eight live instances that is eight deploy windows.
+
+MATRIX CONSEQUENCE: this is a Gate 4 FAIL, so per CLAUDE.md it becomes ROWS, not a silent
+  fix. Jeff must re-open the Q2 matrix seal to add them. Proposed:
+    A-7  MUST-NOT: an UNKNOWN record is NEVER loaded into g_state. After an UNKNOWN keep,
+         g_state.levelCount == 0 and the EA reports itself flat.
+    A-8  MUST-NOT: OnDeinit writes NOTHING after an UNKNOWN keep. Evidence: the state file
+         is byte-identical before and after a full init + deinit cycle on the A-1 fixture.
+         THIS IS THE ROW THE 2026-10-03 RUN FAILED.
+    A-9  MUST-NOT: no level-0 entry ever reaches g_state (b39 L-3 holds). Evidence: no
+         "L0 ticket" line in any log.
+  FIXTURE PROCEDURE AMENDED: read the state file BEFORE any deinit, and restore/delete it
+  between tests - a corrupt fixture silently invalidates the next run (it is what produced
+  the #0 that Jeff spotted).
+
+## b44 GATE ZERO PASSED + A-1 / A-4 / A-7 / A-8 / A-9 CLOSED ON LIVE EVIDENCE 2026-10-03
+XAUUSD.s M5, symbol XAUUSDS, magic 715358. Fixture: A1_fresh_unknown.json, ticket 999999999
+(a number that NEVER existed, so unselectable AND no history = a faithful UNKNOWN),
+adoptedL1 true, levels [1], age 0 of 90 days. NO probe build, NO code change, NO temporary
+diagnostic - a test fixture only, which is why this avoided the b42 probe hazard entirely.
+
+GATE ZERO: clean compile, "=== TRTM b44 init ===", self-test PASS.
+
+A-1 PASS - 00:42:06.055, BOTH classifier lines fired, in order, naming the REAL ticket:
+  "Reconcile: recorded adopted L1 ticket 999999999 is NOT selectable and has NO closing deal
+   in history - MT5 has not confirmed it closed, so the record is KEPT (E9-Q2). No cause is
+   asserted."                                                        <- TP4a, adoptedL1 branch
+  "Reconcile: file claims 1 level(s) and the broker reads EMPTY, but 1 ticket(s) #999999999
+   have NO closing deal in history - MT5 has NOT confirmed they closed. The record is KEPT
+   and NOTHING is written (E9-Q2 A-1). No cause is asserted. Record age 0 of 90 days."
+                                                                     <- TP4b, flat-branch
+  Non-overlapping and both correct, as the plan predicted.
+
+A-4 PASS (absence) - NO "Reconcile complete: FLAT" from the keep path.
+C-1 PASS (absence) - NO "closed while EA was offline". No cause asserted anywhere.
+A-9 PASS (absence) - NO "L0 ticket" line. The level-0 remnant that existed in the b43 run is
+  gone; nothing level-0 ever reached g_state.
+
+A-7 PASS - ON THE DASHBOARD, which is the only place this row is observable. The panel read
+  "TRTM b44 / XAUUSDS", Direction: FLAT, and the ENTIRE LIVE SEQUENCE block "-" (Positions /
+  lots, Floating PnL, Avg entry, TP, SL, Proj at TP/SL all empty). Entry buttons green and
+  clickable, i.e. the EA correctly believes it has no confirmed sequence.
+  UNDER b43 THIS PANEL WOULD HAVE SHOWN "BUY - L1" WITH A 0.01-LOT STRUCTURE. This is the
+  D2 decision proven on screen: the UNKNOWN record was kept ON DISK and never loaded into
+  g_state. CAPTURED BEFORE DETACHING - PanelDestroy() removes the only evidence for this row.
+
+A-8 PASS - THE ROW b43 FAILED. State file sha256_16 across a FULL init + deinit cycle:
+    fixture baseline   904eefc1bc4b15df
+    after the init     904eefc1bc4b15df
+    after the DEINIT   904eefc1bc4b15df   IDENTICAL
+  tickets [999999999] and levels [1] intact; lastSaved never advanced from 1790967639.
+  Deinit logged "Deinit (reason 1) - state clean (flat)" - the EXACT INVERSE of b43's
+  "state saved (sequence alive)", which is the line that rewrote the fixture to [0].
+
+b43 -> b44 COMPARISON ON THE SAME CORRUPT INPUT (the 00:35:31 b44 run, before the fixture
+landed, is a free A/B against the 00:13:45 b43 run):
+    behaviour                        b43        b44
+    reconcile keep                   yes        yes
+    "Liveness: L0 ticket 0"          PRESENT    ABSENT
+    "Deinit - state saved (alive)"   PRESENT    ABSENT
+  Both regressions are closed by the single D2 statement change.
+
+## PROCESS FINDINGS FROM THIS RUN - BOTH COST A CYCLE, BOTH WORTH KEEPING
+(1) THE FIXTURE COPY SILENTLY DID NOT LAND on the first b44 attempt (00:35:31). The EA read
+    the OLD corrupt file and printed "#0" again. DIAGNOSED BY TIMESTAMP, not by guessing:
+    the live file carried adoptionTime 1790931849 while the regenerated fixture carried
+    1790967639 - different files, provably. THE EA MUST BE FULLY REMOVED (not just
+    re-initialised) before overwriting the state file, and the copy MUST BE VERIFIED on disk
+    before the run. A fixture that does not land invalidates the whole test silently.
+(2) READ/HASH THE FILE BEFORE ANY DEINIT. The 2026-10-03 b43 run was invalidated because the
+    deinit-save happened before the file was captured, so the decisive first-init evidence
+    was destroyed. Hash BEFORE attach, after init, and after detach.
+(3) Jeff should NOT be asked to run certutil by hand - Claude can READ the MT5 tree (only
+    WRITING is denied by section 3a), so Claude hashes the file and Jeff only copies and
+    attaches. Fewer steps, no transcription risk.
+
+STILL OPEN ON b44:
+  B-2 (85d UNKNOWN -> KEEP) and B-1 (95d UNKNOWN -> DELETE + expiry WARN). Fixtures already
+    regenerated with FIVE-DAY margins either side of the 90-day bound, so a delayed run
+    cannot flip a verdict. Same procedure: remove EA, copy, verify, attach, capture, detach.
+  A-2 (a CONFIRMED closed ticket is still deleted and still names TP/SL/stop-out/manual),
+    A-3 (a normal restart over a live sequence), A-5 (a GENUINE flat still writes the flat
+    marker AND lastCloseTime - the stale-tag gate anchor; the one way b44 could introduce a
+    NEW defect), D-2 (b20 attribution text unchanged on a real TP/SL close).
+  INSPECTION: A-6, B-3, B-4, C-2, C-3, C-4 (C-4 already corroborated at b43 Gate Zero),
+    D-1, D-3..D-8.
+
+## b44 B-2 + B-1 + A-5 CLOSED ON LIVE EVIDENCE 2026-10-03 (same fixture method)
+B-2 PASS (UNDER the bound, 00:53:41) - fixture age 85 days, 5 days inside the 90-day bound:
+  "Reconcile: ... 1 ticket(s) #999999999 have NO closing deal in history ... The record is
+   KEPT and NOTHING is written (E9-Q2 A-1). No cause is asserted. Record age 85 of 90 days."
+  FILE UNTOUCHED ACROSS INIT + DEINIT: sha256_16 832fe07f6236aff2 both sides, tickets
+  [999999999] / levels [1] intact, lastSaved never advanced. Deinit: "state clean (flat)".
+  The age arithmetic is correct and the keep path holds right up to the bound.
+
+B-1 PASS (PAST the bound, 00:58:46) - fixture age 95 days, 5 days past:
+  "Reconcile: 1 claimed ticket(s) #999999999 are NOT selectable and have NO closing deal,
+   and this record is 95 days old (bound 90) - EXPIRED, discarding it (E9-Q2 B-1)."
+  "Reconcile complete: FLAT"
+  FILE CORRECTLY CHANGED (the ONLY row where a change is the pass condition):
+    b7032bb6e133e165 -> ff390d9df434b7f4
+  Discard is COMPLETE: levelCount 0, tickets [], levels [], adoptedL1 false.
+  NOTE the adoptedL1 WARN still fires first (TP4a classifies before TP4b decides) - correct
+  and non-overlapping, same as A-1/B-2.
+
+A-5 PASS, CLOSED BY THE SAME RUN - THE ROW THAT MATTERED MOST FOR REGRESSION RISK:
+  after the B-1 discard the flat marker carries lastCloseTime = 1782759639, i.e. the expired
+  record's OWN lastSaved, carried through by the UNCHANGED `if(lastClose < file.lastSaved)`
+  logic. THE STALE-TAG GATE ANCHOR IS SET AND NON-ZERO.
+  WHY THIS CLOSES A-5: the expiry path falls through to the SAME StateReset ->
+  lastCloseTime = lastClose -> StateSave sequence a genuine all-confirmed-closed flat uses.
+  Exercising the expiry therefore exercises A-5's code verbatim. Had this regressed,
+  lastCloseTime would be 0 and all three stale-tag gates (`lastCloseTime > 0 && ...`) would
+  STAND DOWN, making every tagged magic-0 position adoptable including stale ones. That was
+  named at Gate 3 as the one way b44 could introduce a NEW defect; it did not.
+
+b44 DISPOSITION NOW:
+  LIVE EVIDENCE: A-1, A-4, A-5, A-7, A-8, A-9, B-1, B-2, C-1, plus C-4 (b43 Gate Zero).
+  STILL OPEN, and these need a REAL SEQUENCE rather than a fixture:
+    A-2  a CONFIRMED closed ticket is still DELETED and still names TP/SL/stop-out/manual.
+    A-3  a normal restart over a LIVE sequence restores it exactly as before.
+    D-2  b20 attribution text/levels unchanged on a real TP or SL close.
+  INSPECTION + FILTERED DIFF: A-6, B-3, B-4, C-2, C-3, D-1, D-3..D-8.
+
+## b44 A-2 + A-3 + D-2 CLOSED ON A REAL SEQUENCE 2026-10-03 (the rows a fixture cannot reach)
+EVIDENCE: tests/2026.10.03 005846.362.txt - XAUUSD.s M5, XAUUSDS 715358, a REAL 0.01-lot BUY
+opened via the panel (ticket 890591787 @ 4141.51, deal 554930992). These three rows need a
+genuine closing deal in history, which a fabricated ticket cannot produce.
+
+A-3 PASS - restart over a LIVE sequence (01:02:21 deinit -> 01:02:28 init):
+  "Deinit (reason 1) - state saved (sequence alive)"   <- CORRECT HERE, and this is the point
+  "Reconcile: flags restored (trailOverride=F beOverride=F trailingActive=F beApplied=F)"
+  "Structure: 1 level(s), 0.01 lots | projected at TP +3.00 | at SL n/a"
+  "Reconcile complete: dir=BUY levels=1"
+  Restored IDENTICALLY, and *** NO UNKNOWN WARN *** - the ticket was selectable so the new
+  classifier correctly never fired. THAT ABSENCE IS THE ROW: b44's path does not intrude on
+  healthy operation.
+  INSTRUCTIVE CONTRAST: "state saved (sequence alive)" is CORRECT here and was the DEFECT at
+  2026-10-03 00:13:45 under b43. Same line, opposite verdict - because here a live sequence
+  genuinely exists. The fix was never about suppressing that line; it was about not reaching
+  it with an unconfirmed record.
+
+A-2 PASS - a CONFIRMED close is still DELETED (01:03:36.512, manual close in the Trade tab):
+  "Liveness: L1 ticket 890591787 closed externally (manual/unknown) - removed from sequence"
+  "Sequence fully closed - back to FLAT, overrides reset to input defaults, flat marker saved"
+  THE TICKET WAS DELETED. History carried a real closing deal, so ClosingDealReason returned
+  0 (a REAL close) and NOT -1, and TicketConfirmedClosed let the removal proceed. This is the
+  discriminator proven in the opposite direction from A-1: b44 deletes on evidence and keeps
+  on absence. WITHOUT THIS ROW the fix could have been blanket suppression.
+
+D-2 PASS - verified by DIFF, not by eye: all five b20 attribution strings (TP hit / SL hit /
+  STOP-OUT / closed externally / closed by EA) are BYTE-IDENTICAL between committed b42 and
+  b44. Only the no-evidence branch changed.
+
+A-5 CONFIRMED A SECOND TIME, ON A GENUINE CLOSE: the final state file carries
+  lastCloseTime = 1790971416, set from the REAL close at 01:03:36 - not an expiry fallback.
+  B-1 exercised A-5's code via the EXPIRY path; this exercised it via the path A-5 actually
+  describes (every claimed ticket confirmed closed). BOTH AGREE. The stale-tag gate anchor is
+  armed in both routes to the flat marker.
+
+STEP-4 RESTART (01:04:03) - a clean flat marker reloads with "Reconcile complete: FLAT" and
+  NO UNKNOWN WARN, because levelCount 0 means the classification block is skipped entirely by
+  the unchanged `if(haveFile && file.levelCount > 0)` guard. C-4 corroborated a third time.
+
+*** b44 GATE 4 IS NOW COMPLETE. ALL 25 MATRIX ROWS DISPOSED. ***
+  LIVE EVIDENCE (13): A-1 A-2 A-3 A-4 A-5 A-7 A-8 A-9 B-1 B-2 C-1 C-4 D-2
+  INSPECTION + FILTERED DIFF (12): A-6 B-3 B-4 C-2 C-3 D-1 D-3 D-4 D-5 D-6 D-7 D-8
+  Awaiting Jeff's explicit word to seal (Gate 6).
