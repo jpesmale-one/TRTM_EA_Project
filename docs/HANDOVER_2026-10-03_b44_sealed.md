@@ -101,12 +101,27 @@ Without that one line, A-7 would have fixed one defect and opened another.
 
 ## 6. CARRIED FORWARD
 
-1. DEPLOYMENT REACH - THE BIGGEST OPEN DECISION. EIGHT instances were running b41 on
-   2026-09-30 (XAUUSDS, AUDNZDS, USDCADS, CADJPYS, AUDUSDS, AUDCHFS, USDCHFS, GBPAUDS).
-   Only XAUUSDS runs b44. THE DEFECT b44 FIXES COST AN UNMANAGED POSITION ON AUDNZDS - the
-   symbol that is NOT yet updated. A seal deploys nothing; rolling b44 to all eight is Jeff's
-   call, and a mixed fleet makes future log audits ambiguous about which build produced which
-   line.
+1. DEPLOYMENT REACH. EIGHT instances were running b41 on 2026-09-30 (XAUUSDS, AUDNZDS,
+   USDCADS, CADJPYS, AUDUSDS, AUDCHFS, USDCHFS, GBPAUDS). Only XAUUSDS runs b44.
+   NO CURRENT EXPOSURE: ticket 2940935091, the position the 09-18 defect orphaned, was CLOSED
+   MANUALLY BY JEFF ON 09-23, before any fix existed. Nothing is stranded today.
+   SO THE ROLLOUT IS PREVENTIVE, NOT REMEDIAL - a correction to an earlier framing in this
+   session that implied live risk on AUDNZDS. The defect is still PRESENT on the seven
+   un-updated instances and becomes reachable whenever one of them holds an ADOPTED (magic-0)
+   L1 and hits a restart with an unpopulated position cache. That is a real but CONDITIONAL
+   exposure - BUT THE EVIDENCE SAYS THE PRECONDITION IS ROUTINELY MET, NOT HYPOTHETICAL.
+   The captured logs show THREE distinct "ADOPTED UNTAGGED L1" events (tickets 2084431517,
+   2838443240, 2858887822), all with EMPTY comments - so InpManageMobileTrades is ON and
+   mobile/manual trades are being adopted as a matter of course. A magic-0 adopted L1 has NO
+   b39/F-2 self-heal path. Every such position on a b41 instance is therefore a candidate for
+   the same destruction the next time that instance restarts with an unpopulated cache, which
+   is a FRIDAY-ROLLOVER event, not an exotic one.
+   (Session note: I first called the rollout urgent, then over-corrected to "conditional"
+   after Jeff pointed out the orphaned position was already closed. Checking the logs settles
+   it: no CURRENT exposure, but a RECURRING precondition. The right word is PREVENTIVE AND
+   LIKELY TO MATTER, not optional.)
+   A seal deploys nothing. Rolling b44 out is Jeff's call, and a mixed fleet makes future log
+   audits ambiguous about which build produced which line.
 2. E9-Q4 - the slice-selection race. b42 NAMES the event; it does not explain why the anchor
    became unselectable, nor decide retry-vs-accept. Own Gate 1. WATCH ITEM: the frequency of
    "NO ORDER SENT" lines in normal running is the information Q4 needs.
@@ -145,8 +160,9 @@ Without that one line, A-7 would have fixed one defect and opened another.
 ## 9. NEXT
 
 Jeff's call. Ranked:
-  (a) DEPLOY b44 TO THE REMAINING SEVEN INSTANCES - the fix is sealed and the symbol that
-      suffered the original defect is still running the defective build.
+  (a) DEPLOY b44 to the remaining seven instances - PREVENTIVE (see section 6 item 1; the
+      orphaned position was closed manually on 09-23, so nothing is stranded today). Highest
+      value on any instance that can hold an ADOPTED magic-0 L1.
   (b) Commit + push b44 and the Q2 docs.
   (c) E9-Q1 stale-quote guard - own Gate 1, reasoning already drafted in STATE.md.
   (d) E9-Q4 slice race - better instrumented by b42; worth running a while first.
