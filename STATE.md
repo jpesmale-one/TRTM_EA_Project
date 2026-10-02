@@ -47,6 +47,15 @@ date: 2026-10-02
 # E9-Q3: retcode validity. g_trade.Result*() was read after CTrade returned false WITHOUT
 #   reaching OrderSend, so the EA reported the PREVIOUS order's retcode as this call's.
 # HYGIENE: 0 bare LF, ASCII-only, brace delta -1 (baseline-preserved), paren 0, bracket 0.
+# *** THE MANIFEST SHA DESCRIBES THE WORKING / RUNTIME FILE, NOT THE GIT BLOB. ***
+#   git normalizes CRLF -> LF on commit in this repo, so the committed blob of the SAME
+#   content hashes DIFFERENTLY: working 9209dbe131c9d651 (256167 bytes, 5112 CRLF, 0 bare
+#   LF) vs `git show HEAD:src/TRTM.mq5 | sha256sum` 8893ec931e1cf706 (251055 bytes, 5112
+#   bare LF). The 5112-byte gap is exactly the stripped CR bytes; content verified
+#   IDENTICAL ignoring EOL. This is PRE-EXISTING repo behaviour, not a b42 change - b41
+#   behaves the same. The manifest tracks the file MetaEditor compiles and section 0
+#   hashes, which is correct. A `git show | sha256sum` mismatch is EXPECTED and is NOT
+#   drift - do not declare a STOP on it.
 # DELTA: +49 lines (5063 -> 5112). NO new input, NO new global, NO new persisted field,
 #   state schema UNCHANGED at 5. Exactly ONE deletion in the whole diff: the build tag.
 # Prior SEALED build: b41 (d2354c4c1269874e / 5063, 2026-08-19).
