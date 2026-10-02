@@ -1,0 +1,28 @@
+2026.10.02 13:21:50.229	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] === TRTM b42 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.10.02 13:21:50.229	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.10.02 13:21:50.234	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] State persistence self-test: PASS
+2026.10.02 13:21:50.234	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Reconcile: flags restored (trailOverride=F beOverride=F trailingActive=F beApplied=F)
+2026.10.02 13:21:50.235	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Structure: 1 level(s), 0.01 lots | projected at TP +3.00 | at SL n/a
+2026.10.02 13:21:50.235	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Reconcile complete: dir=BUY levels=1
+2026.10.02 13:21:50.271	TradingToolkit (XAUUSD.s,M5)	Trading Toolkit TK-B001 loaded | HA:OFF RR:OFF SR:OFF
+2026.10.02 13:21:50.275	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Account margin mode: HEDGING
+2026.10.02 13:21:50.275	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.10.02 13:21:50.275	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Init complete - b42 (adoption, exits, recovery active)
+2026.10.02 13:21:54.115	Experts	automated trading is disabled
+2026.10.02 13:24:22.767	TRTM (XAUUSD.s,M5)	[TRTM][WARN ] Manual TP 4192.44 ADOPTED (was 4191.17) - RISK: target moved 127 pts farther from price; the sequence must run further before banking (trader's responsibility)
+2026.10.02 13:26:04.480	TRTM (XAUUSD.s,M5)	[TRTM][WARN ] Manual TP REMOVAL on ticket 887205930 - reverted to 4192.44 (removals are never adopted; deliberate no-TP belongs in config)
+2026.10.02 13:26:04.480	TRTM (XAUUSD.s,M5)	CTrade::OrderSend: modify position #887205930 XAUUSD.s (sl: 0.00, tp: 4192.44) [auto trading disabled by client]
+2026.10.02 13:26:04.480	TRTM (XAUUSD.s,M5)	[TRTM][ERROR] PositionModify FAILED on ticket 887205930 (retcode 10027: auto trading disabled by client) - fail #1, retrying in 5s
+2026.10.02 13:26:08.990	TRTM (XAUUSD.s,M5)	[TRTM][WARN ] Manual TP REMOVAL on ticket 887205930 - reverted to 4192.44 (removals are never adopted; deliberate no-TP belongs in config)
+2026.10.02 13:26:08.990	TRTM (XAUUSD.s,M5)	CTrade::OrderSend: modify position #887205930 XAUUSD.s (sl: 0.00, tp: 4192.44) [auto trading disabled by client]
+2026.10.02 13:26:08.990	TRTM (XAUUSD.s,M5)	[TRTM][ERROR] PositionModify FAILED on ticket 887205930 (retcode 10027: auto trading disabled by client) - fail #2, retrying in 5s
+2026.10.02 13:26:13.991	TRTM (XAUUSD.s,M5)	[TRTM][WARN ] Manual TP REMOVAL on ticket 887205930 - reverted to 4192.44 (removals are never adopted; deliberate no-TP belongs in config)
+2026.10.02 13:26:13.991	TRTM (XAUUSD.s,M5)	CTrade::OrderSend: modify position #887205930 XAUUSD.s (sl: 0.00, tp: 4192.44) [auto trading disabled by client]
+2026.10.02 13:26:13.991	TRTM (XAUUSD.s,M5)	[TRTM][ERROR] PositionModify FAILED on ticket 887205930 (retcode 10027: auto trading disabled by client) - fail #3, retrying in 5s
+2026.10.02 13:26:18.983	TRTM (XAUUSD.s,M5)	[TRTM][WARN ] Manual TP REMOVAL on ticket 887205930 - reverted to 4192.44 (removals are never adopted; deliberate no-TP belongs in config)
+2026.10.02 13:26:18.983	TRTM (XAUUSD.s,M5)	CTrade::OrderSend: modify position #887205930 XAUUSD.s (sl: 0.00, tp: 4192.44) [auto trading disabled by client]
+2026.10.02 13:26:18.983	TRTM (XAUUSD.s,M5)	[TRTM][ERROR] PositionModify FAILED on ticket 887205930 (retcode 10027: auto trading disabled by client) - fail #4, retrying in 5s
+2026.10.02 13:26:19.440	Experts	automated trading is enabled
+2026.10.02 13:26:23.980	TRTM (XAUUSD.s,M5)	[TRTM][WARN ] Manual TP REMOVAL on ticket 887205930 - reverted to 4192.44 (removals are never adopted; deliberate no-TP belongs in config)
+2026.10.02 13:26:24.189	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Exits applied to ticket 887205930: TP 4192.44 SL none
+2026.10.02 13:26:24.189	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Exit modification recovered after 4 failure(s)

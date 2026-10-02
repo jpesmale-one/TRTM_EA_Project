@@ -1,0 +1,12 @@
+2026.09.15 04:45:00 [TRTM][INFO ] Log cleanup: 1 file(s) older than 14d deleted (oldest kept: 20260902)
+2026.09.15 04:45:00 [TRTM][INFO ] Recovery signal: PERIOD_M15 bar closed 1.23671 vs trigger 1.23646 (worst entry 1.23416 + 230 pts)
+2026.09.15 04:45:00 [TRTM][INFO ] Recovery L6 OPENED: 0.07 lots SELL @ 0.00000 (deal 0)
+2026.09.15 04:45:00 [TRTM][INFO ] Recovery L6: order accepted but no position yet (asynchronous fill) - the watcher will register it as soon as it appears
+2026.09.15 04:45:01 [TRTM][INFO ] Watcher: L6 REGISTERED ticket 2957808329 0.07 lots @ 1.23664
+2026.09.15 04:45:01 [TRTM][INFO ] Structure: 6 level(s), 0.33 lots | projected at TP +37.95 | at SL n/a
+2026.09.15 04:45:01 [TRTM][INFO ] Exits applied to ticket 2942227144: TP 1.22959 SL none
+2026.09.15 04:45:01 [TRTM][INFO ] Exits applied to ticket 2943049148: TP 1.22959 SL none
+2026.09.15 04:45:01 [TRTM][INFO ] Exits applied to ticket 2953979514: TP 1.22959 SL none
+2026.09.15 04:45:02 [TRTM][INFO ] Exits applied to ticket 2940935091: TP 1.22959 SL none
+2026.09.15 04:45:02 [TRTM][INFO ] Exits applied to ticket 2955129458: TP 1.22959 SL none
+2026.09.15 04:45:02 [TRTM][INFO ] Exits applied to ticket 2957808329: TP 1.22959 SL none

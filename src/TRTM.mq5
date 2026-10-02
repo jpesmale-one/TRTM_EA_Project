@@ -48,7 +48,7 @@
 
 #include <Trade\Trade.mqh>
 
-#define TRTM_BUILD  "b41"     // internal build tag, bump per delivery
+#define TRTM_BUILD  "b42"     // internal build tag, bump per delivery
 
 //+------------------------------------------------------------------+
 //| ENUMS                                                            |
@@ -1129,6 +1129,17 @@ void ResetExitEnforcement()
 //+------------------------------------------------------------------+
 void LogBrokerExitGeometry()
   {
+   // E9-Q3 (C-1..C-4): PROBE ONLY - reported, NEVER acted upon. CTrade refuses
+   // PositionClosePartial outright on a NETTING account (Trade.mqh 605) and returns
+   // false WITHOUT writing m_result, so the mode is load-bearing when reading any
+   // slice failure. The netting GUARD is E9-O4 and stays parked: nothing below reads
+   // this value, it is logged and discarded.
+   long   mm     = AccountInfoInteger(ACCOUNT_MARGIN_MODE);
+   string mmName = (mm == ACCOUNT_MARGIN_MODE_RETAIL_HEDGING) ? "HEDGING"
+                 : (mm == ACCOUNT_MARGIN_MODE_RETAIL_NETTING) ? "NETTING" : "EXCHANGE";
+   Log(LOG_INFO, StringFormat("Account margin mode: %s%s", mmName,
+                              (mm == ACCOUNT_MARGIN_MODE_RETAIL_HEDGING) ? ""
+                              : " - Tier 3 partial slices are NOT available in this mode (CTrade refuses them); quote this line if a slice fails"));
    if(!TerminalInfoInteger(TERMINAL_TRADE_ALLOWED))
       Log(LOG_WARN, "AutoTrading is OFF (toolbar Algo Trading button) - every entry, pending, and exit write will be rejected with 10027 until it is enabled");
    long stopsPts  = SymbolInfoInteger(_Symbol, SYMBOL_TRADE_STOPS_LEVEL);
@@ -1497,6 +1508,21 @@ bool WasEAClosed(const ulong ticket)
    return false;
   }
 
+// E9-Q3 (b42): CTrade's PositionClose / PositionClosePartial / PositionModify each
+// return false WITHOUT writing m_result when the position is not selectable
+// (Trade.mqh 474, 608, 370 - every one of them BEFORE its own ClearStructures()).
+// ResultRetcode() then reports the PREVIOUS order's retcode as if it were this call's.
+// OBSERVED 2026-09-22 09:25:18: a Tier 3 slice that never sent logged
+// "Partial close FAILED ... (retcode 10009: done)" - 10009 was the SUCCESSFUL full
+// close of L8 that preceded it. The anchor stayed full; the arithmetic proved it
+// (0.56 - 0.08 - 0.09 = 0.39, and the log read 0.39, not the 0.37 a slice would give).
+// CALL THIS IMMEDIATELY BEFORE THE CTrade CALL, with nothing in between: a select that
+// happened earlier in the same function is already stale by the time CTrade re-checks.
+bool TradeTargetLive(const ulong ticket)
+  {
+   return PositionSelectByTicket(ticket);
+  }
+
 // E4/E5 (X-4): one leg of a market close, extracted verbatim from
 // CloseSequenceAtMarket so the whole-sequence close AND the Tier 1/Tier 2 group
 // close (FireGroupClose) run the SAME sealed close path - no new close path invented.
@@ -1507,6 +1533,11 @@ bool WasEAClosed(const ulong ticket)
 // it via ClosingDealReason, exactly as before this lift-out.
 bool CloseLegAtMarket(const ulong ticket, const int level)
   {
+   if(!TradeTargetLive(ticket))   // E9-Q3 (A-1/A-3): no send -> no retcode exists
+     {
+      Log(LOG_WARN, StringFormat("Market close on ticket %I64u: NO ORDER SENT - position not selectable at the close call (it vanished between the caller's check and this one). No retcode is available; the previous order's is NOT this call's.", ticket));
+      return false;
+     }
    if(!g_trade.PositionClose(ticket))
      {
       if((int)g_trade.ResultRetcode() == 10036)   // b20: position already gone
@@ -1562,6 +1593,11 @@ bool SliceLegAtMarket(const ulong ticket, const int level, const double sliceVol
    // level, so FormBasketGroup anchors on the wrong position (SL anchoring + the next Tier 3
    // slice target). Volumes and entries are still read live, so TP/PL arithmetic stays
    // correct. -> E9, alongside O6 comment-integrity detection.
+   if(!TradeTargetLive(ticket))   // E9-Q3 (A-1/A-3): THE 2026-09-22 CASE
+     {
+      Log(LOG_WARN, StringFormat("Tier 3 slice on ticket %I64u: NO ORDER SENT - anchor not selectable at the slice call (it WAS selectable to FireGroupClose one call earlier). Anchor is untouched. No retcode is available; the previous order's is NOT this call's.", ticket));
+      return false;
+     }
    if(!g_trade.PositionClosePartial(ticket, sliceVol))
      {
       if((int)g_trade.ResultRetcode() == 10036)   // position already gone (race)
@@ -1889,6 +1925,19 @@ void EnforceExits()
          Log(LOG_WARN, StringFormat("Manual SL REMOVAL on ticket %I64u - reverted to %s (removals are never adopted; a sequence never runs uncapped)",
                                     ticket, DoubleToString(wantSL, _Digits)));
 
+      // E9-Q3 (A-3/D-3): the select at the TOP of this loop is STALE by here - two
+      // PositionGetDouble reads, the tolerance compare, HasAppliedExits and up to two
+      // Log() calls sit between it and this modify, and CTrade re-selects internally
+      // (Trade.mqh 370). Re-check ADJACENT to the call. A no-send is NOT a broker
+      // failure: it must not increment g_modifyFails, or a transient cache blip walks
+      // the EA toward a spurious "check terminal/broker!" Alert - the very kind of
+      // misdirection this build exists to remove. The pass is still marked incomplete.
+      if(!TradeTargetLive(ticket))
+        {
+         anyApplied = false;
+         Log(LOG_WARN, StringFormat("Exits on ticket %I64u: NO ORDER SENT - position not selectable at the modify call (it was selectable at the loop top). Not counted as a broker failure (fail counter unchanged). No retcode is available.", ticket));
+         continue;
+        }
       if(!g_trade.PositionModify(ticket, wantSL, wantTP))
         {
          anyApplied = false;

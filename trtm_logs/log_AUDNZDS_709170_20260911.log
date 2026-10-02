@@ -1,0 +1,28 @@
+2026.09.11 06:36:30 [TRTM][INFO ] Log cleanup: 1 file(s) older than 14d deleted (oldest kept: 20260831)
+2026.09.11 06:36:30 [TRTM][INFO ] Tier 3 FIRE: SELL group 2 leg(s) (anchor L1 slice 0.01 of 0.03 + 1 profitable) | sliced-VWAP 1.23255 far 1.23055 margin 200.0 pts >= 200/lot
+2026.09.11 06:36:30 [TRTM][INFO ] Closed L4 ticket 2951273826 @ 0.00000
+2026.09.11 06:36:30 [TRTM][INFO ] Tier 3: sliced L1 ticket 2940935091 by 0.01 lot (remaining 0.03) @ 0.00000
+2026.09.11 06:36:30 [TRTM][INFO ] Liveness: L4 ticket 2951273826 closed by EA (market close) - removed from sequence
+2026.09.11 06:36:30 [TRTM][INFO ] Structure: 3 level(s), 0.13 lots | projected at TP +15.09 | at SL n/a
+2026.09.11 06:36:30 [TRTM][INFO ] Exits applied to ticket 2942227144: TP 1.22551 SL none
+2026.09.11 06:36:30 [TRTM][INFO ] Exits applied to ticket 2943049148: TP 1.22551 SL none
+2026.09.11 06:36:30 [TRTM][INFO ] Exits applied to ticket 2940935091: TP 1.22551 SL none
+2026.09.11 13:30:00 [TRTM][INFO ] Recovery signal: PERIOD_M15 bar closed 1.23153 vs trigger 1.23146 (worst entry 1.22916 + 230 pts)
+2026.09.11 13:30:00 [TRTM][INFO ] Recovery L4 OPENED: 0.06 lots SELL @ 0.00000 (deal 0)
+2026.09.11 13:30:00 [TRTM][INFO ] Recovery L4: order accepted but no position yet (asynchronous fill) - the watcher will register it as soon as it appears
+2026.09.11 13:30:00 [TRTM][INFO ] Watcher: L4 REGISTERED ticket 2953979514 0.06 lots @ 1.23152
+2026.09.11 13:30:00 [TRTM][INFO ] Structure: 4 level(s), 0.19 lots | projected at TP +22.17 | at SL n/a
+2026.09.11 13:30:00 [TRTM][INFO ] Exits applied to ticket 2942227144: TP 1.22677 SL none
+2026.09.11 13:30:01 [TRTM][INFO ] Exits applied to ticket 2943049148: TP 1.22677 SL none
+2026.09.11 13:30:01 [TRTM][INFO ] Exits applied to ticket 2940935091: TP 1.22677 SL none
+2026.09.11 13:30:01 [TRTM][INFO ] Exits applied to ticket 2953979514: TP 1.22677 SL none
+2026.09.11 23:54:59 [TRTM][INFO ] Deinit (reason 9) - state saved (sequence alive)
+2026.09.11 23:54:59 [TRTM][INFO ] === TRTM b41 init === symbol=AUDNZDS (raw AUDNZD.s) magic=709170 stateFile=TRTM\state_AUDNZDS_709170.json
+2026.09.11 23:54:59 [TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.09.11 23:54:59 [TRTM][INFO ] State persistence self-test: PASS
+2026.09.11 23:54:59 [TRTM][INFO ] Reconcile: restored adopted L1 ticket 2940935091 from state file
+2026.09.11 23:54:59 [TRTM][INFO ] Reconcile: flags restored (trailOverride=F beOverride=F trailingActive=F beApplied=F)
+2026.09.11 23:54:59 [TRTM][INFO ] Structure: 4 level(s), 0.19 lots | projected at TP +22.14 | at SL n/a
+2026.09.11 23:54:59 [TRTM][INFO ] Reconcile complete: dir=SELL levels=4 (adopted L1)
+2026.09.11 23:54:59 [TRTM][INFO ] Broker exit geometry (at init): stops level 25 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 25 pts to price are DEFERRED until placeable
+2026.09.11 23:54:59 [TRTM][INFO ] Init complete - b41 (adoption, exits, recovery active)

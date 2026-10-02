@@ -1,0 +1,248 @@
+2026.09.30 17:43:32.508	TRTM (CADJPY.s,H1)	[TRTM][INFO ] === TRTM b41 init === symbol=CADJPYS (raw CADJPY.s) magic=716875 stateFile=TRTM\state_CADJPYS_716875.json
+2026.09.30 17:43:32.508	TRTM (AUDNZD.s,M15)	[TRTM][INFO ] === TRTM b41 init === symbol=AUDNZDS (raw AUDNZD.s) magic=709170 stateFile=TRTM\state_AUDNZDS_709170.json
+2026.09.30 17:43:32.508	TRTM (XAUUSD.s,H1)	[TRTM][INFO ] === TRTM b41 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.09.30 17:43:32.509	TRTM (USDCAD.s,H1)	[TRTM][INFO ] === TRTM b41 init === symbol=USDCADS (raw USDCAD.s) magic=708972 stateFile=TRTM\state_USDCADS_708972.json
+2026.09.30 17:43:32.509	TRTM (XAUUSD.s,H1)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.09.30 17:43:32.509	TRTM (AUDNZD.s,M15)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.09.30 17:43:32.510	TRTM (CADJPY.s,H1)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.09.30 17:43:32.510	TRTM (USDCAD.s,H1)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.09.30 17:43:32.512	TRTM (AUDUSD.s,H1)	[TRTM][INFO ] === TRTM b41 init === symbol=AUDUSDS (raw AUDUSD.s) magic=704902 stateFile=TRTM\state_AUDUSDS_704902.json
+2026.09.30 17:43:32.512	TRTM (AUDUSD.s,H1)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.09.30 17:43:32.515	TRTM (AUDCHF.s,H1)	[TRTM][INFO ] === TRTM b41 init === symbol=AUDCHFS (raw AUDCHF.s) magic=723047 stateFile=TRTM\state_AUDCHFS_723047.json
+2026.09.30 17:43:32.515	TRTM (AUDCHF.s,H1)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.09.30 17:43:32.523	TRTM (AUDNZD.s,M15)	[TRTM][INFO ] State persistence self-test: PASS
+2026.09.30 17:43:32.524	TRTM (CADJPY.s,H1)	[TRTM][INFO ] State persistence self-test: PASS
+2026.09.30 17:43:32.524	TRTM (XAUUSD.s,H1)	[TRTM][INFO ] State persistence self-test: PASS
+2026.09.30 17:43:32.525	TRTM (USDCAD.s,H1)	[TRTM][INFO ] State persistence self-test: PASS
+2026.09.30 17:43:32.526	TRTM (CADJPY.s,H1)	[TRTM][INFO ] Log cleanup: 1 file(s) older than 14d deleted (oldest kept: 20260917)
+2026.09.30 17:43:32.527	TRTM (AUDNZD.s,M15)	[TRTM][INFO ] Reconcile complete: FLAT
+2026.09.30 17:43:32.535	TRTM (XAUUSD.s,H1)	[TRTM][INFO ] Reconcile complete: FLAT
+2026.09.30 17:43:32.537	TRTM (AUDUSD.s,H1)	[TRTM][INFO ] State persistence self-test: PASS
+2026.09.30 17:43:32.537	TRTM (USDCAD.s,H1)	[TRTM][INFO ] Reconcile complete: FLAT
+2026.09.30 17:43:32.540	TRTM (CADJPY.s,H1)	[TRTM][INFO ] Reconcile complete: FLAT
+2026.09.30 17:43:32.547	TRTM (AUDCHF.s,H1)	[TRTM][INFO ] State persistence self-test: PASS
+2026.09.30 17:43:32.550	TRTM (AUDCHF.s,H1)	[TRTM][INFO ] Reconcile complete: FLAT
+2026.09.30 17:43:32.550	TRTM (AUDUSD.s,H1)	[TRTM][INFO ] Reconcile complete: FLAT
+2026.09.30 17:43:32.605	TRTM (USDCAD.s,H1)	[TRTM][INFO ] Broker exit geometry (at init): stops level 25 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 25 pts to price are DEFERRED until placeable
+2026.09.30 17:43:32.606	TRTM (USDCAD.s,H1)	[TRTM][INFO ] Init complete - b41 (adoption, exits, recovery active)
+2026.09.30 17:43:32.606	TRTM (XAUUSD.s,H1)	[TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.09.30 17:43:32.606	TRTM (XAUUSD.s,H1)	[TRTM][INFO ] Init complete - b41 (adoption, exits, recovery active)
+2026.09.30 17:43:32.606	TRTM (AUDNZD.s,M15)	[TRTM][INFO ] Broker exit geometry (at init): stops level 25 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 25 pts to price are DEFERRED until placeable
+2026.09.30 17:43:32.606	TRTM (AUDNZD.s,M15)	[TRTM][INFO ] Init complete - b41 (adoption, exits, recovery active)
+2026.09.30 17:43:32.606	TRTM (CADJPY.s,H1)	[TRTM][INFO ] Broker exit geometry (at init): stops level 25 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 25 pts to price are DEFERRED until placeable
+2026.09.30 17:43:32.606	TRTM (AUDUSD.s,H1)	[TRTM][INFO ] Broker exit geometry (at init): stops level 25 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 25 pts to price are DEFERRED until placeable
+2026.09.30 17:43:32.606	TRTM (AUDUSD.s,H1)	[TRTM][INFO ] Init complete - b41 (adoption, exits, recovery active)
+2026.09.30 17:43:32.607	TRTM (AUDCHF.s,H1)	[TRTM][INFO ] Broker exit geometry (at init): stops level 25 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 25 pts to price are DEFERRED until placeable
+2026.09.30 17:43:32.607	TRTM (AUDCHF.s,H1)	[TRTM][INFO ] Init complete - b41 (adoption, exits, recovery active)
+2026.09.30 17:43:32.607	TRTM (CADJPY.s,H1)	[TRTM][INFO ] Init complete - b41 (adoption, exits, recovery active)
+2026.09.30 17:44:59.865	TRTM (AUDNZD.s,M15)	[TRTM][INFO ] Deinit (reason 4) - state clean (flat)
+2026.09.30 17:45:02.667	TRTM (XAUUSD.s,H1)	[TRTM][INFO ] Deinit (reason 4) - state clean (flat)
+2026.09.30 17:45:07.390	TRTM (AUDCHF.s,H1)	[TRTM][INFO ] Deinit (reason 4) - state clean (flat)
+2026.09.30 17:45:14.738	TRTM (CADJPY.s,H1)	[TRTM][INFO ] Deinit (reason 4) - state clean (flat)
+2026.09.30 17:49:21.712	TRTM (USDCHF.s,H1)	[TRTM][INFO ] === TRTM b41 init === symbol=USDCHFS (raw USDCHF.s) magic=766673 stateFile=TRTM\state_USDCHFS_766673.json
+2026.09.30 17:49:21.712	TRTM (USDCHF.s,H1)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.09.30 17:49:21.732	TRTM (USDCHF.s,H1)	[TRTM][INFO ] State persistence self-test: PASS
+2026.09.30 17:49:21.734	TRTM (USDCHF.s,H1)	[TRTM][INFO ] Reconcile complete: FLAT
+2026.09.30 17:49:21.736	TRTM (USDCHF.s,H1)	[TRTM][INFO ] Broker exit geometry (at init): stops level 25 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 25 pts to price are DEFERRED until placeable
+2026.09.30 17:49:21.737	TRTM (USDCHF.s,H1)	[TRTM][INFO ] Init complete - b41 (adoption, exits, recovery active)
+2026.09.30 17:54:49.044	TRTM (GBPAUD.s,H1)	[TRTM][INFO ] === TRTM b41 init === symbol=GBPAUDS (raw GBPAUD.s) magic=730053 stateFile=TRTM\state_GBPAUDS_730053.json
+2026.09.30 17:54:49.044	TRTM (GBPAUD.s,H1)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.09.30 17:54:49.053	TRTM (GBPAUD.s,H1)	[TRTM][INFO ] State persistence self-test: PASS
+2026.09.30 17:54:49.055	TRTM (GBPAUD.s,H1)	[TRTM][INFO ] Log cleanup: 3 file(s) older than 14d deleted (oldest kept: 20260918)
+2026.09.30 17:54:49.062	TRTM (GBPAUD.s,H1)	[TRTM][INFO ] Reconcile complete: FLAT
+2026.09.30 17:54:49.064	TRTM (GBPAUD.s,H1)	[TRTM][INFO ] Broker exit geometry (at init): stops level 25 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 25 pts to price are DEFERRED until placeable
+2026.09.30 17:54:49.064	TRTM (GBPAUD.s,H1)	[TRTM][INFO ] Init complete - b41 (adoption, exits, recovery active)
+2026.09.30 18:00:01.203	TRTM (AUDUSD.s,H1)	[TRTM][INFO ] Deinit (reason 5) - state clean (flat)
+2026.09.30 18:00:01.204	TRTM (AUDUSD.s,H1)	[TRTM][INFO ] === TRTM b41 init === symbol=AUDUSDS (raw AUDUSD.s) magic=704902 stateFile=TRTM\state_AUDUSDS_704902.json
+2026.09.30 18:00:01.220	TRTM (AUDUSD.s,H1)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.09.30 18:00:01.234	TRTM (AUDUSD.s,H1)	[TRTM][INFO ] State persistence self-test: PASS
+2026.09.30 18:00:01.243	TRTM (AUDUSD.s,H1)	[TRTM][INFO ] Reconcile complete: FLAT
+2026.09.30 18:00:01.246	TRTM (AUDUSD.s,H1)	[TRTM][INFO ] Broker exit geometry (at init): stops level 25 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 25 pts to price are DEFERRED until placeable
+2026.09.30 18:00:01.246	TRTM (AUDUSD.s,H1)	[TRTM][INFO ] Init complete - b41 (adoption, exits, recovery active)
+2026.09.30 18:08:08.788	TRTM (USDCHF.s,H1)	[TRTM][INFO ] Deinit (reason 5) - state clean (flat)
+2026.09.30 18:08:08.796	TRTM (USDCHF.s,H1)	[TRTM][INFO ] === TRTM b41 init === symbol=USDCHFS (raw USDCHF.s) magic=766673 stateFile=TRTM\state_USDCHFS_766673.json
+2026.09.30 18:08:08.803	TRTM (USDCHF.s,H1)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.09.30 18:08:08.814	TRTM (USDCHF.s,H1)	[TRTM][INFO ] State persistence self-test: PASS
+2026.09.30 18:08:08.823	TRTM (USDCHF.s,H1)	[TRTM][INFO ] Reconcile complete: FLAT
+2026.09.30 18:08:08.826	TRTM (USDCHF.s,H1)	[TRTM][INFO ] Broker exit geometry (at init): stops level 25 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 25 pts to price are DEFERRED until placeable
+2026.09.30 18:08:08.826	TRTM (USDCHF.s,H1)	[TRTM][INFO ] Init complete - b41 (adoption, exits, recovery active)
+2026.09.30 18:09:57.975	TRTM (USDCHF.s,H1)	[TRTM][INFO ] Deinit (reason 5) - state clean (flat)
+2026.09.30 18:09:57.977	TRTM (USDCHF.s,H1)	[TRTM][INFO ] === TRTM b41 init === symbol=USDCHFS (raw USDCHF.s) magic=766673 stateFile=TRTM\state_USDCHFS_766673.json
+2026.09.30 18:09:57.988	TRTM (USDCHF.s,H1)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.09.30 18:09:58.000	TRTM (USDCHF.s,H1)	[TRTM][INFO ] State persistence self-test: PASS
+2026.09.30 18:09:58.002	TRTM (USDCHF.s,H1)	[TRTM][INFO ] Reconcile complete: FLAT
+2026.09.30 18:09:58.004	TRTM (USDCHF.s,H1)	[TRTM][INFO ] Broker exit geometry (at init): stops level 25 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 25 pts to price are DEFERRED until placeable
+2026.09.30 18:09:58.004	TRTM (USDCHF.s,H1)	[TRTM][INFO ] Init complete - b41 (adoption, exits, recovery active)
+2026.09.30 20:22:07.707	TRTM (GBPAUD.s,H1)	[TRTM][INFO ] Deinit (reason 5) - state clean (flat)
+2026.09.30 20:22:07.707	TRTM (GBPAUD.s,H1)	[TRTM][INFO ] === TRTM b41 init === symbol=GBPAUDS (raw GBPAUD.s) magic=730053 stateFile=TRTM\state_GBPAUDS_730053.json
+2026.09.30 20:22:07.721	TRTM (GBPAUD.s,H1)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.09.30 20:22:07.734	TRTM (GBPAUD.s,H1)	[TRTM][INFO ] State persistence self-test: PASS
+2026.09.30 20:22:07.735	TRTM (GBPAUD.s,H1)	[TRTM][INFO ] Reconcile complete: FLAT
+2026.09.30 20:22:07.755	TRTM (GBPAUD.s,H1)	[TRTM][INFO ] Broker exit geometry (at init): stops level 25 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 25 pts to price are DEFERRED until placeable
+2026.09.30 20:22:07.755	TRTM (GBPAUD.s,H1)	[TRTM][INFO ] Init complete - b41 (adoption, exits, recovery active)
+2026.09.30 21:44:15.768	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] === TRTM b41 init === symbol=GBPUSDS (raw GBPUSD.s) magic=764607 stateFile=TRTM\state_GBPUSDS_764607.json
+2026.09.30 21:44:15.768	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.09.30 21:44:15.776	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] State persistence self-test: PASS
+2026.09.30 21:44:15.779	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Log cleanup: 4 file(s) older than 14d deleted (oldest kept: 20260930)
+2026.09.30 21:44:15.785	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Reconcile complete: FLAT
+2026.09.30 21:44:15.787	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Broker exit geometry (at init): stops level 25 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 25 pts to price are DEFERRED until placeable
+2026.09.30 21:44:15.787	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Init complete - b41 (adoption, exits, recovery active)
+2026.09.30 21:58:27.971	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Structure: 1 level(s), 0.05 lots | projected at TP n/a | at SL n/a
+2026.09.30 21:58:27.971	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] ADOPTED UNTAGGED L1: ticket 2084431517 BUY 0.05 lots @ 1.32822 (comment ''). Exits apply next tick.
+2026.09.30 21:58:27.971	TRTM (GBPUSD.s,H1)	Alert: TRTM GBPUSDS: adopted UNTAGGED manual trade 2084431517 as L1
+2026.10.01 00:14:59.597	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Recovery signal: PERIOD_M15 bar closed 1.32591 vs trigger 1.32622 (worst entry 1.32822 - 200 pts)
+2026.10.01 00:14:59.830	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Recovery L2 OPENED: 0.05 lots BUY @ 0.00000 (deal 0)
+2026.10.01 00:14:59.830	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Recovery L2: order accepted but no position yet (asynchronous fill) - the watcher will register it as soon as it appears
+2026.10.01 00:15:00.604	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Watcher: L2 REGISTERED ticket 2084740532 0.05 lots @ 1.32608
+2026.10.01 00:15:00.604	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Structure: 2 level(s), 0.10 lots | projected at TP +20.00 | at SL n/a
+2026.10.01 00:15:00.833	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Exits applied to ticket 2084431517: TP 1.32915 SL none (replaced user-set TP 1.33149 SL none)
+2026.10.01 00:15:01.088	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Exits applied to ticket 2084740532: TP 1.32915 SL none
+2026.10.01 07:17:49.369	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Deinit (reason 5) - state saved (sequence alive)
+2026.10.01 07:17:49.382	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] === TRTM b41 init === symbol=GBPUSDS (raw GBPUSD.s) magic=764607 stateFile=TRTM\state_GBPUSDS_764607.json
+2026.10.01 07:17:49.389	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.10.01 07:17:49.398	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] State persistence self-test: PASS
+2026.10.01 07:17:49.398	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Reconcile: restored adopted L1 ticket 2084431517 from state file
+2026.10.01 07:17:49.399	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Reconcile: flags restored (trailOverride=F beOverride=F trailingActive=F beApplied=F)
+2026.10.01 07:17:49.399	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Structure: 2 level(s), 0.10 lots | projected at TP +20.00 | at SL n/a
+2026.10.01 07:17:49.399	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Reconcile complete: dir=BUY levels=2 (adopted L1)
+2026.10.01 07:17:49.402	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Broker exit geometry (at init): stops level 25 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 25 pts to price are DEFERRED until placeable
+2026.10.01 07:17:49.402	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Init complete - b41 (adoption, exits, recovery active)
+2026.10.01 09:17:45.376	TRTM (USDCAD.s,H1)	[TRTM][INFO ] Deinit (reason 5) - state clean (flat)
+2026.10.01 09:17:45.385	TRTM (USDCAD.s,H1)	[TRTM][INFO ] === TRTM b41 init === symbol=USDCADS (raw USDCAD.s) magic=708972 stateFile=TRTM\state_USDCADS_708972.json
+2026.10.01 09:17:45.391	TRTM (USDCAD.s,H1)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.10.01 09:17:45.410	TRTM (USDCAD.s,H1)	[TRTM][INFO ] State persistence self-test: PASS
+2026.10.01 09:17:45.422	TRTM (USDCAD.s,H1)	[TRTM][INFO ] Reconcile complete: FLAT
+2026.10.01 09:17:45.426	TRTM (USDCAD.s,H1)	[TRTM][INFO ] Broker exit geometry (at init): stops level 25 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 25 pts to price are DEFERRED until placeable
+2026.10.01 09:17:45.426	TRTM (USDCAD.s,H1)	[TRTM][INFO ] Init complete - b41 (adoption, exits, recovery active)
+2026.10.01 09:18:32.263	TRTM (USDCAD.s,H1)	[TRTM][INFO ] SELL ARMED: 0.02 lots (Fixed 0.02) - click CONFIRM within 10s to execute
+2026.10.01 09:18:33.912	TRTM (USDCAD.s,H1)	[TRTM][INFO ] L1 SELL OPENED via button: 0.02 lots @ 0.00000 (deal 0)
+2026.10.01 09:18:33.912	TRTM (USDCAD.s,H1)	[TRTM][INFO ] L1 order accepted but no position yet (asynchronous fill) - the flat-state watcher will register it as soon as it appears
+2026.10.01 09:18:35.657	TRTM (USDCAD.s,H1)	[TRTM][INFO ] Own L1 position 2085039755 found while FLAT (pending fill or recovered send) - registering
+2026.10.01 09:18:35.658	TRTM (USDCAD.s,H1)	[TRTM][INFO ] Structure: 1 level(s), 0.02 lots | projected at TP n/a | at SL n/a
+2026.10.01 09:18:35.658	TRTM (USDCAD.s,H1)	[TRTM][INFO ] EA L1 REGISTERED: ticket 2085039755 SELL 0.02 lots @ 1.42369. Exits apply next tick.
+2026.10.01 12:18:55.200	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Deinit (reason 5) - state saved (sequence alive)
+2026.10.01 12:18:55.203	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] === TRTM b41 init === symbol=GBPUSDS (raw GBPUSD.s) magic=764607 stateFile=TRTM\state_GBPUSDS_764607.json
+2026.10.01 12:18:55.214	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.10.01 12:18:55.229	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] State persistence self-test: PASS
+2026.10.01 12:18:55.229	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Reconcile: restored adopted L1 ticket 2084431517 from state file
+2026.10.01 12:18:55.229	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Reconcile: flags restored (trailOverride=F beOverride=F trailingActive=F beApplied=F)
+2026.10.01 12:18:55.230	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Structure: 2 level(s), 0.10 lots | projected at TP +20.00 | at SL n/a
+2026.10.01 12:18:55.230	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Reconcile complete: dir=BUY levels=2 (adopted L1)
+2026.10.01 12:18:55.233	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Broker exit geometry (at init): stops level 25 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 25 pts to price are DEFERRED until placeable
+2026.10.01 12:18:55.233	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Init complete - b41 (adoption, exits, recovery active)
+2026.10.01 12:31:05.315	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Deinit (reason 5) - state saved (sequence alive)
+2026.10.01 12:31:05.323	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] === TRTM b41 init === symbol=GBPUSDS (raw GBPUSD.s) magic=764607 stateFile=TRTM\state_GBPUSDS_764607.json
+2026.10.01 12:31:05.333	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.10.01 12:31:05.352	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] State persistence self-test: PASS
+2026.10.01 12:31:05.352	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Reconcile: restored adopted L1 ticket 2084431517 from state file
+2026.10.01 12:31:05.352	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Reconcile: flags restored (trailOverride=F beOverride=F trailingActive=F beApplied=F)
+2026.10.01 12:31:05.353	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Structure: 2 level(s), 0.10 lots | projected at TP +20.00 | at SL n/a
+2026.10.01 12:31:05.353	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Reconcile complete: dir=BUY levels=2 (adopted L1)
+2026.10.01 12:31:05.357	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Broker exit geometry (at init): stops level 25 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 25 pts to price are DEFERRED until placeable
+2026.10.01 12:31:05.358	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Init complete - b41 (adoption, exits, recovery active)
+2026.10.01 13:12:59.838	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Deinit (reason 5) - state saved (sequence alive)
+2026.10.01 13:12:59.840	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] === TRTM b41 init === symbol=GBPUSDS (raw GBPUSD.s) magic=764607 stateFile=TRTM\state_GBPUSDS_764607.json
+2026.10.01 13:12:59.853	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.10.01 13:12:59.865	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] State persistence self-test: PASS
+2026.10.01 13:12:59.865	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Reconcile: restored adopted L1 ticket 2084431517 from state file
+2026.10.01 13:12:59.865	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Reconcile: flags restored (trailOverride=F beOverride=F trailingActive=F beApplied=F)
+2026.10.01 13:12:59.866	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Structure: 2 level(s), 0.10 lots | projected at TP +20.00 | at SL n/a
+2026.10.01 13:12:59.866	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Reconcile complete: dir=BUY levels=2 (adopted L1)
+2026.10.01 13:12:59.868	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Broker exit geometry (at init): stops level 25 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 25 pts to price are DEFERRED until placeable
+2026.10.01 13:12:59.869	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Init complete - b41 (adoption, exits, recovery active)
+2026.10.01 13:26:39.941	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Deinit (reason 5) - state saved (sequence alive)
+2026.10.01 13:26:39.950	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] === TRTM b41 init === symbol=GBPUSDS (raw GBPUSD.s) magic=764607 stateFile=TRTM\state_GBPUSDS_764607.json
+2026.10.01 13:26:39.956	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.10.01 13:26:39.972	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] State persistence self-test: PASS
+2026.10.01 13:26:39.972	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Reconcile: restored adopted L1 ticket 2084431517 from state file
+2026.10.01 13:26:39.972	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Reconcile: flags restored (trailOverride=F beOverride=F trailingActive=F beApplied=F)
+2026.10.01 13:26:39.973	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Structure: 2 level(s), 0.10 lots | projected at TP +20.00 | at SL n/a
+2026.10.01 13:26:39.973	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Reconcile complete: dir=BUY levels=2 (adopted L1)
+2026.10.01 13:26:39.976	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Broker exit geometry (at init): stops level 25 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 25 pts to price are DEFERRED until placeable
+2026.10.01 13:26:39.976	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Init complete - b41 (adoption, exits, recovery active)
+2026.10.01 13:30:43.192	TRTM (USDCAD.s,H1)	[TRTM][INFO ] Deinit (reason 5) - state saved (sequence alive)
+2026.10.01 13:30:43.193	TRTM (USDCAD.s,H1)	[TRTM][INFO ] === TRTM b41 init === symbol=USDCADS (raw USDCAD.s) magic=708972 stateFile=TRTM\state_USDCADS_708972.json
+2026.10.01 13:30:43.210	TRTM (USDCAD.s,H1)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.10.01 13:30:43.225	TRTM (USDCAD.s,H1)	[TRTM][INFO ] State persistence self-test: PASS
+2026.10.01 13:30:43.225	TRTM (USDCAD.s,H1)	[TRTM][INFO ] Reconcile: flags restored (trailOverride=F beOverride=F trailingActive=F beApplied=F)
+2026.10.01 13:30:43.226	TRTM (USDCAD.s,H1)	[TRTM][INFO ] Structure: 1 level(s), 0.02 lots | projected at TP n/a | at SL n/a
+2026.10.01 13:30:43.226	TRTM (USDCAD.s,H1)	[TRTM][INFO ] Reconcile complete: dir=SELL levels=1
+2026.10.01 13:30:43.230	TRTM (USDCAD.s,H1)	[TRTM][INFO ] Broker exit geometry (at init): stops level 25 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 25 pts to price are DEFERRED until placeable
+2026.10.01 13:30:43.230	TRTM (USDCAD.s,H1)	[TRTM][INFO ] Init complete - b41 (adoption, exits, recovery active)
+2026.10.01 15:30:00.182	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Recovery signal: PERIOD_M15 bar closed 1.32397 vs trigger 1.32408 (worst entry 1.32608 - 200 pts)
+2026.10.01 15:30:00.183	TRTM (GBPUSD.s,H1)	[TRTM][WARN ] Recovery L3 FORFEITED: fill-side price 1.32414 does not satisfy trigger 1.32408 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.10.01 15:45:00.186	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Recovery signal: PERIOD_M15 bar closed 1.32279 vs trigger 1.32408 (worst entry 1.32608 - 200 pts)
+2026.10.01 15:45:00.415	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Recovery L3 OPENED: 0.06 lots BUY @ 0.00000 (deal 0)
+2026.10.01 15:45:00.415	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Recovery L3: order accepted but no position yet (asynchronous fill) - the watcher will register it as soon as it appears
+2026.10.01 15:45:00.691	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Watcher: L3 REGISTERED ticket 2085457723 0.06 lots @ 1.32294
+2026.10.01 15:45:00.691	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Structure: 3 level(s), 0.16 lots | projected at TP +31.98 | at SL n/a
+2026.10.01 15:45:00.914	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Exits applied to ticket 2084740532: TP 1.32757 SL none
+2026.10.01 15:45:01.143	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Exits applied to ticket 2084431517: TP 1.32757 SL none
+2026.10.01 15:45:01.366	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Exits applied to ticket 2085457723: TP 1.32757 SL none
+2026.10.01 15:59:14.075	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Deinit (reason 5) - state saved (sequence alive)
+2026.10.01 15:59:14.076	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] === TRTM b41 init === symbol=GBPUSDS (raw GBPUSD.s) magic=764607 stateFile=TRTM\state_GBPUSDS_764607.json
+2026.10.01 15:59:14.093	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.10.01 15:59:14.109	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] State persistence self-test: PASS
+2026.10.01 15:59:14.109	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Reconcile: restored adopted L1 ticket 2084431517 from state file
+2026.10.01 15:59:14.109	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Reconcile: flags restored (trailOverride=F beOverride=F trailingActive=F beApplied=F)
+2026.10.01 15:59:14.110	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Structure: 3 level(s), 0.16 lots | projected at TP +31.98 | at SL n/a
+2026.10.01 15:59:14.110	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Reconcile complete: dir=BUY levels=3 (adopted L1)
+2026.10.01 15:59:14.114	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Broker exit geometry (at init): stops level 25 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 25 pts to price are DEFERRED until placeable
+2026.10.01 15:59:14.115	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Init complete - b41 (adoption, exits, recovery active)
+2026.10.01 18:00:00.138	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Recovery signal: PERIOD_M15 bar closed 1.31999 vs trigger 1.32094 (worst entry 1.32294 - 200 pts)
+2026.10.01 18:00:00.399	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Recovery L4 OPENED: 0.06 lots BUY @ 0.00000 (deal 0)
+2026.10.01 18:00:00.399	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Recovery L4: order accepted but no position yet (asynchronous fill) - the watcher will register it as soon as it appears
+2026.10.01 18:00:00.563	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Watcher: L4 REGISTERED ticket 2085637003 0.06 lots @ 1.32017
+2026.10.01 18:00:00.563	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Structure: 4 level(s), 0.22 lots | projected at TP +44.04 | at SL n/a
+2026.10.01 18:00:00.786	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Exits applied to ticket 2084740532: TP 1.32610 SL none
+2026.10.01 18:00:01.052	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Exits applied to ticket 2085457723: TP 1.32610 SL none
+2026.10.01 18:00:01.276	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Exits applied to ticket 2084431517: TP 1.32610 SL none
+2026.10.01 18:00:01.502	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Exits applied to ticket 2085637003: TP 1.32610 SL none
+2026.10.01 19:55:03.532	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Tier 2 FIRE: BUY group 3 leg(s) (anchor L1 + 2 profitable) | P/L 15.72 >= 15.67 (1.00% x bal 1567.02)
+2026.10.01 19:55:03.759	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Closed L4 ticket 2085637003 @ 0.00000
+2026.10.01 19:55:03.989	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Closed L3 ticket 2085457723 @ 0.00000
+2026.10.01 19:55:04.220	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Closed L1 ticket 2084431517 @ 0.00000
+2026.10.01 19:55:04.288	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Liveness: L4 ticket 2085637003 closed by EA (market close) - removed from sequence
+2026.10.01 19:55:04.288	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Liveness: L3 ticket 2085457723 closed by EA (market close) - removed from sequence
+2026.10.01 19:55:04.288	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Structure: 2 level(s), 0.10 lots | projected at TP +20.00 | at SL n/a
+2026.10.01 19:55:04.511	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Exits applied to ticket 2084740532: TP 1.32915 SL none
+2026.10.01 19:55:04.619	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Liveness: L1 ticket 2084431517 closed by EA (market close) - removed from sequence
+2026.10.01 19:55:04.619	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Structure: 1 level(s), 0.05 lots | projected at TP n/a | at SL n/a
+2026.10.01 20:00:00.152	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Recovery signal: PERIOD_M15 bar closed 1.32408 vs trigger 1.32408 (worst entry 1.32608 - 200 pts)
+2026.10.01 20:00:00.153	TRTM (GBPUSD.s,H1)	[TRTM][WARN ] Recovery L3 FORFEITED: fill-side price 1.32425 does not satisfy trigger 1.32408 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.10.01 20:03:48.165	TRTM (GBPUSD.s,H1)	[TRTM][WARN ] Liveness: L2 ticket 2084740532 closed externally (manual/unknown) - removed from sequence
+2026.10.01 20:03:48.165	TRTM (GBPUSD.s,H1)	[TRTM][INFO ] Sequence fully closed - back to FLAT, overrides reset to input defaults, flat marker saved
+2026.10.01 21:03:38.144	TRTM (EURAUD.s,H1)	[TRTM][INFO ] === TRTM b41 init === symbol=EURAUDS (raw EURAUD.s) magic=764490 stateFile=TRTM\state_EURAUDS_764490.json
+2026.10.01 21:03:38.144	TRTM (EURAUD.s,H1)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.10.01 21:03:38.154	TRTM (EURAUD.s,H1)	[TRTM][INFO ] State persistence self-test: PASS
+2026.10.01 21:03:38.157	TRTM (EURAUD.s,H1)	[TRTM][INFO ] Log cleanup: 2 file(s) older than 14d deleted (oldest kept: 20261001)
+2026.10.01 21:03:38.168	TRTM (EURAUD.s,H1)	[TRTM][WARN ] Reconcile: recorded adopted L1 ticket 2059016696 no longer exists - closed while EA was offline
+2026.10.01 21:03:38.168	TRTM (EURAUD.s,H1)	[TRTM][WARN ] Reconcile: file claims 1 level(s) but broker is flat - sequence closed while EA was offline
+2026.10.01 21:03:38.169	TRTM (EURAUD.s,H1)	[TRTM][INFO ] Reconcile complete: FLAT
+2026.10.01 21:03:38.172	TRTM (EURAUD.s,H1)	[TRTM][INFO ] Broker exit geometry (at init): stops level 25 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 25 pts to price are DEFERRED until placeable
+2026.10.01 21:03:38.172	TRTM (EURAUD.s,H1)	[TRTM][INFO ] Init complete - b41 (adoption, exits, recovery active)
+2026.10.01 21:03:56.368	TRTM (EURAUD.s,H1)	[TRTM][INFO ] BUY ARMED: 0.01 lots (Fixed 0.01) - click CONFIRM within 10s to execute
+2026.10.01 21:03:58.356	TRTM (EURAUD.s,H1)	[TRTM][INFO ] L1 BUY OPENED via button: 0.01 lots @ 0.00000 (deal 0)
+2026.10.01 21:03:58.356	TRTM (EURAUD.s,H1)	[TRTM][INFO ] L1 order accepted but no position yet (asynchronous fill) - the flat-state watcher will register it as soon as it appears
+2026.10.01 21:03:59.449	TRTM (EURAUD.s,H1)	[TRTM][INFO ] Own L1 position 2085853531 found while FLAT (pending fill or recovered send) - registering
+2026.10.01 21:03:59.449	TRTM (EURAUD.s,H1)	[TRTM][INFO ] Structure: 1 level(s), 0.01 lots | projected at TP n/a | at SL n/a
+2026.10.01 21:03:59.449	TRTM (EURAUD.s,H1)	[TRTM][INFO ] EA L1 REGISTERED: ticket 2085853531 BUY 0.01 lots @ 1.62455. Exits apply next tick.
+2026.10.01 21:26:47.914	TRTM (EURAUD.s,H1)	[TRTM][INFO ] Deinit (reason 5) - state saved (sequence alive)
+2026.10.01 21:26:47.915	TRTM (EURAUD.s,H1)	[TRTM][INFO ] === TRTM b41 init === symbol=EURAUDS (raw EURAUD.s) magic=764490 stateFile=TRTM\state_EURAUDS_764490.json
+2026.10.01 21:26:47.929	TRTM (EURAUD.s,H1)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.10.01 21:26:47.940	TRTM (EURAUD.s,H1)	[TRTM][INFO ] State persistence self-test: PASS
+2026.10.01 21:26:47.940	TRTM (EURAUD.s,H1)	[TRTM][INFO ] Reconcile: flags restored (trailOverride=F beOverride=F trailingActive=F beApplied=F)
+2026.10.01 21:26:47.940	TRTM (EURAUD.s,H1)	[TRTM][INFO ] Structure: 1 level(s), 0.01 lots | projected at TP n/a | at SL n/a
+2026.10.01 21:26:47.940	TRTM (EURAUD.s,H1)	[TRTM][INFO ] Reconcile complete: dir=BUY levels=1
+2026.10.01 21:26:47.943	TRTM (EURAUD.s,H1)	[TRTM][INFO ] Broker exit geometry (at init): stops level 25 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 25 pts to price are DEFERRED until placeable
+2026.10.01 21:26:47.943	TRTM (EURAUD.s,H1)	[TRTM][INFO ] Init complete - b41 (adoption, exits, recovery active)
+2026.10.01 21:29:00.305	TRTM (EURAUD.s,H1)	[TRTM][WARN ] Liveness: L1 ticket 2085853531 closed externally (manual/unknown) - removed from sequence
+2026.10.01 21:29:00.305	TRTM (EURAUD.s,H1)	[TRTM][INFO ] Sequence fully closed - back to FLAT, overrides reset to input defaults, flat marker saved
+2026.10.02 12:50:20.210	TRTM (GBPAUD.s,H1)	[TRTM][INFO ] Deinit (reason 5) - state clean (flat)
+2026.10.02 12:50:20.214	TRTM (GBPAUD.s,H1)	[TRTM][INFO ] Log cleanup: 1 file(s) older than 14d deleted (oldest kept: 20260930)
+2026.10.02 12:50:20.220	TRTM (GBPAUD.s,H1)	[TRTM][INFO ] === TRTM b41 init === symbol=GBPAUDS (raw GBPAUD.s) magic=730053 stateFile=TRTM\state_GBPAUDS_730053.json
+2026.10.02 12:50:20.237	TRTM (GBPAUD.s,H1)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.10.02 12:50:20.247	TRTM (GBPAUD.s,H1)	[TRTM][INFO ] State persistence self-test: PASS
+2026.10.02 12:50:20.257	TRTM (GBPAUD.s,H1)	[TRTM][INFO ] Reconcile complete: FLAT
+2026.10.02 12:50:20.261	TRTM (GBPAUD.s,H1)	[TRTM][INFO ] Broker exit geometry (at init): stops level 25 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 25 pts to price are DEFERRED until placeable
+2026.10.02 12:50:20.262	TRTM (GBPAUD.s,H1)	[TRTM][INFO ] Init complete - b41 (adoption, exits, recovery active)

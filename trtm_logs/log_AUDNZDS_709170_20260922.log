@@ -1,0 +1,60 @@
+2026.09.22 03:30:00 [TRTM][INFO ] Log cleanup: 2 file(s) older than 14d deleted (oldest kept: 20260909)
+2026.09.22 03:30:00 [TRTM][INFO ] Recovery signal: PERIOD_M15 bar closed 1.24765 vs trigger 1.24763 (worst entry 1.24463 + 300 pts)
+2026.09.22 03:30:00 [TRTM][WARN ] Recovery L10 FORFEITED: fill-side price 1.24760 does not satisfy trigger 1.24763 (spread pushes entry inside the interval). Interval is a minimum entry distance - next qualifying bar close awaited.
+2026.09.22 04:15:00 [TRTM][INFO ] Recovery signal: PERIOD_M15 bar closed 1.24855 vs trigger 1.24763 (worst entry 1.24463 + 300 pts)
+2026.09.22 04:15:00 [TRTM][INFO ] Recovery L10 OPENED: 0.09 lots SELL @ 0.00000 (deal 0)
+2026.09.22 04:15:00 [TRTM][INFO ] Recovery L10: order accepted but no position yet (asynchronous fill) - the watcher will register it as soon as it appears
+2026.09.22 04:15:00 [TRTM][INFO ] Watcher: L10 REGISTERED ticket 2967818007 0.09 lots @ 1.24856
+2026.09.22 04:15:00 [TRTM][INFO ] Structure: 9 level(s), 0.65 lots | projected at TP +74.14 | at SL n/a
+2026.09.22 04:15:00 [TRTM][INFO ] Exits applied to ticket 2942227144: TP 1.23612 SL none
+2026.09.22 04:15:01 [TRTM][INFO ] Exits applied to ticket 2943049148: TP 1.23612 SL none
+2026.09.22 04:15:01 [TRTM][INFO ] Exits applied to ticket 2953979514: TP 1.23612 SL none
+2026.09.22 04:15:01 [TRTM][INFO ] Exits applied to ticket 2955129458: TP 1.23612 SL none
+2026.09.22 04:15:01 [TRTM][INFO ] Exits applied to ticket 2957808329: TP 1.23612 SL none
+2026.09.22 04:15:01 [TRTM][INFO ] Exits applied to ticket 2959798311: TP 1.23612 SL none
+2026.09.22 04:15:02 [TRTM][INFO ] Exits applied to ticket 2961928246: TP 1.23612 SL none
+2026.09.22 04:15:02 [TRTM][INFO ] Exits applied to ticket 2963521986: TP 1.23612 SL none
+2026.09.22 04:15:02 [TRTM][INFO ] Exits applied to ticket 2967818007: TP 1.23612 SL none
+2026.09.22 05:05:09 [TRTM][WARN ] Liveness: L10 ticket 2967818007 closed externally (manual/unknown) - removed from sequence
+2026.09.22 05:05:09 [TRTM][INFO ] Structure: 8 level(s), 0.56 lots | projected at TP +63.68 | at SL n/a
+2026.09.22 05:05:09 [TRTM][INFO ] Exits applied to ticket 2942227144: TP 1.23445 SL none
+2026.09.22 05:05:10 [TRTM][INFO ] Exits applied to ticket 2943049148: TP 1.23445 SL none
+2026.09.22 05:05:10 [TRTM][INFO ] Exits applied to ticket 2953979514: TP 1.23445 SL none
+2026.09.22 05:05:10 [TRTM][INFO ] Exits applied to ticket 2955129458: TP 1.23445 SL none
+2026.09.22 05:05:10 [TRTM][INFO ] Exits applied to ticket 2957808329: TP 1.23445 SL none
+2026.09.22 05:05:11 [TRTM][INFO ] Exits applied to ticket 2959798311: TP 1.23445 SL none
+2026.09.22 05:05:11 [TRTM][INFO ] Exits applied to ticket 2961928246: TP 1.23445 SL none
+2026.09.22 05:05:11 [TRTM][INFO ] Exits applied to ticket 2963521986: TP 1.23445 SL none
+2026.09.22 09:25:18 [TRTM][INFO ] Tier 3 FIRE: SELL group 3 leg(s) (anchor L2 slice 0.02 of 0.05 + 2 profitable) | sliced-VWAP 1.24151 far 1.23951 margin 200.3 pts >= 200/lot
+2026.09.22 09:25:18 [TRTM][INFO ] Closed L9 ticket 2963521986 @ 0.00000
+2026.09.22 09:25:18 [TRTM][INFO ] Closed L8 ticket 2961928246 @ 0.00000
+2026.09.22 09:25:18 [TRTM][ERROR] Partial close FAILED on ticket 2942227144 (retcode 10009: done at 0.00000)
+2026.09.22 09:25:18 [TRTM][WARN ] Tier 3: anchor L2 ticket 2942227144 SLICE failed after all profitables closed - anchor stays FULL, realized = pure profit (X-3/O7). Retargets next tick.
+2026.09.22 09:25:18 [TRTM][INFO ] Liveness: L9 ticket 2963521986 closed by EA (market close) - removed from sequence
+2026.09.22 09:25:18 [TRTM][INFO ] Liveness: L8 ticket 2961928246 closed by EA (market close) - removed from sequence
+2026.09.22 09:25:18 [TRTM][INFO ] Structure: 6 level(s), 0.39 lots | projected at TP +44.72 | at SL n/a
+2026.09.22 09:25:18 [TRTM][INFO ] Exits applied to ticket 2942227144: TP 1.23148 SL none
+2026.09.22 09:25:19 [TRTM][INFO ] Exits applied to ticket 2943049148: TP 1.23148 SL none
+2026.09.22 09:25:19 [TRTM][INFO ] Exits applied to ticket 2953979514: TP 1.23148 SL none
+2026.09.22 09:25:19 [TRTM][INFO ] Exits applied to ticket 2955129458: TP 1.23148 SL none
+2026.09.22 09:25:19 [TRTM][INFO ] Exits applied to ticket 2957808329: TP 1.23148 SL none
+2026.09.22 09:25:19 [TRTM][INFO ] Exits applied to ticket 2959798311: TP 1.23148 SL none
+2026.09.22 10:14:31 [TRTM][INFO ] Exits applied to ticket 2942227144: TP 1.23184 SL none
+2026.09.22 10:14:31 [TRTM][INFO ] Exits applied to ticket 2943049148: TP 1.23184 SL none
+2026.09.22 10:14:31 [TRTM][INFO ] Exits applied to ticket 2953979514: TP 1.23184 SL none
+2026.09.22 10:14:32 [TRTM][INFO ] Exits applied to ticket 2955129458: TP 1.23184 SL none
+2026.09.22 10:14:32 [TRTM][INFO ] Exits applied to ticket 2957808329: TP 1.23184 SL none
+2026.09.22 10:14:32 [TRTM][INFO ] Exits applied to ticket 2959798311: TP 1.23184 SL none
+2026.09.22 18:15:00 [TRTM][INFO ] Recovery signal: PERIOD_M15 bar closed 1.24206 vs trigger 1.24205 (worst entry 1.23905 + 300 pts)
+2026.09.22 18:15:00 [TRTM][INFO ] Recovery L8 OPENED: 0.08 lots SELL @ 0.00000 (deal 0)
+2026.09.22 18:15:00 [TRTM][INFO ] Recovery L8: order accepted but no position yet (asynchronous fill) - the watcher will register it as soon as it appears
+2026.09.22 18:15:00 [TRTM][INFO ] Watcher: L8 REGISTERED ticket 2970157560 0.08 lots @ 1.24205
+2026.09.22 18:15:00 [TRTM][INFO ] Structure: 7 level(s), 0.45 lots | projected at TP +51.50 | at SL n/a
+2026.09.22 18:15:00 [TRTM][INFO ] Exits applied to ticket 2942227144: TP 1.23330 SL none
+2026.09.22 18:15:01 [TRTM][INFO ] Exits applied to ticket 2943049148: TP 1.23330 SL none
+2026.09.22 18:15:01 [TRTM][INFO ] Exits applied to ticket 2953979514: TP 1.23330 SL none
+2026.09.22 18:15:01 [TRTM][INFO ] Exits applied to ticket 2955129458: TP 1.23330 SL none
+2026.09.22 18:15:01 [TRTM][INFO ] Exits applied to ticket 2957808329: TP 1.23330 SL none
+2026.09.22 18:15:02 [TRTM][INFO ] Exits applied to ticket 2959798311: TP 1.23330 SL none
+2026.09.22 18:15:02 [TRTM][INFO ] Exits applied to ticket 2970157560: TP 1.23330 SL none
+2026.09.22 23:29:09 [TRTM][INFO ] Deinit (reason 9) - state saved (sequence alive)

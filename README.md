@@ -351,6 +351,26 @@ Inputs dialog, which restores *all* defaults. Reload your `.set`.
 **Nothing happens when I click in the Strategy Tester.** Buttons are
 polled on tick there, so the tester must be *running*, not paused.
 
+**A log line says "NO ORDER SENT".** (b42 and later.) It means TRTM
+decided to close, slice or re-dress a position, and by the moment it
+actually made the call, the terminal no longer recognised that position.
+Nothing was sent to the broker, so nothing changed at the broker either.
+This line deliberately carries **no retcode**. That is the point of it:
+MT5's trade library can refuse a call before it ever reaches the server,
+and when it does, the "last result" it hands back still belongs to the
+*previous* order. Before b42, TRTM printed that stale value and it read
+like a real broker answer - on 2026-09-22 a slice that never happened was
+logged as `retcode 10009: done`, which is the code for **success**. If you
+see "NO ORDER SENT", read it as "TRTM tried, the position wasn't there,
+TRTM did nothing and said so". The next tick retries normally.
+
+**A log line says "Account margin mode: ...".** Shown once at startup.
+Hedging accounts keep each entry as its own position; netting accounts
+merge them into one. TRTM's Tier 3 partial slice only works on hedging
+accounts, so if that line says NETTING or EXCHANGE, it also warns you
+that slices aren't available. It is informational - TRTM does not change
+what it does based on this line.
+
 **I can't restart the EA mid-test.** You can't - the MT5 visual tester
 has no in-pass restart. Stop the pass and start it again, or test
 restart behaviour on a live demo chart.

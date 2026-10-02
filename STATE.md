@@ -4,11 +4,52 @@
 # runtime copy, all compared to this manifest. Match = aligned in one
 # line. Disk + git are truth, never conversation or auto memory.
 
-build: b41
+# ############################################################################
+# ### PROBE OUTSTANDING - READ BEFORE ANY SEAL, GATE ZERO, OR DEPLOY #########
+# ############################################################################
+# STATUS 2026-09-24 (FINAL): NO PROBE IS IN THE TREE. b42 is clean and PROVEN clean:
+#   sha256_16 9209dbe131c9d651 / 5112 lines, byte-identical to the pre-probe build,
+#   and `grep -ci` for the marker text returns 0. The check_hygiene hook PASSES
+#   (exit 0) on the reverted file, having REFUSED (exit 2) the probe build.
+#   THE A-1 PROBE RAN AND WAS REVERTED 2026-09-24. It did its job: A-1 PASSED on
+#   live evidence (USDCADS 708972, 10:12:46.711). Do not re-run it - the row is closed.
+#   The three-layer reminder (hook / this banner / CLAUDE.md section 0 step 6) is
+#   PROVEN END TO END: the hook caught a real probe, not just a synthetic test.
+# HISTORY: the E9-Q3 / QQ1 option (b) probe was Jeff's call 2026-09-24, built, run and
+#   reverted the same day. This banner stays as the STANDING mechanism for the NEXT
+#   probe, whenever one is needed - it is not specific to that one.
+# THE RULE: a probe NEVER reaches Gate Zero, a seal, or the MT5 tree.
+# THREE INDEPENDENT REMINDERS EXIST SO THIS CANNOT BE FORGOTTEN:
+#   (1) THIS BANNER - the resume protocol reads STATE.md's header first, every session.
+#   (2) .claude/hooks/check_hygiene.sh REFUSES (exit 2) any .mq5/.mqh write containing
+#       "TEMPORARY DIAGNOSTIC" or "REMOVE BEFORE ANY SEAL". Tested 2026-09-24: clean
+#       b42 passes, a marked file is refused. The hook is the WALL; this banner explains it.
+#   (3) CLAUDE.md section 0 step 7 - the resume protocol checks this banner explicitly.
+# PRECEDENT: the 2026-08-19 quote probe was reverted BY HAND to a byte-identical build
+# with an empty git diff. It worked, but it depended on memory. This does not.
+# ############################################################################
+
+build: b42
 file: TRTM.mq5
-sha256_16: d2354c4c1269874e
-lines: 5063
-date: 2026-08-19
+sha256_16: 9209dbe131c9d651
+lines: 5112
+date: 2026-10-02
+# *** b42 SEALED BY JEFF 2026-10-02 *** E9-Q3 retcode validity. All six gates cleared.
+#   Built 2026-09-24. Gate Zero passed 2026-09-24 (USDCADS) and again on genuinely clean b42
+#   2026-10-02 13:14:52 (XAUUSDS) after the probe incident. Gate 4 complete: A-1/A-2/D-3 and
+#   C-1/C-2/C-4 on LIVE evidence, the rest on inspection + filtered diff (B-2 inspection-
+#   closed on Jeff's call, recorded honestly as such).
+#   REPO src    = b42 (9209dbe131c9d651 / 5112)  <- this manifest tracks REPO.
+#   MT5 runtime = b42 (9209dbe131c9d651 / 5112) ALIGNED 2026-10-02 13:14 - compiled by Jeff
+#     at the LIVE path (Terminal/55DBD2FC.../MQL5/Experts/FA_EA/), verified byte-identical
+#     with 0 probe markers. The D0E8209F copy is STALE b41 and is NOT the runtime - see the
+#     corrected path note in CLAUDE.md section 0 and the probe incident below.
+# E9-Q3: retcode validity. g_trade.Result*() was read after CTrade returned false WITHOUT
+#   reaching OrderSend, so the EA reported the PREVIOUS order's retcode as this call's.
+# HYGIENE: 0 bare LF, ASCII-only, brace delta -1 (baseline-preserved), paren 0, bracket 0.
+# DELTA: +49 lines (5063 -> 5112). NO new input, NO new global, NO new persisted field,
+#   state schema UNCHANGED at 5. Exactly ONE deletion in the whole diff: the build tag.
+# Prior SEALED build: b41 (d2354c4c1269874e / 5063, 2026-08-19).
 # b41 SEALED BY JEFF 2026-08-19. E9-M1 reconcile discriminator + state schema 4 -> 5.
 #   REPO src    = b41 (d2354c4c1269874e / 5063)  <- this manifest tracks REPO.
 #   MT5 runtime = b41 (d2354c4c1269874e / 5063) - DEPLOYED on a FLAT sequence 2026-08-19
@@ -3200,3 +3241,521 @@ Three checklist findings worth carrying into the runs:
  - Slice sizing swept for float drift across ClosePercent x anchorVol (13 x 19
    combinations at unit 0.01): ZERO drift cases; the clamp holds
    unit <= slice <= anchorVol - unit throughout.
+
+## LIVE FINDINGS 2026-09-23 (AUDNZDS, account 709170, magic 709170, b41)
+SOURCE: trtm_logs/log_AUDNZDS_709170_2026091[89].log, ..._20260921/22/23.log.
+NOT the Doo XAUUSD terminal - a DIFFERENT account/instrument from every prior run. Raised
+by Jeff from the live logs, not from a planned verification run.
+
+FINDING 1 - FALSE-FLAT RECONCILE WIPED adoptedL1 (-> E9-Q2). CONFIRMED.
+  2026.09.18 08:41:02 restart: "Reconcile: restored adopted L1 ticket 2940935091 from state
+    file", structure 9 levels / 0.58 lots. CORRECT.
+  2026.09.18 23:54:59 restart (deinit reason 9): "recorded adopted L1 ticket 2940935091 no
+    longer exists - closed while EA was offline" THEN "file claims 9 level(s) but broker is
+    flat" THEN "Reconcile complete: FLAT".
+  THE POSITION WAS NEVER CLOSED. It reappears 2026.09.21 00:00:00 as "UNMANAGED MANUAL
+    TRADE: ticket 2940935091", and all EIGHT magic-owned levels reappear and re-register as
+    L2..L9 in the same second. Nothing had closed; the broker was NOT flat.
+  MECHANISM (code-confirmed, TRTM.mq5 2976 + 3001): Reconcile trusts PositionsTotal() /
+    PositionSelectByTicket UNCONDITIONALLY at init. At a Friday-rollover init the terminal
+    returned an EMPTY position list; RebuildLiveMap found 0 magic positions and the L1
+    select failed, so Reconcile concluded "closed while offline" and called StateReset ->
+    StateSave, OVERWRITING the state file with a flat marker and destroying the adoptedL1
+    record PERMANENTLY.
+  The 8 magic-owned levels SELF-HEALED on 09-21 via b39/F-2 orphan rebuild. The adopted
+    L1 (magic 0) has NO such path - the state file was its only record. It ran UNMANAGED
+    (no TP/SL, no recovery) from 09-18 23:54 until Jeff closed it manually on 09-23.
+  RELATION TO E9-M4: M4 said adoptedL1 is unrecoverable "on state-file loss". The file was
+    not lost - it was OVERWRITTEN BY THE EA on a false reading. M4 understates the exposure.
+
+FINDING 2 - TIER 3 SLICE DID NOT EXECUTE, AND THE ERROR LINE WAS FICTION (-> E9-Q3 + Q4).
+  2026.09.22 09:25:18 "Tier 3 FIRE: SELL group 3 leg(s) (anchor L2 slice 0.02 of 0.05 +
+    2 profitable) | sliced-VWAP 1.24151 far 1.23951 margin 200.3 pts >= 200/lot"
+    then "Closed L9 2963521986", "Closed L8 2961928246",
+    then "[ERROR] Partial close FAILED on ticket 2942227144 (retcode 10009: done at 0.00000)"
+    then the X-3/O7 WARN (anchor stays FULL, realized = pure profit).
+  RETCODE 10009 IS TRADE_RETCODE_DONE - SUCCESS. An "ERROR ... FAILED (retcode: done)" line
+    is self-contradictory and is the tell.
+  ARITHMETIC PROVES THE SLICE NEVER SENT (recomputed here, not taken from the log):
+    pre-fire structure 8 levels / 0.56 lots.
+    slice executed  => 0.56 - 0.08 - 0.09 - 0.02 = 0.37
+    slice not sent  => 0.56 - 0.08 - 0.09        = 0.39
+    log reads "Structure: 6 level(s), 0.39 lots" -> 0.39. THE ANCHOR STAYED FULL AT 0.05.
+  ROOT CAUSE (verified against the MT5 Include tree, Trade.mqh 599-641):
+    CTrade::PositionClosePartial has FOUR early return(false) paths. ClearStructures() is
+    called only AFTER the first two, so those two return false WITHOUT writing m_result -
+    and ResultRetcode() then reports the PREVIOUS order retcode. The previous order was
+    the successful full close of L8. THAT is where 10009 came from.
+    ELIMINATION by the observed retcode:
+      IsStopped()             -> writes 10027. RULED OUT.
+      !IsHedging()            -> NO write. candidate.
+      !PositionSelectByTicket -> NO write. candidate.
+      !FillingCheck()         -> writes 10030/10011. RULED OUT.
+    NETTING IS DISPROVEN: eight distinct SELL tickets coexist on AUDNZDS at different entry
+      prices (09-21 00:00:00), plus magic-0 ticket 2940935091 alongside them. Netting merges
+      same-symbol positions into one, so the account IS HEDGING and IsHedging() is true.
+    THEREFORE: PositionSelectByTicket(2942227144) returned FALSE INSIDE CTrade, one line
+      after the O7 caller at 2421 called PositionSelectByTicket(anchorTk) and got TRUE.
+      The terminal position cache changed answer between two adjacent calls.
+  CORRECTION ON THE RECORD: an earlier read this session attributed this to a NETTING
+    account and cited E9-O4 as evidenced. WRONG - disproven by the coexisting tickets above.
+    E9-O4 stays parked on its own merit, NOT evidenced by this incident.
+  CORRECTION ON THE RECORD (2): the 09-23 02:12:58 "unparseable level comment ''" WARN on
+    2942227144 is NOT K-4. No slice ever touched the position. Its comment was blanked on
+    09-21 00:06:33 by the orphan-rebuild path ("replaced user-set TP"); it entered the
+    sequence via b39/F-2 orphan adoption with no _lN_ tag to begin with. K-4 IS NOT
+    IMPLICATED by this log.
+  NO MONEY WAS LOST: X-3/O7 handled the failed slice correctly - realized was pure profit.
+    But Tier 3 slice is defeated whenever this race occurs, and the log actively misnames
+    the cause.
+
+THE UNIFYING DEFECT (three incidents, one mechanism): the EA reads terminal state, gets a
+  wrong answer, and reports a CONFIDENT SPECIFIC CAUSE IT NEVER VERIFIED.
+    2026-08-19  frozen quote, ok=Y            -> "spread pushes entry inside the interval"
+    2026-09-18  empty position list at init   -> "closed while EA was offline" (wiped L1)
+    2026-09-22  PositionSelectByTicket false  -> "retcode 10009: done" (stale, prior order)
+  E9 items Q1..Q4 are this family. They are NOT delivered as one build - see E9-Q3-D1.
+
+LOCKED DECISION E9-Q3-D1 (retcode validity, Jeff call 2026-09-24): OPTION B - RE-DERIVE
+  THE PRECONDITION AT THE CALL SITE, PLUS AN INIT-TIME MARGIN-MODE CHECK.
+  THE RULE: g_trade.Result*() is meaningful ONLY when CTrade actually reached OrderSend.
+  Before a close/slice/modify call the EA tests the same precondition CTrade will test
+  (PositionSelectByTicket); if it fails, log "no order sent" and NEVER read the retcode.
+  Only when the precondition held is ResultRetcode() treated as real.
+  EXPOSURE MAP (verified against Trade.mqh, NOT assumed - the K-4 lesson):
+    1511 CloseLegAtMarket  PositionClose        EXPOSED via !PositionSelectByTicket
+    1565 SliceLegAtMarket  PositionClosePartial EXPOSED via !IsHedging AND !PositionSelect
+    1893 exits loop        PositionModify       EXPOSED via !PositionSelectByTicket
+    3650 L1 button         PositionOpen         CLEAN - ClearStructures() runs FIRST
+    3753 pending orders    BuyLimit/SellStop/.. CLEAN - volume guard writes; OrderOpen clears
+  THREE sites are exposed, not five. The entry paths were never lying.
+  WHY THIS MATTERS MOST - THE 10036 SILENT PATH: the benign-race checks at 1512 and 1567
+  return TRUE ("already closed, benign") on a possibly-STALE 10036. A stale 10036 left in
+  m_result by an earlier genuine race would make a REAL close failure report success, and
+  the EA would believe a position closed when it had not. Under B those checks are only
+  reachable when the precondition held, converting a latent silent path into a correct one.
+  This is the strongest argument for the build and it is a section 7 silent-path defect.
+  REJECTED (A) clear m_result before each call: NOT AVAILABLE. ClearStructures() is
+    protected and CTrade exposes NO public method that zeroes m_result without sending an
+    order. Verified in Trade.mqh before proposing - recorded so it is not re-proposed.
+  REJECTED (C) track ResultDeal/ResultOrder across the call and treat "unchanged" as stale:
+    does not discriminate. ClearStructures() zeroes m_result on the paths that DO reach it,
+    so a genuine post-clear failure also shows deal 0 - indistinguishable from a stale zero,
+    and the test inverts depending on which path fired.
+  REJECTED (D) never print a retcode on a false return: honest and one line, but discards
+    the retcodes that ARE valid and useful (10030 invalid fill, 10027 autotrading off).
+    b27 already proved a wrong/absent hint costs a real investigation (the fixed "broker min
+    distance" suffix printed on a 10027). D trades a known-good diagnostic for safety we get
+    from B anyway.
+  MARGIN-MODE CHECK: read ACCOUNT_MARGIN_MODE once at init and log it. Two lines. Removes
+    !IsHedging as an unknown permanently and settles the netting question for every future
+    session. It is a PROBE, not a guard - E9-O4 netting GUARD stays parked and out of scope.
+  EXPLICITLY OUT OF SCOPE (flagged per CLAUDE.md section 7, not folded in): Q2 reconcile fix,
+    Q4 slice-race retry policy, E9-O4 netting guard behaviour, Q1 stale-quote guard.
+  NO MONEY-PATH LOGIC CHANGES. The EA refuses in exactly the cases it already refuses; what
+  changes is the reason text and the trustworthiness of the 10036 branches.
+
+## b42 BUILT 2026-09-24 - E9-Q3 RETCODE VALIDITY. GATE ZERO NOT RUN, NOT DEPLOYED.
+IDENTITY: 9209dbe131c9d651 / 5112 lines (+49 from b41's 5063).
+GATES CLEARED SO FAR: Gate 1 (E9-Q3-D1 locked 2026-09-24), Gate 2 (docs/Q3_MATRIX.md
+  SEALED rev 1 2026-09-24), Gate 3 (docs/Q3_PLAN_2026-09-24_gate3.md CONFIRMED by Jeff).
+  NEXT: Gate Zero (Jeff compiles), then Gate 4 verification, then seal on Jeff's word.
+
+THE SIX TOUCH POINTS AS BUILT:
+  TP1  1521  NEW HELPER TradeTargetLive(ticket) - returns PositionSelectByTicket. The one
+             named place that answers "will CTrade be able to act on this ticket?". Placed
+             above all three callers (1536/1596/1935) per the helper-before-caller rule.
+  TP2  1536  CloseLegAtMarket - gate before PositionClose. Returns FALSE (unchanged
+             disposition), so FireGroupClose's X-2 abort still sees false (B-3).
+  TP3  1596  SliceLegAtMarket - gate before PositionClosePartial. THE 2026-09-22 SITE.
+             Returns FALSE; the O7 caller's X-3/O7 accept-and-log is untouched (that is Q4).
+  TP4  1935  Exits loop - gate before PositionModify. THE MATRIX'S CRITICAL FINDING: the
+             loop's own select at 1862 is STALE by the modify call (two PositionGetDouble
+             reads, the tolerance compare, HasAppliedExits and up to two Log() calls sit
+             between them, and CTrade re-selects internally at Trade.mqh 370).
+             D-3 AS BUILT: a no-send sets anyApplied=false and continues, but does NOT
+             increment g_modifyFails and does NOT arm the >=10 Alert.
+  TP5  1140  LogBrokerExitGeometry - ACCOUNT_MARGIN_MODE probe. Placed here because this
+             function is ALREADY called on BOTH init paths (config-blocked 4900, normal
+             4924), so the probe inherits both with no new call site.
+  TP6  51    TRTM_BUILD "b41" -> "b42". THE ONLY DELETION IN THE ENTIRE DIFF.
+
+VERIFIED AGAINST THE MT5 INCLUDE TREE BEFORE AND AFTER THE BUILD (the K-4 lesson):
+  ACCOUNT_MARGIN_MODE_RETAIL_HEDGING / _RETAIL_NETTING / ACCOUNT_MARGIN_MODE_EXCHANGE all
+  exist - confirmed in Include/Trade/AccountInfo.mqh 159-165 and Include/Expert/
+  ExpertBase.mqh 135/141. AccountInfoInteger(ACCOUNT_MARGIN_MODE) cast to the enum is the
+  canonical accessor and is exactly what CTrade itself uses (Trade.mqh 95 SetMarginMode).
+  NOTHING IN THIS BUILD WAS PLANNED AGAINST AN UNVERIFIED SIGNATURE.
+
+DIFF DISCIPLINE: `git diff -U0` filtered to non-comment lines shows ONLY the six touch
+  points. Exactly ONE deletion in the whole file (the build tag). Every other change is a
+  pure INSERTION - no existing statement was altered, which is what A-4 and D-5 require.
+
+HYGIENE (recomputed on the built file, not assumed):
+  5112 lines, 5112 CRLF pairs, 0 bare LF, 0 non-ASCII bytes.
+  brace delta -1 - IDENTICAL to b41's baseline (a brace inside a string literal, documented
+  in .claude/rules/mql5-traps.md). paren delta 0, bracket delta 0.
+
+LINE-DELTA NOTE, ON THE RECORD: the Gate 3 plan estimated +39 and the build is +49. The
+  10-line difference is ALL comment, at TP4, where the D-3 rationale was written into the
+  source rather than left only in the plan. No unplanned code was added. Recorded because an
+  unexplained delta overrun is exactly the kind of thing a later reader should be able to
+  settle without re-deriving it.
+
+OBSERVATION WORTH CARRYING (not acted on, scope): .claude/rules/mql5-traps.md says "all
+  position selection goes through the existing wrapper" (the POSITION_IDENTIFIER trap). NO
+  SUCH WRAPPER EXISTS - the codebase calls PositionSelectByTicket directly in 39 places.
+  The rule describes an aspiration, not the code. TradeTargetLive is now the closest thing
+  to that wrapper; if the POSITION_IDENTIFIER trap ever bites, it is the single place to fix
+  it. NOT widened in b42 - that would be scope drift on a verification build.
+
+WHAT b42 DOES NOT CHANGE (the UNCHANGED list, as built):
+  - PositionOpen path 3650 and the pending-order path 3753 + its b27 retcode-hint ladder.
+    VERIFIED CLEAN (ClearStructures runs first). Zero edits. D-1/D-2.
+  - All Tier 1/2/3 arithmetic, FormBasketGroup, EvaluateBasketClose. D-5.
+  - The MarkEAClosed asymmetry (CloseLegAtMarket marks, SliceLegAtMarket does not). A-5/A-6.
+  - The 10036 branches' text and disposition - unchanged, but now UNREACHABLE on a no-send,
+    which is the single behavioural delta in the build and the reason it exists. B-1/B-2.
+  - Reconcile / StateLoad / StateSave / schema 5 (Q2). EvaluateRecovery and every quote read
+    (Q1). RebuildLiveMap / O2b / BuildLevelTag / ParseTag (K-4).
+
+THE ONE BEHAVIOURAL DELTA, STATED PLAINLY: a STALE 10036 can no longer fake a successful
+  close. Before b42, a 10036 left in m_result by an EARLIER genuine race could make a REAL
+  close failure return TRUE - for CloseLegAtMarket that return feeds FireGroupClose's X-2
+  abort, so a tier could proceed to the anchor believing a profitable leg was banked. It can
+  only turn a wrong TRUE into a correct FALSE, never the reverse. CLAUDE.md section 7 silent
+  path, reachable today, never observed firing.
+
+STILL OPEN ON b42:
+  GATE ZERO - Jeff compiles. I cannot compile MQL5.
+  QQ1 - A-1 needs a ticket selectable to the caller and NOT to CTrade, which cannot be
+    summoned on demand. Plan section 6 carries option (b): a temporary probe calling
+    CloseLegAtMarket on a known-closed ticket, expect the TP2 no-send WARN and NO retcode
+    token, then revert to byte-identical b42 with an EMPTY git diff (the 2026-08-19 quote-
+    probe pattern). Jeff confirmed the plan; he has NOT separately confirmed (b) over (a).
+  VERIFICATION - Groups A/B close on inspection + a live run; C-1/C-2 on the init line;
+    C-3/C-4 and all of D on inspection + filtered diff.
+  WATCH ITEM FOR THE RUN: an elevated count of "NO ORDER SENT" lines would mean the race is
+    more common than the single 09-22 observation suggests. That is information E9-Q4 needs,
+    and it is a reason to run b42 for a while before opening Q4.
+
+## b42 GATE ZERO PASSED 2026-09-24 - GROUP C CLOSED ON EVIDENCE
+COMPILE: clean. INIT EVIDENCE - USDCAD.s H1, symbol USDCADS, magic 708972, 08:48:14:
+  "=== TRTM b42 init ===" / "Instance lock acquired" / "State persistence self-test: PASS"
+  / "Reconcile complete: FLAT" / "Account margin mode: HEDGING" / broker geometry / "Init
+  complete - b42 (adoption, exits, recovery active)".
+
+GROUP C DISPOSITION (the margin-mode probe):
+  C-1 PASS - "Account margin mode: HEDGING" logged ONCE at init, in plain words, in the
+      planned position (head of LogBrokerExitGeometry, immediately before the broker
+      geometry line). Both init paths inherit it because that function is already called
+      on both (4900 config-blocked, 4924 normal) - no new call site, as planned.
+  C-2 PASS, ON STRONGER EVIDENCE THAN THE ROW ASKED FOR. The row expected confirmation on
+      AUDNZDS 709170; this came from USDCADS 708972 - a DIFFERENT symbol and magic. That
+      is better evidence, not weaker: it shows the HEDGING reading is not an artifact of
+      one symbol's state.
+      IT ALSO INDEPENDENTLY CLOSES THE MATRIX ELIMINATION. !IsHedging() was one of the two
+      surviving no-write candidates for the 2026-09-22 line. The terminal now states
+      HEDGING outright, so that branch CANNOT fire, leaving !PositionSelectByTicket as the
+      sole explanation - exactly what the matrix argued from ticket coexistence. TWO
+      INDEPENDENT ROUTES, SAME ANSWER. The root cause in E9-Q3-D1 is now doubly evidenced.
+  C-3 CLOSED ON INSPECTION (must-NOT: the probe changes no behaviour). mmName is logged
+      and stored in NO variable any decision reads; filtered diff confirms the only other
+      changes are the three gates and the build tag.
+  C-4 PASS - one line, once per init, no per-tick cost.
+
+INCIDENTAL, NOT A Q3 FINDING, BUT ON THE RECORD: the same init logged
+  "AutoTrading is OFF (toolbar Algo Trading button) - every entry, pending, and exit write
+   will be rejected with 10027 until it is enabled".
+  That is b27 guidance working correctly, but it means THIS INSTANCE CANNOT TRADE until the
+  toolbar button is enabled. Harmless for a compile/init smoke test; blocking for any
+  verification run. Named here so a later reader does not mistake it for a b42 defect.
+
+ORDERING NOTE: the margin-mode line prints BEFORE the AutoTrading warning, because the probe
+  sits at the head of LogBrokerExitGeometry. Both correct; cosmetic, recorded not churned.
+
+STILL OPEN ON b42 - GROUPS A, B, D (the verification run):
+  A-1 no-send logs "NO ORDER SENT" and prints NO retcode. THE ROW THE 09-22 INCIDENT
+      FAILED. Needs a ticket selectable to the caller and not to CTrade -> QQ1 probe, or
+      the free route below.
+  A-2 a genuine broker rejection still prints its OWN true retcode (proves B is not D).
+  A-3 gate adjacent to the call at all three sites - inspection, done at build.
+  A-4/A-5/A-6 must-NOTs - inspection + filtered diff, done at build.
+  B-1 10036 unreachable on a no-send path - inspection.
+  B-2 a GENUINE 10036 race still returns true and logs INFO (discriminator, not suppression).
+  B-3 CloseLegAtMarket's false still drives FireGroupClose's X-2 abort.
+  D-1..D-6 regression - inspection + filtered diff + hygiene, done at build.
+  FREE A-1 ROUTE WORTH WATCHING FOR FIRST: manually close a TRACKED level while the EA is
+  running. CheckSequenceLiveness may not have pruned it yet, so EnforceExits can reach
+  TP4's gate on REAL code with no probe build at all. Not guaranteed (it is a race), but it
+  costs nothing to watch for during the normal run, and it closes A-1 with zero probe risk.
+
+## b42 A-1 CLOSED ON LIVE EVIDENCE 2026-09-24 (probe built, run, REVERTED same day)
+QQ1 OPTION (b) EXECUTED. Probe build 13aa1a504ce1d59b / 5125 lines - THREE lines added to
+OnInit calling the REAL CloseLegAtMarket on ticket 2963521986 (the L9 closed 2026-09-22 on
+AUDNZDS). No other change. NOT deployed to any live-trading purpose; init only.
+
+EVIDENCE - USDCAD.s H1, symbol USDCADS, magic 708972, 2026.09.24 10:12:46.711, VERBATIM:
+  "*** A-1 PROBE (TEMPORARY DIAGNOSTIC) - calling CloseLegAtMarket on a known-closed
+   ticket. No order is sent. ***"
+  "Market close on ticket 2963521986: NO ORDER SENT - position not selectable at the close
+   call (it vanished between the caller's check and this one). No retcode is available;
+   the previous order's is NOT this call's."
+  "*** A-1 PROBE END - the line above must say NO ORDER SENT and carry no retcode. ***"
+
+A-1 PASS - EVERY ACCEPTANCE CRITERION, CHECKED INDIVIDUALLY:
+  (1) the line APPEARS, between the two probe markers, same millisecond 10:12:46.711;
+  (2) it says NO ORDER SENT verbatim;
+  (3) *** IT CARRIES NO RETCODE TOKEN *** - this is the ABSENCE the row is about, and the
+      absence was checked explicitly, not assumed. No "retcode", no number, anywhere;
+  (4) the ticket renders correctly through %I64u as 2963521986 (a runtime format defect
+      would have compiled clean and shown garbage here - that is WHY inspection alone was
+      rejected for this row);
+  (5) the gate returned BEFORE any CTrade call - nothing was sent, no broker contact;
+  (6) logged at WARN, as every refusal path must be.
+  UNDER b41 THIS IDENTICAL CALL WOULD HAVE PRINTED "Market close FAILED ... (retcode NNNNN:
+  ...)" carrying a number belonging to some EARLIER order. That is the whole defect, and
+  this line is the proof it is fixed.
+  INCIDENTAL CORROBORATION: "Reconcile complete: FLAT" logged immediately before, so the
+  probe ran against a genuinely absent position - no ambiguity about why the select failed.
+
+REVERT PROVEN BYTE-EXACT, SAME SESSION:
+  sha256_16 9209dbe131c9d651 / 5112 lines - IDENTICAL to the pre-probe b42.
+  `grep -ci` for "temporary diagnostic" / "remove before any seal" / "A-1 PROBE" returns 0.
+  NOTE ON METHOD: the revert is proven by the SHA, NOT by an empty `git diff` - b42 is
+  uncommitted, so git diff compares against b41 and would be misleading here. The
+  2026-08-19 quote-probe precedent used git diff because that build WAS committed.
+
+THE THREE-LAYER PROBE GUARD IS NOW PROVEN END TO END, NOT JUST DESIGNED:
+  The check_hygiene hook REFUSED the probe build (exit 2) naming both markers and pointing
+  at this banner; the override was deliberate and recorded; the banner was flipped to
+  PROBE IN TREE for the duration; the hook PASSES (exit 0) on the reverted file. The wall
+  caught a REAL probe, not only the synthetic fixture it was tested against.
+  HONEST NOTE ON THE TESTING: the first attempt to test the hook reported a FALSE PASS -
+  the harness fed invalid JSON (printf backslash escaping), the hook's parse failed, the
+  file path came back empty and it exited 0 early. That was the TEST HARNESS, not the hook.
+  Retested by feeding real JSON from a file, both directions. Recorded because a wall that
+  silently does not fire is precisely the failure being guarded against, and it nearly
+  passed unnoticed.
+
+CORRECTION ON THE RECORD: earlier this session a "free A-1 route" was suggested - manually
+  closing a tracked level so TP4's gate would fire on real code with no probe. THAT DOES
+  NOT WORK and was withdrawn before any time was spent on it. CheckSequenceLiveness runs at
+  OnTick 5062, BEFORE EnforceExits at 5069, in the SAME tick: a manually closed ticket is
+  pruned from g_state and never reaches the modify gate. It produces "Liveness: ... closed
+  externally", not "NO ORDER SENT". A-1 was therefore strictly a probe row, as QQ1 assumed.
+
+b42 DISPOSITION AFTER THIS:
+  CLOSED: A-1 (live), A-3/A-4/A-5/A-6 (inspection + filtered diff, at build),
+          B-1/B-3 (inspection), C-1/C-2/C-4 (Gate Zero init), C-3 (inspection),
+          D-1/D-2/D-5/D-6 (inspection + filtered diff + hygiene).
+  STILL OPEN, both needing ORDINARY running rather than a staged test:
+    A-2  a GENUINE broker rejection still prints its OWN true retcode. This broker throws
+         10018 (market closed) at rollover - it will present itself.
+    B-2  a GENUINE 10036 race still returns true and logs INFO (discriminator, not blanket
+         suppression).
+  NEITHER needs a special run. Deploy b42 and they close from normal operation.
+  WATCH ITEM: an elevated count of "NO ORDER SENT" lines would mean the race is more common
+  than the single 2026-09-22 observation suggests - information E9-Q4 needs.
+
+## b42 GATE ZERO PASSED ON GENUINELY CLEAN b42 - 2026-10-02 13:14:52
+XAUUSD.s H4, symbol XAUUSDS, magic 715358. Compiled by Jeff from the LIVE runtime path.
+EVIDENCE: "=== TRTM b42 init ===" / lock acquired / self-test PASS / "Reconcile complete:
+FLAT" / "Account margin mode: HEDGING" / stops level 50 pts / "Init complete - b42".
+TWO ABSENCES CARRY THE PROOF, and both were PRESENT 5 minutes earlier at 13:09:14:
+  (1) NO "A-1 PROBE" lines -> the probe is gone from the compiled binary;
+  (2) NO AutoTrading-OFF WARN -> AutoTrading is ON for this run.
+RUNTIME VERIFIED BYTE-IDENTICAL AFTER THE RECOMPILE: the FA_EA copy hashes
+  9209dbe131c9d651 / 5112 - the same as the repo - with 0 probe markers, .ex5 stamped
+  13:14. Repo and the REAL runtime are aligned on clean b42 for the first time.
+C-1 / C-2 re-confirmed on a THIRD instance (XAUUSDS 715358, after USDCADS 708972 and the
+  AUDNZDS deduction). HEDGING on every account tested.
+
+## *** THE PROBE THAT ALMOST SHIPPED - 2026-10-02. READ THIS. ***
+WHAT HAPPENED: at 13:09:14 an init logged all three A-1 PROBE lines under build b42, eight
+days after the probe was supposedly reverted. The repo was clean the whole time
+(9209dbe131c9d651, 0 markers - verified). The probe survived in a copy nobody was watching.
+ROOT CAUSE: A SECOND TERMINAL. Jeff compiles and runs from
+  Terminal\55DBD2FC8CD1E66E27FFA0EC4DDFAAEB\MQL5\Experts\FA_EA\TRTM.mq5
+but CLAUDE.md section 0 named
+  Terminal\D0E8209F77C8CF37AD8BF550E51FF075\MQL5\Experts\TRTM.mq5
+as "the MT5 runtime copy". That second file is b41 from Aug 19 and is NOT what runs. On
+2026-09-24 the probe source was copied into the FA_EA folder and compiled there; the repo
+revert never touched it, and today's F7 recompiled the probe.
+CONSEQUENCE FOR THE RESUME PROTOCOL: every alignment check this session hashed a file
+nobody uses and reported "runtime b41, expected" - technically true of that copy, and
+completely blind to the live one. CLAUDE.md section 0 CORRECTED 2026-10-02: the live path
+is named, both stale copies are named as stale, and the protocol now ALSO greps the runtime
+copy for the probe markers. A 4th terminal appearing means ASK, never guess.
+
+WHY THE THREE-LAYER PROBE GUARD DID NOT CATCH IT - STATED PLAINLY, NOT EXCUSED:
+  The check_hygiene hook fires only on writes Claude makes, inside the repo. The STATE.md
+  banner and the section 0 step both describe the REPO. None of the three layers could see
+  a copy in a terminal tree Claude did not know existed - and the MT5 boundary (correctly)
+  forbids Claude writing there, so Claude could not have cleaned it either.
+  THE GUARD IS NOT BROKEN. ITS SCOPE WAS NARROWER THAN CLAIMED. The claim on 2026-09-24
+  that this "cannot be forgotten" was OVERSTATED and is withdrawn. What is true: the guard
+  covers the repo completely, and as of today the resume protocol covers the live runtime too.
+  The 13:09:14 init is what caught this - the EA's own logging, not the guard.
+LESSON FOR THE LEDGER: a revert is only as wide as the set of copies you know about. Hash
+  the file that RUNS, and grep it for probe markers, not just the one a doc names.
+
+STILL OPEN - A-2 and B-2 (Gate 4 completion). UNCHANGED by today:
+  A-2  a GENUINE broker rejection under b42 prints its OWN true retcode. The b41 run on
+       2026-09-28 10:16 produced exactly this shape on XAUUSDS (ten consecutive
+       "PositionModify FAILED ... retcode 10027: auto trading disabled by client - fail #N"),
+       which proves the path is alive and correct on this broker - but it was b41, so it
+       does NOT close the row. Easiest deliberate trigger under b42: with a sequence live,
+       toggle AutoTrading OFF ~10s, let it fail a few times, toggle back ON (expect the
+       fail ladder then "Exit modification recovered after N failure(s)").
+  B-2  a GENUINE 10036 race still returns true and logs INFO "broker exit filled first".
+       Cannot be summoned; needs a broker TP/SL fill in the same instant as an EA close.
+       Standing recommendation: close on inspection if no natural race appears before seal
+       (text and disposition provably unchanged by filtered diff; the branch is now only
+       REACHABLE when the precondition held). The b41 matrix closed A-6 the same way.
+
+## b42 A-2 + D-3 CLOSED ON LIVE EVIDENCE 2026-10-02
+EVIDENCE FILE: tests/2026.10.02 132150.229.txt - XAUUSD.s M5, symbol XAUUSDS, magic 715358,
+ticket 887205930, 1 level / 0.01 lots, InpStopLossPts = 0 (no SL this sequence, deliberate).
+METHOD: AutoTrading disabled 13:21:54, TP edited (ADOPTED 4192.44), then TP DELETED at
+13:26:04 to force a modify, AutoTrading re-enabled 13:26:19.440.
+
+A-2 PASS - a GENUINE broker rejection prints its OWN true retcode. VERBATIM, x4:
+  "CTrade::OrderSend: modify position #887205930 XAUUSD.s (sl: 0.00, tp: 4192.44)
+   [auto trading disabled by client]"
+  "PositionModify FAILED on ticket 887205930 (retcode 10027: auto trading disabled by
+   client) - fail #1, retrying in 5s"
+  BETTER EVIDENCE THAN THE ROW ASKED FOR: CTrade's OWN OrderSend line is interleaved, so the
+  send is PROVEN to have reached OrderSend rather than inferred. 10027 is therefore this
+  call's own retcode by construction - it cannot be a stale value from a prior order,
+  because this call wrote m_result itself.
+  THIS IS THE ROW THAT PROVES B IS NOT D: b42 preserves useful retcodes instead of
+  discarding them. The 10027 and its description survive the build unchanged.
+
+D-3 PASS (the Gate-3 working assumption, now evidenced not assumed):
+  fail #1 -> #2 -> #3 -> #4, MONOTONIC, exactly ONE increment per genuine broker rejection.
+  No skips, no double counts, nothing polluted the counter.
+  "Exit modification recovered after 4 failure(s)" at 13:26:24.189 - the counter read
+  EXACTLY 4, matching the four rejections. The >= 10 Alert correctly never armed.
+  => g_modifyFails still means "the BROKER rejected us", which is what D-3 protects.
+
+BACKOFF PROVEN BY TIMESTAMPS (recomputed here):
+  13:26:04.480 -> 08.990 = 4.510s
+  13:26:08.990 -> 13.991 = 5.001s
+  13:26:13.991 -> 18.983 = 4.992s
+  g_nextModifyTry = TimeCurrent() + 5 holding at ~5s per pass, as sealed.
+
+RECOVERY SEQUENCE CORRECT, AND IT PROVES b24 OWNERSHIP SURVIVED:
+  AutoTrading enabled 13:26:19.440 -> next pass 13:26:23.980 logs the removal WARN once more
+  -> "Exits applied to ticket 887205930: TP 4192.44 SL none" at .189.
+  THE RESTORED VALUE IS 4192.44 (the ADOPTED MANUAL TP), NOT the computed 4191.17. Manual
+  ownership survived four failed passes AND the recovery. b24's contract is intact under b42.
+
+WHY THE FIRST TWO ATTEMPTS PRODUCED NO LADDER - RECORDED SO IT IS NOT RE-DERIVED:
+  (1) AutoTrading off with a STEADY-STATE sequence logs NOTHING. EnforceExits is idempotent
+      (1871): broker already holds the wanted TP and wants no SL, so PositionModify is never
+      called, so there is no rejection to report. That is D-4 working, and it is why b42 adds
+      zero modify traffic.
+  (2) EDITING the TP to a new non-zero value does NOT force a modify either - the b24 Stage 8
+      classifier ADOPTS it ("Manual TP 4192.44 ADOPTED (was 4191.17)"), so want == broker and
+      idempotence short-circuits again. Adoption is the DESIGNED behaviour for a non-zero edit.
+  (3) Only a REMOVAL forces the modify: wantTP = (tp > 0 && placeable) ? tp : curTP (1902),
+      so curTP = 0 != wantTP, idempotence fails, PositionModify fires. Removals are never
+      adopted (1920). THE LEVER FOR ANY FUTURE RETCODE TEST IS A TP DELETION, NOT AN EDIT.
+
+ACCEPTED COSMETIC, RECORDED NOT FIXED (CLAUDE.md section 4 / mql5-traps observability rule):
+  the "Manual TP REMOVAL ... reverted to 4192.44" WARN repeats on EVERY retry pass (5x here).
+  Each instance is TRUTHFUL - the broker genuinely still shows TP 0 because every revert
+  failed - but it is noise during a failure episode. Not churned into a verification build.
+  Candidate for a one-shot-per-episode throttle in a later build if it ever annoys.
+
+ENVIRONMENT NOTE: a second EA (TradingToolkit TK-B001) is attached to the same chart. It does
+  not share TRTM's magic so it cannot affect tracking, but it is the first other candidate if
+  an unexplained position change ever appears on XAUUSD.s.
+
+b42 DISPOSITION NOW - ONE ROW LEFT:
+  CLOSED ON LIVE EVIDENCE: A-1 (09-24 probe), A-2 + D-3 (today), C-1/C-2/C-4 (Gate Zero).
+  CLOSED ON INSPECTION + FILTERED DIFF: A-3, A-4, A-5, A-6, B-1, B-3, C-3, D-1, D-2, D-4
+    (D-4 also corroborated live today - the silent steady-state passes), D-5, D-6.
+  STILL OPEN: B-2 only - a GENUINE 10036 race still returns true and logs INFO "broker exit
+    filled first". Cannot be summoned; needs a broker TP/SL fill in the same instant as an EA
+    close. STANDING RECOMMENDATION: close on inspection if no natural race appears before
+    seal (text and disposition provably unchanged by filtered diff, and the branch is now
+    only REACHABLE when the precondition held - which is the B-1 improvement). The b41 matrix
+    closed A-6 the same way and recorded it honestly as inspection-closed.
+
+## b42 B-2 CLOSED ON INSPECTION 2026-10-02 (Jeff's call) - RECORDED HONESTLY AS SUCH
+B-2 asks: a GENUINE 10036 benign race still returns true and logs INFO, i.e. the fix is a
+discriminator and not a blanket suppression. It is a MUST-NOT row - it proves b42 did not
+BREAK a working path - and it cannot be summoned (it needs a broker TP/SL fill in the same
+instant as an EA close). Jeff elected inspection closure rather than waiting indefinitely.
+
+THE TWO THINGS INSPECTION HAD TO PROVE, AND THE PROOF:
+
+(1) THE 10036 BRANCHES ARE UNCHANGED. Verified by DIFF against the committed b41, not by
+    reading: `diff` of every line matching "ResultRetcode() == 10036 | broker exit filled
+    first | benign race" between `git show HEAD:src/TRTM.mq5` (b41) and the b42 working file
+    produced NO OUTPUT. BYTE-IDENTICAL at both sites (CloseLegAtMarket 1543-1546,
+    SliceLegAtMarket 1603-1606). The test, the INFO text and the `return true` are the sealed
+    b20 behaviour, untouched.
+
+(2) A NO-SEND CANNOT REACH THEM. Structural, by line order in CloseLegAtMarket:
+      1536  if(!TradeTargetLive(ticket))
+      1539     return false;            <- no-send exits HERE
+      1541  if(!g_trade.PositionClose(ticket))
+      1543     if(ResultRetcode() == 10036)   <- unreachable from a no-send
+    Same shape at the slice site. So the ONLY way to reach the benign-race branch is a real
+    OrderSend that the broker answered 10036 - which is exactly what B-2 asserts must still
+    work, and exactly what B-1 improved (a STALE 10036 can no longer fake a successful close).
+
+WHY INSPECTION IS SUFFICIENT HERE AND WAS NOT FOR A-1 - the distinction matters:
+  A-1 was a NEW log line with a NEW StringFormat and a %I64u. A malformed format string
+  compiles clean and produces garbage at RUNTIME; Gate Zero would not catch it. That residual
+  risk is why A-1 got a probe build and live evidence.
+  B-2 is the OPPOSITE: no new code at all. The claim is "this existing, sealed, previously
+  exercised branch is unchanged and still reachable only by the real thing" - and a diff plus
+  line order answers that completely. There is no runtime-only failure mode left to hide.
+
+RESIDUAL, STATED PLAINLY: no b42 run has yet OBSERVED a genuine 10036. If one occurs it
+  should log "broker exit filled first (10036) - benign race, liveness attributes it" at INFO
+  and the caller should treat the leg as closed. If it ever logs anything else, that is a
+  FINDING against this closure and B-2 reopens. Worth watching for, not worth blocking on.
+
+## *** b42 SEALED BY JEFF 2026-10-02 *** E9-Q3 RETCODE VALIDITY. GATE 6 CLOSED.
+IDENTITY: 9209dbe131c9d651 / 5112 lines. Repo, manifest and LIVE runtime all aligned.
+ALL SIX GATES CLEARED IN ORDER:
+  Gate 1  E9-Q3-D1 locked 2026-09-24 (Option B + init margin-mode probe), rejected
+          alternatives A/C/D recorded with reasons.
+  Gate 2  docs/Q3_MATRIX.md SEALED rev 1 2026-09-24. 18 rows, 12 of them must-NOT.
+  Gate 3  docs/Q3_PLAN_2026-09-24_gate3.md CONFIRMED. Six touch points.
+  Gate 0  PASSED twice - 2026-09-24 08:48 (USDCADS) and, on GENUINELY clean b42 after the
+          probe incident, 2026-10-02 13:14:52 (XAUUSDS).
+  Gate 4  COMPLETE. Live: A-1, A-2, D-3, C-1, C-2, C-4. Inspection + filtered diff: A-3,
+          A-4, A-5, A-6, B-1, B-2, B-3, C-3, D-1, D-2, D-4, D-5, D-6.
+  Gate 6  SEALED on Jeff's explicit word 2026-10-02.
+DELTA: +49 lines (5063 -> 5112). NO new input, NO new global, NO new persisted field, state
+  schema UNCHANGED at 5. Exactly ONE deletion in the whole diff: the build tag.
+HYGIENE: 5112 CRLF pairs, 0 bare LF, 0 non-ASCII, brace delta -1 (baseline-preserved),
+  paren 0, bracket 0.
+
+WHAT b42 ACTUALLY CHANGES, IN ONE LINE: g_trade.Result*() is now read ONLY when CTrade
+  actually reached OrderSend. Three sites gated (CloseLegAtMarket, SliceLegAtMarket, the
+  exits-loop modify). A no-send says "NO ORDER SENT" and prints NO retcode.
+THE ONE BEHAVIOURAL DELTA: a STALE 10036 can no longer fake a successful close. Before b42 a
+  10036 left in m_result by an earlier race could make a REAL close failure return TRUE - and
+  for CloseLegAtMarket that return feeds FireGroupClose's X-2 abort, so a tier could proceed
+  to the anchor believing a profitable leg was banked. It can only turn a wrong TRUE into a
+  correct FALSE, never the reverse. CLAUDE.md section 7 silent path, closed.
+
+ROOT CAUSE THIS BUILD FIXED (for the cold reader): on 2026-09-22 09:25:18 a Tier 3 slice that
+  NEVER SENT logged "Partial close FAILED ... (retcode 10009: done)". 10009 is DONE - success.
+  It was the retcode of the PRECEDING successful L8 close, still sitting in m_result because
+  CTrade's PositionClosePartial returns false at !PositionSelectByTicket BEFORE its own
+  ClearStructures(). The arithmetic proved the slice never happened: 0.56 - 0.08 - 0.09 = 0.39
+  and the log read 0.39, not the 0.37 a completed slice would have left.
+
+PRIOR SEALED BUILD: b41 (d2354c4c1269874e / 5063, 2026-08-19).
+E9 REMAINS OPEN with: Q1 stale-quote guard, Q2 false-flat reconcile (a REAL unmanaged-position
+  defect, evidenced 2026-09-18), Q4 slice-selection race (why the anchor became unselectable -
+  b42 NAMES the event, it does not explain or retry it), K-4 + O6, M4, M2, O3, O4, O5, O2e,
+  W-7, P6. See the live-findings block for Q2/Q4 provenance.

@@ -1,0 +1,23 @@
+2026.09.16 02:45:01 [TRTM][INFO ] Log cleanup: 1 file(s) older than 14d deleted (oldest kept: 20260903)
+2026.09.16 02:45:01 [TRTM][INFO ] Recovery signal: PERIOD_M15 bar closed 1.23905 vs trigger 1.23894 (worst entry 1.23664 + 230 pts)
+2026.09.16 02:45:01 [TRTM][INFO ] Recovery L7 OPENED: 0.08 lots SELL @ 0.00000 (deal 0)
+2026.09.16 02:45:01 [TRTM][INFO ] Recovery L7: order accepted but no position yet (asynchronous fill) - the watcher will register it as soon as it appears
+2026.09.16 02:45:02 [TRTM][INFO ] Watcher: L7 REGISTERED ticket 2959798311 0.08 lots @ 1.23905
+2026.09.16 02:45:02 [TRTM][INFO ] Structure: 7 level(s), 0.41 lots | projected at TP +47.18 | at SL n/a
+2026.09.16 02:45:02 [TRTM][INFO ] Exits applied to ticket 2942227144: TP 1.23104 SL none
+2026.09.16 02:45:02 [TRTM][INFO ] Exits applied to ticket 2943049148: TP 1.23104 SL none
+2026.09.16 02:45:02 [TRTM][INFO ] Exits applied to ticket 2953979514: TP 1.23104 SL none
+2026.09.16 02:45:03 [TRTM][INFO ] Exits applied to ticket 2940935091: TP 1.23104 SL none
+2026.09.16 02:45:03 [TRTM][INFO ] Exits applied to ticket 2955129458: TP 1.23104 SL none
+2026.09.16 02:45:03 [TRTM][INFO ] Exits applied to ticket 2957808329: TP 1.23104 SL none
+2026.09.16 02:45:03 [TRTM][INFO ] Exits applied to ticket 2959798311: TP 1.23104 SL none
+2026.09.16 09:01:02 [TRTM][INFO ] Deinit (reason 5) - state saved (sequence alive)
+2026.09.16 09:01:02 [TRTM][INFO ] === TRTM b41 init === symbol=AUDNZDS (raw AUDNZD.s) magic=709170 stateFile=TRTM\state_AUDNZDS_709170.json
+2026.09.16 09:01:02 [TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.09.16 09:01:02 [TRTM][INFO ] State persistence self-test: PASS
+2026.09.16 09:01:02 [TRTM][INFO ] Reconcile: restored adopted L1 ticket 2940935091 from state file
+2026.09.16 09:01:02 [TRTM][INFO ] Reconcile: flags restored (trailOverride=F beOverride=F trailingActive=F beApplied=F)
+2026.09.16 09:01:02 [TRTM][INFO ] Structure: 7 level(s), 0.41 lots | projected at TP +47.21 | at SL n/a
+2026.09.16 09:01:02 [TRTM][INFO ] Reconcile complete: dir=SELL levels=7 (adopted L1)
+2026.09.16 09:01:02 [TRTM][INFO ] Broker exit geometry (at init): stops level 25 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 25 pts to price are DEFERRED until placeable
+2026.09.16 09:01:02 [TRTM][INFO ] Init complete - b41 (adoption, exits, recovery active)

@@ -1,0 +1,60 @@
+2026.09.21 00:00:00 [TRTM][WARN ] Our-magic L2 position 2942227144 present while FLAT - orphan recovery level with no sequence. Rebuilding a sequence from it so it gets TP/SL (b39/F-2).
+2026.09.21 00:00:00 [TRTM][WARN ] baseLot derived 0.05 from the L2 seed (no L1 present) - recovery lot math may differ from the original sequence intent. Manual review advised.
+2026.09.21 00:00:00 [TRTM][INFO ] Structure: 1 level(s), 0.05 lots | projected at TP +8.58 | at SL n/a
+2026.09.21 00:00:00 [TRTM][INFO ] EA L2 REGISTERED: ticket 2942227144 SELL 0.05 lots @ 1.22670. Exits apply next tick.
+2026.09.21 00:00:00 [TRTM][INFO ] Watcher: L3 REGISTERED ticket 2943049148 0.06 lots @ 1.22916
+2026.09.21 00:00:00 [TRTM][INFO ] Structure: 2 level(s), 0.11 lots | projected at TP +12.59 | at SL n/a
+2026.09.21 00:00:00 [TRTM][INFO ] Watcher: L4 REGISTERED ticket 2953979514 0.06 lots @ 1.23152
+2026.09.21 00:00:00 [TRTM][INFO ] Structure: 3 level(s), 0.17 lots | projected at TP +19.44 | at SL n/a
+2026.09.21 00:00:00 [TRTM][INFO ] Watcher: L5 REGISTERED ticket 2955129458 0.07 lots @ 1.23416
+2026.09.21 00:00:00 [TRTM][INFO ] Structure: 4 level(s), 0.24 lots | projected at TP +27.39 | at SL n/a
+2026.09.21 00:00:00 [TRTM][INFO ] Watcher: L6 REGISTERED ticket 2957808329 0.07 lots @ 1.23664
+2026.09.21 00:00:00 [TRTM][INFO ] Structure: 5 level(s), 0.31 lots | projected at TP +35.42 | at SL n/a
+2026.09.21 00:00:00 [TRTM][INFO ] Watcher: L7 REGISTERED ticket 2959798311 0.08 lots @ 1.23905
+2026.09.21 00:00:00 [TRTM][INFO ] Structure: 6 level(s), 0.39 lots | projected at TP +44.53 | at SL n/a
+2026.09.21 00:00:00 [TRTM][INFO ] Watcher: L8 REGISTERED ticket 2961928246 0.08 lots @ 1.24171
+2026.09.21 00:00:00 [TRTM][INFO ] Structure: 7 level(s), 0.47 lots | projected at TP +53.70 | at SL n/a
+2026.09.21 00:00:00 [TRTM][INFO ] Watcher: L9 REGISTERED ticket 2963521986 0.09 lots @ 1.24463
+2026.09.21 00:00:00 [TRTM][INFO ] Structure: 8 level(s), 0.56 lots | projected at TP +63.90 | at SL n/a
+2026.09.21 00:00:00 [TRTM][WARN ] UNMANAGED MANUAL TRADE: ticket 2940935091 present during an active sequence with Manage Mobile Trades ON. It is NOT managed and will NOT be auto-adopted. Close or manage it manually.
+2026.09.21 00:00:00 [TRTM][ERROR] PositionModify FAILED on ticket 2942227144 (retcode 10018: market closed) - fail #1, retrying in 5s
+2026.09.21 00:00:00 [TRTM][ERROR] PositionModify FAILED on ticket 2943049148 (retcode 10018: market closed) - fail #2, retrying in 5s
+2026.09.21 00:00:00 [TRTM][ERROR] PositionModify FAILED on ticket 2953979514 (retcode 10018: market closed) - fail #3, retrying in 5s
+2026.09.21 00:00:00 [TRTM][ERROR] PositionModify FAILED on ticket 2955129458 (retcode 10018: market closed) - fail #4, retrying in 5s
+2026.09.21 00:00:00 [TRTM][ERROR] PositionModify FAILED on ticket 2957808329 (retcode 10018: market closed) - fail #5, retrying in 5s
+2026.09.21 00:00:00 [TRTM][ERROR] PositionModify FAILED on ticket 2959798311 (retcode 10018: market closed) - fail #6, retrying in 5s
+2026.09.21 00:00:00 [TRTM][ERROR] PositionModify FAILED on ticket 2961928246 (retcode 10018: market closed) - fail #7, retrying in 5s
+2026.09.21 00:00:02 [TRTM][ERROR] PositionModify FAILED on ticket 2963521986 (retcode 10018: market closed) - fail #8, retrying in 5s
+2026.09.21 00:05:00 [TRTM][ERROR] PositionModify FAILED on ticket 2942227144 (retcode 10018: market closed) - fail #9, retrying in 5s
+2026.09.21 00:05:00 [TRTM][ERROR] PositionModify FAILED on ticket 2943049148 (retcode 10018: market closed) - fail #10, retrying in 5s
+2026.09.21 00:05:00 [TRTM][ERROR] PositionModify FAILED on ticket 2953979514 (retcode 10018: market closed) - fail #11, retrying in 5s
+2026.09.21 00:05:00 [TRTM][ERROR] PositionModify FAILED on ticket 2955129458 (retcode 10018: market closed) - fail #12, retrying in 5s
+2026.09.21 00:05:00 [TRTM][ERROR] PositionModify FAILED on ticket 2957808329 (retcode 10018: market closed) - fail #13, retrying in 5s
+2026.09.21 00:05:00 [TRTM][ERROR] PositionModify FAILED on ticket 2959798311 (retcode 10018: market closed) - fail #14, retrying in 5s
+2026.09.21 00:05:01 [TRTM][ERROR] PositionModify FAILED on ticket 2961928246 (retcode 10018: market closed) - fail #15, retrying in 5s
+2026.09.21 00:05:01 [TRTM][ERROR] PositionModify FAILED on ticket 2963521986 (retcode 10018: market closed) - fail #16, retrying in 5s
+2026.09.21 00:05:33 [TRTM][ERROR] PositionModify FAILED on ticket 2942227144 (retcode 10018: market closed) - fail #17, retrying in 5s
+2026.09.21 00:05:33 [TRTM][ERROR] PositionModify FAILED on ticket 2943049148 (retcode 10018: market closed) - fail #18, retrying in 5s
+2026.09.21 00:05:33 [TRTM][ERROR] PositionModify FAILED on ticket 2953979514 (retcode 10018: market closed) - fail #19, retrying in 5s
+2026.09.21 00:05:33 [TRTM][ERROR] PositionModify FAILED on ticket 2955129458 (retcode 10018: market closed) - fail #20, retrying in 5s
+2026.09.21 00:05:33 [TRTM][ERROR] PositionModify FAILED on ticket 2957808329 (retcode 10018: market closed) - fail #21, retrying in 5s
+2026.09.21 00:05:33 [TRTM][ERROR] PositionModify FAILED on ticket 2959798311 (retcode 10018: market closed) - fail #22, retrying in 5s
+2026.09.21 00:05:33 [TRTM][ERROR] PositionModify FAILED on ticket 2961928246 (retcode 10018: market closed) - fail #23, retrying in 5s
+2026.09.21 00:05:33 [TRTM][ERROR] PositionModify FAILED on ticket 2963521986 (retcode 10018: market closed) - fail #24, retrying in 5s
+2026.09.21 00:05:43 [TRTM][ERROR] PositionModify FAILED on ticket 2942227144 (retcode 10018: market closed) - fail #25, retrying in 5s
+2026.09.21 00:05:43 [TRTM][ERROR] PositionModify FAILED on ticket 2943049148 (retcode 10018: market closed) - fail #26, retrying in 5s
+2026.09.21 00:05:43 [TRTM][ERROR] PositionModify FAILED on ticket 2953979514 (retcode 10018: market closed) - fail #27, retrying in 5s
+2026.09.21 00:05:43 [TRTM][ERROR] PositionModify FAILED on ticket 2955129458 (retcode 10018: market closed) - fail #28, retrying in 5s
+2026.09.21 00:05:43 [TRTM][ERROR] PositionModify FAILED on ticket 2957808329 (retcode 10018: market closed) - fail #29, retrying in 5s
+2026.09.21 00:05:43 [TRTM][ERROR] PositionModify FAILED on ticket 2959798311 (retcode 10018: market closed) - fail #30, retrying in 5s
+2026.09.21 00:05:43 [TRTM][ERROR] PositionModify FAILED on ticket 2961928246 (retcode 10018: market closed) - fail #31, retrying in 5s
+2026.09.21 00:05:43 [TRTM][ERROR] PositionModify FAILED on ticket 2963521986 (retcode 10018: market closed) - fail #32, retrying in 5s
+2026.09.21 00:06:33 [TRTM][INFO ] Exits applied to ticket 2942227144: TP 1.23445 SL none (replaced user-set TP 1.23404 SL none)
+2026.09.21 00:06:33 [TRTM][INFO ] Exits applied to ticket 2943049148: TP 1.23445 SL none (replaced user-set TP 1.23404 SL none)
+2026.09.21 00:06:34 [TRTM][INFO ] Exits applied to ticket 2953979514: TP 1.23445 SL none (replaced user-set TP 1.23404 SL none)
+2026.09.21 00:06:34 [TRTM][INFO ] Exits applied to ticket 2955129458: TP 1.23445 SL none (replaced user-set TP 1.23404 SL none)
+2026.09.21 00:06:34 [TRTM][INFO ] Exits applied to ticket 2957808329: TP 1.23445 SL none (replaced user-set TP 1.23404 SL none)
+2026.09.21 00:06:34 [TRTM][INFO ] Exits applied to ticket 2959798311: TP 1.23445 SL none (replaced user-set TP 1.23404 SL none)
+2026.09.21 00:06:34 [TRTM][INFO ] Exits applied to ticket 2961928246: TP 1.23445 SL none (replaced user-set TP 1.23404 SL none)
+2026.09.21 00:06:34 [TRTM][INFO ] Exits applied to ticket 2963521986: TP 1.23445 SL none (replaced user-set TP 1.23404 SL none)
+2026.09.21 00:06:34 [TRTM][INFO ] Exit modification recovered after 32 failure(s)

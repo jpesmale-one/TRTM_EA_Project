@@ -10,15 +10,28 @@ file, never from memory.
 
 ## 0. SESSION RESUME PROTOCOL (do this before anything else)
 
-MT5 Experts path (written once here so it is never retyped from
-memory):
-`/c/Users/jpesm/AppData/Roaming/MetaQuotes/Terminal/D0E8209F77C8CF37AD8BF550E51FF075/MQL5/Experts`
+MT5 Experts path. CORRECTED 2026-10-02 - the path below is the one
+Jeff ACTUALLY compiles and runs from. THREE terminals hold a TRTM
+copy; hashing the wrong one reports false alignment, which is exactly
+what happened on 2026-09-24/10-02 (a probe build was left in the live
+tree while the repo was clean, and the resume protocol never saw it).
+
+LIVE RUNTIME (compile + run from here):
+`/c/Users/jpesm/AppData/Roaming/MetaQuotes/Terminal/55DBD2FC8CD1E66E27FFA0EC4DDFAAEB/MQL5/Experts/FA_EA/TRTM.mq5`
+
+STALE COPIES - do NOT treat either as the runtime:
+  D0E8209F77C8CF37AD8BF550E51FF075/MQL5/Experts/TRTM.mq5  (b41, Aug 19)
+  725B72F25E46C780EF59F57016D58156/MQL5/Experts/TRTM.ex5  (Jul 30, no source)
+If a 4th terminal appears, ASK which one is live - never guess.
 
 1. First action every session — run all four, compare to STATE.md:
    - `git status` (tree clean, or Jeff explains the dirt)
    - `sha256sum src/TRTM.mq5 | cut -c1-16` (repo master)
    - `wc -l src/TRTM.mq5`
-   - `sha256sum "/c/Users/jpesm/AppData/Roaming/MetaQuotes/Terminal/D0E8209F77C8CF37AD8BF550E51FF075/MQL5/Experts/TRTM.mq5" | cut -c1-16` (MT5 runtime copy)
+   - `sha256sum "/c/Users/jpesm/AppData/Roaming/MetaQuotes/Terminal/55DBD2FC8CD1E66E27FFA0EC4DDFAAEB/MQL5/Experts/FA_EA/TRTM.mq5" | cut -c1-16` (LIVE MT5 runtime copy - see the path note above)
+   - ALSO grep the runtime copy for "TEMPORARY DIAGNOSTIC" / "A-1 PROBE":
+     a probe left in the LIVE tree is invisible to the repo-side hook and
+     to a repo-only hash. Non-zero = STOP (2026-10-02 lesson).
    All four match STATE.md = fully aligned, say so in one line, zero
    reconstruction from conversation memory.
 2. Mismatch = STOP. `git diff <last build tag>`, then ask which copy
@@ -33,7 +46,15 @@ memory):
    conversation memory and auto memory never override them.**
 5. Read the handover's "remaining" list. Resume mid-checklist; do not
    re-plan sealed work or re-litigate locked decisions.
-6. STATE.md's header is the ONLY authority on build identity. Handovers
+6. CHECK THE "PROBE OUTSTANDING" BANNER at the top of STATE.md.
+   If it says PROBE IN TREE, the working copy carries temporary
+   diagnostic code that MUST NOT reach Gate Zero, a seal, or the MT5
+   tree. Reverting it (and proving the revert with an empty `git
+   diff`) comes BEFORE any other work that session. A probe that
+   ships is worse than no probe. The `check_hygiene` hook refuses
+   writes carrying the marker, but the hook only fires on a write —
+   this step is what catches a probe that is already on disk.
+7. STATE.md's header is the ONLY authority on build identity. Handovers
    restate the sha for convenience and go stale the moment the next
    build lands — a superseded handover's "EXPECT <sha>" is history, not
    an instruction. On disagreement, STATE.md wins and the handover is

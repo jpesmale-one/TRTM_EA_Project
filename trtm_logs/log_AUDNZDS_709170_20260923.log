@@ -1,0 +1,23 @@
+2026.09.23 02:12:58 [TRTM][INFO ] === TRTM b41 init === symbol=AUDNZDS (raw AUDNZD.s) magic=709170 stateFile=TRTM\state_AUDNZDS_709170.json
+2026.09.23 02:12:58 [TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.09.23 02:12:58 [TRTM][INFO ] Log cleanup: 1 file(s) older than 14d deleted (oldest kept: 20260910)
+2026.09.23 02:12:58 [TRTM][INFO ] State persistence self-test: PASS
+2026.09.23 02:12:58 [TRTM][WARN ] RebuildLiveMap: position 2942227144 has our magic but unparseable level comment '' - counted as L1 (never 0: a level-0 position would become the anchor). Manual review advised.
+2026.09.23 02:12:58 [TRTM][INFO ] Reconcile: flags restored (trailOverride=F beOverride=F trailingActive=F beApplied=F)
+2026.09.23 02:12:58 [TRTM][INFO ] Structure: 7 level(s), 0.45 lots | projected at TP +51.56 | at SL n/a
+2026.09.23 02:12:58 [TRTM][INFO ] Reconcile complete: dir=SELL levels=7
+2026.09.23 02:12:59 [TRTM][INFO ] Broker exit geometry (at init): stops level 25 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 25 pts to price are DEFERRED until placeable
+2026.09.23 02:12:59 [TRTM][INFO ] Init complete - b41 (adoption, exits, recovery active)
+2026.09.23 04:30:01 [TRTM][INFO ] Recovery signal: PERIOD_M15 bar closed 1.24513 vs trigger 1.24505 (worst entry 1.24205 + 300 pts)
+2026.09.23 04:30:01 [TRTM][INFO ] Recovery L9 OPENED: 0.09 lots SELL @ 0.00000 (deal 0)
+2026.09.23 04:30:01 [TRTM][INFO ] Recovery L9: order accepted but no position yet (asynchronous fill) - the watcher will register it as soon as it appears
+2026.09.23 04:30:02 [TRTM][INFO ] Watcher: L9 REGISTERED ticket 2970778298 0.09 lots @ 1.24510
+2026.09.23 04:30:02 [TRTM][INFO ] Structure: 8 level(s), 0.54 lots | projected at TP +61.78 | at SL n/a
+2026.09.23 04:30:02 [TRTM][INFO ] Exits applied to ticket 2942227144: TP 1.23493 SL none
+2026.09.23 04:30:02 [TRTM][INFO ] Exits applied to ticket 2943049148: TP 1.23493 SL none
+2026.09.23 04:30:02 [TRTM][INFO ] Exits applied to ticket 2953979514: TP 1.23493 SL none
+2026.09.23 04:30:02 [TRTM][INFO ] Exits applied to ticket 2955129458: TP 1.23493 SL none
+2026.09.23 04:30:03 [TRTM][INFO ] Exits applied to ticket 2957808329: TP 1.23493 SL none
+2026.09.23 04:30:03 [TRTM][INFO ] Exits applied to ticket 2959798311: TP 1.23493 SL none
+2026.09.23 04:30:03 [TRTM][INFO ] Exits applied to ticket 2970157560: TP 1.23493 SL none
+2026.09.23 04:30:03 [TRTM][INFO ] Exits applied to ticket 2970778298: TP 1.23493 SL none
