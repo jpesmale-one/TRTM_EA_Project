@@ -5169,3 +5169,10 @@ XAUUSD.s BUY L1 0.01 @ 4165.23, interval 300 pts, Incremental +0.01, cap $20, mo
   NOTE the DD boundary is far WIDER than the 300-pt input stop (790 vs 300), which is correct:
   it is sized for the whole anticipated grid, not for L1 alone. So this run also exercises the
   C-5 LOOSENING path, on a COMPUTED stop rather than a manual one.
+
+## b47 GATE ZERO PASSED 2026-10-05 16:43:49. Clean init, self-test PASS, Reconcile FLAT.
+Cap arithmetic BYTE-IDENTICAL to the b45 and b46 runs ("$20.00 ... percent limit $52.98 (2.00%
+of balance 2649.18) vs USD limit $20.00 -> the LOWER (tighter) wins"), which is the regression
+check that matters after touching DDBoundaryPrice three builds running. NO ERROR, NO WARN.
+AS WITH b45/b46 THIS PROVES ONLY THAT b47 LOADS: the chart is FLAT and DDBoundaryPrice has STILL
+never executed on live data. D7, D8, B-12 and B-13 remain proven ONLY BY SIMULATION.
