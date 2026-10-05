@@ -29,10 +29,10 @@
 # with an empty git diff. It worked, but it depended on memory. This does not.
 # ############################################################################
 
-build: b45
+build: b46
 file: TRTM.mq5
-sha256_16: e5516ee1ce06dcde
-lines: 5659
+sha256_16: df5d2ae97c3137a7
+lines: 5701
 date: 2026-10-05
 # *** b45 BUILT 2026-10-05, AWAITING GATE ZERO (Jeff compiles). *** E9-R1 drawdown auto
 #   close - the inert-input defect. The three DD inputs existed in the dialog since the
@@ -48,7 +48,7 @@ date: 2026-10-05
 #     projection and the live recovery engine CANNOT drift (matrix B-3, the biggest build risk).
 #   b44's E9-Q2 keep logic, the 90-day expiry, the three DD-reduction tiers and state schema v5
 #     are ALL UNTOUCHED. The boundary is DERIVED-ONLY - nothing new is persisted, no schema bump.
-#   REPO src    = b45 (e5516ee1ce06dcde / 5659)  <- this manifest tracks REPO.
+#   REPO src    = b46 (df5d2ae97c3137a7 / 5701)  <- this manifest tracks REPO.
 #   MT5 runtime = b44 (57bc3811df272e40 / 5224) *** NOT YET ALIGNED - GATE ZERO PENDING. ***
 #     Jeff compiles at the LIVE path; expect "=== TRTM b45 init ===" and a clean self-test.
 # E9-Q2-D2: the b43 GATE 4 FAIL fix. An UNKNOWN record is NEVER loaded into g_state - "keep
@@ -5034,3 +5034,87 @@ RIDE-ALONG OBSERVATION, worth keeping: both captures show "Interval  300 pts - m
 PHASE 1 DISPOSITION: A-1, A-4, A-6, F-1, F-2 CLOSED on live evidence (5 rows).
   STILL OPEN from Phase 1: A-2 (percent only), A-3 (USD only), A-5 (tie), A-7 (negative).
   None of these is implied by the rows above - A-4 exercises the BOTH-SET path only.
+
+## *** LOCKED DECISION E9-R1-D7 (Jeff 2026-10-05): THE BOUNDARY IS SOLVED TO THE EXACT PRICE
+## WHERE DRAWDOWN EQUALS THE CAP. It is NOT snapped to a projected level. ***
+FOUND BEFORE PHASE 2 RAN, by precomputing what the XAUUSD.s boundary SHOULD be so Jeff could
+check the EA against an independent number instead of taking its word. The precompute exposed
+a defect in b45's own logic - the test design caught it, not the test.
+
+THE DEFECT IN b45 AS BUILT: DDBoundaryPrice walks the ladder and stops at the FIRST level whose
+cumulative DD >= the budget. When the budget runs out BETWEEN two levels, that level OVERSHOOTS.
+  WORKED CASE, XAUUSD.s, cap $20, L1 BUY 0.01 @ 4000.00, interval 300 pts, Incremental +0.01
+  (money per point per 1.00 lot = $1.00, so $0.01/pt on a 0.01 lot):
+    L2 @ 3997.00 -> cumulative DD $3.00
+    L3 @ 3994.00 -> cumulative DD $12.00    budget NOT yet spent
+    L4 @ 3991.00 -> cumulative DD $30.00    <- b45 puts the boundary HERE
+  => a $20 cap would realise a $30 LOSS. 50% over the declared number, and worse on wider
+  intervals or steeper lot ladders. "Max DD in USD = 20" would not mean 20.
+
+WHY D3's EXAMPLE NEVER EXPOSED IT: Jeff's GBPJPY grid spent its budget EXACTLY at a level
+  (DD at L5's price = $30.44 = exactly 2%). A boundary snapped to that level IS the exact
+  answer there, so level-snapping and exact-solving agree on that one fixture and disagree
+  everywhere else. A worked example that lands on a boundary cannot test the general case.
+
+D3 ALREADY DEMANDED OPTION C IN WORDS - this is a correction to the CODE, not to the decision:
+  "the boundary IS the bottom of the affordable ladder. The 2% is honoured PRECISELY, not
+  approximately." b45 honoured it approximately.
+
+THE FIX: find the BRACKET (the last level whose DD is under budget, and the next one that would
+  exceed it), then SOLVE the closed-form price inside that bracket over the legs open AT THAT
+  DEPTH. The arithmetic is the one already recorded in D2 - sequence P/L is LINEAR in price
+  between levels, because no new leg opens inside a bracket:
+      price = bracketPrice - dir * (remainingAtBracket) / (mpp * lotsOpenInBracket) * _Point
+  Worked on the case above: at L3 (3994.00) DD is $12, 0.03 lots are open, $8 of budget remains,
+  $8 / (0.03 * $1.00/pt) = 266.67 pts -> 267 pts -> 3994.00 - 2.67 = 3991.33, then the 10-point
+  offset -> 3991.43. Realised loss at that stop = EXACTLY $20.00.
+REJECTED (B) snap to the PREVIOUS level (L3, $12): never exceeds the cap, simplest change, but
+  leaves 40% of the budget unspent in this case and kills the sequence earlier than the risk
+  statement requires.
+REJECTED (A) keep b45 as built: the realised loss exceeds the number the trader set, which is
+  the one direction a LOSS CAP must never err in.
+EQUIVALENCE CHECK (required of the fix): on D3's GBPJPY fixture, where the budget lands exactly
+  on L5, option C MUST still return 207.183 + 10 pts. If it does not, the solve is wrong.
+
+## *** b46 2026-10-05: TWO REAL DEFECTS IN b45's PROJECTION, BOTH FOUND BEFORE PHASE 2 RAN. ***
+Neither was found by running the test. They were found by PRECOMPUTING what the boundary SHOULD
+be so Jeff could check the EA against an independent number. THE TEST DESIGN CAUGHT THEM, and
+that is the whole argument for computing expected values before a live run rather than after.
+
+DEFECT 1 - BOUNDARY SNAPPED TO A LEVEL AND OVERSHOT THE CAP (fixed per locked D7, option C).
+  b45 stopped at the FIRST level whose cumulative DD >= budget. When the budget runs out BETWEEN
+  levels that level overshoots: on XAUUSD.s with a $20 cap the stop landed where the loss was
+  $30. Now SOLVED in closed form inside the bracket - P/L is linear between levels because no
+  leg opens there - so the realised loss equals the cap EXACTLY.
+
+*** DEFECT 2 - OFF-BY-ONE: EVERY PROJECTED LEG WAS OPENED AT THE PRICE OF THE LEVEL ABOVE IT. ***
+  THE MORE SERIOUS OF THE TWO, and it would have been invisible without the D7 equivalence check.
+  b45 did: open leg at px -> THEN step. So L2 was recorded at L1's entry, L3 at L2's, and so on.
+  Entries too HIGH => losses OVERSTATED => the boundary sat TOO CLOSE TO PRICE and would have
+  stopped the sequence out EARLY, far short of the budget the trader allocated.
+  CAUGHT BY ARITHMETIC, not by reading: the b45 loop made the DD at GBPJPY L4's price read
+  $28.10, where Jeff's own fixture proves it is $16.39. Nearly double.
+  THE b45 LADDER vs THE TRUTH (GBPJPY fixture, DD at each level price):
+      level price   b45 read    TRUTH (Jeff's fixture)
+      208.293       $4.68       $2.34
+      207.923       $14.05      $7.03
+      207.553       $28.10      $16.39
+      207.183       $49.18      $30.44   <- the recorded, screenshot-confirmed figure
+  FIX: STEP FIRST, THEN OPEN. The engine opens L(n+1) only once price has TRAVELLED the
+  interval, so the projection must do the same.
+
+BOTH FIXES VERIFIED BY SIMULATING THE EXACT b46 LOOP AGAINST BOTH FIXTURES:
+  GBPJPY (D7 equivalence, the REQUIRED check): DD walk now reads
+    $0.00 -> $2.34 -> $7.03 -> $16.39 -> $30.44, MATCHING Jeff's fixture at every step, and
+    solves to 207.1830 - D3's answer to the digit. Loss at that price $30.4430 = the cap.
+    *** EQUIVALENCE HOLDS. *** This is exactly what D7 demanded of the fix.
+  XAUUSD.s cap $20, interval 300, Incremental +0.01, L1 0.01 @ 4000.00:
+    $0 -> $3 -> $12 -> $30, bracket solve -> 3992.0000, loss there EXACTLY $20.0000,
+    boundary with the 10-point offset = 3992.10.
+
+WHAT THIS SAYS ABOUT b45's GATE ZERO PASS: a clean compile and a clean init proved only that
+  b45 LOADED. The projection never executed (flat chart, DDClose off), so neither defect could
+  surface. The five rows closed in Phase 1 (A-1/A-4/A-6/F-1/F-2) are all CONFIG-path rows and
+  REMAIN VALID - none of them touches DDBoundaryPrice. Nothing is withdrawn.
+BUILD: b46, sha256_16 df5d2ae97c3137a7, 5701 lines (b45 was e5516ee1ce06dcde / 5659, +42).
+  GATE ZERO PENDING - Jeff compiles.

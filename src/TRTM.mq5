@@ -48,7 +48,7 @@
 
 #include <Trade\Trade.mqh>
 
-#define TRTM_BUILD  "b45"     // internal build tag, bump per delivery
+#define TRTM_BUILD  "b46"     // internal build tag, bump per delivery
 
 //+------------------------------------------------------------------+
 //| ENUMS                                                            |
@@ -4011,22 +4011,56 @@ double DDBoundaryPrice(int &levelsAfforded, bool &closeNow)
    ArrayResize(projLots, cap1 + 1);
    ArrayResize(projEntry, cap1 + 1);
 
+   double prevPx = worst;   // b46 (D7): previous level's price - the top of the bracket
+
    for(int step = 0; step <= cap1; step++)
      {
-      // Drawdown of everything OPEN (live + projected) at price px.
-      double dd = 0.0;
+      // Drawdown of everything OPEN (live + projected) at price px, and the LOTS that
+      // produce it. openLots is what makes the D7 bracket solve exact: inside a bracket
+      // no new leg opens, so drawdown moves at exactly mpp * openLots per point.
+      double dd       = 0.0;
+      double openLots = 0.0;
       for(int i = 0; i < liveN; i++)
+        {
          dd += (dir > 0 ? (liveEntry[i] - px) : (px - liveEntry[i])) / _Point * mpp * liveLots[i];
+         openLots += liveLots[i];
+        }
       for(int i = 0; i < projN; i++)
+        {
          dd += (dir > 0 ? (projEntry[i] - px) : (px - projEntry[i])) / _Point * mpp * projLots[i];
+         openLots += projLots[i];
+        }
 
       if(dd >= remaining)
         {
          levelsAfforded = liveN + projN;
-         // Offset on the SAFE side: the stop fires BEFORE this level opens, so the
-         // loss is capped on the legs ABOVE it (D3, Jeff's L5 edge case).
+         // b46 (E9-R1 D7): SOLVE THE EXACT PRICE, do not snap to this level.
+         // The budget is spent SOMEWHERE AT OR ABOVE px. Between the previous level
+         // and px NO new leg opens, so sequence P/L is LINEAR in price there and the
+         // exact crossing solves in closed form (the D2 arithmetic).
+         //   ddPrev   = drawdown at the previous level's price (0 on the first step,
+         //              where px is the worst live entry itself)
+         //   openLots = lots open INSIDE this bracket - the legs that exist at
+         //              ddPrev, which is exactly what the loop has accumulated so far
+         // b45 snapped to px and OVERSHOT: with a $20 cap it stopped where the loss
+         // was $30, because the budget ran out between levels. D3 required the cap to
+         // be "honoured PRECISELY, not approximately" - Jeff's GBPJPY fixture hid the
+         // defect only because its budget landed exactly on a level.
+         double solved = px;
+         if(dd > remaining && openLots > 0.0)
+           {
+            double over = dd - remaining;                   // money overshot at px
+            double back = over / (mpp * openLots) * _Point; // price distance to give back
+            solved = (dir > 0) ? px + back : px - back;     // retreat toward the entries
+            // Never retreat PAST the previous level: that bracket's linearity ends
+            // there, and the previous level already measured under budget.
+            if((dir > 0 && solved > prevPx) || (dir < 0 && solved < prevPx))
+               solved = prevPx;
+           }
+         // Offset on the SAFE side: the stop fires BEFORE the next level opens, so the
+         // loss is capped on the legs above it (D3, Jeff's L5 edge case).
          double off = DD_OFFSET_PTS * _Point;
-         double b   = (dir > 0) ? px + off : px - off;
+         double b   = (dir > 0) ? solved + off : solved - off;
          // B-6: never return a price on the wrong side of the worst entry - that
          // would be an instant stop-out rather than a cap.
          if((dir > 0 && b >= worst) || (dir < 0 && b <= worst))
@@ -4056,12 +4090,20 @@ double DDBoundaryPrice(int &levelsAfforded, bool &closeNow)
          return 0.0;
         }
 
-      // Open the next projected level at this price, then step the ladder down.
+      // STEP FIRST, THEN OPEN. b46: b45 had these the other way round and opened each
+      // projected leg at the price of the level ABOVE it - L2 got L1's entry, L3 got
+      // L2's, and so on. Entries too HIGH means losses OVERSTATED, so the boundary sat
+      // too CLOSE to price and would have stopped the sequence out early, far short of
+      // the budget. Caught by the D7 equivalence check against Jeff's GBPJPY fixture:
+      // b45 made the DD at L4's price read $28.10 where the fixture proves it is $16.39.
+      // The engine opens L(n+1) only once price has TRAVELLED the interval, so the
+      // projection must do the same.
+      prevPx = px;                               // b46 (D7): top of the next bracket
+      px = NextLadderPrice(dir, px);             // SHARED interval step (B-3)
       lvl++;
-      projEntry[projN] = px;
+      projEntry[projN] = px;                     // the leg opens at the STEPPED price
       projLots[projN]  = ComputeLevelLot(lvl);   // SEALED engine lot sizing (B-2/B-7)
       projN++;
-      px = NextLadderPrice(dir, px);             // SHARED interval step (B-3)
      }
    return 0.0;
   }

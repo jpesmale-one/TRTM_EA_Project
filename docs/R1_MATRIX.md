@@ -1,7 +1,8 @@
 # E9-R1 SCENARIO MATRIX — Drawdown Auto Close (boundary-SL enforcement)
 
-STATUS: **SEALED rev 2 — Jeff sealed rev 1, 2026-10-05; B-11 added the same day from a live
-finding during the b45 build (a points/pips unit error in the reference fixture itself).**
+STATUS: **SEALED rev 3 — rev 1 sealed by Jeff 2026-10-05. B-11 added the same day from a live
+finding during the b45 build (a points/pips unit error in the fixture itself); B-12 and B-13 added
+for the two b46 projection defects, found by precomputing expected values BEFORE Phase 2 ran.**
 Live findings later become NEW rows (rev 2+), never silent fixes (CLAUDE.md §2).
 
 Builds on locked decisions **E9-R1-D1** (per-symbol scope; percent of BALANCE; MIN of the two
@@ -54,6 +55,8 @@ DD of L1..L4 at 207.183 = −4810.0 JPY = **−$30.44 = exactly 2%**. Boundary =
 | B-9 | Martingale mode, mult 2.0 | Boundary derives correctly on a geometric ladder; budget exhausts far sooner than incremental | recompute by hand |
 | B-10 | SELL sequence (dir = −1) | Boundary sits **ABOVE** entries; offset applied in the correct direction | sign correctness |
 | **B-11** | **rev 2, added 2026-10-05 from a live finding during the b45 build.** `InpRecoveryIntervalPts` is in **POINTS**, and the reference fixture only reconciles at **370**, not 37 | The projected L2..L5 prices must match the screenshot (208.293 / 207.923 / 207.553 / 207.183) and the DD must total **$30.44**. At 37 the grid comes out 10× tight (L2 208.626) and the DD **$3.04** — wrong by exactly 10× in both price and money, the signature of a points/pips error. Gate 4 must **confirm the live GBPJPY instance reads 370** | recompute + read the live input |
+| **B-12** | **rev 3, b46.** Budget runs out BETWEEN two projected levels | Boundary is **solved to the exact price** where DD equals the cap, not snapped to the next level. XAUUSD.s, cap $20, L1 0.01 @ 4000.00, interval 300, Incremental: DD walk $0 / $3 / $12 / $30, so the budget is spent inside the L3-L4 bracket. Must solve to **3992.00** (+10 pts = 3992.10) where the loss is **exactly $20.0000**. b45 snapped to 3991.00 and lost **$30** against a $20 cap | recompute + log |
+| **B-13** | **rev 3, b46. MUST-NOT - the one that would have been invisible.** Projected leg entry prices | Each projected leg opens at the price of **its own** level, never the level above. On the GBPJPY fixture the DD at each level price must read **$0 / $2.34 / $7.03 / $16.39 / $30.44**. b45 opened every leg one level too high and read **$4.68 / $14.05 / $28.10 / $49.18** - nearly double - so the boundary sat too CLOSE to price and would have stopped the sequence out EARLY | compare the DD walk against the fixture |
 
 ## GROUP C — WRITING THE SL (D2, D6) AND BROKER CONSTRAINTS
 
@@ -126,7 +129,7 @@ DD of L1..L4 at 207.183 = −4810.0 JPY = **−$30.44 = exactly 2%**. Boundary =
 
 ## COVERAGE NOTE
 
-52 rows across 6 groups (B-11 added at rev 2). 12 are MUST-NOT / absence-type rows (A-1, B-3, C-8, D-2, D-3, D-10,
+54 rows across 6 groups (B-11 at rev 2; B-12 and B-13 at rev 3). 13 are MUST-NOT / absence-type rows (A-1, B-3, C-8, D-2, D-3, D-10,
 E-4, F-2, F-4, F-5, F-6, F-7) — what must stay unchanged is tested, not assumed. Restart rows
 are mandatory and present (Group E). Every locked decision D1–D6 has at least one row that
 would fail if the decision were implemented backwards.
