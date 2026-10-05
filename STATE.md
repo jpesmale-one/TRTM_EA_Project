@@ -4375,3 +4375,96 @@ PATTERN WORTH NAMING: both dead-input findings are Stage 1 placeholders whose st
   nothing ever reconciled the input list against delivered functionality, and the README was
   written from the input list rather than from the code. RECOMMENDATION FOR ANY FUTURE STAGE:
   when a stage seals, diff its input group against what the stage actually implemented.
+
+## ============================================================================
+## E9 OPEN REGISTER - CONSOLIDATED 2026-10-05. THE SINGLE LIST OF WHAT IS LEFT.
+## ============================================================================
+Built because the parked items were scattered across 4000+ lines of STATE.md and could only
+be reassembled by archaeology. THIS IS NOW THE INDEX; the detailed entries stay where they
+are and are cited by their anchor text. Update this register whenever an item opens or closes.
+Ranked by LIVE EXPOSURE, not by age or effort.
+
+--- TIER 1: EVIDENCED DEFECTS / MISSING SAFETY -------------------------------
+R1  DRAWDOWN AUTO CLOSE NOT IMPLEMENTED.                        [NEW 2026-10-05, Jeff]
+    InpEnableDDClose + InpMaxDDPercent + InpMaxDDUSD - ONE FEATURE, THREE INPUTS, clubbed as
+    a single work item per Jeff 2026-10-05. Declared at 145-147, read by NOTHING.
+    Jeff enabled it expecting a close at 2% and it did not fire, because there is no code.
+    README documented it as working until 2026-10-05 (now carries an explicit warning).
+    WHY TIER 1: it is a SAFETY feature whose absence was invisible. Anyone relying on it was
+    running with no account-level loss cap while the docs promised one.
+    NEEDS ITS OWN GATE 1. Open questions already recorded under the E9-R1 entry: drawdown of
+    WHAT (account equity vs this sequence - with EIGHT instances on one account an equity
+    stop on one chart would close positions the other seven own); close WHOSE positions (the
+    EA has never touched a position outside its own magic); how it reconciles with the LOCKED
+    b19 notify-never-auto-close precedent; percent vs USD precedence; interaction with the
+    sealed E4/E5/E6 tiers, BE, trailing and the SL-exceeded backstop.
+
+Q1  STALE-QUOTE GUARD.                                          [2026-08-19 incident]
+    73 minutes of a frozen quote read as truth; recovery silently dead; the forfeit WARN
+    blamed SPREAD and misdirected the whole investigation. The incident itself was NOT a TRTM
+    defect (a terminal restart cleared it) but the GAP is real: a MqlTick.time vs
+    TimeCurrent() check would have named it on the first forfeit. Own Gate 1, own matrix.
+    Jeff's stated top priority before Q2/Q3 jumped the queue on live evidence.
+
+--- TIER 2: KNOWN DEFECTS, CONTAINED OR LOW EXPOSURE -------------------------
+R2  InpTrailMode IS DEAD - "Previous Candle High/Low" DOES NOT EXIST. [NEW 2026-10-05]
+    Separate work item from R1 per Jeff 2026-10-05. Line 118, zero references.
+    TRAIL_PREV_CANDLE appears once, in the enum. ApplyProtectiveEngines always computes
+    fixed-distance. Selecting the other mode SILENTLY gives Fixed Distance on a live SL path.
+    README corrected 2026-10-05.
+    LOWER EXPOSURE than R1: trailing defaults OFF and the sealed test-design rules require it
+    off for verification runs, so the wrong mode has likely never been in force.
+    TWO DECISIONS, NOT ONE: (a) BUILD the previous-candle trail - new money-path behaviour
+    (which candle, which timeframe, interaction with the sealed ratchet floor and min-step);
+    or (b) REMOVE the input - also a decision, because the Stage 1 convention deliberately
+    froze the dialog layout. Gate 1 picks one.
+
+Q4  SLICE-SELECTION RACE.                                       [2026-09-22 incident]
+    b42 NAMES the event correctly ("NO ORDER SENT") but does not explain WHY the anchor
+    became unselectable one call after being selectable, nor decide retry-vs-accept.
+    WATCH ITEM: the frequency of "NO ORDER SENT" in normal running is the data Q4 needs.
+    Own Gate 1.
+
+K-4 + O6  SLICE BLANKS THE ANCHOR'S _lN_ COMMENT.               [Run H, 2026-08-18]
+    Contained by b39's O2b (unparseable tag -> maxLvl+1, never 0), Run-H-proven. Residual: a
+    restart scanning the sliced anchor AFTER other levels anchors FormBasketGroup on the
+    wrong position (SL anchoring + next slice target). TP/PL arithmetic unaffected.
+    Needs the second-close-path decision E4's X-4 rationale deliberately avoided.
+    NOTE: K-4 is ALSO why the comment tag cannot be used as an identity - see the C rejection
+    in E9-Q2-D1.
+
+M4  adoptedL1 UNRECOVERABLE ON TRUE FILE LOSS.                  [NOT CLOSABLE IN CODE]
+    b44 closed the OVERWRITE case completely. If the file is DELETED or the data folder
+    changes, a magic-0 position has no magic, no reliable tag and no record. DOCUMENTED, not
+    pretended away. Listed so nobody re-opens it expecting a fix.
+
+--- TIER 3: HARDENING, NO KNOWN LIVE EXPOSURE -------------------------------
+O3   filling-mode handling                                      [from the account-switch work]
+O5   exemode init                                               [same family]
+O2e  order accepted but NEVER filled - no timeout/escalation. Degrades gracefully today.
+P6   AdoptionCandidateExists vs TryAdopt duplicate admission logic. A maintenance trap: two
+     copies of the same judgement that MUST be kept in step. Not a bug today.
+O4   netting guard. b42's probe proved every account is HEDGING, so UNREACHABLE on current
+     accounts. Keep parked.
+W-7  account-scoped identity. Evidence NARROWED it: XAUUSD.s -> XAUUSDS (715358) vs
+     XAUUSD+ -> XAUUSD (758105), so Jeff's two accounts CANNOT collide. Keep parked.
+M2   stale projection in the Structure: line. Cosmetic.
+
+--- OPEN ON INSPECTION ONLY (untested paths, not known defects) --------------
+L-1 / L-2 / L-4   need a deliberately corrupted comment to exercise.
+F-1 .. F-5        flat-state rebuild never triggered in a verification run.
+T3-K2 sub-case (a); T3-DS1 dashboard visual confirm.
+
+--- BACKLOG (features, not defects) -----------------------------------------
+E8  profit-funded follow-on slice. Unblocked since E6, own Gate 1 pending, never opened.
+E2  draggable exit lines.    E3  auto-entry.
+
+--- THE CROSS-CUTTING LESSON FROM R1 + R2 -----------------------------------
+Both dead-input findings are Stage 1 placeholders whose stage never landed, and in BOTH the
+README was written from the INPUT LIST rather than from the CODE. The Stage 1 convention
+(freeze the dialog, mark later-stage inputs inert) is sound; what was missing is a
+reconciliation step. STANDING RECOMMENDATION: when a stage seals, DIFF ITS INPUT GROUP
+AGAINST WHAT THE STAGE ACTUALLY IMPLEMENTED, and correct the README from the code.
+A full mechanical audit was run 2026-10-05: 52 inputs, 4 dead, 48 reaching a real engine
+decision, and no input referenced only in validation/display. That audit is the baseline -
+re-run it after any stage that adds inputs.

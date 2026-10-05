@@ -136,10 +136,24 @@ Without that one line, A-7 would have fixed one defect and opened another.
 4. E9-M4's TRUE FILE-LOSS CASE IS NOT CLOSED AND IS NOT CLOSABLE IN CODE. If the state file is
    DELETED or the data folder changes, a magic-0 adopted position has no magic, no reliable
    tag and no record. b44 closes the OVERWRITE case completely. Documented, not pretended away.
-5. E9 also holds: K-4 + O6, M2, O3, O4 (unreachable - all accounts HEDGING), O5, O2e,
-   W-7 (narrowed - Jeff's two accounts cannot collide), P6.
-6. STILL OPEN ON INSPECTION: L-1/L-2/L-4, F-1..F-5, T3-K2 sub-case (a), T3-DS1.
-7. E8 unblocked since E6, own Gate 1 pending. E2, E3 in the backlog.
+5. *** THE FULL OPEN LIST NOW LIVES IN ONE PLACE: "E9 OPEN REGISTER - CONSOLIDATED
+   2026-10-05" at the end of STATE.md. *** It is ranked by live exposure and is the index to
+   everything below; the detailed entries stay where they are. Update it as items open/close.
+   TWO NEW TIER-1/2 ITEMS FOUND 2026-10-05 AFTER b44 SEALED, both raised by Jeff:
+     E9-R1  DRAWDOWN AUTO CLOSE IS NOT IMPLEMENTED. InpEnableDDClose + InpMaxDDPercent +
+            InpMaxDDUSD - one feature, three inputs, clubbed as ONE work item. Declared and
+            read by nothing. Jeff enabled it expecting a close at 2%; there is no code. The
+            README documented it as working until 2026-10-05. TIER 1: a SAFETY feature whose
+            absence was invisible while the docs promised a loss cap.
+     E9-R2  InpTrailMode IS DEAD - "Previous Candle High/Low" does not exist; trailing is
+            always fixed-distance, silently. Separate work item. Lower exposure (trailing
+            defaults off) but it is a live SL path. Gate 1 must choose BUILD vs REMOVE.
+   A full mechanical input audit (2026-10-05) found 52 inputs, 4 dead, 48 reaching a real
+   engine decision, and no input referenced only in validation/display. That is the baseline.
+6. E9 also holds: K-4 + O6, M4 (file-loss case NOT closable in code), M2, O3, O4 (unreachable
+   - all accounts HEDGING), O5, O2e, W-7 (narrowed - Jeff's two accounts cannot collide), P6.
+7. STILL OPEN ON INSPECTION: L-1/L-2/L-4, F-1..F-5, T3-K2 sub-case (a), T3-DS1.
+8. E8 unblocked since E6, own Gate 1 pending. E2, E3 in the backlog.
 8. NOT COMMITTED: b44 and all Q2 docs are uncommitted. origin/main == 36c3dc1 (b42 + the
    CRLF note). COMMITTING AND PUSHING ARE JEFF'S CALL.
 
@@ -170,7 +184,12 @@ Jeff's call. Ranked:
       orphaned position was closed manually on 09-23, so nothing is stranded today). Highest
       value on any instance that can hold an ADOPTED magic-0 L1.
   (b) Commit + push b44 and the Q2 docs.
-  (c) E9-Q1 stale-quote guard - own Gate 1, reasoning already drafted in STATE.md.
-  (d) E9-Q4 slice race - better instrumented by b42; worth running a while first.
+  (c) E9-R1 DRAWDOWN AUTO CLOSE - the only Tier-1 item that is a MISSING SAFETY FEATURE
+      rather than a defect in existing behaviour. Own Gate 1; the open questions are already
+      written up and the hardest one is what "drawdown" means with eight instances sharing an
+      account.
+  (d) E9-Q1 stale-quote guard - own Gate 1, reasoning already drafted in STATE.md.
+  (e) E9-Q4 slice race - better instrumented by b42; worth running a while first.
+  (f) E9-R2 InpTrailMode - build the previous-candle trail, or remove the input.
 Gate order applies from the top: locked decisions -> sealed matrix -> confirmed plan ->
 build -> evidence-audited verification -> seal on Jeff's explicit word.
