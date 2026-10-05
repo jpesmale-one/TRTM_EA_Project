@@ -76,3 +76,53 @@
 2026.10.05 23:16:16.939	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Liveness: L2 ticket 894060839 SL hit @ 4134.84 - removed from sequence
 2026.10.05 23:16:16.939	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Liveness: L1 ticket 894011956 SL hit @ 4134.84 - removed from sequence
 2026.10.05 23:16:16.939	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Sequence fully closed - back to FLAT, overrides reset to input defaults, flat marker saved
+
+A-2, percent only
+2026.10.05 23:39:04.801	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] === TRTM b50 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.10.05 23:39:04.805	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.10.05 23:39:04.805	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Drawdown Auto Close ARMED: effective cap $52.23 (percent limit only: 2.00% of balance 2611.28). Enforced as a BOUNDARY SL every position adopts (broker-held, so it fires even if MT5 is closed). Stop Loss (points) concedes to this boundary while enabled.
+2026.10.05 23:39:04.809	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] State persistence self-test: PASS
+2026.10.05 23:39:04.809	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Reconcile complete: FLAT
+2026.10.05 23:39:04.810	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Account margin mode: HEDGING
+2026.10.05 23:39:04.810	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.10.05 23:39:04.810	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Init complete - b50 (adoption, exits, recovery active)
+
+A-3, USD only
+2026.10.05 23:40:20.694	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] === TRTM b50 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.10.05 23:40:20.700	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.10.05 23:40:20.700	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Drawdown Auto Close ARMED: effective cap $150.00 (USD limit only). Enforced as a BOUNDARY SL every position adopts (broker-held, so it fires even if MT5 is closed). Stop Loss (points) concedes to this boundary while enabled.
+2026.10.05 23:40:20.705	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] State persistence self-test: PASS
+2026.10.05 23:40:20.705	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Reconcile complete: FLAT
+2026.10.05 23:40:20.708	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Account margin mode: HEDGING
+2026.10.05 23:40:20.708	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.10.05 23:40:20.708	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Init complete - b50 (adoption, exits, recovery active)
+
+A-5, the tie
+2026.10.05 23:41:36.181	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] === TRTM b50 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.10.05 23:41:36.186	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.10.05 23:41:36.186	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Drawdown Auto Close ARMED: effective cap $52.23 (percent limit $52.23 (2.00% of balance 2611.28) vs USD limit $52.23 -> the LOWER (tighter) wins). Enforced as a BOUNDARY SL every position adopts (broker-held, so it fires even if MT5 is closed). Stop Loss (points) concedes to this boundary while enabled.
+2026.10.05 23:41:36.190	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] State persistence self-test: PASS
+2026.10.05 23:41:36.191	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Reconcile complete: FLAT
+2026.10.05 23:41:36.198	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Account margin mode: HEDGING
+2026.10.05 23:41:36.198	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.10.05 23:41:36.198	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Init complete - b50 (adoption, exits, recovery active)
+
+A-7, the negative
+2026.10.05 23:42:37.466	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] === TRTM b50 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.10.05 23:42:37.470	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.10.05 23:42:37.471	TRTM (XAUUSD.s,M5)	[TRTM][ERROR] Drawdown Auto Close is ENABLED but a limit is NEGATIVE (Max DD % = -1.00, Max DD USD = 0.00) - a negative cap is meaningless. THE DRAWDOWN CAP IS NOT ARMED. Set a positive limit.
+2026.10.05 23:42:37.475	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] State persistence self-test: PASS
+2026.10.05 23:42:37.475	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Reconcile complete: FLAT
+2026.10.05 23:42:37.476	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Account margin mode: HEDGING
+2026.10.05 23:42:37.476	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.10.05 23:42:37.476	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Init complete - b50 (adoption, exits, recovery active)
+
+restore
+2026.10.05 23:43:38.792	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] === TRTM b50 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.10.05 23:43:38.796	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.10.05 23:43:38.796	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Drawdown Auto Close ARMED: effective cap $20.00 (percent limit $52.23 (2.00% of balance 2611.28) vs USD limit $20.00 -> the LOWER (tighter) wins). Enforced as a BOUNDARY SL every position adopts (broker-held, so it fires even if MT5 is closed). Stop Loss (points) concedes to this boundary while enabled.
+2026.10.05 23:43:38.802	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] State persistence self-test: PASS
+2026.10.05 23:43:38.802	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Reconcile complete: FLAT
+2026.10.05 23:43:38.803	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Account margin mode: HEDGING
+2026.10.05 23:43:38.803	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.10.05 23:43:38.803	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Init complete - b50 (adoption, exits, recovery active)

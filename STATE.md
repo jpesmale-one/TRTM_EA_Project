@@ -5550,3 +5550,54 @@ external pip-denominated tool must be converted AT THE DOOR and labelled with it
 decision text. See .claude/rules/mql5-traps.md (points-only, path-scoped to **/*.mq5). This is
 the second time a pip/point unit slip cost audit time in E9-R1 (the first was the offset unit,
 resolved 2026-10-05 before Gate 2 sealed).
+
+## *** b50 PHASE 1 REMAINDER: A-2, A-3, A-5, A-7 ALL PASS, 2026-10-05 23:39-23:43. ***
+Five re-inits on a FLAT XAUUSD.s chart, zero positions, zero exposure. Balance 2611.28
+throughout (constant across all five - so the tie in A-5 is a genuine tie, not a drift artifact).
+tests/2026.10.05 165606.316.txt lines 79-128.
+
+A-2 PASS (23:39:04) - PERCENT LIMIT ALONE. "effective cap $52.23 (percent limit only: 2.00% of
+  balance 2611.28)". AUDITED: 2611.28 x 0.02 = 52.2256 -> $52.23. EXACT. The line carries the
+  balance AND the percent that produced it, never a bare figure (the observability rule).
+
+A-3 PASS (23:40:20) - USD LIMIT ALONE. "effective cap $150.00 (USD limit only)". The USD limit
+  passes through UNSCALED - no balance contamination of a currency-denominated input.
+
+A-5 PASS (23:41:36) - *** THE TIE, AND IT IS CLEAN. *** InpMaxDDUSD set to exactly the A-2
+  figure (52.23), so BOTH candidates are $52.23. Log: "percent limit $52.23 (2.00% of balance
+  2611.28) vs USD limit $52.23 -> the LOWER (tighter) wins", cap $52.23, ONE arm line.
+  WHY THIS ROW MATTERS AND WHAT IT PROVES ABOUT THE CODE: equal inputs are exactly where a
+  badly-ordered comparison chain double-logs or picks twice. EffectiveDDCap's both-positive
+  branch returns MathMin(pct, usd) and RETURNS - the two single-limit fallbacks below it are
+  unreachable once it fires. The log confirms it: one line, no ambiguity, no second arm message.
+
+A-7 PASS ON THE LOG (23:42:37) - THE NEGATIVE LIMIT, AND THE LOAD-BEARING HALF HOLDS.
+  "[ERROR] Drawdown Auto Close is ENABLED but a limit is NEGATIVE (Max DD % = -1.00, Max DD USD
+  = 0.00) - a negative cap is meaningless. THE DRAWDOWN CAP IS NOT ARMED. Set a positive limit."
+  ERROR (not INFO), names the offending value, states plainly that nothing is armed.
+  *** AND THE NEXT LINE IS THE ACTUAL TEST: "Init complete - b50 (adoption, exits, recovery
+  active)" - NOT "CONFIG-BLOCKED". *** The A-6/A-7 validation guard DELIBERATELY DOES NOT TOUCH
+  `ok`, so a misconfigured drawdown cap cannot trigger b17's full trading freeze. Freezing
+  adoption, exits and recovery over a bad DD limit would be a WORSE failure than the silent
+  no-op E9-R1 was created to fix. Proven live: the guard refuses to ARM and everything else runs.
+
+RESTORE (23:43:38) - MathMin(52.23, 20.00) = $20.00. Chart left armed at the working config.
+
+HONEST GAP, RECORDED RATHER THAN PAPERED OVER: I asked for a Step 4 screenshot and did not get
+  one. The log proves the ERROR and proves the EA is not config-blocked - that is A-7's
+  substance, so A-7 is CLOSED ON THE LOG. What is NOT observed is the dashboard amber row
+  ("NOT ARMED (no limit set)") rendering for the NEGATIVE case specifically. It is INFERRED, not
+  seen: PanelRefresh takes the `EffectiveDDCap() <= 0.0` branch, and EffectiveDDCap returns 0.0
+  for a negative limit through the identical path that F-2 ALREADY PASSED ON SCREEN at b45 for
+  the both-zero case. Same branch, same evidence behind it - but inference is not observation and
+  is logged as such. If a Phase 4 screenshot happens to catch it, upgrade this note.
+
+MATRIX AFTER THIS RUN (docs/R1_MATRIX.md rev 3, 54 rows):
+  CLOSED ON LIVE EVIDENCE: 30 (+A-2, A-3, A-5, A-7).
+  RETIRED BY D11, disposal text owed at the seal: 8.
+  BY INSPECTION: 7 (B-7, B-8, C-7, E-5, F-4, F-5, F-6).
+  STILL NEED A RUN: 9 - A-8, A-9 (ride along with any live sequence); D-5, D-6, D-7 (the DD
+    reduction tiers, needs 4+ levels with Tier 3 on); B-10, C-3 (a SELL with InpStopLossPts 0);
+    C-4, C-6, C-9, D-4, E-3, E-4 fold opportunistically into those two sessions.
+PAUSED HERE at Jeff's call, 2026-10-05 23:43. b50 stands: Gate Zero passed, D11 and D12 both
+proven live, 30 of 54 rows closed on evidence. NOTHING PUSHED - still at e00c6b6 upstream.
