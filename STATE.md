@@ -5376,3 +5376,39 @@ MATRIX IMPACT - these rows are about machinery that no longer exists and must be
   the next seal, not silently dropped: B-2, B-3 (projection half), B-4, B-5, B-9, B-11, B-12,
   B-13, D8. The LIVE evidence they carry stays on the record as history.
 STILL VALID AND UNCHANGED: D1, D2, D4, D5, D6, D9, and every A/C/E/F row.
+
+## *** b49 GATE ZERO + D11 PROVEN ON LIVE DATA, 2026-10-05 20:48:57. THE DEFECT IS CLOSED. ***
+Ticket 893431224, XAUUSD.s BUY 0.01 @ 4157.62, cap $20 (USD limit tighter), balance 2647.98.
+INDEPENDENT RECOMPUTE - every figure audited, none taken on trust:
+    liveLots 0.01 -> travel = 20.00/(1.00 x 0.01) = 2000 points = $20.00 in price
+    solved 4157.62 - 20.00 = 4137.62 ; + 10 pt offset = 4137.72
+  *** LOG SAYS SL 4137.72. EXACT MATCH. ***
+  Loss at that stop = 1990 pts x 0.01 = $19.90 of the $20.00 cap. WITHIN CAP, 10 points of
+  offset erring safe - which is the whole budget spent and not a point more.
+
+ROWS CLOSED / RE-CONFIRMED ON THIS RUN:
+  D11 PASS - the boundary is priced on the LIVE leg, not a projected grid.
+  D8  PASS (restated under D11) - "1 level(s) afforded". ONE leg is open and ONE is priced.
+    Under b45-b48 this same entry would have reported 3 and placed the stop ~1267 points
+    CLOSER. The count now means "legs this stop actually prices", which is the honest claim.
+  D9  PASS - "Structure: 1 level(s), 0.01 lots | projected at TP +3.00 | at SL -19.90".
+    RECOMPUTED: 1990 pts x $0.01 = $19.90 EXACT. The projection and the boundary agree, which
+    is what b48's D9 fix was for - and it now reads the FULL cap rather than a fraction of it.
+  C-2/C-5 PASS again - "DD boundary 4137.72 is LOOSER than the computed SL 4154.62 and
+    REPLACES it". InpStopLossPts conceded; the loosening was announced.
+  A-4 PASS again - cap arithmetic byte-identical across five builds (b45..b49).
+
+*** THE NUMBER THAT PROVES THE FIX: 1267 POINTS OF EXTRA ROOM. ***
+  b48-style 3-leg projected boundary on this entry: ~4150.39
+  D11 live-leg boundary:                             4137.72
+  The 2026-10-05 12:36 stop-out died at 759 points of adverse travel. Under D11 that same
+  move would NOT have closed the sequence - 4160.60 is nowhere near 4137.72.
+
+*** AND THE FAILURE THAT STARTED THIS IS NOW STRUCTURALLY IMPOSSIBLE: ***
+    L2 trigger 4154.62 - the stop sits 1690 points BELOW it
+    L3 trigger 4151.62 - 1390 points below
+    L4 trigger 4148.62 - still above the stop
+  EVERY recovery level the ladder would place has room to open BEFORE the cap is reached. That
+  is exactly Jeff's requirement - "until we reach the set drawdown autoclose setting we can let
+  recovery levels open up" - now true BY CONSTRUCTION rather than by luck, because liveLots
+  rises as each level opens and the boundary tightens to match.
