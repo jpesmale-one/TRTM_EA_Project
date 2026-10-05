@@ -4970,3 +4970,44 @@ TWO THINGS THE PROCEDURE PUTS FIRST, deliberately:
 PHASE 2 CARRIES AN EXPLICIT RISK STATEMENT rather than burying it: it opens a real position and
   lets the EA write a stop. Demo or minimum lot. InpStopLossPts is set to 300 ON PURPOSE so C-2
   can prove it concedes rather than being untested.
+
+## b45 PHASE 1 RESULTS 2026-10-05 - A-6, A-4 and A-1 PASS ON LIVE EVIDENCE. Jeff ran 1A/1E/1G.
+Source: the EA's OWN log, read directly from the live MT5 tree
+(MQL5/Files/TRTM/log_XAUUSDS_715358_20261005.log). Jeff named a file I could not see, but the
+EA writes its own, so no transcription was needed - Claude READS the MT5 tree, only WRITING is
+denied. Worth keeping: the EA's own log is the better evidence channel for these phases.
+XAUUSD.s M5, XAUUSDS, magic 715358, balance 2649.18. Four b45 inits in sequence, flat throughout,
+NO position ever opened - zero risk, exactly as the procedure promised.
+
+A-6 PASS (10:55:44) - THE E9-R1 DEFECT ITSELF, NOW LOUD. With InpEnableDDClose true and BOTH
+  limits 0 the init printed, as LOG_ERROR:
+    "Drawdown Auto Close is ENABLED but BOTH limits are 0 (Max DD in % of Balance = 0, Max DD in
+     USD = 0) - there is NO cap to enforce, so NOTHING will fire. THE DRAWDOWN CAP IS NOT ARMED.
+     Set Max DD in % of Balance (e.g. 2) or Max DD in USD."
+  Correct LEVEL (ERROR, not INFO) and correct PLACEMENT - it lands BEFORE the self-test line,
+  i.e. inside ValidateInputs, which is where the arming decision belongs.
+  *** AND THE SCOPE DECISION IS PROVEN: "Init complete - b45 (adoption, exits, recovery active)"
+  on the SAME run. The EA did NOT config-block. A misconfigured DD cap refuses to ARM and
+  everything else keeps running - the deliberate choice recorded at Gate 3, now evidenced
+  rather than asserted. THIS IS THE ROW THE WHOLE BUILD EXISTS FOR: on 2026-09-xx this exact
+  configuration was SILENT and Jeff believed he had a 2% loss cap.
+
+A-4 PASS (10:56:56) - BOTH LIMITS SET, LOWER WINS, AUDITED TO THE CENT:
+    "Drawdown Auto Close ARMED: effective cap $20.00 (percent limit $52.98 (2.00% of balance
+     2649.18) vs USD limit $20.00 -> the LOWER (tighter) wins). Enforced as a BOUNDARY SL every
+     position adopts (broker-held, so it fires even if MT5 is closed). Stop Loss (points)
+     concedes to this boundary while enabled."
+  RECOMPUTED INDEPENDENTLY: 2649.18 * 0.02 = 52.9836 -> $52.98 as logged. MIN(52.98, 20.00) =
+  20.00 as logged. The percent limit is genuinely the LOOSER one here (52.98 > 20.00), so this
+  is a REAL test of the MIN rule and not a coincidence - a buggy "percent always wins" would
+  have printed 52.98 and been caught. Both candidates named, the winner named, the reason named.
+  A-2 (percent-only) and A-3 (USD-only) are NOT closed by this run - this is the both-set row.
+
+A-1 PASS, absence (10:57:37) - InpEnableDDClose back to false: NOT ONE DD line in the whole
+  init. Stronger than the Gate Zero instance because the row had been VISIBLE in the two runs
+  immediately before, so this proves the feature goes fully inert again, not merely that it
+  never started.
+
+NOT YET VERIFIED and NOT to be inferred from the above: A-7 (negative limit), A-2, A-3, A-5
+  (tie), and F-1/F-2 - the DASHBOARD rows. The dashboard is observable ONLY on screen and no
+  screenshot arrived, so F-1/F-2 stay OPEN regardless of how the log reads.
