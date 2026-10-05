@@ -5456,3 +5456,97 @@ ROWS CLOSED ON THIS RUN:
   the b20 race gate stands down when the broker already holds the stop everywhere. D-9 keeps
   ONE trigger: remaining <= 0, a genuine banked-loss breach.
 BUILD: b50, 661444f782485eb4, 5668 lines (b49 36ea98b0dc89170e / 5662). GATE ZERO PENDING.
+
+## *** b50 GATE ZERO PASSED + D12 CLOSED BY ABSENCE, 2026-10-05 22:39:38. TWO SEQUENCES,
+## FOUR BOUNDARY DERIVATIONS, EVERY FIGURE EXACT. tests/2026.10.05 165606.316.txt lines 46-78.
+GATE ZERO (22:39:38.995): "=== TRTM b50 init ===" ran. Self-test PASS (v5 intact). Reconcile
+FLAT, matching state_XAUUSDS_715358.json (levelCount 0, lastCloseTime 1791218119 = the 16:35
+close). Stops level 50 pts, freeze 0. Margin mode HEDGING.
+A-4 PASS AGAIN, SIXTH CONSECUTIVE BUILD, AUDITED: balance 2628.15 x 2.00% = 52.563 -> $52.56
+  percent candidate; USD candidate $20.00; MIN = $20.00. The log names BOTH and says the LOWER
+  (tighter) wins. Byte-identical arithmetic b45..b50.
+
+--- SEQUENCE 1 (22:44:11 - 22:51:38): THE TP CONTROL CASE, UNASKED FOR AND USEFUL ----------
+L1 BUY 0.01 @ 4141.08. Boundary: travel = 20 / (1.00 x 0.01) = 2000.0 pts; solved 4141.08 -
+20.00 = 4121.08; +10 pt offset -> 4121.18. LOG READ 4121.18. EXACT.
+CLOSED ON TP: "L1 ticket 893961975 TP hit @ 4144.09". Gain (4144.09 - 4141.08) x 100 x 0.01 =
+$3.01 on the 300-pt Initial TP. *** THE BOUNDARY DID NOT INTERFERE WITH THE PROFIT EXIT. ***
+The DD stop sat 2000 pts away and the TP won the race, which is what a loss cap should do.
+Nothing in the matrix demanded this; it is free reassurance that D2/D6's SL ownership is
+scoped to the SL and does not touch the TP path.
+
+--- SEQUENCE 2 (22:58:06 - 23:16:16): *** THE D12 TEST, AND IT PASSES BY ABSENCE. *** -------
+L1 BUY 0.01 @ 4147.52 -> boundary 4147.52 - 20.00 + 0.10 = 4127.62. LOG READ 4127.62. EXACT.
+L2 at 23:15:00: engine trigger 4147.52 - 300 pts = 4144.52 (logged verbatim); M15 bar closed
+  4138.23; L2 filled 0.02 @ 4138.44.
+  VWAP = (0.01 x 4147.52 + 0.02 x 4138.44) / 0.03 = 4141.466667
+  travel = 20 / (1.00 x 0.03) = 666.6667 pts -> solved 4134.8000 -> +10 pt -> 4134.90
+  LOG READ 4134.90. EXACT, AT THE SECOND DEPTH, IN A SECOND INDEPENDENT SEQUENCE.
+  *** THE STOP TIGHTENED 727 POINTS ON THE LEVEL ADD (4127.62 -> 4134.90). *** D11's defining
+  behaviour, now observed twice on separate sequences (b49: 979 pts; b50: 727 pts).
+  Avg TP recomputed to 4143.47 = VWAP + 200 pts (4143.4667). THE E1 LOT-WEIGHTED BASIS AND THE
+  DD BOUNDARY READ THE SAME VWAP - one money basis, as E1/C-1 require.
+
+*** THE CLOSE - WHAT b50 EXISTS TO PROVE, STATED AS AN ABSENCE: ***
+  23:16:16  Liveness: L2 ticket 894060839 SL hit @ 4134.84 - removed from sequence
+  23:16:16  Liveness: L1 ticket 894011956 SL hit @ 4134.84 - removed from sequence
+  23:16:16  Sequence fully closed - back to FLAT
+  NO "Closing sequence at market". NO "drawdown cap already spent". NO "realised $-0.00".
+  NO 10036. NO market close of any kind. THE BROKER'S STOP FIRED ALONE and b20's liveness
+  path attributed it correctly as an SL hit on both legs.
+LOSS AUDITED: at the boundary 4134.90 the two legs lose (4134.90-4147.52)x100x0.01 +
+  (4134.90-4138.44)x100x0.02 = -12.62 - 7.08 = -$19.70. At the ACTUAL fill 4134.84:
+  -12.68 - 7.20 = -$19.88 = 99.4% of the $20 cap. The $0.18 beyond the boundary figure is
+  6 points of slippage past a market stop - the normal cost of execution, NOT a cap breach,
+  and the 10-pt offset is what keeps it inside the cap.
+
+ROWS CLOSED ON THIS RUN:
+  D12 PASS (ABSENCE) - the b49 B-6 guard is gone and the close path is silent. The defect I
+    introduced in b49 and found in my own code is closed on live evidence.
+  C-8  PASS (ABSENCE) - idempotence. Sequence 2 held boundary 4127.62 from 22:58:06 to
+    23:15:00 - SEVENTEEN MINUTES - with ZERO repeat PositionModify lines.
+  D-2  PASS (ABSENCE) - thousands of ticks across those 17 minutes, not one re-derive.
+  D-3  PASS (ABSENCE) - those 17 minutes span ~3 M5 bars (and the M15 bar boundary at 23:00);
+    no re-derive on any bar open. Re-derive is structural-only, proven over real elapsed time.
+  F-7  PASS - follows from D-2/D-3 by the same evidence: no per-tick cost exists to measure.
+  D-10 PASS (ABSENCE) - sequence 2 opened AFTER sequence 1's TP close and derived its own
+    boundary from its own L1 (4127.62). The 4121.18 from sequence 1 did NOT leak through.
+  D-1  PASS again - the level-add hook fired: "DD boundary re-derived after L2 opened".
+  B-3  PASS again - projection and engine share NextLadderPrice; trigger 4144.52 logged by the
+    engine itself, L2 filled 21 pts below it at the bar close (fill-side price, not drift).
+  C-1  PASS again - both tickets written to the same boundary (894011956 and 894060839).
+  C-2/C-5 PASS again, THREE TIMES in this log - the LOOSENING WARN fired on every derivation
+    (4121.18 vs 4138.08; 4127.62 vs 4144.52; 4134.90 vs 4144.52), naming both prices, the cap
+    and the level count. A silent loosening remains impossible.
+  F-3  PASS again - every line carries cap, realised, remaining and the level count.
+  D8   PASS again under D11 - "1 level(s) afforded" at one leg, "2 level(s)" at two. The count
+    is the LIVE legs priced into the stop, which is what D11 made it mean.
+
+RUNNING MATRIX DISPOSITION (docs/R1_MATRIX.md rev 3, 54 rows):
+  CLOSED ON LIVE EVIDENCE (26): A-1, A-4, A-6, B-1, B-3, B-12, C-1, C-2, C-5, C-8, D-1, D-2,
+    D-3, D-10, D8, D9, D10, D11, D12, E-1, E-2, F-1, F-2, F-3, F-7, and B-13 (the open-then-
+    step defect, fixed in b46 and never reproduced since).
+  RETIRED BY D11, NEED DISPOSAL TEXT AT THE SEAL (8): B-2, B-4, B-5, B-9, B-11, D8's original
+    projected-grid form, and the projection halves of B-3 and B-12. All describe machinery the
+    D11 closed form deleted. Nothing to run.
+  BY INSPECTION, NO TERMINAL TIME (7): B-7, B-8, C-7, E-5, F-4, F-5, F-6.
+  STILL NEED A RUN (13): A-2, A-3, A-5, A-7, A-8, A-9 (flat, zero risk); D-5, D-6, D-7 (the
+    DD-reduction tiers, needs a 4+ level sequence); B-10, C-3 (a SELL with InpStopLossPts 0);
+    C-4, C-6, C-9, D-4, E-3, E-4 (opportunistic, fold into the above).
+BUILD: b50, 661444f782485eb4, 5668 lines. GATE ZERO PASSED. D11 + D12 both proven live.
+
+## *** B-11 DISPOSED - ANSWERED BY JEFF 2026-10-05: GBPJPY InpRecoveryIntervalPts IS 370. ***
+ASKED REPEATEDLY ACROSS b45..b50 AND NOW ANSWERED. The live GBPJPY dialog reads 370, i.e. 370
+POINTS = 37 pips on a 3-digit JPY pair. That is the CORRECT configuration and it matches the
+reproduction: only 370 points regenerates the D3 reference screenshot's $30.44 / -4810 JPY.
+WHAT WAS ACTUALLY WRONG: the number recorded in LOCKED DECISION E9-R1-D3 ("interval 37"). It
+came from Jeff's pip-denominated external tool and was transcribed into the decision text
+without unit conversion. THE CODE WAS NEVER WRONG - NextLadderPrice has always multiplied by
+_Point, so it always consumed the input as points.
+CONSEQUENCE: nothing in the EA changes. B-11 is DISPOSED as a RECORDING defect in D3's example,
+not a code defect, and the fixture arithmetic stands at 370.
+THE LESSON, AND IT IS THE SAME ONE AS THE POINTS-ONLY CONVENTION: a figure imported from an
+external pip-denominated tool must be converted AT THE DOOR and labelled with its unit in the
+decision text. See .claude/rules/mql5-traps.md (points-only, path-scoped to **/*.mq5). This is
+the second time a pip/point unit slip cost audit time in E9-R1 (the first was the offset unit,
+resolved 2026-10-05 before Gate 2 sealed).
