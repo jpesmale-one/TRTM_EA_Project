@@ -4935,3 +4935,38 @@ SELF-AUDIT BEFORE HANDING OVER (each checked, not assumed):
     CRLF. It failed (exit 2), I rebuilt the endings uniformly and matched b44's no-trailing-
     newline final byte exactly, and it now passes (exit 0). THE HOOK EARNED ITS KEEP - that
     would have been a compile failure on Jeff's machine, not a style nit.
+
+## b45 GATE ZERO PASSED 2026-10-05 15:50:08 (Jeff compiled). XAUUSD.s M5, XAUUSDS, magic 715358.
+"=== TRTM b45 init ===" so the bumped tag PROVES b45 is the file that ran. Self-test PASS (v5
+schema round-trips, nothing broken). "Reconcile complete: FLAT" - genuine flat, no fixture, clean
+baseline. Broker stops level 50 pts / freeze 0 (relevant to matrix C-6). NO ERROR, NO WARN.
+TWO ROWS CLOSED ON THIS RUN, both absence-type:
+  A-1 PASS - InpEnableDDClose is FALSE on this chart and there is NOT ONE DD log line. The
+    feature is fully inert when off.
+  F-7 PARTIAL - no per-tick DD traffic appeared.
+AND ONE CORRECT SILENCE: AnnounceDDBoundary("init (restart re-derive)") is CALLED at OnInit but
+  printed nothing, because the sequence is flat. That is the levelCount==0 guard working, NOT a
+  missing call - worth recording so a future reader does not "fix" it.
+*** SCOPE OF WHAT THIS PROVES: b45 LOADS AND DOES NO HARM. It verifies NOTHING about the cap
+itself - DDClose is off and the chart is flat, so DDBoundaryPrice never executed. 49 of 52 rows
+remain unverified. Do not let a clean init read as a working feature. ***
+
+## b45 GATE 4 TEST PROCEDURE WRITTEN: docs/R1_TEST_PROCEDURE_b45.md (audience: Jeff at the
+terminal). Four phases, ordered by RISK, cheapest and safest first:
+  PHASE 1 - config guards, FLAT, ZERO RISK, no trades at all: A-6 (the E9-R1 failure itself),
+    A-7 negative, A-2 percent only, A-3 USD only, A-4 both-lower-wins, A-5 tie, A-1 off.
+  PHASE 2 - live sequence, real SL writes: B-1/B-2/C-1/C-3/F-1/F-3 on L1, C-2 concede,
+    C-8+D-2+D-3 idempotence by absence, D-1/B-3 on L2, C-4/C-5 manual SL overwrite, D-10 flat.
+  PHASE 3 - restart: E-1/E-2/E-4.
+  PHASE 4 - the DD tiers: D-5/D-6/D-7. D-6 is the Gate 3 gap and the procedure says to report a
+    MISSING Tier 3 line immediately - its absence means the cap is silently WIDER than set.
+  BY INSPECTION (not Jeff's work): B-5, B-7, B-8, B-9, E-5, F-4, F-5, F-6.
+TWO THINGS THE PROCEDURE PUTS FIRST, deliberately:
+  (1) CHECK InpRecoveryIntervalPts ON THE LIVE GBPJPY CHART (matrix B-11). 37 would mean the
+      ladder spaces levels 3.7 pips apart instead of 37 - a LIVE CONFIG issue independent of b45,
+      and it would also make every GBPJPY boundary test read wrong.
+  (2) Screenshots are MANDATORY on 1A/1C/1G and 2A: the DD Cap row is observable ONLY on screen
+      and PanelDestroy() erases it on detach - the same lesson b44's A-7 taught.
+PHASE 2 CARRIES AN EXPLICIT RISK STATEMENT rather than burying it: it opens a real position and
+  lets the EA write a stop. Demo or minimum lot. InpStopLossPts is set to 300 ON PURPOSE so C-2
+  can prove it concedes rather than being untested.
