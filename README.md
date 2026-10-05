@@ -208,9 +208,19 @@ as soon as it's legal - it doesn't silently drop it.
 | `InpBEAutoAdjust` | Widen BE to cover swaps/fees. |
 | `InpEnableTrailing` | Trailing on by default (the **TRAIL** button overrides). |
 | `InpTrailDistPts` | Trailing distance. |
-| `InpTrailMode` | Fixed Distance or Previous Candle High/Low. |
+| `InpTrailMode` | **Has no effect - trailing is always Fixed Distance.** See below. |
 | `InpMinTrailStepPts` | Minimum improvement before the SL is modified again. |
 | `InpTrailBarClose` / `InpTrailTF` | Trail only at bar close, on this timeframe. |
+
+> **`InpTrailMode` does nothing.** The dropdown offers *Fixed Distance*
+> and *Previous Candle High/Low*, but no code reads the setting - the
+> trailing stop is **always** computed as `price − Trailing Distance`.
+> Selecting *Previous Candle High/Low* silently gives you Fixed Distance.
+> Found 2026-10-05 during a full input audit. Tracked as E9-R2.
+>
+> Lower impact than it sounds, since trailing is off by default - but it
+> does set a real stop loss, so treat the mode selector as cosmetic until
+> this is built.
 
 > **BE and the broker minimum.** If `BETrigger − BEOffset` is smaller
 > than the broker's stops level, every BE stop is born unplaceable and

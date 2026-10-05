@@ -4322,3 +4322,56 @@ OPEN QUESTIONS FOR THAT GATE 1 (recorded now so they are not re-derived):
     reconciled with that decision rather than quietly overriding it.
   - PERCENT AND USD TOGETHER: whichever trips first, or is one a master? Both default to 0.
   - INTERACTION with the sealed E4/E5/E6 tiers, BE, trailing, and the SL-exceeded backstop.
+
+## FULL INPUT AUDIT 2026-10-05 - 52 INPUTS, 4 DEAD. Jeff's question after E9-R1:
+## "can you tell what other inputs we have that does not have a corresponding functionality?"
+METHOD: mechanical, not by eye. Every `input <type> <Name> =` declaration was extracted, then
+each name was counted across the whole file EXCLUDING its own declaration line. Zero
+references outside the declaration = DEAD. Then the 48 live ones were re-checked for a
+subtler failure: referenced ONLY in ValidateInputs / PanelRefresh / display helpers and never
+in an engine. NONE of the 48 failed that second test - all reach a real decision path.
+
+*** THE FOUR DEAD INPUTS ***
+  InpEnableDDClose     145  [Filters & Safety (Stage 7)]   E9-R1, already recorded
+  InpMaxDDPercent      146  [Filters & Safety (Stage 7)]   E9-R1
+  InpMaxDDUSD          147  [Filters & Safety (Stage 7)]   E9-R1
+  InpTrailMode         118  [Exit Rules (Stage 3 / Stage 6)]  *** NEW: E9-R2 ***
+
+## E9-R2 (NEW, 2026-10-05): InpTrailMode IS DEAD - AND IT IS WORSE THAN THE DD TRIO
+`input ENUM_TRAIL_MODE InpTrailMode = TRAIL_FIXED_DISTANCE; // Trail Stop Mode`
+ZERO references outside the declaration. The enum offers a CHOICE THAT DOES NOT EXIST:
+    enum ENUM_TRAIL_MODE { TRAIL_FIXED_DISTANCE = 0, TRAIL_PREV_CANDLE = 1 };
+  TRAIL_PREV_CANDLE appears EXACTLY ONCE in the file - in that enum declaration. Never read.
+  ApplyProtectiveEngines has ONE trail-candidate computation (1487):
+      double cand = NormalizePrice(evalPx - dir * InpTrailDistPts * _Point);
+  That is ALWAYS fixed-distance. There is no previous-candle branch anywhere.
+WHY IT IS WORSE THAN E9-R1: the DD inputs do NOTHING, which is at least inert. This one does
+  SOMETHING OTHER THAN WHAT THE USER SELECTED, silently, ON A LIVE STOP-LOSS PATH. Select
+  "Previous Candle High/Low" and you get Fixed Distance with no warning.
+  README 211 documents the choice as real: "| `InpTrailMode` | Fixed Distance or Previous
+  Candle High/Low. |" - the SAME documentation-promises-what-code-lacks failure as E9-R1.
+SEVERITY vs E9-R1: lower exposure in practice because InpEnableTrailing defaults false AND
+  the sealed test-design rules REQUIRE trailing off for verification runs - so the wrong mode
+  has likely never been in force. But it is a money path (it sets the SL), so it is a real
+  finding, not a cosmetic one.
+NOT FIXED HERE. Like E9-R1 it needs its own Gate 1: implementing a previous-candle trail is a
+  new money-path behaviour (which candle, which timeframe, how it interacts with the sealed
+  ratchet floor and min-step), and REMOVING the input is also a decision because the Stage 1
+  convention deliberately froze the dialog layout.
+
+WHAT THE AUDIT DID *NOT* FIND - stated so the clean result is on the record:
+  - No input is referenced only in validation/display while being advertised as behavioural.
+  - The three low-reference-count inputs that looked suspicious are all genuinely live:
+    InpMagicNumber (OnInit, magic derivation), InpRunSelfTest (OnInit gate),
+    InpTesterNudgePts (OnInit clamp -> g_nudgePts).
+  - InpSpreadFilter / InpMaxSpreadPts reach EvaluateRecovery; InpDeviationFilter /
+    InpMaxDeviationPts reach EvaluateRecovery, CloseSequenceAtMarket and FireGroupClose. The
+    OTHER three Filters & Safety inputs are therefore fine - only the DD trio is dead.
+  - 48 of 52 inputs reach a real engine decision.
+
+PATTERN WORTH NAMING: both dead-input findings are Stage 1 placeholders whose stage never
+  landed, and in BOTH cases the README documents the feature as working. The Stage 1
+  convention ("inputs owned by later stages are INERT until that stage lands") is sound, but
+  nothing ever reconciled the input list against delivered functionality, and the README was
+  written from the input list rather than from the code. RECOMMENDATION FOR ANY FUTURE STAGE:
+  when a stage seals, diff its input group against what the stage actually implemented.
