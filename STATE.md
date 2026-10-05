@@ -5118,3 +5118,14 @@ WHAT THIS SAYS ABOUT b45's GATE ZERO PASS: a clean compile and a clean init prov
   REMAIN VALID - none of them touches DDBoundaryPrice. Nothing is withdrawn.
 BUILD: b46, sha256_16 df5d2ae97c3137a7, 5701 lines (b45 was e5516ee1ce06dcde / 5659, +42).
   GATE ZERO PENDING - Jeff compiles.
+
+## b46 GATE ZERO PASSED 2026-10-05 16:36:34. XAUUSD.s M5, XAUUSDS, magic 715358, balance 2649.18.
+"=== TRTM b46 init ===" confirms the bumped tag ran. Self-test PASS (v5 schema intact after the
+D7 changes). Reconcile FLAT, state file a clean flat marker (levelCount 0, tickets []). Cap
+re-armed with IDENTICAL arithmetic to the b45 run: "$20.00 (percent limit $52.98 (2.00% of
+balance 2649.18) vs USD limit $20.00 -> the LOWER (tighter) wins)". NO ERROR, NO WARN.
+WHAT THIS DOES AND DOES NOT PROVE: it proves b46 compiles and loads and that the b46 edits did
+NOT disturb the config path - A-4's arithmetic is byte-identical across both builds, which is
+the regression check that matters most after touching DDBoundaryPrice. It proves NOTHING about
+the projection: the chart is FLAT, so DDBoundaryPrice still has not executed once on live data.
+B-12 and B-13 remain UNVERIFIED on the terminal; both are so far only proven by simulation.
