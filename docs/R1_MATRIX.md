@@ -1,6 +1,7 @@
 # E9-R1 SCENARIO MATRIX — Drawdown Auto Close (boundary-SL enforcement)
 
-STATUS: **SEALED rev 1 — Jeff, 2026-10-05.** Code may now be written against these rows.
+STATUS: **SEALED rev 2 — Jeff sealed rev 1, 2026-10-05; B-11 added the same day from a live
+finding during the b45 build (a points/pips unit error in the reference fixture itself).**
 Live findings later become NEW rows (rev 2+), never silent fixes (CLAUDE.md §2).
 
 Builds on locked decisions **E9-R1-D1** (per-symbol scope; percent of BALANCE; MIN of the two
@@ -14,7 +15,9 @@ Offset convention: **10 POINTS** on the safe side (= 1 pip on GBPJPY, XAUUSD.s, 
 USDCAD.s alike). Points never pips — locked convention 2026-10-05.
 
 Reference fixture used throughout (Jeff's verified GBPJPY screenshot, arithmetic confirmed in D3):
-L1 lot 0.01, interval 37 pts, Deferred Incremental, step 0.01, defer 2, MaxDDPercent 2,
+L1 lot 0.01, interval **370 POINTS** (= 37 pips on a 3-digit pair; the "37" in Jeff's external
+pip-denominated tool is 370 in the EA's points-based input - see the 2026-10-05 correction in
+STATE.md, found by recomputing this very fixture), Deferred Incremental, step 0.01, defer 2, MaxDDPercent 2,
 MaxDDUSD 0, balance ~$1,522, USDJPY ~158.
 Grid: L1 208.663/0.01 · L2 208.293/0.01 · L3 207.923/0.02 · L4 207.553/0.02 · L5 207.183/0.03
 DD of L1..L4 at 207.183 = −4810.0 JPY = **−$30.44 = exactly 2%**. Boundary = 207.183 + 10 pts
@@ -50,6 +53,7 @@ DD of L1..L4 at 207.183 = −4810.0 JPY = **−$30.44 = exactly 2%**. Boundary =
 | B-8 | Guard C (b16) | Projection may ASSUME non-decreasing lots — **verified, not assumed**: enforced at init (4808/4850), at the door (3389), and per level (2374) | inspection, recorded |
 | B-9 | Martingale mode, mult 2.0 | Boundary derives correctly on a geometric ladder; budget exhausts far sooner than incremental | recompute by hand |
 | B-10 | SELL sequence (dir = −1) | Boundary sits **ABOVE** entries; offset applied in the correct direction | sign correctness |
+| **B-11** | **rev 2, added 2026-10-05 from a live finding during the b45 build.** `InpRecoveryIntervalPts` is in **POINTS**, and the reference fixture only reconciles at **370**, not 37 | The projected L2..L5 prices must match the screenshot (208.293 / 207.923 / 207.553 / 207.183) and the DD must total **$30.44**. At 37 the grid comes out 10× tight (L2 208.626) and the DD **$3.04** — wrong by exactly 10× in both price and money, the signature of a points/pips error. Gate 4 must **confirm the live GBPJPY instance reads 370** | recompute + read the live input |
 
 ## GROUP C — WRITING THE SL (D2, D6) AND BROKER CONSTRAINTS
 
@@ -122,7 +126,7 @@ DD of L1..L4 at 207.183 = −4810.0 JPY = **−$30.44 = exactly 2%**. Boundary =
 
 ## COVERAGE NOTE
 
-51 rows across 6 groups. 12 are MUST-NOT / absence-type rows (A-1, B-3, C-8, D-2, D-3, D-10,
+52 rows across 6 groups (B-11 added at rev 2). 12 are MUST-NOT / absence-type rows (A-1, B-3, C-8, D-2, D-3, D-10,
 E-4, F-2, F-4, F-5, F-6, F-7) — what must stay unchanged is tested, not assumed. Restart rows
 are mandatory and present (Group E). Every locked decision D1–D6 has at least one row that
 would fail if the decision were implemented backwards.

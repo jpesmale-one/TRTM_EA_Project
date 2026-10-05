@@ -48,7 +48,7 @@
 
 #include <Trade\Trade.mqh>
 
-#define TRTM_BUILD  "b44"     // internal build tag, bump per delivery
+#define TRTM_BUILD  "b45"     // internal build tag, bump per delivery
 
 //+------------------------------------------------------------------+
 //| ENUMS                                                            |
@@ -687,6 +687,15 @@ string g_dashWarn      = "";
 string g_dashMMTNotice = "";
 int    g_flatBlockReasonLogged = 0;   // Stage10-b30: 0 none,1 GuardA,2 GuardB,3 GuardC - flat-block file-WARN dedupe (transient; restart re-announces once)
 
+// b45 (E9-R1): forward declarations. MQL5 compiles single-pass, and the R1 block
+// lives near SequenceFloatingPnL - BELOW its callers. EnforceExits (the SL owner,
+// D2/D6) and the four STRUCTURAL hook sites (liveness prune, level register, Tier 3
+// slice, init) all sit above the definitions.
+void   AnnounceDDBoundary(const string trigger);
+double EffectiveDDCap();
+double SequenceRealisedLoss();
+double DDBoundaryPrice(int &levelsAfforded, bool &closeNow);
+
 bool AlreadyLogged(const string key)
   {
    for(int i = 0; i < ArraySize(g_loggedKeys); i++)
@@ -1026,6 +1035,12 @@ void CheckSequenceLiveness()
    if(g_state.levelCount > 0)
      {
       ReleaseManualTP("level close");   // b24 structural release; manual SL persists (M7-4)
+      // b45 (E9-R1 D-4/D-5/D-7): a leg closed - manual, TP/SL, or any of the three
+      // DD-reduction tiers. The budget and the leg set both changed, so the boundary
+      // re-derives. After a PROFITABLE tier close the remaining budget GROWS and the
+      // boundary may move AWAY from price - correct per D5, and this is the line that
+      // makes that explainable.
+      AnnounceDDBoundary("a level closed");
       LogStructure();
      }
    if(g_state.levelCount == 0)
@@ -1657,6 +1672,14 @@ bool SliceLegAtMarket(const ulong ticket, const int level, const double sliceVol
                               level, ticket, sliceVol,
                               (PositionSelectByTicket(ticket) ? PositionGetDouble(POSITION_VOLUME) : 0.0),
                               DoubleToString(g_trade.ResultPrice(), _Digits)));
+   // b45 (E9-R1 D-6) - THE GAP FOUND AT GATE 3, AND THE SUBTLEST TRIGGER IN D4.
+   // A Tier 3 slice passes through NEITHER structural chokepoint: the ticket SURVIVES,
+   // levelCount is UNCHANGED, and no ReleaseManualTP fires - so riding b24's hook alone
+   // would MISS this. But the sequence's LOTS just shrank, which changes the drawdown
+   // per point and therefore the boundary. Without this hook the boundary would keep
+   // using PRE-SLICE lots, sit TOO FAR from price, and UNDER-ENFORCE the cap - a loss
+   // cap quietly WIDER than the declared one. Hooked here, after a CONFIRMED partial.
+   AnnounceDDBoundary(StringFormat("Tier 3 sliced L%d by %.2f lot", level, sliceVol));
    return true;
   }
 
@@ -1806,6 +1829,61 @@ void EnforceExits()
    if(g_state.manualSL > 0.0)
       sl = g_state.manualSL;         // b24: owned SL substitutes; engines may still tighten on top
    ApplyProtectiveEngines(tp, sl);   // Stage 6: BE/trail merge (may zero tp, tighten sl)
+
+   // b45 (E9-R1 D2/D6): THE DRAWDOWN BOUNDARY TAKES SL OWNERSHIP.
+   // Injected HERE, after b24's manual substitution and the Stage 6 engines, and
+   // BEFORE the exceeded checks and the broker-distance gate below - so the boundary
+   // inherits every protection the sealed path already provides (the SL-exceeded
+   // close, the min-distance deferral, per-ticket idempotence, the TradeTargetLive
+   // no-send gate, and the retry/backoff ladder) instead of duplicating any of it.
+   // ONE writer owns the SL, which is what D2/D6 require: "two rules cannot both own
+   // the SL". Matrix C-1..C-6.
+   if(InpEnableDDClose)
+     {
+      double tsOwn     = SymbolInfoDouble(_Symbol, SYMBOL_TRADE_TICK_SIZE);
+      double tolSLOwn  = (tsOwn > 0.0 ? tsOwn : _Point) / 2.0;
+      int    dirSLOwn  = g_state.direction;
+      int  ddLevels = 0;
+      bool ddCloseNow = false;
+      double ddSL = DDBoundaryPrice(ddLevels, ddCloseNow);
+      if(ddCloseNow)
+        {
+         // D-9: the budget is already spent by banked losses. No stop price enforces
+         // a cap that is gone - cap the loss NOW through the sealed whole-sequence
+         // close, exactly as the SL-exceeded rule does.
+         CloseSequenceAtMarket(StringFormat("drawdown cap $%.2f already spent (realised $%.2f) - closing now (E9-R1 D-9)",
+                                            EffectiveDDCap(), SequenceRealisedLoss()));
+         return;   // liveness cleans up state on the next pass
+        }
+      if(ddSL > 0.0)
+        {
+         // C-5: D6 makes this boundary the single SL owner, so it can OVERWRITE a
+         // TIGHTER stop with a LOOSER price. Jeff locked that; loosening is the one
+         // direction that costs money, so it is never silent.
+         if(sl > 0.0 && MathAbs(sl - ddSL) > tolSLOwn)
+           {
+            bool looser = (dirSLOwn > 0) ? (ddSL < sl) : (ddSL > sl);
+            if(looser)
+              {
+               if(!AlreadyLogged("ddloosen:" + DoubleToString(ddSL, _Digits) + ":" + DoubleToString(sl, _Digits)))
+                  Log(LOG_WARN, StringFormat("DD boundary %s is LOOSER than the %s SL %s and REPLACES it (E9-R1 D6: the drawdown cap owns the SL while enabled). Your stop moves AWAY from price. Cap $%.2f, %d level(s) afforded.",
+                                             DoubleToString(ddSL, _Digits),
+                                             (g_state.manualSL > 0.0 ? "manual" : "computed"),
+                                             DoubleToString(sl, _Digits), EffectiveDDCap(), ddLevels));
+              }
+            else
+              {
+               if(!AlreadyLogged("ddtighten:" + DoubleToString(ddSL, _Digits)))
+                  Log(LOG_INFO, StringFormat("DD boundary %s replaces the %s SL %s (tighter; E9-R1 D6). Cap $%.2f, %d level(s) afforded.",
+                                             DoubleToString(ddSL, _Digits),
+                                             (g_state.manualSL > 0.0 ? "manual" : "computed"),
+                                             DoubleToString(sl, _Digits), EffectiveDDCap(), ddLevels));
+              }
+           }
+         sl = ddSL;   // D2: InpStopLossPts concedes. D6: a manual SL concedes too.
+        }
+     }
+
    if(g_prevAnchorLvl > 0 && g_curAnchorLvl != g_prevAnchorLvl && sl > 0.0 && g_state.manualSL <= 0.0)
       Log(LOG_INFO, StringFormat("SL re-anchored: L%d -> L%d (widened to %s per locked rule - boundaries move with the structure)",
                                  g_prevAnchorLvl, g_curAnchorLvl, DoubleToString(sl, _Digits)));
@@ -2224,6 +2302,20 @@ void LogStructure()
 // Returns false when there is nothing to compute (no sequence / no live
 // entries). Max-level cap is NOT checked here - the engine checks it (and
 // logs), the dashboard checks it (and displays).
+// b45 (E9-R1, matrix B-3): THE SINGLE COPY OF THE LADDER INTERVAL STEP.
+// Extracted from ComputeRecoveryTrigger so the DD-boundary PROJECTION and the
+// live RECOVERY ENGINE step the ladder through the SAME arithmetic. D3 named a
+// second, drifting copy of this maths as the biggest build risk in R1: a
+// projection that stepped differently would place the stop at a price the engine
+// never actually trades to. Both callers now read from here, so they CANNOT drift.
+// Direction convention matches the engine exactly: a SELL ladder (dir < 0) steps
+// UP in price, a BUY ladder steps DOWN.
+double NextLadderPrice(const int dir, const double fromPrice)
+  {
+   return (dir < 0) ? fromPrice + InpRecoveryIntervalPts * _Point
+                    : fromPrice - InpRecoveryIntervalPts * _Point;
+  }
+
 bool ComputeRecoveryTrigger(int &nextLvl, double &trigger, double &worst, datetime &gateTime)
   {
    if(g_state.levelCount == 0 || g_state.direction == 0)
@@ -2253,8 +2345,7 @@ bool ComputeRecoveryTrigger(int &nextLvl, double &trigger, double &worst, dateti
      }
    if(worst == 0.0)
       return false;
-   trigger = (dir < 0) ? worst + InpRecoveryIntervalPts * _Point
-                       : worst - InpRecoveryIntervalPts * _Point;
+   trigger = NextLadderPrice(dir, worst);   // b45 (R1 B-3): the ONE copy of the interval step
    return true;
   }
 
@@ -2775,6 +2866,7 @@ bool AdoptUntrackedLevel(const ulong ticket, const int rawLvl, const string src)
    g_state.levels[g_state.levelCount]  = lvl;
    g_state.levelCount++;
    ReleaseManualTP(StringFormat("level add (L%d)", lvl));   // b24; manual SL untouched (M3-4)
+   AnnounceDDBoundary(StringFormat("L%d opened", lvl));     // b45 (E9-R1 D-1)
    StateSave(g_state);
    Log(LOG_INFO, StringFormat("%s: L%d REGISTERED ticket %I64u %.2f lots @ %s",
                               src, lvl, ticket, PositionGetDouble(POSITION_VOLUME),
@@ -3749,6 +3841,263 @@ void ArmMaintain()
       CancelArm("10s confirm window expired");
   }
 
+//+------------------------------------------------------------------+
+//| E9-R1 (b45) - DRAWDOWN AUTO CLOSE, enforced as a BOUNDARY SL     |
+//+------------------------------------------------------------------+
+// LOCKED DESIGN, do not re-litigate (STATE.md E9-R1-D1..D6):
+//  D1 scope is PER SYMBOL (this instance's own tracked sequence), the percent is
+//     of ACCOUNT BALANCE, and with both limits positive the LOWER (tighter) wins.
+//     Both limits off = NOT ARMED, and that refuses LOUDLY at init (A-6): a silent
+//     no-op is the exact failure that created E9-R1.
+//  D2 the cap is enforced as an SL PRICE every leg adopts, NOT an EA market close.
+//     A broker-held stop fires even if MT5 is shut, the VPS drops or the EA is
+//     detached - for a LOSS CAP that difference is the whole point (b27 precedent).
+//  D3 the boundary comes from the FULL ANTICIPATED GRID, placed at the level where
+//     the budget RUNS OUT - not from the positions that happen to exist now.
+//  D4 it RE-DERIVES on every STRUCTURAL change (level opens, leg closes, Tier 3
+//     slice, input edit), never per tick.
+//  D5 pure re-derive: the boundary MAY MOVE EITHER WAY, including LOOSER after the
+//     DD-reduction tiers bank a profit. That is correct - budget was genuinely
+//     freed - so it must log realised and remaining to stay explainable.
+//  D6 while armed, this boundary OWNS the SL: InpStopLossPts concedes AND a manual
+//     SL is overwritten. C-5: overwriting a TIGHTER manual stop LOOSENS it, which
+//     is the one direction that costs money, so it WARNs loudly every time.
+
+#define DD_OFFSET_PTS   10   // b45 (R1, resolved at seal): the boundary sits this many POINTS
+                             // on the safe side of the limit level, so the stop fires BEFORE
+                             // that level opens and the cap is honoured on the legs above it.
+                             // A CONSTANT, not a 4th input (Stage 1 froze the dialog layout).
+                             // POINTS, never any symbol-relative unit: _Point normalises per
+                             // symbol, so 10 means the same distance on GBPJPY (3-digit),
+                             // XAUUSD.s (2-digit) and AUDNZD.s/USDCAD.s (5-digit) alike.
+                             // Locked convention 2026-10-05 - see .claude/rules/mql5-traps.md.
+#define DD_MAX_PROJECT  200  // hard iteration bound for InpMaxRecoveryTrades = 0 (unlimited).
+                             // If a config is pathological enough to reach this, REFUSE TO ARM
+                             // and say so - never silently truncate the grid, because a
+                             // truncated grid places the boundary at a price the engine would
+                             // trade straight through (matrix B-5).
+
+// Effective cap in ACCOUNT CURRENCY, as a POSITIVE magnitude. Returns 0.0 when the
+// feature is not armed (disabled, or no usable limit). Pure - no side effects, so
+// the dashboard may call it freely. Matrix A-2..A-5.
+double EffectiveDDCap()
+  {
+   if(!InpEnableDDClose)
+      return 0.0;
+   double pctCap = 0.0, usdCap = 0.0;
+   if(InpMaxDDPercent > 0.0)
+      pctCap = AccountInfoDouble(ACCOUNT_BALANCE) * InpMaxDDPercent / 100.0;
+   if(InpMaxDDUSD > 0.0)
+      usdCap = InpMaxDDUSD;
+   if(pctCap > 0.0 && usdCap > 0.0)
+      return MathMin(pctCap, usdCap);   // D1: the TIGHTER cap wins, so it fires FIRST
+   if(pctCap > 0.0) return pctCap;
+   if(usdCap > 0.0) return usdCap;
+   return 0.0;                          // both off -> NOT ARMED (A-6 refuses at init)
+  }
+
+// Money a ONE-LOT position gains/loses per POINT of favourable price move.
+// Same idiom the EA already uses for its projections (TICK_VALUE / TICK_SIZE with a
+// tickSz <= 0 fallback to _Point), so R1 introduces NO new money maths and inherits
+// whatever that path already gets right on JPY pairs and on gold.
+double MoneyPerPointPerLot()
+  {
+   double tickVal = SymbolInfoDouble(_Symbol, SYMBOL_TRADE_TICK_VALUE);
+   double tickSz  = SymbolInfoDouble(_Symbol, SYMBOL_TRADE_TICK_SIZE);
+   if(tickSz <= 0.0) tickSz = _Point;
+   if(tickSz <= 0.0) return 0.0;
+   return tickVal * (_Point / tickSz);
+  }
+
+// Loss ALREADY BANKED by this sequence, as a POSITIVE magnitude (0.0 if none).
+// D4/D5 need it: the boundary is sized on the budget that REMAINS, so legs the
+// reduction tiers already closed must be credited (or debited) against the cap.
+// Derived from deal history for THIS magic and symbol since adoptionTime - the
+// sequence's own start - so nothing new is persisted (the boundary is derived-only,
+// resolved at seal, and the v5 schema is untouched).
+// A net PROFIT returns a NEGATIVE number, which correctly WIDENS the remaining
+// budget - that is D5's "the stop may retreat after a profitable tier close".
+double SequenceRealisedLoss()
+  {
+   if(g_state.adoptionTime == 0)
+      return 0.0;
+   if(!HistorySelect(g_state.adoptionTime, TimeCurrent() + 1))
+      return 0.0;   // no history available: treat as nothing banked, never guess
+   double net = 0.0;
+   int deals = HistoryDealsTotal();
+   for(int i = 0; i < deals; i++)
+     {
+      ulong deal = HistoryDealGetTicket(i);
+      if(deal == 0) continue;
+      if((ENUM_DEAL_ENTRY)HistoryDealGetInteger(deal, DEAL_ENTRY) != DEAL_ENTRY_OUT)
+         continue;   // only CLOSING deals realise anything
+      if(HistoryDealGetString(deal, DEAL_SYMBOL) != _Symbol) continue;
+      if((long)HistoryDealGetInteger(deal, DEAL_MAGIC) != (long)g_magic) continue;
+      net += HistoryDealGetDouble(deal, DEAL_PROFIT)
+           + HistoryDealGetDouble(deal, DEAL_SWAP)
+           + HistoryDealGetDouble(deal, DEAL_COMMISSION);
+     }
+   return -net;   // net < 0 (a loss) -> positive magnitude consumed from the budget
+  }
+
+// THE BOUNDARY. Projects the full anticipated grid and returns the price at which
+// cumulative drawdown reaches the REMAINING budget, offset DD_OFFSET_PTS on the safe
+// side. Returns 0.0 when it cannot or must not produce one.
+//   levelsAfforded - how many levels the budget covers (dashboard F-1, log F-3)
+//   closeNow       - true when the budget is ALREADY spent (D-9): no price can help,
+//                    the caller must treat the cap as breached right now.
+// D3's ladder comes from the SEALED engine: lots from ComputeLevelLot(), spacing from
+// the SHARED NextLadderPrice(). This function owns NO ladder maths of its own (B-3).
+double DDBoundaryPrice(int &levelsAfforded, bool &closeNow)
+  {
+   levelsAfforded = 0;
+   closeNow       = false;
+   double cap = EffectiveDDCap();
+   if(cap <= 0.0 || g_state.levelCount == 0 || g_state.direction == 0)
+      return 0.0;
+
+   int    dir    = g_state.direction;
+   double mpp    = MoneyPerPointPerLot();
+   if(mpp <= 0.0)
+     {
+      if(!AlreadyLogged("ddmpp"))
+         Log(LOG_WARN, "DD boundary: tick value unavailable for this symbol - boundary NOT computed. The cap is UNENFORCED until this resolves.");
+      return 0.0;
+     }
+
+   // D-9: budget already spent by banked losses. No projected price enforces a cap
+   // that is gone, so say so explicitly rather than computing a nonsensical level.
+   double remaining = cap - SequenceRealisedLoss();
+   if(remaining <= 0.0)
+     {
+      closeNow = true;
+      return 0.0;
+     }
+
+   // The anchor is the engine's OWN anchor - the WORST SURVIVING entry - so a manual
+   // mid-sequence close re-anchors the projection exactly as it re-anchors the real
+   // ladder (D-4, no-retroactive rule).
+   double worst = 0.0;
+   int    maxLvl = 0;
+   double liveLots[];
+   double liveEntry[];
+   int    liveN = 0;
+   ArrayResize(liveLots, g_state.levelCount);
+   ArrayResize(liveEntry, g_state.levelCount);
+   for(int i = 0; i < g_state.levelCount; i++)
+     {
+      if(!PositionSelectByTicket(g_state.tickets[i]))
+         continue;
+      double entry = PositionGetDouble(POSITION_PRICE_OPEN);
+      liveEntry[liveN] = entry;
+      liveLots[liveN]  = PositionGetDouble(POSITION_VOLUME);   // CURRENT lots: a Tier 3
+      liveN++;                                                 //   slice is reflected here
+      if(worst == 0.0 || (dir < 0 && entry > worst) || (dir > 0 && entry < worst))
+         worst = entry;
+      if(g_state.levels[i] > maxLvl) maxLvl = g_state.levels[i];
+     }
+   if(worst == 0.0 || liveN == 0)
+      return 0.0;
+
+   // Walk the projected ladder. At each candidate level price, total drawdown is the
+   // loss on every LIVE leg plus every PROJECTED leg already opened above it. The
+   // first level whose cumulative DD reaches the budget IS the boundary.
+   int    cap1  = (InpMaxRecoveryTrades > 0) ? InpMaxRecoveryTrades + 1 : DD_MAX_PROJECT;
+   int    lvl   = maxLvl;                 // next projected level is maxLvl + 1
+   double px    = worst;                  // deepest price reached so far
+   double projLots[];
+   double projEntry[];
+   int    projN = 0;
+   ArrayResize(projLots, cap1 + 1);
+   ArrayResize(projEntry, cap1 + 1);
+
+   for(int step = 0; step <= cap1; step++)
+     {
+      // Drawdown of everything OPEN (live + projected) at price px.
+      double dd = 0.0;
+      for(int i = 0; i < liveN; i++)
+         dd += (dir > 0 ? (liveEntry[i] - px) : (px - liveEntry[i])) / _Point * mpp * liveLots[i];
+      for(int i = 0; i < projN; i++)
+         dd += (dir > 0 ? (projEntry[i] - px) : (px - projEntry[i])) / _Point * mpp * projLots[i];
+
+      if(dd >= remaining)
+        {
+         levelsAfforded = liveN + projN;
+         // Offset on the SAFE side: the stop fires BEFORE this level opens, so the
+         // loss is capped on the legs ABOVE it (D3, Jeff's L5 edge case).
+         double off = DD_OFFSET_PTS * _Point;
+         double b   = (dir > 0) ? px + off : px - off;
+         // B-6: never return a price on the wrong side of the worst entry - that
+         // would be an instant stop-out rather than a cap.
+         if((dir > 0 && b >= worst) || (dir < 0 && b <= worst))
+           {
+            closeNow = true;   // budget cannot even cover the legs already open
+            return 0.0;
+           }
+         return NormalizeDouble(b, _Digits);
+        }
+
+      if(step == cap1)
+        {
+         // Terminator reached with budget still unspent.
+         if(InpMaxRecoveryTrades > 0)
+           {
+            // B-4: the INPUT cap bounds the grid. The boundary is the capped grid's
+            // bottom - the deepest price the engine will ever actually trade to.
+            levelsAfforded = liveN + projN;
+            double off2 = DD_OFFSET_PTS * _Point;
+            double b2   = (dir > 0) ? px + off2 : px - off2;
+            return NormalizeDouble(b2, _Digits);
+           }
+         // B-5: pathological settings hit the hard bound. REFUSE, do not truncate.
+         if(!AlreadyLogged("ddbound"))
+            Log(LOG_ERROR, StringFormat("DD boundary: projection reached the %d-level hard bound without exhausting the $%.2f budget - settings are pathological (interval %d pts, lots barely growing). Boundary NOT set and the cap is NOT enforced. Lower Max DD, raise the recovery interval, or set Max Recovery Trades.",
+                                        DD_MAX_PROJECT, remaining, InpRecoveryIntervalPts));
+         return 0.0;
+        }
+
+      // Open the next projected level at this price, then step the ladder down.
+      lvl++;
+      projEntry[projN] = px;
+      projLots[projN]  = ComputeLevelLot(lvl);   // SEALED engine lot sizing (B-2/B-7)
+      projN++;
+      px = NextLadderPrice(dir, px);             // SHARED interval step (B-3)
+     }
+   return 0.0;
+  }
+
+// D4 STRUCTURAL-CHANGE ANNOUNCER. The boundary is RECOMPUTED inside EnforceExits on
+// the tick after any structural change, and written through the sealed modify loop -
+// so this does NOT write anything. Its job is OBSERVABILITY (F-3): it states the new
+// boundary, the cap, what is already banked and what remains, at the moment the
+// structure changed, so a boundary that MOVES is explainable rather than mysterious.
+// That matters most for D5: after a profitable tier close the stop may move AWAY from
+// price, and without this line that looks like a bug.
+// Called ONLY from the structural sites (level add, leg close, Tier 3 slice, init) -
+// never from OnTick, which is what makes matrix D-2/D-3 true by construction.
+void AnnounceDDBoundary(const string trigger)
+  {
+   if(!InpEnableDDClose || g_state.levelCount == 0)
+      return;
+   double cap = EffectiveDDCap();
+   if(cap <= 0.0)
+      return;   // not armed; validation already said so loudly at init (A-6)
+   int    levels = 0;
+   bool   now    = false;
+   double b      = DDBoundaryPrice(levels, now);
+   double banked = SequenceRealisedLoss();
+   if(now)
+     {
+      Log(LOG_WARN, StringFormat("DD boundary re-derived after %s: cap $%.2f is ALREADY SPENT (realised $%.2f) - the sequence closes on the next exits pass (E9-R1 D-9).",
+                                 trigger, cap, banked));
+      return;
+     }
+   if(b <= 0.0)
+      return;   // reason already logged by DDBoundaryPrice (no tick value, hard bound)
+   Log(LOG_INFO, StringFormat("DD boundary re-derived after %s: %s - cap $%.2f, realised $%.2f, remaining $%.2f, %d level(s) afforded (E9-R1 D4).",
+                              trigger, DoubleToString(b, _Digits), cap, banked, cap - banked, levels));
+  }
+
 //--- Floating PnL of tracked positions (confirm-close preview).
 double SequenceFloatingPnL()
   {
@@ -4169,6 +4518,51 @@ void PanelRefresh()
      }
    PanelRow("DDR", y, "DD Reduce", ddVal, ddClr);
    y += PNL_ROW_H + 4;
+
+   // b45 (E9-R1, matrix F-1/F-2): DD CAP row. Present ONLY when the feature is
+   // enabled - no dead UI when it is off (F-2), which is also how the user can SEE
+   // at a glance that the cap is real. DISPLAY ONLY: EffectiveDDCap and
+   // DDBoundaryPrice are pure reads, no money path, no writes.
+   if(InpEnableDDClose)
+     {
+      string dcVal;
+      color  dcClr;
+      double dcCap = EffectiveDDCap();
+      if(dcCap <= 0.0)
+        {
+         // The E9-R1 failure, made VISIBLE: enabled but no limit set = not armed.
+         dcVal = "NOT ARMED (no limit set)";
+         dcClr = COL_WARN;
+        }
+      else if(g_state.levelCount == 0)
+        {
+         dcVal = StringFormat("$%.2f cap (flat)", dcCap);
+         dcClr = COL_DIM;
+        }
+      else
+        {
+         int  dcLv = 0;
+         bool dcNow = false;
+         double dcB = DDBoundaryPrice(dcLv, dcNow);
+         if(dcNow)
+           {
+            dcVal = StringFormat("$%.2f SPENT - closing", dcCap);
+            dcClr = COL_WARN;
+           }
+         else if(dcB > 0.0)
+           {
+            dcVal = StringFormat("%s ($%.2f, %d lvl)", DoubleToString(dcB, _Digits), dcCap, dcLv);
+            dcClr = COL_BUY_ARM;
+           }
+         else
+           {
+            dcVal = StringFormat("$%.2f - no boundary", dcCap);
+            dcClr = COL_WARN;
+           }
+        }
+      PanelRow("DDC", y, "DD Cap SL", dcVal, dcClr);
+      y += PNL_ROW_H + 4;
+     }
 
    // --- divider ---
    string dv = PNL + "DIV1";
@@ -4866,6 +5260,40 @@ bool ValidateInputs()
      }
    if(InpRecoveryMultMode == RM_MANUAL && ArraySize(g_manualMult) > 0 && MathAbs(g_manualMult[0] - 1.0) > 0.0001)
       Log(LOG_WARN, StringFormat("Manual Multiplier first entry is %.2f (applies to L1 conceptually) - L1 lot is whatever was actually opened; recovery levels scale from it using entries 2+", g_manualMult[0]));
+
+   // b45 (E9-R1, matrix A-6/A-7): DRAWDOWN AUTO CLOSE ARMING GUARD.
+   // DELIBERATELY DOES NOT TOUCH `ok`. Setting ok = false sets g_configBlocked, which
+   // is a FULL TRADING FREEZE (b17) - adoption, exits and recovery all stop. A
+   // misconfigured drawdown cap must NOT freeze a live sequence that the TP/SL and
+   // tier rules still protect. It refuses to ARM, loudly, and everything else runs on.
+   // This is b19-consistent (notify, never auto-close on a config error) and it is the
+   // same shape as D1's own both-off rationale.
+   if(InpEnableDDClose)
+     {
+      if(InpMaxDDPercent < 0.0 || InpMaxDDUSD < 0.0)
+         Log(LOG_ERROR, StringFormat("Drawdown Auto Close is ENABLED but a limit is NEGATIVE (Max DD %% = %.2f, Max DD USD = %.2f) - a negative cap is meaningless. THE DRAWDOWN CAP IS NOT ARMED. Set a positive limit.",
+                                     InpMaxDDPercent, InpMaxDDUSD));
+      else if(InpMaxDDPercent <= 0.0 && InpMaxDDUSD <= 0.0)
+         // THE E9-R1 FAILURE ITSELF: enabled, but no limit set, so nothing can ever
+         // fire. This was silent before b45 and the user believed a loss cap existed.
+         // It is now the LOUDEST case in validation.
+         Log(LOG_ERROR, "Drawdown Auto Close is ENABLED but BOTH limits are 0 (Max DD in % of Balance = 0, Max DD in USD = 0) - there is NO cap to enforce, so NOTHING will fire. THE DRAWDOWN CAP IS NOT ARMED. Set Max DD in % of Balance (e.g. 2) or Max DD in USD.");
+      else
+        {
+         double capNow = EffectiveDDCap();
+         double bal    = AccountInfoDouble(ACCOUNT_BALANCE);
+         string which;
+         if(InpMaxDDPercent > 0.0 && InpMaxDDUSD > 0.0)
+            which = StringFormat("percent limit $%.2f (%.2f%% of balance %.2f) vs USD limit $%.2f -> the LOWER (tighter) wins",
+                                 bal * InpMaxDDPercent / 100.0, InpMaxDDPercent, bal, InpMaxDDUSD);
+         else if(InpMaxDDPercent > 0.0)
+            which = StringFormat("percent limit only: %.2f%% of balance %.2f", InpMaxDDPercent, bal);
+         else
+            which = "USD limit only";
+         Log(LOG_INFO, StringFormat("Drawdown Auto Close ARMED: effective cap $%.2f (%s). Enforced as a BOUNDARY SL every position adopts (broker-held, so it fires even if MT5 is closed). Stop Loss (points) concedes to this boundary while enabled.",
+                                    capNow, which));
+        }
+     }
    return ok;
   }
 
@@ -5083,6 +5511,12 @@ int OnInit()
    // 500ms timer: dashboard refresh + confirm-window maintenance.
    EventSetMillisecondTimer(500);
    LogBrokerExitGeometry();   // b27: broker stops-level guidance for BE/trail config
+   // b45 (E9-R1 E-1/E-2/E-3): re-derive across a restart. Runs AFTER Reconcile, so
+   // the reloaded sequence is known and adopted L1s are already tracked. The boundary
+   // is DERIVED-ONLY (never persisted, resolved at seal), so this is where a restart
+   // recovers it - and the broker-held SLs protected the legs the whole time the EA
+   // was down, which is the D2 advantage over an EA-side market close.
+   AnnounceDDBoundary("init (restart re-derive)");
    Log(LOG_INFO, "Init complete - " + TRTM_BUILD + (InpEnableRecovery
                   ? " (adoption, exits, recovery active)"
                   : " (adoption, exits active - recovery DISABLED)"));

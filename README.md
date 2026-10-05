@@ -234,26 +234,52 @@ as soon as it's legal - it doesn't silently drop it.
 |---|---|
 | `InpSpreadFilter` / `InpMaxSpreadPts` | Block *recovery* entries when spread is too wide. |
 | `InpDeviationFilter` / `InpMaxDeviationPts` | Max slippage allowed on recovery entries. |
-| `InpEnableDDClose` | **NOT IMPLEMENTED - does nothing.** See the warning below. |
-| `InpMaxDDPercent` / `InpMaxDDUSD` | **NOT IMPLEMENTED - do nothing.** See the warning below. |
+| `InpEnableDDClose` | Turn the drawdown cap on. Implemented in **b45**. |
+| `InpMaxDDPercent` | Cap as a **% of account balance** (e.g. `2` = 2%). `0` = off. |
+| `InpMaxDDUSD` | Cap in **account currency** (e.g. `150`). `0` = off. |
 
-> **Drawdown Auto Close does not exist yet.** These three inputs appear in
-> the dialog but no code reads them. Ticking the box and setting a
-> percentage has **no effect whatsoever** - TRTM will not close anything at
-> any drawdown, and it will not warn you that it isn't going to. They are
-> placeholders from the original input layout whose stage was never built.
+> **How the drawdown cap works (b45).**
+> Set `InpEnableDDClose = true` and at least one limit. TRTM works out the
+> price at which this sequence would hit that loss, and puts a **stop loss at
+> that price on every position**. Your broker holds it, so it fires **even if
+> MT5 is closed**, your VPS drops, or the EA is removed. That is the whole
+> point of a loss cap - the old plan of having the EA close the trades itself
+> would have protected you only while the EA was running.
 >
-> **If you were relying on this as a loss cap, you did not have one.**
-> Found 2026-10-05 after a live attempt to use it at 2%. Tracked as E9-R1.
+> **If you set both limits, the lower one wins** - whichever you would hit
+> first. With a $1,500 balance, `InpMaxDDPercent = 2` and
+> `InpMaxDDUSD = 20`, the cap is **$20**, not $30.
 >
-> What *does* limit losses today: the per-sequence **Stop Loss**
-> (`InpStopLossPts`, anchored to the lowest surviving level), **Break-Even**
-> and **Trailing** once armed, and the SL-exceeded market-close backstop.
-> None of those is an account-level stop - they are per sequence.
+> **The cap is per symbol, not per account.** Each chart caps its own
+> sequence. Eight charts at 2% each is not an account-wide 2% stop.
 >
-> Not to be confused with **Drawdown Reduction (Tiers 1/2/3)**, which is a
-> different feature entirely and does work: it closes a *profitable subset*
-> to reduce drawdown, never the whole basket at a loss.
+> **Where the stop goes.** TRTM projects the *whole recovery grid your
+> settings will produce* and puts the stop at the level where your budget
+> runs out, 10 points above it. So no recovery level is ever opened below
+> your cap - the limit is honoured exactly, not approximately.
+>
+> **Two things that will surprise you if nobody says them:**
+> 1. While this is on, it **owns the stop loss**. `InpStopLossPts` is
+>    ignored, and if you drag a stop by hand TRTM will **overwrite it** -
+>    including replacing a tighter stop of yours with its own looser one. It
+>    writes a loud warning to the log whenever it does that.
+> 2. The stop **can move away from price**. If Drawdown Reduction banks a
+>    profit, you genuinely have more room, so the cap is recalculated and the
+>    stop may step back. The log line shows the cap, what you have already
+>    realised, and what remains.
+>
+> **Enabled with both limits at `0` does nothing** - so TRTM now refuses to
+> arm and writes an **error** at startup, and the dashboard shows
+> `NOT ARMED`. Before b45 this was silent, which is how it went unnoticed
+> (E9-R1, found 2026-10-05 after a live attempt to use it at 2%).
+>
+> **Set distances in POINTS, never pips.** On a 3-digit pair like GBPJPY, 37
+> pips is `370`. Getting this wrong makes your grid 10x tighter than you
+> intended - it happened in our own worked example.
+>
+> Not to be confused with **Drawdown Reduction (Tiers 1/2/3)**, which closes
+> a *profitable subset* to reduce drawdown and never closes the basket at a
+> loss. Both can run together; the cap re-derives when a tier fires.
 
 ### Tester & System
 | Input | Meaning |

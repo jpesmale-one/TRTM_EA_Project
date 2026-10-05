@@ -29,20 +29,28 @@
 # with an empty git diff. It worked, but it depended on memory. This does not.
 # ############################################################################
 
-build: b44
+build: b45
 file: TRTM.mq5
-sha256_16: 57bc3811df272e40
-lines: 5224
-date: 2026-10-03
-# *** b44 SEALED BY JEFF 2026-10-03 *** E9-Q2 directional record management. Gate 6 closed.
-#   All six gates cleared. Gate 4 COMPLETE: all 25 matrix rows disposed, 13 on LIVE evidence.
-#   THE DEFECT IT CLOSES: on 2026-09-18 reconcile read an unpopulated position cache as
-#   "broker is flat", called StateReset + StateSave, and PERMANENTLY destroyed the adoptedL1
-#   record for ticket 2940935091 - which then ran with no TP, no SL and no recovery for FIVE
-#   DAYS until Jeff closed it by hand. b44 makes deletion require AFFIRMATIVE evidence.
-#   REPO src    = b44 (57bc3811df272e40 / 5224)  <- this manifest tracks REPO.
-#   MT5 runtime = b44 (57bc3811df272e40 / 5224) ALIGNED 2026-10-03 - compiled by Jeff at
-#     the LIVE path and verified byte-identical. Every verification run above used it.
+sha256_16: e5516ee1ce06dcde
+lines: 5659
+date: 2026-10-05
+# *** b45 BUILT 2026-10-05, AWAITING GATE ZERO (Jeff compiles). *** E9-R1 drawdown auto
+#   close - the inert-input defect. The three DD inputs existed in the dialog since the
+#   original layout and NO CODE READ THEM: ticking the box and setting 2% did nothing, and
+#   said nothing. Jeff found it by enabling it live and watching it not fire.
+#   b45 implements it per locked D1-D6: cap = MIN of the two positive limits, per SYMBOL,
+#   percent of BALANCE; enforced as a BOUNDARY SL every leg adopts (broker-held, so it
+#   fires with MT5 closed) derived from the FULL ANTICIPATED GRID and re-derived on every
+#   STRUCTURAL change. Both-limits-off now REFUSES TO ARM loudly instead of silently.
+#   Previous: b44 57bc3811df272e40 / 5224 lines.
+#   SCOPE: adds an EVALUATOR, a PROJECTION and a GUARD. Reuses the SEALED ComputeLevelLot()
+#     for every projected lot and ONE shared NextLadderPrice() for the interval step, so the
+#     projection and the live recovery engine CANNOT drift (matrix B-3, the biggest build risk).
+#   b44's E9-Q2 keep logic, the 90-day expiry, the three DD-reduction tiers and state schema v5
+#     are ALL UNTOUCHED. The boundary is DERIVED-ONLY - nothing new is persisted, no schema bump.
+#   REPO src    = b45 (e5516ee1ce06dcde / 5659)  <- this manifest tracks REPO.
+#   MT5 runtime = b44 (57bc3811df272e40 / 5224) *** NOT YET ALIGNED - GATE ZERO PENDING. ***
+#     Jeff compiles at the LIVE path; expect "=== TRTM b45 init ===" and a clean self-test.
 # E9-Q2-D2: the b43 GATE 4 FAIL fix. An UNKNOWN record is NEVER loaded into g_state - "keep
 #   the record" means PRESERVE THE FILE, not resurrect an unconfirmed ticket as a live
 #   sequence. Implements sealed matrix rev 2 rows A-7 / A-8 / A-9.
@@ -4846,3 +4854,84 @@ drift because only ONE copy of the interval maths exists.
 VALIDATION SCOPE DECISION recorded: the A-6/A-7 refusal does NOT set g_configBlocked. b17's
 config-block is a FULL TRADING FREEZE; a misconfigured DD cap must not freeze a live sequence
 that other rules still protect. It refuses to ARM, loudly. b19-consistent.
+
+## *** CORRECTION 2026-10-05: THE D3 WORKED EXAMPLE RECORDED THE INTERVAL IN THE WRONG UNIT.
+## FOUND BY RECOMPUTING THE FIXTURE DURING THE b45 BUILD, NOT BY INSPECTION. ***
+D3 records Jeff's GBPJPY settings as "Recovery Interval = 37" and claims the grid was
+"reproduced EXACTLY by recompute". IT WAS NOT. Recomputing from 37 POINTS gives:
+  L1 208.663 L2 208.626 L3 208.589 L4 208.552 L5 208.515, total DD L1..L4 = $3.04
+versus the screenshot's L2 208.293 / L5 207.183 and -$30.44. WRONG BY EXACTLY 10x in BOTH
+price spacing AND money - the signature of a points/pips unit error.
+RECOMPUTED AT 370 POINTS (= 0.370 on a 3-digit pair) - EXACT MATCH ON EVERY FIGURE:
+  L1 208.663 | L2 208.293 | L3 207.923 | L4 207.553 | L5 207.183   (all five, to the digit)
+  lots 0.01 / 0.01 / 0.02 / 0.02 / 0.03, total 0.09
+  DD L1..L4 at 207.183 = $30.4430 and 4810.0 JPY -> matches "Total DD: $-30.44" and the
+  -4810.0 JPY intermediate EXACTLY.
+WHAT ACTUALLY HAPPENED: "37" came from Jeff's external Shadow Grid Visualizer, which is
+PIP-denominated. 37 pips on GBPJPY = 370 POINTS. The EA's InpRecoveryIntervalPts is in POINTS,
+so to reproduce that grid the EA input must read 370, NOT 37.
+*** THIS IS A LIVE INSTANCE OF THE EXACT HAZARD THE POINTS CONVENTION EXISTS TO CATCH, and it
+reached a SEALED locked-decision document. *** It is also why the convention is enforced in a
+path-scoped rules file rather than only in prose: the number looked plausible and survived a
+seal. The arithmetic caught it; reading did not.
+NO CODE CONSEQUENCE IN b45: the EA has always been points-only and NextLadderPrice multiplies
+InpRecoveryIntervalPts by _Point, so the engine and the projection were both already correct.
+THE ERROR WAS IN THE RECORDED EXAMPLE, NOT IN THE CODE OR THE DESIGN.
+*** OPERATIONAL CONSEQUENCE FOR JEFF - CHECK THE LIVE CHARTS: *** if any instance has
+InpRecoveryIntervalPts set from a pip-denominated figure, its ladder is 10x TIGHTER than
+intended on 3- and 5-digit symbols. On GBPJPY, 37 would space levels 3.7 pips apart instead of
+37. b45's Gate 4 must confirm the GBPJPY instance reads 370.
+MATRIX IMPACT: B-1's expected boundary of 207.193 STANDS (207.183 + 10 points = 207.193), but
+it holds only with the interval input at 370. The B-1 row now states the unit explicitly.
+
+## b45 BUILT 2026-10-05 - GATE ZERO PENDING (Jeff compiles). 5659 lines, e5516ee1ce06dcde.
+LINE DELTA +435 vs b44's 5224, against a Gate 3 ESTIMATE of +200..+240. I UNDERSHOT BY ~2x
+and the reason is worth keeping: the estimate counted CODE and not the COMMENT BLOCKS. The R1
+block carries the full D1-D6 rationale inline (why a broker-held SL beats an EA close, why the
+projection must not own ladder maths, why the A-6 guard must not set g_configBlocked), plus the
+D-6 Tier 3 explanation at its hook. That is deliberate - the next person to touch EnforceExits
+must not have to find STATE.md to learn that the DD boundary owns the SL on purpose - but
+future estimates should count comment lines explicitly rather than treating them as rounding.
+WHAT WAS BUILT, 12 touch points as planned:
+  1 NextLadderPrice()        2309 - THE single copy of the interval step (B-3). ComputeRecoveryTrigger
+      was REWRITTEN to call it, so engine and projection cannot drift. This is the whole B-3 mitigation.
+  2 DD_OFFSET_PTS 10 / DD_MAX_PROJECT 200 - constants, resolved at seal (not a 4th input).
+  3 EffectiveDDCap()         3877 - MIN of the positive limits, 0.0 = not armed (A-2..A-5).
+  4 MoneyPerPointPerLot()    3897 - the EXISTING tick-value idiom, no new money maths.
+  5 SequenceRealisedLoss()   3914 - banked P/L from deal history since adoptionTime, filtered on
+      magic + symbol. A net PROFIT returns negative, which WIDENS the budget - that IS D5.
+  6 DDBoundaryPrice()        3945 - the projection. Anchors on the WORST SURVIVING entry (D-4),
+      lots from SEALED ComputeLevelLot (B-2/B-7), spacing from NextLadderPrice (B-3), terminators
+      input-cap (B-4) / budget / 200-bound-refuses (B-5), wrong-side guard (B-6), offset signed
+      per direction (B-10), closeNow for a spent budget (D-9).
+  7 AnnounceDDBoundary()     4072 - observability only, NO writes. Called from the FOUR structural
+      sites and never from OnTick, which is what makes D-2/D-3 true BY CONSTRUCTION.
+  8 EnforceExits injection   ~1838 - *** THE DESIGN CHANGE vs THE PLAN, AND IT IS A SIMPLIFICATION.
+      The plan proposed a separate ApplyDDBoundary() writer. Reading the sealed modify loop showed
+      it ALREADY does everything that writer needed: per-ticket idempotence (C-8), the
+      TradeTargetLive no-send gate (C-7/E-4), min-distance deferral (C-6), retry+backoff, and the
+      SL-exceeded market close. So the boundary is INJECTED INTO `sl` upstream of all of it and the
+      SEALED loop writes it. One writer owns the SL, which is literally what D2/D6 demand ("two
+      rules cannot both own the SL"), and ~60 lines of duplicated write/retry logic never existed.
+      A second writer would also have FOUGHT the first one for the SL every tick.
+  9 ValidateInputs guard     ~5265 - A-6/A-7. DELIBERATELY does not touch `ok`, so a bad DD cap
+      does NOT set g_configBlocked (a full trading freeze) on a sequence other rules still protect.
+ 10 Dashboard "DD Cap SL" row ~4518 - boundary price + cap + levels afforded (F-1); absent when
+      disabled (F-2); shows "NOT ARMED (no limit set)" for the A-6 case, making E9-R1 VISIBLE.
+ 11 README rewritten - the "you did not have a loss cap" warning replaced with shipped behaviour,
+      including both surprises stated plainly (it overwrites a manual SL; the stop can retreat).
+ 12 Manifest + this record.
+SELF-AUDIT BEFORE HANDING OVER (each checked, not assumed):
+  ZERO Result*() reads in the entire R1 block -> no E9-Q3 exposure in new code.
+  Both divisions are by _Point (MT5 guarantees non-zero); mpp is guarded before use; remaining<=0
+    returns before any division (D-9).
+  "pip" occurrences back to ZERO after rewording my own comment - the convention's own check
+    stays usable.
+  Brace delta -1 matches b44 EXACTLY (it is the `json += "}"` string literal, pre-existing).
+  MQL5 is SINGLE-PASS: forward declarations added at 693 for AnnounceDDBoundary, EffectiveDDCap,
+    SequenceRealisedLoss and DDBoundaryPrice, because EnforceExits (1838) calls all four from
+    ABOVE their definitions. Without these the build does not compile.
+  check_hygiene HOOK CAUGHT A REAL DEFECT: my edits wrote LF endings where MetaEditor needs
+    CRLF. It failed (exit 2), I rebuilt the endings uniformly and matched b44's no-trailing-
+    newline final byte exactly, and it now passes (exit 0). THE HOOK EARNED ITS KEEP - that
+    would have been a compile failure on Jeff's machine, not a style nit.
