@@ -1,0 +1,14 @@
+2026.10.05 16:43:49.832	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] === TRTM b47 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.10.05 16:43:49.832	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.10.05 16:43:49.832	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Drawdown Auto Close ARMED: effective cap $20.00 (percent limit $52.98 (2.00% of balance 2649.18) vs USD limit $20.00 -> the LOWER (tighter) wins). Enforced as a BOUNDARY SL every position adopts (broker-held, so it fires even if MT5 is closed). Stop Loss (points) concedes to this boundary while enabled.
+2026.10.05 16:43:49.836	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] State persistence self-test: PASS
+2026.10.05 16:43:49.837	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Reconcile complete: FLAT
+2026.10.05 16:43:49.838	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Account margin mode: HEDGING
+2026.10.05 16:43:49.838	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.10.05 16:43:49.838	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Init complete - b47 (adoption, exits, recovery active)
+2026.10.05 16:44:31.135	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] BUY ARMED: 0.01 lots (Fixed 0.01) - click CONFIRM within 10s to execute
+2026.10.05 16:44:31.963	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] L1 BUY OPENED via button: 0.01 lots @ 4162.30 (deal 556607142)
+2026.10.05 16:44:31.963	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Structure: 1 level(s), 0.01 lots | projected at TP +3.00 | at SL -3.00
+2026.10.05 16:44:31.963	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] EA L1 REGISTERED: ticket 892866876 BUY 0.01 lots @ 4162.30. Exits apply next tick.
+2026.10.05 16:44:31.977	TRTM (XAUUSD.s,M5)	[TRTM][WARN ] DD boundary 4154.40 is LOOSER than the computed SL 4159.30 and REPLACES it (E9-R1 D6: the drawdown cap owns the SL while enabled). Your stop moves AWAY from price. Cap $20.00, 3 level(s) afforded.
+2026.10.05 16:44:32.186	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Exits applied to ticket 892866876: TP 4165.30 SL 4154.40

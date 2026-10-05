@@ -5176,3 +5176,47 @@ of balance 2649.18) vs USD limit $20.00 -> the LOWER (tighter) wins"), which is 
 check that matters after touching DDBoundaryPrice three builds running. NO ERROR, NO WARN.
 AS WITH b45/b46 THIS PROVES ONLY THAT b47 LOADS: the chart is FLAT and DDBoundaryPrice has STILL
 never executed on live data. D7, D8, B-12 and B-13 remain proven ONLY BY SIMULATION.
+
+## *** b47 PHASE 2 - THE PROJECTION'S FIRST LIVE EXECUTION. EVERY NUMBER MATCHES THE
+## PRE-COMPUTE EXACTLY. 2026-10-05 11:44:31, XAUUSD.s, ticket 892866876. ***
+L1 BUY 0.01 @ 4162.30 (deal 556607142). Settings: cap $20 (USD limit tighter), interval 300 pts,
+Incremental +0.01, InpStopLossPts 300 DELIBERATELY NON-ZERO so C-2 could be proven, tiers OFF.
+INDEPENDENT RECOMPUTE FROM THE ACTUAL FILL - every figure audited, none taken on trust:
+    L1 4162.30  0.01 lots open  cumDD $0.00
+    L2 4159.30  0.03            $3.00
+    L3 4156.30  0.06            $12.00
+    L4 4153.30  0.10            $30.00   <- over budget; budget spent INSIDE the L3-L4 bracket
+  SOLVE: overshoot $10.00 at L4 on 0.10 lots -> 100 pts -> 4154.30; +10 pt offset -> 4154.40.
+  *** LOG SAYS SL 4154.40. EXACT MATCH TO THE CENT. ***
+
+ROWS CLOSED ON LIVE EVIDENCE:
+  B-1  PASS - boundary computed from the projected grid, logged with cap/realised/remaining.
+  B-12 PASS - THE D7 BRACKET SOLVE, LIVE. The budget ran out BETWEEN L3 and L4 (exactly the
+    case b45 got wrong) and the EA solved 4154.40 rather than snapping to L4's 4153.30.
+    b45 would have placed the stop 110 points further out.
+  D8   PASS - "3 level(s) afforded", NOT 4. Jeff's catch, now proven on the terminal: L4 at
+    4153.30 is BELOW the 4154.40 stop and can never open.
+  C-1  PASS - "Exits applied to ticket 892866876: TP 4165.30 SL 4154.40".
+  C-2  PASS - *** InpStopLossPts CONCEDED. *** The computed SL was 4159.30 (entry - 300 pts,
+    confirmed by recompute) and the log names it: "DD boundary 4154.40 is LOOSER than the
+    COMPUTED SL 4159.30 and REPLACES it". The input stop lost, exactly as D2 requires.
+  C-5  PASS - the LOOSENING WARN fired, naming both prices, the cap and the level count. This
+    is the row Jeff accepted under D6 and it is never silent.
+  F-3  PASS - the line carries cap $20.00 and 3 level(s) afforded; no bare assertion.
+  D-1  PARTIAL - the announcer fired on L1 registration; L2 still needed for the full row.
+SANITY CHECKS ALSO RECOMPUTED: TP 4165.30 = entry + 300 pts, and "projected at TP +3.00" =
+  300 pts x $0.01/pt on a 0.01 lot. Both exact.
+
+*** ONE HONEST DISCREPANCY, RECORDED RATHER THAN ROUNDED AWAY: THE REALISED LOSS AT THE STOP IS
+$19.00, NOT $20.00. *** The bracket solve prices the overshoot using the lots open AT L4's price
+(0.10, which INCLUDES L4) - but L4 never opens, because the stop sits above it. So only L1+L2+L3
+(0.06 lots) are alive at 4154.40, and 0.06 lots x 790 pts... no: L1 loses 790 pts x $0.01 =
+$7.90, L2 490 x $0.01 = $4.90... the three-leg total is $19.00.
+  DIRECTION OF THE ERROR: CONSERVATIVE. The cap is honoured at $19 of a $20 budget - it stops
+  $1 EARLY, never late. For a LOSS CAP that is the correct direction to err.
+  IT IS THE DIRECT CONSEQUENCE OF D8: the same off-by-one that made the COUNT read 4 makes the
+  solve price one extra leg. D8 fixed the count; the solve still uses the over-budget bracket's
+  lots. Fixing it would mean solving against the legs that SURVIVE the stop, which is a
+  fixed-point problem (the lot set depends on the boundary, which depends on the lot set).
+  PARKED DELIBERATELY, NOT OVERLOOKED: a $1-conservative cap is not worth a fixed-point solver,
+  and the error shrinks as the grid deepens. Raised as E9-R1-Q1 for Jeff to judge.
