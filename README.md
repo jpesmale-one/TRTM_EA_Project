@@ -224,8 +224,26 @@ as soon as it's legal - it doesn't silently drop it.
 |---|---|
 | `InpSpreadFilter` / `InpMaxSpreadPts` | Block *recovery* entries when spread is too wide. |
 | `InpDeviationFilter` / `InpMaxDeviationPts` | Max slippage allowed on recovery entries. |
-| `InpEnableDDClose` | Master switch for drawdown auto-close. |
-| `InpMaxDDPercent` / `InpMaxDDUSD` | Close everything past this drawdown. 0 = off. |
+| `InpEnableDDClose` | **NOT IMPLEMENTED - does nothing.** See the warning below. |
+| `InpMaxDDPercent` / `InpMaxDDUSD` | **NOT IMPLEMENTED - do nothing.** See the warning below. |
+
+> **Drawdown Auto Close does not exist yet.** These three inputs appear in
+> the dialog but no code reads them. Ticking the box and setting a
+> percentage has **no effect whatsoever** - TRTM will not close anything at
+> any drawdown, and it will not warn you that it isn't going to. They are
+> placeholders from the original input layout whose stage was never built.
+>
+> **If you were relying on this as a loss cap, you did not have one.**
+> Found 2026-10-05 after a live attempt to use it at 2%. Tracked as E9-R1.
+>
+> What *does* limit losses today: the per-sequence **Stop Loss**
+> (`InpStopLossPts`, anchored to the lowest surviving level), **Break-Even**
+> and **Trailing** once armed, and the SL-exceeded market-close backstop.
+> None of those is an account-level stop - they are per sequence.
+>
+> Not to be confused with **Drawdown Reduction (Tiers 1/2/3)**, which is a
+> different feature entirely and does work: it closes a *profitable subset*
+> to reduce drawdown, never the whole basket at a loss.
 
 ### Tester & System
 | Input | Meaning |

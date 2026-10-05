@@ -4265,3 +4265,60 @@ OTHER WARNS IN THE SAME CAPTURE, all benign and recorded so they are not re-inve
     measured one. Here the claim happens to be true - the prices differ by 0.6 and 1.7 pips.
   GBPUSD.s 20:03:48 and EURAUD.s 21:29:00 - "Liveness: L<n> ticket <t> closed externally
     (manual/unknown)". Normal manual closes; under b44 these still delete (A-2 proved it).
+
+## *** E9-R1 (NEW, 2026-10-05): DRAWDOWN AUTO CLOSE IS NOT IMPLEMENTED - AN INERT INPUT
+## THAT THE README DOCUMENTS AS WORKING. RAISED BY JEFF. ***
+JEFF'S REPORT: "I enabled it once and expected the positions will be closed at 2% drawdown
+but it did not fire." He was looking for a cause in the 09-30 log. THERE IS NO CAUSE IN THE
+LOG - the feature does not exist.
+
+CODE EVIDENCE, DEFINITIVE: InpEnableDDClose, InpMaxDDPercent and InpMaxDDUSD appear EXACTLY
+ONCE EACH in the whole 5224-line file - their declarations at 145-147. They are never read
+by any code path. Corroborated three ways:
+  - `grep -n "InpEnableDDClose\|InpMaxDDPercent\|InpMaxDDUSD"` returns ONLY lines 145-147.
+  - NO ACCOUNT_EQUITY read anywhere in the file; there is no equity/drawdown evaluator at all.
+  - ZERO "DD" references inside OnTick's engine chain.
+  Every other "Drawdown" hit in the file is the DRAWDOWN REDUCTION tiers (E4/E5/E6), which
+  are a DIFFERENT FEATURE ENTIRELY - a partial basket valve, not an account-level stop.
+  The 248-line 09-30 capture across EIGHT instances contains no DD line of any kind, which is
+  the expected ABSENCE, not a missing trigger.
+
+ROOT CAUSE: a Stage 1 placeholder that never got its stage. The INPUTS header (80-83) states
+the convention: "all inputs are declared so the dialog layout is locked now. Inputs owned by
+later stages are INERT until that stage lands." These three sit under
+"=== Filters & Safety (Stage 7) ===", and Stage 7 SEALED as "SafetyLayer + instance lock +
+log retention". The lock and retention shipped. Drawdown auto-close did not. The inputs
+stayed in the dialog and nothing ever flagged the gap.
+
+WHY IT WAS INVISIBLE TO JEFF - TWO COMPOUNDING FAILURES, AND THE SECOND IS THE WORSE ONE:
+  (1) NO LOG LINE. Ticking the box produces NOTHING - no confirmation, no warning, no
+      "not implemented". The EA is silent because there is no code to speak. CLAUDE.md
+      section 7 lists "any silent path: code that fails/skips/blocks without logging" as a
+      FLAG-IMMEDIATELY item; this is worse than a silent skip, because there is no code at all.
+  (2) *** THE README DOCUMENTS IT AS FUNCTIONAL. *** README.md 227-228:
+        | `InpEnableDDClose` | Master switch for drawdown auto-close. |
+        | `InpMaxDDPercent` / `InpMaxDDUSD` | Close everything past this drawdown. 0 = off. |
+      That table tells the reader to tick the box and set a percentage. Nothing hints the
+      code is absent. A user following the documentation would reasonably believe the account
+      had a drawdown stop when it had none.
+      THE SAFETY INVERSION: this is not a feature that silently does nothing. It is a feature
+      that silently does nothing WHILE THE DOCS PROMISE A LOSS CAP. Anyone relying on it was
+      running without the protection they thought they had.
+
+IMMEDIATE ACTION TAKEN 2026-10-05: README corrected so the documentation stops lying (see the
+  b45 entry if a build followed). NO CODE WRITTEN. A drawdown auto-close decides when EVERY
+  position on the account is closed - that is a money path and CLAUDE.md section 8 forbids
+  code before a confirmed plan, a plan before a sealed matrix, and a matrix before locked
+  decisions. It gets its own Gate 1.
+
+OPEN QUESTIONS FOR THAT GATE 1 (recorded now so they are not re-derived):
+  - DRAWDOWN OF WHAT? Account equity vs balance, or only THIS instance's sequence? With EIGHT
+    instances on one account, an account-level equity stop on one chart would close positions
+    the other seven own. That is the central decision and it is not obvious.
+  - CLOSE WHAT? Only this magic's positions, or everything? The EA has never touched a
+    position outside its own magic; doing so would be a first.
+  - THE NOTIFY-NEVER-AUTO-CLOSE PRECEDENT (b19, locked): "a config error must not cost an
+    open, exit-protected position money". An auto-close is the opposite posture and must be
+    reconciled with that decision rather than quietly overriding it.
+  - PERCENT AND USD TOGETHER: whichever trips first, or is one a master? Both default to 0.
+  - INTERACTION with the sealed E4/E5/E6 tiers, BE, trailing, and the SL-exceeded backstop.
