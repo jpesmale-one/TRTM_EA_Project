@@ -116,10 +116,16 @@ Without that one line, A-7 would have fixed one defect and opened another.
    b39/F-2 self-heal path. Every such position on a b41 instance is therefore a candidate for
    the same destruction the next time that instance restarts with an unpopulated cache, which
    is a FRIDAY-ROLLOVER event, not an exotic one.
+   *** AND THE TRIGGER HAS ALREADY RECURRED. *** 2026-10-01 21:03:38 on EURAUDS 764490 (b41)
+   produced the EXACT 09-18 signature - "recorded adopted L1 ticket 2059016696 no longer
+   exists - closed while EA was offline" + "file claims 1 level(s) but broker is flat".
+   That one was PROBABLY a genuine close (the ticket never reappears, unlike AUDNZDS 2940935091
+   which shows up across nine daily logs after its false declaration) - but b41 CANNOT TELL
+   THE DIFFERENCE, and the log line is identical either way. Two occurrences, 13 days apart,
+   two symbols, both still on b41. See the EURAUDS entry in STATE.md.
    (Session note: I first called the rollout urgent, then over-corrected to "conditional"
-   after Jeff pointed out the orphaned position was already closed. Checking the logs settles
-   it: no CURRENT exposure, but a RECURRING precondition. The right word is PREVENTIVE AND
-   LIKELY TO MATTER, not optional.)
+   after Jeff pointed out the orphaned position was already closed, then the logs settled it.
+   No CURRENT exposure; a RECURRING trigger. PREVENTIVE AND LIKELY TO MATTER, not optional.)
    A seal deploys nothing. Rolling b44 out is Jeff's call, and a mixed fleet makes future log
    audits ambiguous about which build produced which line.
 2. E9-Q4 - the slice-selection race. b42 NAMES the event; it does not explain why the anchor

@@ -4215,3 +4215,53 @@ STEP-4 RESTART (01:04:03) - a clean flat marker reloads with "Reconcile complete
   LIVE EVIDENCE (13): A-1 A-2 A-3 A-4 A-5 A-7 A-8 A-9 B-1 B-2 C-1 C-4 D-2
   INSPECTION + FILTERED DIFF (12): A-6 B-3 B-4 C-2 C-3 D-1 D-3 D-4 D-5 D-6 D-7 D-8
   Awaiting Jeff's explicit word to seal (Gate 6).
+
+## E9-Q2 TRIGGER RECURRED 2026-10-01 ON EURAUDS - SECOND OCCURRENCE, 13 DAYS AFTER 09-18
+RAISED BY JEFF (he flagged this file on 2026-10-02 as "evidence I want to check with you
+later on"; parked then, read 2026-10-05). EVIDENCE: tests/2026.09.30 174332.508.txt.
+
+2026.10.01 21:03:38.168, EURAUD.s H1, symbol EURAUDS, magic 764490, b41 - THE EXACT 09-18
+SIGNATURE, same two lines in the same second:
+  "Reconcile: recorded adopted L1 ticket 2059016696 no longer exists - closed while EA was
+   offline"
+  "Reconcile: file claims 1 level(s) but broker is flat - sequence closed while EA was offline"
+An ADOPTED L1 (magic-0, no b39/F-2 self-heal path) declared closed, record destroyed.
+
+VERDICT ON THIS INSTANCE: PROBABLY A GENUINE CLOSE, NOT A FALSE FLAT. The discriminator is
+reappearance, and it is decisive:
+  EURAUDS 2059016696 appears EXACTLY ONCE in the whole capture - the declaration itself.
+  AUDNZDS 2940935091 (the 09-18 case) appears across NINE daily logs, INCLUDING AFTER its
+    false declaration. That reappearance is what PROVED the EA wrong.
+  No such proof exists here.
+THREE CORROBORATING SIGNS it really had closed:
+  (1) the EA opened a NEW L1 eighteen seconds later (21:03:56 BUY ARMED -> 21:03:58 OPENED).
+      Jeff would not manually open a fresh position on a symbol he believed already held one.
+  (2) "Log cleanup: 2 file(s) older than 14d deleted" - this instance had been running long
+      enough to accumulate history, and this is the FIRST EURAUD line in the capture, so the
+      prior sequence closed during a genuine offline gap.
+  (3) 09-18 had NINE positions vanish simultaneously (the cache-empty signature). Here only
+      the single adopted L1 was claimed and RebuildLiveMap found no magic-owned levels either
+      - consistent with a genuinely flat account rather than an unpopulated cache.
+
+*** WHY IT IS A FINDING ANYWAY, AND THE STRONGEST ARGUMENT YET FOR THE ROLLOUT: ***
+  b41 COULD NOT TELL THE DIFFERENCE. It asserted "closed while EA was offline" on ZERO
+  affirmative evidence - it only knew PositionSelectByTicket had failed - and then destroyed
+  the record. IT HAPPENED TO BE RIGHT THIS TIME. On 09-18 it was wrong and that cost five
+  days of an unmanaged position. THE LOG LINE IS IDENTICAL IN BOTH CASES. That identity IS
+  the defect.
+  Under b44 this same init would have read history, found a closing deal, and logged
+  "...CONFIRMED closed while the EA was offline (closing deal found in history)" - the same
+  outcome STATED ON EVIDENCE. Had history been empty, the record would have SURVIVED.
+  SO: the adopted-L1-declared-closed path fires in NORMAL OPERATION, not only on a
+  Friday-rollover accident. Two occurrences, 13 days apart, on two different symbols, both
+  on instances that are STILL RUNNING b41. This retires any notion that 09-18 was a one-off.
+
+OTHER WARNS IN THE SAME CAPTURE, all benign and recorded so they are not re-investigated:
+  GBPUSD.s 15:30 + 20:00 - "Recovery L3 FORFEITED: fill-side price ... does not satisfy
+    trigger ... (spread pushes entry inside the interval)". The b2 entry-side guard working
+    as designed; the fill price genuinely sat inside the interval both times.
+    NOTE: this is the WARN whose wording misdirected the 2026-08-19 stale-quote investigation
+    (it asserts SPREAD as the cause without checking). E9-Q1 would replace that claim with a
+    measured one. Here the claim happens to be true - the prices differ by 0.6 and 1.7 pips.
+  GBPUSD.s 20:03:48 and EURAUD.s 21:29:00 - "Liveness: L<n> ticket <t> closed externally
+    (manual/unknown)". Normal manual closes; under b44 these still delete (A-2 proved it).
