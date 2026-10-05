@@ -4468,3 +4468,216 @@ AGAINST WHAT THE STAGE ACTUALLY IMPLEMENTED, and correct the README from the cod
 A full mechanical audit was run 2026-10-05: 52 inputs, 4 dead, 48 reaching a real engine
 decision, and no input referenced only in validation/display. That audit is the baseline -
 re-run it after any stage that adds inputs.
+
+## LOCKED DECISION E9-R1-D1 (drawdown auto close - scope and trigger, Jeff 2026-10-05)
+
+SCOPE: *** PER CHART / SYMBOL, NOT THE ACCOUNT. *** Jeff's call, and it is the decision the
+  whole feature hinged on. The drawdown measured is THIS INSTANCE'S OWN TRACKED SEQUENCE.
+  CONSEQUENCE THAT MAKES THE BUILD SAFE: the EA closes ONLY its own magic's positions, which
+  is what every existing close path already does. NO NEW BOUNDARY IS CROSSED. An account-level
+  equity stop would have had one instance closing positions the other SEVEN own - that hazard
+  is now designed out rather than guarded against.
+
+DENOMINATOR FOR THE PERCENT: OPTION A - PERCENT OF ACCOUNT BALANCE, applied to the SEQUENCE's
+  floating P/L. Trigger: floatingPnL <= -(AccountBalance * InpMaxDDPercent / 100).
+  This matches the input's EXISTING label ("Max DD in % of Balance") and Jeff's stated
+  expectation ("expected the positions will be closed at 2% drawdown"), so nothing needs
+  relabelling and nothing surprises the user later.
+  REJECTED (B) percent of SEQUENCE EXPOSURE / cost basis: it has a hidden hazard - the
+    threshold MOVES AS THE SEQUENCE GROWS, so a deepening recovery RAISES ITS OWN STOP-OUT
+    BAR. That is the opposite of what a drawdown cap is for. Also needs a cost-basis
+    definition that does not exist yet.
+  REJECTED (C-alone) USD only, drop the percent: throws away an input the user already set
+    and expects to work.
+
+BOTH LIMITS ACTIVE, *** WHICHEVER IS LOWER WINS *** (Jeff 2026-10-05). The effective cap is
+  the MINIMUM of the two POSITIVE limits; a limit set to 0 is OFF and excluded from the
+  comparison. "Lower" = the TIGHTER cap, so it fires FIRST. Conservative by construction, and
+  it reads naturally as "whichever limit I hit first".
+  WORKED TABLE (balance 10,000, verified across every combination before locking):
+    pct 2.0%  usd $150  -> pct=$200, eff $150   USD tighter
+    pct 2.0%  usd $250  -> pct=$200, eff $200   percent tighter
+    pct 2.0%  usd off   -> eff $200             percent only
+    pct off   usd $150  -> eff $150             USD only
+    pct 1.0%  usd $100  -> both $100, eff $100  TIE - same outcome, no ordering needed
+    pct 5.0%  usd $50   -> pct=$500, eff $50    USD tighter
+    pct off   usd off   -> NO CAP -> MUST REFUSE TO ARM, LOUDLY (see below)
+
+THE BOTH-OFF CASE IS A GUARD, NOT A NO-OP. InpEnableDDClose true with BOTH limits at 0 must
+  REFUSE to arm and SAY SO at init. Rationale: a silent no-op is EXACTLY the failure that
+  created E9-R1 - the user believed a loss cap existed when none did. Both inputs default to
+  0, so "enabled with no limit set" is the most likely misconfiguration and it must be the
+  loudest.
+
+b19 PRECEDENT CHECKED AND DOES NOT BLOCK THIS - recorded so it is not re-litigated:
+  b19 reads "NOTIFY, never auto-close - a config error must not cost an open, exit-protected
+  position money". In context that is about the EA closing positions because ITS OWN INPUTS
+  WERE WRONG. A drawdown stop the trader DELIBERATELY ENABLES AND CONFIGURES is the opposite:
+  an intentional risk instruction, not a config accident. No conflict.
+  THE BOTH-OFF GUARD ABOVE IS b19-CONSISTENT: a misconfiguration refuses to arm rather than
+  auto-closing on a meaningless threshold.
+
+MACHINERY THAT ALREADY EXISTS AND IS SEALED - this build is mostly WIRING, not new engine:
+  SequenceFloatingPnL() sums POSITION_PROFIT + POSITION_SWAP over tracked tickets. Per-symbol
+    BY CONSTRUCTION, already used by the CLOSE SEQUENCE confirm preview.
+  CloseSequenceAtMarket(reason) is the SEALED whole-sequence close, already used by the
+    TP-exceeded and SL-exceeded rules, and it routes every leg through CloseLegAtMarket
+    (the E4 X-4 shared path, with b42's no-send gate).
+  => the fix adds an EVALUATOR and a GUARD, and reuses both sealed helpers unchanged.
+
+STILL TO DECIDE AT GATE 2 (named now so the matrix covers them):
+  - WHERE in the OnTick order does the check run? It must not fight the tiers or the
+    TP/SL-exceeded rules, and the ordering decides who wins a tick where two could fire.
+  - Does it include SWAP? SequenceFloatingPnL already does. Consistency says yes.
+  - One-shot or re-armable after a close? (The sequence goes flat, so this may be moot.)
+  - What the dashboard shows while armed, and the log line on fire (money numbers, per the
+    observability rule: computed figures, never a bare "DD close fired").
+
+## LOCKED DECISION E9-R1-D2 (how the cap is ENFORCED, Jeff 2026-10-05): CONVERT THE CAP TO
+## AN SL PRICE THAT EVERY POSITION ADOPTS - NOT AN EA MARKET CLOSE.
+
+JEFF'S TWO CLARIFICATIONS, BOTH ADOPTED:
+  (1) When Drawdown Auto Close is enabled, InpStopLossPts CONCEDES - the DD-derived price
+      becomes the stop. Two rules cannot both own the SL. On charts where InpStopLossPts = 0
+      (which is most of Jeff's) the DD cap BECOMES the only stop, so it is load-bearing.
+  (2) Rather than the EA closing at market, the cap is CONVERTED TO AN SL PRICE and written
+      to every position in the sequence. The BROKER closes them when touched.
+
+WHY (2) IS BETTER THAN THE EA-CLOSE DESIGN I PROPOSED, and it is not a close call:
+  A market close only fires WHILE THE EA IS ALIVE AND TICKING. A broker-held SL fires even if
+  MT5 is shut, the VPS drops, or the EA is detached. For a LOSS CAP that difference is the
+  whole point - it is the same argument b27 makes about BE stops being broker-held rather
+  than deferred. My original design would have left the cap unenforced exactly when it is
+  most likely to be needed.
+
+THE ARITHMETIC IS EXACT AND CLOSED FORM (verified before adopting): sequence P/L is LINEAR in
+  price, so the boundary solves directly:
+      SL = VWAP - dir * cap * point / (valuePerPointPerLot * totalLots)
+  Worked example, 3 legs (4141.51/0.01, 4138.00/0.02, 4134.50/0.03), VWAP 4136.835,
+  0.06 lots, cap $150 -> SL 4111.835, and PnL at that price checks to exactly -150.0000.
+
+*** CORRECTION ON THE RECORD - I HAD THIS WRONG AND JEFF CAUGHT IT. ***
+  I asserted "the DD stop must be RECOMPUTED on every structural change, because VWAP and
+  total lots both move when a level opens". JEFF DISAGREED: that is TP logic, not SL logic.
+  HE IS RIGHT, AND IT IS ALREADY A LOCKED DECISION IN THIS PROJECT (b24, Stage 8, in the code
+  since then):
+    SequenceState.manualSL: "PERSISTS across structure changes (locked: trader's risk
+      statement + level budget); ends only on flat / re-edit / BE-trail supersession."
+    ReleaseManualTP header: "Manual TP releases when the structure it was set against changes
+      ... Manual SL has NO release path here by design (locked): it persists as the trader's
+      risk statement and level budget."
+    The adopt line: "tighter; note it also CAPS RECOVERY DEPTH (level budget)."
+  WHY I WAS WRONG: a TP is a TARGET - when the structure moves the arithmetic behind the
+  target moves, so it recomputes. An SL is a BOUNDARY - a price beyond which the trader has
+  decided they are done. Recomputing it as levels open would mean THE LIMIT MOVES BECAUSE YOU
+  ADDED RISK, which makes it not a limit; it would also silently extend the level budget every
+  time, since the boundary is precisely what caps how deep recovery can go.
+
+THEREFORE: the DD cap sets the SL price ONCE, WHEN IT ARMS, and that price PERSISTS across
+  level adds like every other SL in this EA. New recovery levels ADOPT the same boundary.
+
+CONSEQUENCE STATED PLAINLY SO IT IS OWNED DELIBERATELY: once levels are added below the
+  boundary, the REALISED loss at that price EXCEEDS the original cap - more lots crossing the
+  same distance. The boundary caps HOW FAR PRICE CAN GO AGAINST THE SEQUENCE, not the currency
+  amount at the moment it is hit. That is the same property every anchored SL here already
+  has, and it is exactly what "level budget" means: the boundary limits how many levels can be
+  afforded. Jeff's framing: "SL is a boundary which tells that you can only create new
+  positions until this price and if the market reached it that's our limit."
+
+DISSOLVED BY THIS DECISION - no longer needs deciding: my question about what to do when the
+  computed DD stop is UNPLACEABLE (inside the broker stops level). That hazard only arose from
+  the recompute-every-level version, where the boundary could be dragged toward price. A
+  boundary set ONCE, far from price, does not land inside the band. The existing deferral
+  logic remains as the generic safety net.
+
+SUPERSEDES the "(i) fire and forget" sub-decision: there is no EA-initiated fire at all now.
+  The sequence closes because the BROKER filled the SL, and liveness attributes it as an SL
+  hit via the sealed b20 ClosingDealReason path - no new close path, no new state.
+
+## LOCKED DECISION E9-R1-D3 (WHERE the boundary goes, Jeff 2026-10-05) - SUPERSEDES the
+## boundary-placement half of D2. THE SL IS DERIVED FROM THE FULL ANTICIPATED GRID.
+
+JEFF'S CORRECTION: "There should be no new levels below the boundary." I had been solving the
+boundary from the positions that EXIST NOW. Jeff solves it from the FULL ANTICIPATED RECOVERY
+GRID: project every level the current settings will produce, find the level at which
+CUMULATIVE drawdown reaches the cap, and place the SL there.
+THE BOUNDARY IS NOT A LINE THAT LEVELS HAPPEN TO SIT ABOVE - IT IS PLACED AT THE EXACT LEVEL
+WHERE THE BUDGET RUNS OUT. The ladder is DETERMINISTIC from InpRecoveryIntervalPts,
+InpRecoveryMultMode, InpIncrementStep and InpDeferredStep, so the whole grid is computable at
+arm time. (Jeff's external "Shadow Grid Visualizer & Drawdown Calculator" already does this.)
+
+WORKED EXAMPLE, VERIFIED AGAINST JEFF'S SCREENSHOT (GBPJPY 4h, Vantage):
+  SETTINGS: L1 lot 0.01, interval 37, Deferred Incremental, step 0.01, defer 2,
+            DDClose ON, MaxDDPercent 2, MaxDDUSD 0.
+  PROJECTED GRID (reproduced EXACTLY by recompute, all five prices and lots match):
+    L1 208.663 0.01 | L2 208.293 0.01 | L3 207.923 0.02 | L4 207.553 0.02 | L5 207.183 0.03
+    total 0.09 lots (screenshot: 0.09)
+  DRAWDOWN OF L1..L4 WHEN PRICE REACHES L5's PRICE 207.183:
+    L1 (207.183-208.663)*100000*0.01 = -1480.0 JPY
+    L2 (207.183-208.293)*100000*0.01 = -1110.0 JPY
+    L3 (207.183-207.923)*100000*0.02 = -1480.0 JPY
+    L4 (207.183-207.553)*100000*0.02 =  -740.0 JPY
+    TOTAL -4810.0 JPY ; at USDJPY ~158 that is -$30.44 = EXACTLY the screenshot's
+    "Total DD: $-30.44 (-2%)", i.e. 2% of a ~$1,522 balance. ARITHMETIC CONFIRMED.
+  => SL GOES AT 207.183 (L5's price), because the moment the market touches it, L1..L4 are
+     ALREADY at the 2% cap.
+
+L5 IS THE EDGE CASE AND JEFF ALREADY NAMED THE FIX: L5 opens AT 207.183 contributing $0 loss
+  (his tool's own column confirms "L5 ... DD@L5: $0 (0%)"), so it is technically affordable -
+  but if the SL sits EXACTLY there, the L5 fill and the stop collide. JEFF: "If you want to be
+  safe cause L5 is also in the exact price then we can move the SL 1 pip above it."
+  ADOPTED, and it is conservative in the RIGHT direction: the stop fires BEFORE L5 opens, so
+  the loss is capped at -$30.44 on FOUR positions rather than five. Exact offset is a Gate 2
+  row (1 pip vs 1 point vs broker stops level).
+
+THIS DISSOLVES THE CONSEQUENCE I FLAGGED UNDER D2. I wrote: "once levels are added below the
+  boundary, the realised loss at that price EXCEEDS the original cap". THAT CANNOT HAPPEN
+  under D3 - levels are never added below the boundary, because the boundary IS the bottom of
+  the affordable ladder. The 2% is honoured PRECISELY, not approximately. My D2 caveat is
+  WITHDRAWN as an artifact of the now-superseded now-positions-only derivation.
+
+WHAT MUST BE REUSED, NOT REIMPLEMENTED (the E9-P6 duplication hazard):
+  the projection MUST drive the ladder through the SEALED ComputeLevelLot() and the SEALED
+  ComputeRecoveryTrigger() interval logic. A second copy of the ladder maths that drifts from
+  the engine would place the boundary at a price the engine never actually trades to. This is
+  the single biggest build risk in R1 and it gets its own must-NOT row.
+
+OPEN FOR GATE 2 (named now):
+  - HOW MANY levels to project when InpMaxRecoveryTrades = 0 (unlimited)? The grid must
+    terminate; the cap itself is the natural terminator (project until cumulative DD >= cap),
+    but a hard iteration bound is still needed against pathological settings.
+  - WHEN is the boundary computed? At L1 registration/adoption (the ladder is knowable then),
+    and does it RE-derive if the trader changes inputs mid-sequence?
+  - Guard C interaction: b16 requires non-decreasing recovery lots. A config that violates it
+    is already refused at init, so the projection can ASSUME non-decreasing - verify, do not
+    assume.
+  - The b27 broker stops-level check still applies to the final price.
+  - What the dashboard shows: the boundary price, and ideally the level count it affords.
+
+## E9-R1 OFFSET UNIT - RESOLVED 2026-10-05 (Jeff flagged it: "cause this is a GBPJPY which
+## have different pip placing"). THE OFFSET IS EXPRESSED IN POINTS, NEVER IN PIPS.
+JEFF'S POINT: GBPJPY is a 3-decimal pair, so "1 pip" there is NOT the same absolute distance
+as on a 5-decimal FX pair or on 2-decimal gold. An offset written as "1 pip" would mean a
+different thing on every symbol he runs.
+
+RESOLVED BY WHAT THE EA ALREADY IS: there is NO pip concept anywhere in TRTM - "pip" appears
+ZERO times in 5224 lines. Every distance input is in POINTS (InpRecoveryIntervalPts,
+InpStopLossPts, InpTrailDistPts, InpBEOffsetPts, InpBETriggerPts, InpMinTrailStepPts,
+InpMaxSpreadPts, InpMaxDeviationPts) and every calculation multiplies by _Point, which MT5
+sets per symbol. Points therefore normalise automatically; pips would need special-casing.
+
+CONVERSION TABLE across the instruments actually in use (verified):
+  symbol      digits  _Point     1 pip      1 pip in POINTS
+  GBPJPY      3       0.001      0.01       10
+  XAUUSD.s    2       0.01       0.1        10
+  AUDNZD.s    5       0.00001    0.0001     10
+  USDCAD.s    5       0.00001    0.0001     10
+  => "1 pip" == 10 POINTS on ALL of them. The _Point VALUE differs; the POINT COUNT does not.
+
+DECISION: the Gate 2 row and any input must read "offset N POINTS above the limit level",
+defaulting to 10 (= 1 pip on every symbol above). On Jeff's GBPJPY example: L5 at 207.183,
+offset 10 points = 0.010, boundary 207.193 - 1 pip above L5, so the stop fires BEFORE L5
+opens and the loss is capped on L1..L4 at -$30.44 as intended.
+GATE 2 STILL DECIDES whether the offset is a CONSTANT or a new input. Leaning constant: R1
+already has three inputs and the Stage 1 convention froze the dialog layout, so adding a
+fourth needs justifying rather than assuming.
