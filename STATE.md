@@ -5011,3 +5011,26 @@ A-1 PASS, absence (10:57:37) - InpEnableDDClose back to false: NOT ONE DD line i
 NOT YET VERIFIED and NOT to be inferred from the above: A-7 (negative limit), A-2, A-3, A-5
   (tie), and F-1/F-2 - the DASHBOARD rows. The dashboard is observable ONLY on screen and no
   screenshot arrived, so F-1/F-2 stay OPEN regardless of how the log reads.
+
+## b45 F-1 and F-2 PASS ON SCREEN 2026-10-05 (Jeff's 1A and 1E dashboard screenshots).
+These rows are observable ONLY on the dashboard - PanelDestroy() erases the panel on detach, so
+they can never be closed from a log. Captured before detaching, the b44 A-7 lesson applied.
+
+F-2 PASS (1A capture, both-limits-0) - "DD Cap SL   NOT ARMED (no limit set)" rendered in AMBER
+  (COL_WARN), and *** THE FOUR ORDER BUTTONS ARE GREEN AND CLICKABLE *** - BUY, SELL, PEND BUY,
+  PEND SELL all live. This is the A-6 scope decision VISIBLE ON SCREEN rather than inferred from
+  a log line: the cap refuses to arm while trading stays fully enabled. Amber is the WARNING
+  colour, not the disabled colour, which is the correct b14 language (gray = config-blocked, and
+  nothing here is gray). The E9-R1 failure is now impossible to miss at a glance.
+F-1 PASS (1E capture, pct 2 + usd 20) - "DD Cap SL   $20.00 cap (flat)" in GREEN (COL_BUY_ARM).
+  The dashboard INDEPENDENTLY reports the same effective cap the log computed via
+  MIN($52.98, $20.00) - two separate code paths (PanelRefresh's own EffectiveDDCap call vs
+  ValidateInputs') agreeing on one number. The "(flat)" suffix is the levelCount==0 branch, which
+  is correct: no sequence exists, so there is no boundary price to show yet.
+RIDE-ALONG OBSERVATION, worth keeping: both captures show "Interval  300 pts - max -", i.e.
+  XAUUSD.s reads 300 POINTS and the dashboard renders the unit explicitly. The points convention
+  holds on screen, not just in the inputs. (This is XAUUSD.s, NOT the GBPJPY instance B-11 is
+  about - that one is still unchecked.)
+PHASE 1 DISPOSITION: A-1, A-4, A-6, F-1, F-2 CLOSED on live evidence (5 rows).
+  STILL OPEN from Phase 1: A-2 (percent only), A-3 (USD only), A-5 (tie), A-7 (negative).
+  None of these is implied by the rows above - A-4 exercises the BOTH-SET path only.
