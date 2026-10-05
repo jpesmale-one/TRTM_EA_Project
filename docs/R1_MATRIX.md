@@ -1,6 +1,7 @@
 # E9-R1 SCENARIO MATRIX — Drawdown Auto Close (boundary-SL enforcement)
 
-STATUS: **DRAFT rev 1 — awaiting Jeff's seal.** No code may be written until sealed (CLAUDE.md §2).
+STATUS: **SEALED rev 1 — Jeff, 2026-10-05.** Code may now be written against these rows.
+Live findings later become NEW rows (rev 2+), never silent fixes (CLAUDE.md §2).
 
 Builds on locked decisions **E9-R1-D1** (per-symbol scope; percent of BALANCE; MIN of the two
 positive limits; both-off refuses to arm), **D2** (enforced as an SL PRICE every leg adopts, not
@@ -104,16 +105,20 @@ DD of L1..L4 at 207.183 = −4810.0 JPY = **−$30.44 = exactly 2%**. Boundary =
 
 ---
 
-## OPEN ITEMS FOR JEFF AT SEAL
+## OPEN ITEMS — RESOLVED AT SEAL (Jeff sealed rev 1 without redirecting them, so the stated
+## recommendations carried. Each is now BINDING on Gate 3.)
 
-1. **B-5 iteration bound** — propose a hard 200-level ceiling when `InpMaxRecoveryTrades = 0`.
-   Refuse to arm (not silently truncate) if hit. Confirm the number.
-2. **Offset: constant or fourth input?** D3 leaned constant. The matrix assumes a **constant 10
-   points**. Say if you want it exposed as an input.
-3. **C-5** is the row where D6 loosens a tighter manual stop. Locked, logged loudly, and listed
-   explicitly so it can be revisited on evidence.
-4. **E-5** — whether the boundary is persisted to the state file or derived fresh at init.
-   Recommend **derived-only**: no schema bump, and D4 re-derives at init anyway (E-1).
+1. **B-5 iteration bound = 200 levels.** With `InpMaxRecoveryTrades = 0` the budget is the
+   terminator; 200 is a pathological-settings backstop. If hit, **refuse to arm and log** —
+   never silently truncate, because a truncated grid places the boundary at a price the engine
+   would trade straight through.
+2. **Offset = CONSTANT 10 points, not a fourth input.** R1 already adds three inputs and the
+   Stage 1 convention froze the dialog layout. 10 points = 1 pip on every symbol in use.
+3. **C-5 stands as locked (D6).** The DD boundary overwrites a tighter manual SL, with a loud
+   WARN naming both prices, so it is revisited on evidence rather than discovered live.
+4. **Boundary is DERIVED-ONLY, never persisted.** No state-file schema bump, so b44's v5 schema
+   is untouched. D4 re-derives at init anyway (row E-1) and the broker-held SL protects the legs
+   across a restart (the D2 advantage) — persisting it would add a stale-value hazard for no gain.
 
 ## COVERAGE NOTE
 

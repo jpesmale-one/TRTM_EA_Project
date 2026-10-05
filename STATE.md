@@ -4814,3 +4814,35 @@ MACHINERY CONFIRMED REUSABLE BY READING IT, not assumed:
     pattern at 2176-2179) - reuse for money-per-point; NO new money maths needed.
   Guard C VERIFIED enforced in three places (init 4808/4850, door 3389, per-level 2374), so
     matrix B-8 may assume non-decreasing lots - D3 said verify, do not assume. Verified.
+
+## E9-R1 GATE 2 SEALED by Jeff 2026-10-05 ("sealed"). docs/R1_MATRIX.md rev 1, 51 rows.
+FOUR OPEN ITEMS CARRIED ON THE STATED RECOMMENDATIONS (Jeff sealed without redirecting them),
+now BINDING: (1) hard 200-level iteration bound when InpMaxRecoveryTrades=0, REFUSE TO ARM if
+hit rather than truncate - a truncated grid puts the boundary where the engine would trade
+straight through; (2) offset is a CONSTANT 10 points, NOT a fourth input; (3) C-5 stands as
+locked per D6; (4) the boundary is DERIVED-ONLY, never persisted - no v5 schema bump.
+
+## E9-R1 GATE 3 DRAFTED: docs/R1_PLAN_2026-10-05_gate3.md, target b45, +200..+240 lines.
+*** THE CENTRAL FINDING: THE EA ALREADY HAS A STRUCTURAL-CHANGE CONCEPT AND IT ALREADY FIRES AT
+EXACTLY THE EVENTS D4 NEEDS. *** b24's ReleaseManualTP(trigger) is called at level REGISTER
+(2777), at the liveness PRUNE behind the `changed` flag (1028), and at the death-window offline
+close (2906). The re-derive hook RIDES THAT EXISTING PATH rather than inventing a parallel one,
+which makes matrix D-2 (no per-tick re-derive) and D-3 (no per-bar) true BY CONSTRUCTION instead
+of by a guard that could be forgotten.
+
+*** THE ONE GAP, AND IT IS ROW D-6 - FOUND BY READING THE SLICE PATH, NOT ASSUMED. ***
+A TIER 3 PARTIAL CLOSE PASSES THROUGH NEITHER CHOKEPOINT. At 1645 PositionClosePartial
+succeeds, the TICKET SURVIVES, levelCount is UNCHANGED, and NO ReleaseManualTP fires. Riding the
+b24 hook alone would SILENTLY MISS D-6: the boundary would keep using PRE-SLICE lots, sit TOO
+FAR from price, and UNDER-ENFORCE the cap - a loss cap quietly WIDER than the declared 2%.
+=> Tier 3 gets its OWN explicit hook at 1656 (verified: that line is the post-success log and
+the ticket is still selectable there). This is the single most important line in the plan.
+
+B-3 ANTI-DUPLICATION MECHANISM (the biggest build risk, D3): extract the interval step from
+ComputeRecoveryTrigger (lines 2256-2257, verified) into ONE shared helper NextLadderPrice(dir,
+fromPrice), and REWRITE ComputeRecoveryTrigger to call it. Engine and projection then cannot
+drift because only ONE copy of the interval maths exists.
+
+VALIDATION SCOPE DECISION recorded: the A-6/A-7 refusal does NOT set g_configBlocked. b17's
+config-block is a FULL TRADING FREEZE; a misconfigured DD cap must not freeze a live sequence
+that other rules still protect. It refuses to ARM, loudly. b19-consistent.
