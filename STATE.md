@@ -5266,3 +5266,36 @@ FIXED IN BOTH PLACES so the engine log and the dashboard cannot disagree: PanelR
   display) and LogStructure (the engine-side twin, which printed "at SL -3.00" in the 11:44:31
   log). Both gated on InpEnableDDClose && !trailingActive, matching the ownership order.
 BUILD: b48, sha256_16 dc292653bb695d4c, 5785 lines (b47 7de8801631a76a11 / 5726, +59).
+
+## *** b48 GATE ZERO + E-1/E-2/D9/D10 ALL CLOSED ON ONE LIVE RESTART, 2026-10-05 16:56:06. ***
+Jeff compiled b48 WITH THE b47 POSITION STILL OPEN - deliberately, so the restart re-derive
+would both recover the boundary AND tighten the b47 stop that sat $3.40 past the cap. Ticket
+892913263, XAUUSD.s BUY 0.01. Entry 4164.92 (derived: computed SL 4161.92 = entry - 300 pts;
+cross-checked by TP 4167.92 = entry + 300 pts - both exact).
+INDEPENDENT RECOMPUTE, every figure audited:
+    L1 4164.92  0.01 lots  $0.00 | L2 4161.92  0.03  $3.00 | L3 4158.92  0.06  $12.00
+    L4 4155.92  0.10  $30.00  <- over budget, so the budget is spent INSIDE the L3-L4 bracket
+  D10 SOLVE from the bracket top: budgetLeft = 20.00 - 12.00 = $8.00 on prevLots 0.06
+    -> 8.00 / (1.00 x 0.06) = 133.33 pts -> 4158.92 - 1.333 = 4157.59; +10 pt offset = 4157.69.
+  *** LOG SAYS 4157.69. EXACT MATCH. ***
+
+ROWS CLOSED:
+  E-1 PASS - "DD boundary re-derived after init (restart re-derive): 4157.69 ... 3 level(s)
+    afforded". The boundary is DERIVED-ONLY and this is where a restart recovers it. The
+    broker held the old stop the whole time the EA was down - the D2 advantage, now evidenced.
+  E-2 PASS - the recomputed boundary DIFFERED from the one on the position (b47 wrote 4154.40
+    at the old entry) and RE-DERIVE WON: the C-5 WARN fired and "Exits applied ... SL 4157.69"
+    rewrote it. Exactly what D5 requires.
+  D10 PASS - *** THE b47 CAP BREACH IS GONE. *** Loss at 4157.69 on the 3 surviving legs =
+    $19.4000 against the $20.00 cap. WITHIN CAP. b47's equivalent was $23.40, OVER by $3.40.
+  D9 PASS - "Structure: 1 level(s), 0.01 lots | projected at TP +3.00 | at SL -7.23".
+    RECOMPUTED: L1 alone at 4157.69 = 723 pts x $0.01 = $7.23. EXACT. Before b48 this line read
+    "-3.00" - the loss at the CONCEDED 300-pt stop, not at the stop the EA had actually written.
+    The engine-side twin of the dashboard fix is proven by its own number.
+  C-2/C-5 PASS AGAIN on a fresh entry - "DD boundary 4157.69 is LOOSER than the computed SL
+    4161.92 and REPLACES it". The input stop conceded and the loosening was announced.
+  E9-M1 RIDE-ALONG (b41, sealed): "broker SL 4157.02 is the EA's OWN last applied value, not a
+    trader edit; computed 4161.92 re-asserts". The b41 discriminator did its job across this
+    restart - a sealed row re-confirming itself on new evidence, unprompted.
+NOTE on 4157.02 vs b47's logged 4154.40: the position was re-opened between the two runs (new
+  ticket 892913263 vs 892866876), so the broker SL belongs to the newer entry. Not a discrepancy.
