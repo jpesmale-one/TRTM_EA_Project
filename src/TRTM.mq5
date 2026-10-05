@@ -48,7 +48,7 @@
 
 #include <Trade\Trade.mqh>
 
-#define TRTM_BUILD  "b49"     // internal build tag, bump per delivery
+#define TRTM_BUILD  "b50"     // internal build tag, bump per delivery
 
 //+------------------------------------------------------------------+
 //| ENUMS                                                            |
@@ -4032,17 +4032,23 @@ double DDBoundaryPrice(int &levelsAfforded, bool &closeNow)
    double off = DD_OFFSET_PTS * _Point;
    double b   = (dir > 0) ? solved + off : solved - off;
 
-   // B-6: the boundary must sit on the LOSING side of the current market, or it is an
-   // instant stop-out rather than a cap. If the budget is so nearly spent that the
-   // solved price is already at/through price, the cap is breached NOW - say so and let
-   // the sealed close path handle it, exactly as the SL-exceeded rule does.
-   double mkt = (dir > 0) ? SymbolInfoDouble(_Symbol, SYMBOL_BID)
-                          : SymbolInfoDouble(_Symbol, SYMBOL_ASK);
-   if(mkt > 0.0 && ((dir > 0 && b >= mkt) || (dir < 0 && b <= mkt)))
-     {
-      closeNow = true;
-      return 0.0;
-     }
+   // b50 (E9-R1 D12): *** THE b49 B-6 GUARD IS REMOVED. IT RACED THE BROKER'S OWN STOP. ***
+   // b49 set closeNow whenever the solved boundary sat at/through the market, reasoning that
+   // the cap must then be breached. THAT CONFLATES TWO OPPOSITE SITUATIONS:
+   //   (a) the budget is spent by BANKED losses - no price can enforce a cap that is gone.
+   //       That is the REAL D-9 case, and it is ALREADY caught above by `remaining <= 0`.
+   //   (b) price has simply REACHED the stop - which is the stop DOING ITS JOB.
+   // Observed live 2026-10-05 16:35:19: price touched the 4147.51 boundary, this guard fired,
+   // and EnforceExits logged "cap $20.00 already spent (realised $-0.00) - closing now" while
+   // realised was ZERO. The broker SL had ALREADY filled - L1 came back 10036 ("broker exit
+   // filled first"), which is the proof. The EA raced a working stop and asserted a false
+   // reason in the log. The loss was correct ($19.83 of $20) because the BROKER's stop did the
+   // work, not because this close helped.
+   // WHY NO REPLACEMENT GUARD IS NEEDED: a boundary at/through price is exactly what the
+   // SEALED SL-exceeded rule in EnforceExits already handles - and it handles it BETTER,
+   // because it first checks whether the broker holds the stop everywhere (the b20 race gate)
+   // and stands down when it does. Returning the price here lets that sealed path decide.
+   // D-9 therefore keeps ONE trigger: remaining <= 0, which is a genuine banked-loss breach.
 
    // Every LIVE leg is priced into this stop - that is what the number means now.
    levelsAfforded = liveN;

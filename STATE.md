@@ -29,10 +29,10 @@
 # with an empty git diff. It worked, but it depended on memory. This does not.
 # ############################################################################
 
-build: b49
+build: b50
 file: TRTM.mq5
-sha256_16: 36ea98b0dc89170e
-lines: 5662
+sha256_16: 661444f782485eb4
+lines: 5668
 date: 2026-10-05
 # *** b45 BUILT 2026-10-05, AWAITING GATE ZERO (Jeff compiles). *** E9-R1 drawdown auto
 #   close - the inert-input defect. The three DD inputs existed in the dialog since the
@@ -48,7 +48,7 @@ date: 2026-10-05
 #     projection and the live recovery engine CANNOT drift (matrix B-3, the biggest build risk).
 #   b44's E9-Q2 keep logic, the 90-day expiry, the three DD-reduction tiers and state schema v5
 #     are ALL UNTOUCHED. The boundary is DERIVED-ONLY - nothing new is persisted, no schema bump.
-#   REPO src    = b49 (36ea98b0dc89170e / 5662)  <- this manifest tracks REPO.
+#   REPO src    = b50 (661444f782485eb4 / 5668)  <- this manifest tracks REPO.
 #   MT5 runtime = b44 (57bc3811df272e40 / 5224) *** NOT YET ALIGNED - GATE ZERO PENDING. ***
 #     Jeff compiles at the LIVE path; expect "=== TRTM b45 init ===" and a clean self-test.
 # E9-Q2-D2: the b43 GATE 4 FAIL fix. An UNKNOWN record is NEVER loaded into g_state - "keep
@@ -5412,3 +5412,47 @@ ROWS CLOSED / RE-CONFIRMED ON THIS RUN:
   is exactly Jeff's requirement - "until we reach the set drawdown autoclose setting we can let
   recovery levels open up" - now true BY CONSTRUCTION rather than by luck, because liveLots
   rises as each level opens and the boundary tightens to match.
+
+## *** b49 LIVE RUN 2026-10-05: D11 CONFIRMED AT TWO DEPTHS, AND ONE DEFECT FOUND IN MY OWN
+## b49 CODE. *** Ticket 893431224 (L1) + 893529856 (L2), XAUUSD.s, cap $20.
+
+THE CORE MECHANISM IS EXACT AT BOTH DEPTHS - independently recomputed:
+  L1 ALONE  0.01 lots: travel 20.00/(1.00 x 0.01) = 2000 pts -> 4137.62; +10pt = 4137.72.
+    LOG: 4137.72. EXACT.
+  L2 OPENS  0.03 lots: VWAP = (0.01x4157.62 + 0.02x4152.31)/0.03 = 4154.0800
+    travel 20.00/(1.00 x 0.03) = 666.7 pts -> 4147.4133; +10pt = 4147.51.
+    LOG: 4147.51. EXACT.
+  *** THE STOP TIGHTENED 979 POINTS TOWARD PRICE WHEN L2 OPENED *** - the D11 behaviour, now
+  observed rather than predicted. More lots = the same budget is reached in less travel.
+  LOSS AT THAT STOP ON BOTH LEGS = $19.70 of the $20 cap (log "at SL -19.71", a 1-cent rounding
+  difference from my hand figure - the EA uses the broker tick value, I used $1.00/pt flat).
+
+ROWS CLOSED ON THIS RUN:
+  D-1  PASS - "DD boundary re-derived after L2 opened" fired on the level-add hook.
+  B-3  PASS - the engine's own trigger was 4157.62 - 300 pts = 4154.62 and L2 opened at
+    4152.31, i.e. 231 pts BELOW the trigger. That is the BAR-CLOSE fill, not drift: the M15
+    close confirmed past the trigger and the fill took the then-current ask. Projection and
+    engine agree on WHERE the ladder is; the fill price is simply where the bar closed.
+  E-1/E-2 PASS AGAIN across the 16:24 restart - boundary recovered at 4147.51, and E9-M1
+    correctly called the broker SL the EA's own value.
+  C-1 PASS - BOTH tickets written: "Exits applied to ticket 893431224 ... SL 4147.51" and
+    "... 893529856 ... SL 4147.51". The whole sequence carries one boundary.
+
+*** DEFECT FOUND - E9-R1-D12, AND IT IS MY OWN b49 CODE: THE B-6 GUARD RACED THE BROKER. ***
+  At 16:35:19 the log reads: "Closing sequence at market: drawdown cap $20.00 already spent
+  (realised $-0.00) - closing now (E9-R1 D-9)".  *** REALISED WAS ZERO. NOTHING WAS SPENT. ***
+  CAUSE: b49's B-6 guard set closeNow whenever the solved boundary sat at/through the market.
+  That CONFLATES TWO OPPOSITE SITUATIONS:
+    (a) the budget is spent by BANKED losses - the real D-9 case, ALREADY caught by
+        `remaining <= 0` higher up;
+    (b) price has simply REACHED the stop - which is the stop DOING ITS JOB.
+  PROOF IT WAS A RACE, FROM THE LOG ITSELF: L1 came back "10036 - broker exit filled first".
+  The broker's SL had ALREADY executed. The EA chased a working stop and printed a false cause.
+  NO HARM DONE THIS TIME - the realised loss was $19.83 of $20 (99.1%), because the BROKER's
+  stop did the work. But a false "already spent" line is exactly the class of misdirection the
+  E9 work exists to remove, and on a slower fill the redundant close could bank a worse price.
+  FIX (b50): the guard is REMOVED, not patched. A boundary at/through price is precisely what
+  the SEALED SL-exceeded rule in EnforceExits already handles - and handles BETTER, because
+  the b20 race gate stands down when the broker already holds the stop everywhere. D-9 keeps
+  ONE trigger: remaining <= 0, a genuine banked-loss breach.
+BUILD: b50, 661444f782485eb4, 5668 lines (b49 36ea98b0dc89170e / 5662). GATE ZERO PENDING.
