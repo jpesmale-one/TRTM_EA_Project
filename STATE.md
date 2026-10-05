@@ -4681,3 +4681,25 @@ opens and the loss is capped on L1..L4 at -$30.44 as intended.
 GATE 2 STILL DECIDES whether the offset is a CONSTANT or a new input. Leaning constant: R1
 already has three inputs and the Stage 1 convention froze the dialog layout, so adding a
 fourth needs justifying rather than assuming.
+
+## LOCKED CONVENTION (Jeff 2026-10-05): ALL DISTANCE INPUTS ARE IN POINTS, NEVER PIPS.
+JEFF: "all our input requirement should be in points not in pips so it can have wide coverage
+of instruments." CONFIRMED AS AN EXISTING INVARIANT, not a new rule - the audit found ALL
+ELEVEN distance inputs already in points, every one carrying the `Pts` suffix, and the word
+"pip" appearing ZERO times in TRTM.mq5. Recorded now so it is never broken by a future stage.
+  IN POINTS (11): RecoveryIntervalPts, InitialTPPts, AvgTPPts, StopLossPts, BETriggerPts,
+    BEOffsetPts, TrailDistPts, MinTrailStepPts, Tier1MinProfitPts, Tier3MinProfitPts,
+    MaxSpreadPts, MaxDeviationPts, TesterNudgePts.
+  CORRECTLY OTHER UNITS (no Pts suffix): lots (EntryLotSize, FixedRecoveryLot, Tier3MinLots),
+    percent (RiskPercent, Tier2ProfitPercent, Tier3ClosePercent, MaxDDPercent), multipliers
+    (MartingaleMult, IncrementStep), counts (DeferredStep, MinTrades, MaxRecoveryTrades),
+    days (LogRetentionDays).
+WHY POINTS WIN: a pip is NOT constant across TRTM's instruments - GBPJPY 3-decimal, gold
+  2-decimal, most FX 5-decimal - so a pip-denominated input would need per-symbol
+  special-casing. A POINT is whatever MT5's _Point reports for that symbol, so points
+  normalise automatically and the same number means the same thing everywhere.
+WHERE IT IS ENFORCED: written into .claude/rules/mql5-traps.md, which is PATH-SCOPED to
+  **/*.mq5 and therefore auto-loads whenever EA source is edited. A convention buried in a
+  4000-line state file gets missed; one that loads at edit time does not.
+APPLIES TO E9-R1: the boundary offset is "N POINTS above the limit level", default 10
+  (= 1 pip on GBPJPY, XAUUSD.s, AUDNZD.s and USDCAD.s alike).

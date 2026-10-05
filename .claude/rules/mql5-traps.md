@@ -51,6 +51,28 @@ apply — this file is the detail, not the authority.
   settings mid-test). Jeff keeps a .set preset; when a config
   mystery appears, ask for a full inputs screenshot before debugging.
 
+## Input units (locked convention - Jeff, 2026-10-05)
+
+- EVERY distance/price-offset input is expressed in **POINTS**, never pips,
+  and carries the `Pts` suffix so the unit is self-documenting. All eleven
+  existing ones do: RecoveryInterval, InitialTP, AvgTP, StopLoss, BETrigger,
+  BEOffset, TrailDist, MinTrailStep, Tier1MinProfit, Tier3MinProfit,
+  MaxSpread, MaxDeviation, TesterNudge.
+- WHY, in Jeff's words: "so it can have wide coverage of instruments". A pip
+  is not a constant across the symbols TRTM runs. GBPJPY is 3-decimal, gold
+  2-decimal, most FX 5-decimal - "1 pip" is a different absolute distance on
+  each, and would need per-symbol special-casing. A POINT is whatever MT5's
+  `_Point` says it is for that symbol, so points normalise automatically.
+  (For reference, 1 pip = 10 points on GBPJPY, XAUUSD.s, AUDNZD.s and
+  USDCAD.s alike - the `_Point` VALUE differs, the POINT COUNT does not.)
+- The word "pip" appears ZERO times in TRTM.mq5 and must stay that way.
+  If a requirement is ever phrased in pips, convert it to points before it
+  reaches a matrix row or an input label.
+- Non-distance inputs keep their own natural units and do NOT take the `Pts`
+  suffix: lots (EntryLotSize, FixedRecoveryLot, Tier3MinLots), percent
+  (RiskPercent, Tier2ProfitPercent, Tier3ClosePercent, MaxDDPercent),
+  multipliers, counts, days.
+
 ## Observability rules (blocking, not style)
 - Every skip, guard, refusal, block, and failure path LOGS. A
   dashboard-only block is a bug (file log too, one-shot).
