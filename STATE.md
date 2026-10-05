@@ -29,10 +29,10 @@
 # with an empty git diff. It worked, but it depended on memory. This does not.
 # ############################################################################
 
-build: b47
+build: b48
 file: TRTM.mq5
-sha256_16: 7de8801631a76a11
-lines: 5726
+sha256_16: dc292653bb695d4c
+lines: 5785
 date: 2026-10-05
 # *** b45 BUILT 2026-10-05, AWAITING GATE ZERO (Jeff compiles). *** E9-R1 drawdown auto
 #   close - the inert-input defect. The three DD inputs existed in the dialog since the
@@ -48,7 +48,7 @@ date: 2026-10-05
 #     projection and the live recovery engine CANNOT drift (matrix B-3, the biggest build risk).
 #   b44's E9-Q2 keep logic, the 90-day expiry, the three DD-reduction tiers and state schema v5
 #     are ALL UNTOUCHED. The boundary is DERIVED-ONLY - nothing new is persisted, no schema bump.
-#   REPO src    = b47 (7de8801631a76a11 / 5726)  <- this manifest tracks REPO.
+#   REPO src    = b48 (dc292653bb695d4c / 5785)  <- this manifest tracks REPO.
 #   MT5 runtime = b44 (57bc3811df272e40 / 5224) *** NOT YET ALIGNED - GATE ZERO PENDING. ***
 #     Jeff compiles at the LIVE path; expect "=== TRTM b45 init ===" and a clean self-test.
 # E9-Q2-D2: the b43 GATE 4 FAIL fix. An UNKNOWN record is NEVER loaded into g_state - "keep
@@ -5220,3 +5220,49 @@ $7.90, L2 490 x $0.01 = $4.90... the three-leg total is $19.00.
   fixed-point problem (the lot set depends on the boundary, which depends on the lot set).
   PARKED DELIBERATELY, NOT OVERLOOKED: a $1-conservative cap is not worth a fixed-point solver,
   and the error shrinks as the grid deepens. Raised as E9-R1-Q1 for Jeff to judge.
+
+## *** CORRECTION ON THE RECORD: MY "$19.00, CONSERVATIVE" CLAIM ABOUT THE b47 LIVE RUN WAS
+## WRONG. THE CAP WAS EXCEEDED BY $3.40. *** I mis-stated the lot ladder when I first checked.
+RECOMPUTED PROPERLY from ComputeLevelLot(Incremental) = base + (levelN-1)*step:
+  L1 0.01 @ 4162.30 | L2 0.02 @ 4159.30 | L3 0.03 @ 4156.30 | L4 0.04 @ 4153.30
+  At the b47 boundary 4154.40 the legs ALIVE are L1, L2, L3 (L4 is below the stop):
+    L1 790 pts x 0.01 = $7.90 | L2 490 x 0.02 = $9.80 | L3 190 x 0.03 = $5.70
+    TOTAL $23.40 against a $20.00 cap -> *** OVER BY $3.40 ***
+THE DIRECTION IS THE ONE A LOSS CAP MUST NEVER ERR IN, so this is a DEFECT, not a parked
+nicety. E9-R1-Q1 as I first framed it ("conservative by $1, probably not worth fixing") is
+WITHDRAWN - it was built on my own bad arithmetic and would have left a cap that overshoots.
+
+## LOCKED DECISION E9-R1-D10 (b48): THE BRACKET SOLVE USES THE LOTS THAT SURVIVE THE STOP.
+ROOT CAUSE: b46/b47 subtracted the overshoot using `openLots` - the lot total measured AT px,
+  which INCLUDES the leg opening at px. But the solved boundary lands ABOVE px, so that leg
+  NEVER OPENS. Dividing by too LARGE a lot figure returns too LITTLE price, leaving the stop
+  too DEEP. Live: $10 overshoot / 0.10 lots = 100 pts -> 4154.40, when only 0.06 lots are alive.
+THE FIX - re-solve from the BRACKET TOP instead of walking back from the bottom:
+    budgetLeft = remaining - prevDD            (budget still unspent at the bracket top)
+    travel     = budgetLeft / (mpp * prevLots) (prevLots = legs alive INSIDE this bracket)
+    boundary   = prevPx - dir * travel         (clamped so it never passes px)
+  prevDD/prevLots are captured at the step-forward point BEFORE the next leg is appended, so
+  they describe exactly the leg set a stop inside the next bracket would close. Self-consistent:
+  the solve is linear in precisely the legs it prices.
+VERIFIED ON BOTH FIXTURES:
+  XAUUSD.s LIVE case -> boundary 4155.07, loss on the 3 surviving legs $19.4000, WITHIN the
+    $20 cap. (b47: 4154.40 / $23.40, OVER.)
+  GBPJPY D7 equivalence -> STILL 207.193, loss $30.0633 within the $30.44 cap. EQUIVALENCE HOLDS.
+
+## LOCKED DECISION E9-R1-D9 (b48): THE PROJECTION ROWS MUST SHOW THE DD BOUNDARY.
+FOUND ON JEFF'S PHASE 2 DASHBOARD SCREENSHOT: "Proj at TP / SL" read "+3.00 / -3.00" while the
+  stop the EA had just written was 4154.40, where L1 alone loses $7.90. -3.00 is the loss at
+  4159.30 - the CONCEDED 300-point input stop the boundary had already overridden.
+CAUSE: the DD boundary is a FOURTH SL owner (after computed, manual, trail) and b45 added it
+  without extending the two projection paths. Both substituted manualSL and the trail ratchet
+  but not the boundary, so they projected from ComputeTargets' raw value.
+  *** THIS IS EXACTLY THE DEFECT b26 FIXED FOR THE MANUAL TP *** ("Proj at TP froze on computed
+  while the sequence ran on the manual target") - the same lesson, a new owner. The b26
+  principle is "the projection reflects the value actually in charge".
+WHY IT MATTERS: "Proj at SL" is the trader's read of what the stop COSTS. Understating it is
+  the wrong direction. The SL ROW itself was already correct (4154.40) because b21 made it read
+  the LIVE BROKER stop - only the PROJECTION was stale, which is why it survived six builds.
+FIXED IN BOTH PLACES so the engine log and the dashboard cannot disagree: PanelRefresh (the
+  display) and LogStructure (the engine-side twin, which printed "at SL -3.00" in the 11:44:31
+  log). Both gated on InpEnableDDClose && !trailingActive, matching the ownership order.
+BUILD: b48, sha256_16 dc292653bb695d4c, 5785 lines (b47 7de8801631a76a11 / 5726, +59).

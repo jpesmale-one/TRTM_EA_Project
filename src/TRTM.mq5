@@ -48,7 +48,7 @@
 
 #include <Trade\Trade.mqh>
 
-#define TRTM_BUILD  "b47"     // internal build tag, bump per delivery
+#define TRTM_BUILD  "b48"     // internal build tag, bump per delivery
 
 //+------------------------------------------------------------------+
 //| ENUMS                                                            |
@@ -2286,6 +2286,19 @@ void LogStructure()
       tp = g_state.manualTP;   // b26: projection reflects the value actually in charge
    if(g_state.manualSL > 0.0)
       sl = g_state.manualSL;
+   // b48 (E9-R1 D9): the ENGINE-SIDE TWIN of the dashboard fix. This line printed
+   // "at SL -3.00" in Jeff's 11:44:31 log while the stop the EA had just written was
+   // 4154.40, where the loss is $7.90. Same cause: the DD boundary is a fourth SL
+   // owner and this projection was never told. The b26 principle - "the projection
+   // reflects the value actually in charge" - applies to it exactly as to a manual SL.
+   if(InpEnableDDClose && !g_state.trailingActive)
+     {
+      int  ddLvLS = 0;
+      bool ddNowLS = false;
+      double ddLS = DDBoundaryPrice(ddLvLS, ddNowLS);
+      if(ddLS > 0.0)
+         sl = ddLS;
+     }
    double lots, pTP, pSL, avgEntry;
    ComputeProjection(tp, sl, lots, pTP, pSL, avgEntry);
    Log(LOG_INFO, StringFormat("Structure: %d level(s), %.2f lots | projected at TP %s | at SL %s",
@@ -4011,7 +4024,11 @@ double DDBoundaryPrice(int &levelsAfforded, bool &closeNow)
    ArrayResize(projLots, cap1 + 1);
    ArrayResize(projEntry, cap1 + 1);
 
-   double prevPx = worst;   // b46 (D7): previous level's price - the top of the bracket
+   double prevPx   = worst;   // b46 (D7): previous level price - the TOP of the bracket
+   double prevDD   = 0.0;     // b48 (D10): drawdown measured AT prevPx
+   double prevLots = 0.0;     // b48 (D10): lots alive in THIS bracket - the legs that
+                              //   exist at prevPx, i.e. the ones a stop inside the
+                              //   bracket actually closes. NOT the px-inclusive total.
 
    for(int step = 0; step <= cap1; step++)
      {
@@ -4048,16 +4065,32 @@ double DDBoundaryPrice(int &levelsAfforded, bool &closeNow)
          // was $30, because the budget ran out between levels. D3 required the cap to
          // be "honoured PRECISELY, not approximately" - Jeff's GBPJPY fixture hid the
          // defect only because its budget landed exactly on a level.
+         // b48 (E9-R1 D10, found on Jeff's first LIVE Phase 2 run): SOLVE AGAINST THE
+         // LEGS THAT SURVIVE THE STOP, NOT THE LEGS OPEN AT px.
+         // openLots above includes the leg that opens AT px - but the boundary lands
+         // ABOVE px, so that leg NEVER OPENS and must not be priced.
+         // OBSERVED LIVE 2026-10-05: XAUUSD.s BUY 0.01 @ 4162.30, cap $20. The solve
+         // divided the $10 overshoot by 0.10 lots (the L4-inclusive total), gave back
+         // 100 points and returned 4154.40 - but only L1+L2+L3 (0.06 lots) are alive
+         // there, and their loss at that price is $23.40. THE CAP WAS EXCEEDED BY
+         // $3.40, the one direction a loss cap must never err in. Dividing by too LARGE
+         // a lot figure returns too LITTLE price, leaving the stop too deep.
+         // prevLots is the lot total of the legs that exist in THIS bracket - the set
+         // the previous iteration measured as still under budget - so the solve is
+         // linear in exactly those legs and the result is self-consistent.
          double solved = px;
-         if(dd > remaining && openLots > 0.0)
+         if(dd > remaining && prevLots > 0.0)
            {
-            double over = dd - remaining;                   // money overshot at px
-            double back = over / (mpp * openLots) * _Point; // price distance to give back
-            solved = (dir > 0) ? px + back : px - back;     // retreat toward the entries
-            // Never retreat PAST the previous level: that bracket's linearity ends
-            // there, and the previous level already measured under budget.
-            if((dir > 0 && solved > prevPx) || (dir < 0 && solved < prevPx))
-               solved = prevPx;
+            // Re-solve from the BRACKET TOP: at prevPx the loss is prevDD on prevLots,
+            // and no leg opens between prevPx and the boundary, so the remaining
+            // budget buys (remaining - prevDD) / (mpp * prevLots) points of travel.
+            double budgetLeft = remaining - prevDD;
+            if(budgetLeft < 0.0) budgetLeft = 0.0;
+            double travel = budgetLeft / (mpp * prevLots) * _Point;
+            solved = (dir > 0) ? prevPx - travel : prevPx + travel;
+            // Never go PAST px: beyond it a new leg opens and the linearity ends.
+            if((dir > 0 && solved < px) || (dir < 0 && solved > px))
+               solved = px;
            }
          // Offset on the SAFE side: the stop fires BEFORE the next level opens, so the
          // loss is capped on the legs above it (D3, Jeff's L5 edge case).
@@ -4123,7 +4156,13 @@ double DDBoundaryPrice(int &levelsAfforded, bool &closeNow)
       // b45 made the DD at L4's price read $28.10 where the fixture proves it is $16.39.
       // The engine opens L(n+1) only once price has TRAVELLED the interval, so the
       // projection must do the same.
-      prevPx = px;                               // b46 (D7): top of the next bracket
+      // b48 (D10): capture the bracket top BEFORE the next leg is added. dd/openLots
+      // here are measured AT px with the legs that exist NOW - which is exactly the
+      // set still alive anywhere between px and the next level, so they are what a
+      // stop inside the NEXT bracket would actually close.
+      prevPx   = px;                             // b46 (D7): top of the next bracket
+      prevDD   = dd;
+      prevLots = openLots;
       px = NextLadderPrice(dir, px);             // SHARED interval step (B-3)
       lvl++;
       projEntry[projN] = px;                     // the leg opens at the STEPPED price
@@ -4678,6 +4717,26 @@ void PanelRefresh()
                liveSL0 = ProtectiveSL(liveSL0, PositionGetDouble(POSITION_SL), g_state.direction);
          if(liveSL0 > 0.0)
             sl = liveSL0;
+        }
+      // b48 (E9-R1 D9, found live 2026-10-05 on Jeff's Phase 2 dashboard): THE DD
+      // BOUNDARY IS THE FOURTH SL OWNER AND THE PROJECTION HAD NOT BEEN TOLD.
+      // The rows above substitute a MANUAL SL and a TRAILING SL into the display, but
+      // b45 added the DD boundary as a new owner and did not extend this path - so
+      // "Proj at SL" kept projecting from ComputeTargets' raw InpStopLossPts value, the
+      // very stop the boundary had just OVERRIDDEN. Observed: the panel read -3.00 (the
+      // loss at the conceded 4159.30) while the real stop sat at 4154.40, where L1 alone
+      // loses $7.90. UNDERSTATING THE LOSS AT THE STOP IS THE WRONG DIRECTION TO ERR.
+      // This is precisely the defect b26 fixed for the manual TP ("Proj at TP froze on
+      // computed while the sequence ran on the manual target") - the same lesson, a new
+      // owner. The SL row itself was already correct because b21 made it read the LIVE
+      // BROKER stop; only the PROJECTION was stale.
+      if(InpEnableDDClose && !g_state.trailingActive)
+        {
+         int  ddLvDisp = 0;
+         bool ddNowDisp = false;
+         double ddDisp = DDBoundaryPrice(ddLvDisp, ddNowDisp);
+         if(ddDisp > 0.0)
+            sl = ddDisp;   // display what the broker actually holds (D2/D6)
         }
       ComputeProjection(tp, sl, lots, pTP, pSL, avgEntry);
       for(int i = 0; i < g_state.levelCount; i++)
