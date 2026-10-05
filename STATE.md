@@ -29,10 +29,10 @@
 # with an empty git diff. It worked, but it depended on memory. This does not.
 # ############################################################################
 
-build: b48
+build: b49
 file: TRTM.mq5
-sha256_16: dc292653bb695d4c
-lines: 5785
+sha256_16: 36ea98b0dc89170e
+lines: 5662
 date: 2026-10-05
 # *** b45 BUILT 2026-10-05, AWAITING GATE ZERO (Jeff compiles). *** E9-R1 drawdown auto
 #   close - the inert-input defect. The three DD inputs existed in the dialog since the
@@ -48,7 +48,7 @@ date: 2026-10-05
 #     projection and the live recovery engine CANNOT drift (matrix B-3, the biggest build risk).
 #   b44's E9-Q2 keep logic, the 90-day expiry, the three DD-reduction tiers and state schema v5
 #     are ALL UNTOUCHED. The boundary is DERIVED-ONLY - nothing new is persisted, no schema bump.
-#   REPO src    = b48 (dc292653bb695d4c / 5785)  <- this manifest tracks REPO.
+#   REPO src    = b49 (36ea98b0dc89170e / 5662)  <- this manifest tracks REPO.
 #   MT5 runtime = b44 (57bc3811df272e40 / 5224) *** NOT YET ALIGNED - GATE ZERO PENDING. ***
 #     Jeff compiles at the LIVE path; expect "=== TRTM b45 init ===" and a clean self-test.
 # E9-Q2-D2: the b43 GATE 4 FAIL fix. An UNKNOWN record is NEVER loaded into g_state - "keep
@@ -5299,3 +5299,80 @@ ROWS CLOSED:
     restart - a sealed row re-confirming itself on new evidence, unprompted.
 NOTE on 4157.02 vs b47's logged 4154.40: the position was re-opened between the two runs (new
   ticket 892913263 vs 892866876), so the broker SL belongs to the newer entry. Not a discrepancy.
+
+## *** LOCKED DECISION E9-R1-D11 (Jeff 2026-10-05): THE BOUNDARY IS PRICED ON THE LEGS THAT
+## ARE ACTUALLY OPEN, NOT ON THE PROJECTED GRID. *** SUPERSEDES D3's projection basis.
+JEFF, after the 12:36:54 live stop-out: "This is a grid and the SL is our boundary. L1 closing
+at $7 means we take out the chance that it could recover + we still have space for level 2. The
+$20 cap was supposedly for the ACCUMULATED drawdown, not a drawdown for each level. So until we
+reach the set drawdown autoclose setting we can let recovery levels open up."
+HE IS RIGHT AND THIS IS A DESIGN ERROR I SHOULD HAVE CAUGHT AT GATE 2, not a coding slip.
+
+THE EVIDENCE (ticket 892942174, XAUUSD.s BUY 0.01 @ 4168.19, cap $20, stop 4160.96):
+  The boundary was computed assuming that AT 4160.96 the grid would hold
+    L1 0.01 @ 4168.19 ($7.23) + L2 0.02 @ 4165.19 ($8.46) + L3 0.03 @ 4162.19 ($3.69) = $19.38
+  WHAT WAS ACTUALLY OPEN AT 4160.96: L1 ALONE, 0.01 lots. Realised loss $7.59 (with 36 pts of
+  slippage past the stop) = 38% OF THE CAP. $12.41 of budget UNSPENT.
+  AND L2's TRIGGER 4165.19 HAD ALREADY BEEN PASSED - price travelled 459 pts beyond it.
+  WITH ONE LEG, $20 ACTUALLY SITS AT 4148.19: $20 / ($1.00 x 0.01) = 2000 points, not 723.
+  THE STOP FIRED 1277 POINTS EARLY.
+
+WHY D3 WAS WRONG, STATED PLAINLY: D3 placed the stop where the FULL ANTICIPATED GRID would
+  collectively lose the cap, and assumed the grid would FILL IN as price moved against the
+  sequence. It does not necessarily fill: InpBarCloseEntry (default TRUE) gates every recovery
+  level on a CONFIRMED bar close on InpRecoveryTF (M15 here), so price can travel 759 points -
+  past L2's trigger and almost to L4's level - with the sequence still one leg deep. The
+  boundary then fires on a price that only REPRESENTS the cap in a world where the grid filled.
+  *** THE CAP IS ON ACCUMULATED DRAWDOWN, SO IT MUST BE MEASURED ON POSITIONS THAT EXIST. ***
+  A grid's whole purpose is that losing legs are recovered by later ones; cutting at 38% of the
+  budget removes exactly the chance the grid exists to create.
+
+D11, THE NEW BASIS: boundary = the price at which the CURRENTLY OPEN legs collectively lose the
+  remaining budget. Closed form, no projection:
+      boundary = VWAP - dir * remainingBudget / (mpp * liveLots) * _Point
+  and it RE-DERIVES on every structural change (D4 unchanged), so:
+      L1 only, 0.01 lots -> $20 at 4148.19 (2000 pts away)
+      + L2,    0.03 lots -> the same $20 is reached SOONER; the stop TIGHTENS toward price
+      + L3,    0.06 lots -> tighter again
+  THE STOP MOVES TOWARD PRICE AS THE GRID DEEPENS. That is correct and is the inverse of the
+  b45-b48 behaviour: more lots = the cap is reached in less travel.
+TWO PROPERTIES THIS BUYS:
+  (1) the cap is honoured EXACTLY at every depth, not only in the hypothetical filled grid;
+  (2) A LEVEL CAN NEVER BE SKIPPED BECAUSE THE STOP SAT ABOVE ITS TRIGGER - the failure mode
+      that killed this sequence with budget to spare.
+WHAT SURVIVES FROM D3: nothing of its projection basis. The ladder projection, NextLadderPrice
+  reuse (B-3), the levelsAfforded count (D8) and the bracket solve (D7/D10) were all machinery
+  built to serve the projected-grid boundary. D11 needs NONE of it for the boundary itself -
+  the arithmetic is one line. The projection may still earn its place as a DISPLAY ("how deep
+  can this grid go before the cap?"), which is a separate question for Gate 2.
+WHAT SURVIVES UNCHANGED: D1 (scope/MIN cap), D2 (enforced as a broker-held SL), D4 (re-derive on
+  structural change), D5 (may move either way), D6 (owns the SL), D9 (projections show it).
+
+## b49 BUILT 2026-10-05: D11 implemented. 36ea98b0dc89170e / 5662 lines (b48 5785, *** -123 ***).
+THE BUILD REMOVES MORE THAN IT ADDS. DDBoundaryPrice goes from a 210-line grid-projection walk
+to a ~40-line closed form, because D11 needs no projection at all:
+    travelPts = remaining / (mpp * liveLots);   boundary = VWAP -/+ travelPts * _Point  (+offset)
+VERIFIED ON THE VERY SEQUENCE THAT EXPOSED THE DEFECT (ticket 892942174):
+    L1 only  0.01 lots -> 2000 pts -> boundary 4148.29   loss there $19.90 of the $20 cap
+    + L2     0.03 lots ->  667 pts -> boundary 4159.62   (stop TIGHTENS toward price)
+    + L3     0.06 lots ->  333 pts -> boundary 4160.96   loss there $19.40 of the $20 cap
+  *** b48 PUT THE STOP AT 4160.96 WITH ONE LEG OPEN. D11 PUTS IT AT 4148.29 - 1267 POINTS
+  FURTHER AWAY - AND THE 4160.60 LOW WOULD NOT HAVE STOPPED THE SEQUENCE OUT. ***
+  STRIKING CROSS-CHECK: at THREE legs D11 returns 4160.957, i.e. essentially b48's 4160.96.
+  The two agree EXACTLY at the depth b48 assumed, and differ everywhere else. That is the
+  clearest possible statement of what was wrong: b48 priced a 3-leg stop onto a 1-leg sequence.
+CODE REMOVED AND WHY IT IS SAFE:
+  DD_MAX_PROJECT - deleted. It bounded the projection walk; there is no walk. Matrix B-5
+    (pathological-settings refusal) RETIRES with it - there is no loop to run away.
+  The ladder walk, prevPx/prevDD/prevLots bracket state, the D7 bracket solve and the D10
+    surviving-lots correction are ALL GONE. D7, D8 and D10 were corrections to a projection
+    that no longer exists; they are SUPERSEDED, not reversed - each was right about the
+    projected-grid design, which D11 retires.
+  NextLadderPrice SURVIVES and is still called by ComputeRecoveryTrigger. The B-3 extraction
+    (one copy of the interval step) stands on its own merit even though the projection no
+    longer uses it - and it would be needed again if the projection returns as a DISPLAY.
+  ComputeLevelLot returns to its single engine caller, exactly as before R1.
+MATRIX IMPACT - these rows are about machinery that no longer exists and must be DISPOSED at
+  the next seal, not silently dropped: B-2, B-3 (projection half), B-4, B-5, B-9, B-11, B-12,
+  B-13, D8. The LIVE evidence they carry stays on the record as history.
+STILL VALID AND UNCHANGED: D1, D2, D4, D5, D6, D9, and every A/C/E/F row.

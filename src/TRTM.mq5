@@ -48,7 +48,7 @@
 
 #include <Trade\Trade.mqh>
 
-#define TRTM_BUILD  "b48"     // internal build tag, bump per delivery
+#define TRTM_BUILD  "b49"     // internal build tag, bump per delivery
 
 //+------------------------------------------------------------------+
 //| ENUMS                                                            |
@@ -3884,11 +3884,9 @@ void ArmMaintain()
                              // symbol, so 10 means the same distance on GBPJPY (3-digit),
                              // XAUUSD.s (2-digit) and AUDNZD.s/USDCAD.s (5-digit) alike.
                              // Locked convention 2026-10-05 - see .claude/rules/mql5-traps.md.
-#define DD_MAX_PROJECT  200  // hard iteration bound for InpMaxRecoveryTrades = 0 (unlimited).
-                             // If a config is pathological enough to reach this, REFUSE TO ARM
-                             // and say so - never silently truncate the grid, because a
-                             // truncated grid places the boundary at a price the engine would
-                             // trade straight through (matrix B-5).
+// b49 (D11): DD_MAX_PROJECT is GONE. It bounded the grid PROJECTION walk, and D11 removed
+// the projection entirely - the boundary is now closed form over the LIVE legs, so there is
+// no loop to bound and no pathological-settings case to refuse. Matrix B-5 retires with it.
 
 // Effective cap in ACCOUNT CURRENCY, as a POSITIVE magnitude. Returns 0.0 when the
 // feature is not armed (disabled, or no usable limit). Pure - no side effects, so
@@ -3953,14 +3951,32 @@ double SequenceRealisedLoss()
    return -net;   // net < 0 (a loss) -> positive magnitude consumed from the budget
   }
 
-// THE BOUNDARY. Projects the full anticipated grid and returns the price at which
-// cumulative drawdown reaches the REMAINING budget, offset DD_OFFSET_PTS on the safe
-// side. Returns 0.0 when it cannot or must not produce one.
-//   levelsAfforded - how many levels the budget covers (dashboard F-1, log F-3)
-//   closeNow       - true when the budget is ALREADY spent (D-9): no price can help,
-//                    the caller must treat the cap as breached right now.
-// D3's ladder comes from the SEALED engine: lots from ComputeLevelLot(), spacing from
-// the SHARED NextLadderPrice(). This function owns NO ladder maths of its own (B-3).
+// THE BOUNDARY (b49, E9-R1 D11). The price at which the LEGS THAT ARE ACTUALLY OPEN
+// collectively lose the REMAINING budget, offset DD_OFFSET_PTS on the safe side.
+// Returns 0.0 when it cannot or must not produce one.
+//   levelsAfforded - how many legs are live and priced into this stop (dashboard F-1)
+//   closeNow       - true when the budget is ALREADY spent (D-9): no price can help.
+//
+// *** D11 SUPERSEDES D3's PROJECTED-GRID BASIS. Jeff, 2026-10-05, after a live stop-out:
+// "the $20 cap was supposedly for the ACCUMULATED drawdown, not a drawdown for each level.
+// So until we reach the set drawdown autoclose setting we can let recovery levels open up."
+// b45-b48 placed the stop where the FULL ANTICIPATED GRID would lose the cap, and ASSUMED
+// the grid would fill in as price moved against the sequence. IT DOES NOT NECESSARILY FILL:
+// InpBarCloseEntry gates every level on a CONFIRMED bar close on InpRecoveryTF, so price can
+// travel far past a trigger with the sequence still one leg deep. Ticket 892942174 proved it -
+// BUY 0.01 @ 4168.19, stop 4160.96, price reached it holding L1 ALONE for $7.59 of a $20 cap,
+// with $12.41 unspent and L2's trigger already passed by 459 points. With one 0.01 leg, $20
+// actually sits at 4148.19 - the stop fired 1277 POINTS EARLY and removed the very recovery
+// chance the grid exists to create.
+// A CAP ON ACCUMULATED DRAWDOWN MUST BE MEASURED ON POSITIONS THAT EXIST.
+//
+// The arithmetic is closed form - sequence P/L is LINEAR in price while the leg set is fixed:
+//      boundary = VWAP - dir * remaining / (mpp * liveLots) * _Point
+// and D4 re-derives it on every structural change, so as each level opens liveLots RISES and
+// the same budget is reached in LESS travel: THE STOP TIGHTENS TOWARD PRICE AS THE GRID
+// DEEPENS. That is the inverse of b45-b48 and it is correct. Two properties follow:
+//   (1) the cap is honoured EXACTLY at every depth, not only in a hypothetical filled grid;
+//   (2) a level can NEVER be skipped because the stop sat above its trigger.
 double DDBoundaryPrice(int &levelsAfforded, bool &closeNow)
   {
    levelsAfforded = 0;
@@ -3969,8 +3985,8 @@ double DDBoundaryPrice(int &levelsAfforded, bool &closeNow)
    if(cap <= 0.0 || g_state.levelCount == 0 || g_state.direction == 0)
       return 0.0;
 
-   int    dir    = g_state.direction;
-   double mpp    = MoneyPerPointPerLot();
+   int    dir = g_state.direction;
+   double mpp = MoneyPerPointPerLot();
    if(mpp <= 0.0)
      {
       if(!AlreadyLogged("ddmpp"))
@@ -3978,8 +3994,7 @@ double DDBoundaryPrice(int &levelsAfforded, bool &closeNow)
       return 0.0;
      }
 
-   // D-9: budget already spent by banked losses. No projected price enforces a cap
-   // that is gone, so say so explicitly rather than computing a nonsensical level.
+   // D-9: budget already spent by banked losses. No price enforces a cap that is gone.
    double remaining = cap - SequenceRealisedLoss();
    if(remaining <= 0.0)
      {
@@ -3987,189 +4002,51 @@ double DDBoundaryPrice(int &levelsAfforded, bool &closeNow)
       return 0.0;
      }
 
-   // The anchor is the engine's OWN anchor - the WORST SURVIVING entry - so a manual
-   // mid-sequence close re-anchors the projection exactly as it re-anchors the real
-   // ladder (D-4, no-retroactive rule).
-   double worst = 0.0;
-   int    maxLvl = 0;
-   double liveLots[];
-   double liveEntry[];
-   int    liveN = 0;
-   ArrayResize(liveLots, g_state.levelCount);
-   ArrayResize(liveEntry, g_state.levelCount);
+   // The LIVE legs - the only ones whose loss the cap can be measured on (D11).
+   // Lots are read CURRENT, so a Tier 3 partial slice is reflected the moment it lands.
+   double sumWV   = 0.0;   // sum(lot * entry) for the VWAP
+   double liveLots = 0.0;
+   int    liveN    = 0;
    for(int i = 0; i < g_state.levelCount; i++)
      {
       if(!PositionSelectByTicket(g_state.tickets[i]))
          continue;
-      double entry = PositionGetDouble(POSITION_PRICE_OPEN);
-      liveEntry[liveN] = entry;
-      liveLots[liveN]  = PositionGetDouble(POSITION_VOLUME);   // CURRENT lots: a Tier 3
-      liveN++;                                                 //   slice is reflected here
-      if(worst == 0.0 || (dir < 0 && entry > worst) || (dir > 0 && entry < worst))
-         worst = entry;
-      if(g_state.levels[i] > maxLvl) maxLvl = g_state.levels[i];
+      double vol = PositionGetDouble(POSITION_VOLUME);
+      sumWV    += vol * PositionGetDouble(POSITION_PRICE_OPEN);
+      liveLots += vol;
+      liveN++;
      }
-   if(worst == 0.0 || liveN == 0)
+   if(liveN == 0 || liveLots <= 0.0)
       return 0.0;
+   double vwap = sumWV / liveLots;   // E1 basis: the same lot-weighted anchor the engine uses
 
-   // Walk the projected ladder. At each candidate level price, total drawdown is the
-   // loss on every LIVE leg plus every PROJECTED leg already opened above it. The
-   // first level whose cumulative DD reaches the budget IS the boundary.
-   int    cap1  = (InpMaxRecoveryTrades > 0) ? InpMaxRecoveryTrades + 1 : DD_MAX_PROJECT;
-   int    lvl   = maxLvl;                 // next projected level is maxLvl + 1
-   double px    = worst;                  // deepest price reached so far
-   double projLots[];
-   double projEntry[];
-   int    projN = 0;
-   ArrayResize(projLots, cap1 + 1);
-   ArrayResize(projEntry, cap1 + 1);
+   // Closed form (the D2 arithmetic, now on LIVE lots): the whole sequence loses
+   // mpp * liveLots per point of adverse travel from the VWAP, so the budget buys
+   // exactly remaining / (mpp * liveLots) points.
+   double travelPts = remaining / (mpp * liveLots);
+   double solved    = (dir > 0) ? vwap - travelPts * _Point
+                                : vwap + travelPts * _Point;
 
-   double prevPx   = worst;   // b46 (D7): previous level price - the TOP of the bracket
-   double prevDD   = 0.0;     // b48 (D10): drawdown measured AT prevPx
-   double prevLots = 0.0;     // b48 (D10): lots alive in THIS bracket - the legs that
-                              //   exist at prevPx, i.e. the ones a stop inside the
-                              //   bracket actually closes. NOT the px-inclusive total.
+   // Offset on the SAFE side, so the stop fires just BEFORE the cap is reached rather
+   // than just after (points, never a symbol-relative unit).
+   double off = DD_OFFSET_PTS * _Point;
+   double b   = (dir > 0) ? solved + off : solved - off;
 
-   for(int step = 0; step <= cap1; step++)
+   // B-6: the boundary must sit on the LOSING side of the current market, or it is an
+   // instant stop-out rather than a cap. If the budget is so nearly spent that the
+   // solved price is already at/through price, the cap is breached NOW - say so and let
+   // the sealed close path handle it, exactly as the SL-exceeded rule does.
+   double mkt = (dir > 0) ? SymbolInfoDouble(_Symbol, SYMBOL_BID)
+                          : SymbolInfoDouble(_Symbol, SYMBOL_ASK);
+   if(mkt > 0.0 && ((dir > 0 && b >= mkt) || (dir < 0 && b <= mkt)))
      {
-      // Drawdown of everything OPEN (live + projected) at price px, and the LOTS that
-      // produce it. openLots is what makes the D7 bracket solve exact: inside a bracket
-      // no new leg opens, so drawdown moves at exactly mpp * openLots per point.
-      double dd       = 0.0;
-      double openLots = 0.0;
-      for(int i = 0; i < liveN; i++)
-        {
-         dd += (dir > 0 ? (liveEntry[i] - px) : (px - liveEntry[i])) / _Point * mpp * liveLots[i];
-         openLots += liveLots[i];
-        }
-      for(int i = 0; i < projN; i++)
-        {
-         dd += (dir > 0 ? (projEntry[i] - px) : (px - projEntry[i])) / _Point * mpp * projLots[i];
-         openLots += projLots[i];
-        }
-
-      if(dd >= remaining)
-        {
-         // b47 (E9-R1 D8, Jeff 2026-10-05): levelsAfforded is counted AFTER the
-         // boundary is solved, from the levels that actually sit ABOVE it - see below.
-         // b46 reported liveN + projN here, which COUNTS THE LEVEL THE STOP PREVENTS.
-         // b46 (E9-R1 D7): SOLVE THE EXACT PRICE, do not snap to this level.
-         // The budget is spent SOMEWHERE AT OR ABOVE px. Between the previous level
-         // and px NO new leg opens, so sequence P/L is LINEAR in price there and the
-         // exact crossing solves in closed form (the D2 arithmetic).
-         //   ddPrev   = drawdown at the previous level's price (0 on the first step,
-         //              where px is the worst live entry itself)
-         //   openLots = lots open INSIDE this bracket - the legs that exist at
-         //              ddPrev, which is exactly what the loop has accumulated so far
-         // b45 snapped to px and OVERSHOT: with a $20 cap it stopped where the loss
-         // was $30, because the budget ran out between levels. D3 required the cap to
-         // be "honoured PRECISELY, not approximately" - Jeff's GBPJPY fixture hid the
-         // defect only because its budget landed exactly on a level.
-         // b48 (E9-R1 D10, found on Jeff's first LIVE Phase 2 run): SOLVE AGAINST THE
-         // LEGS THAT SURVIVE THE STOP, NOT THE LEGS OPEN AT px.
-         // openLots above includes the leg that opens AT px - but the boundary lands
-         // ABOVE px, so that leg NEVER OPENS and must not be priced.
-         // OBSERVED LIVE 2026-10-05: XAUUSD.s BUY 0.01 @ 4162.30, cap $20. The solve
-         // divided the $10 overshoot by 0.10 lots (the L4-inclusive total), gave back
-         // 100 points and returned 4154.40 - but only L1+L2+L3 (0.06 lots) are alive
-         // there, and their loss at that price is $23.40. THE CAP WAS EXCEEDED BY
-         // $3.40, the one direction a loss cap must never err in. Dividing by too LARGE
-         // a lot figure returns too LITTLE price, leaving the stop too deep.
-         // prevLots is the lot total of the legs that exist in THIS bracket - the set
-         // the previous iteration measured as still under budget - so the solve is
-         // linear in exactly those legs and the result is self-consistent.
-         double solved = px;
-         if(dd > remaining && prevLots > 0.0)
-           {
-            // Re-solve from the BRACKET TOP: at prevPx the loss is prevDD on prevLots,
-            // and no leg opens between prevPx and the boundary, so the remaining
-            // budget buys (remaining - prevDD) / (mpp * prevLots) points of travel.
-            double budgetLeft = remaining - prevDD;
-            if(budgetLeft < 0.0) budgetLeft = 0.0;
-            double travel = budgetLeft / (mpp * prevLots) * _Point;
-            solved = (dir > 0) ? prevPx - travel : prevPx + travel;
-            // Never go PAST px: beyond it a new leg opens and the linearity ends.
-            if((dir > 0 && solved < px) || (dir < 0 && solved > px))
-               solved = px;
-           }
-         // Offset on the SAFE side: the stop fires BEFORE the next level opens, so the
-         // loss is capped on the legs above it (D3, Jeff's L5 edge case).
-         double off = DD_OFFSET_PTS * _Point;
-         double b   = (dir > 0) ? solved + off : solved - off;
-         // B-6: never return a price on the wrong side of the worst entry - that
-         // would be an instant stop-out rather than a cap.
-         if((dir > 0 && b >= worst) || (dir < 0 && b <= worst))
-           {
-            closeNow = true;   // budget cannot even cover the legs already open
-            return 0.0;
-           }
-         // b47 (E9-R1 D8): COUNT ONLY THE LEVELS THE BUDGET ACTUALLY BUYS - those
-         // whose price sits ON THE OPEN SIDE of the boundary. A level BELOW the stop
-         // (BUY) can never open, because price reaches the stop first and the sequence
-         // is closed. Jeff caught this on the Phase 2 pre-compute: with the boundary at
-         // 4157.33 the code reported 4 levels while L4 at 4156.23 was BELOW the stop
-         // and could never exist - the sequence only ever holds L1, L2, L3.
-         // NOT COSMETIC: the dashboard "N lvl" is the trader's at-a-glance read of how
-         // deep the grid can go, so overstating it misstates the risk picture. Same
-         // class of error as B-13 - counting a level the engine never trades to.
-         int afford = 0;
-         for(int k = 0; k < liveN; k++)
-            if((dir > 0 && liveEntry[k] > b) || (dir < 0 && liveEntry[k] < b)) afford++;
-         for(int k = 0; k < projN; k++)
-            if((dir > 0 && projEntry[k] > b) || (dir < 0 && projEntry[k] < b)) afford++;
-         levelsAfforded = afford;
-         return NormalizeDouble(b, _Digits);
-        }
-
-      if(step == cap1)
-        {
-         // Terminator reached with budget still unspent.
-         if(InpMaxRecoveryTrades > 0)
-           {
-            // B-4: the INPUT cap bounds the grid. The boundary is the capped grid's
-            // bottom - the deepest price the engine will ever actually trade to.
-            double off2 = DD_OFFSET_PTS * _Point;
-            double b2   = (dir > 0) ? px + off2 : px - off2;
-            // b47 (E9-R1 D8): same correction as the budget branch. The offset puts the
-            // boundary on the OPEN side of this last level, so this level cannot open
-            // either - count only what sits above (BUY) / below (SELL) the stop.
-            int afford2 = 0;
-            for(int k = 0; k < liveN; k++)
-               if((dir > 0 && liveEntry[k] > b2) || (dir < 0 && liveEntry[k] < b2)) afford2++;
-            for(int k = 0; k < projN; k++)
-               if((dir > 0 && projEntry[k] > b2) || (dir < 0 && projEntry[k] < b2)) afford2++;
-            levelsAfforded = afford2;
-            return NormalizeDouble(b2, _Digits);
-           }
-         // B-5: pathological settings hit the hard bound. REFUSE, do not truncate.
-         if(!AlreadyLogged("ddbound"))
-            Log(LOG_ERROR, StringFormat("DD boundary: projection reached the %d-level hard bound without exhausting the $%.2f budget - settings are pathological (interval %d pts, lots barely growing). Boundary NOT set and the cap is NOT enforced. Lower Max DD, raise the recovery interval, or set Max Recovery Trades.",
-                                        DD_MAX_PROJECT, remaining, InpRecoveryIntervalPts));
-         return 0.0;
-        }
-
-      // STEP FIRST, THEN OPEN. b46: b45 had these the other way round and opened each
-      // projected leg at the price of the level ABOVE it - L2 got L1's entry, L3 got
-      // L2's, and so on. Entries too HIGH means losses OVERSTATED, so the boundary sat
-      // too CLOSE to price and would have stopped the sequence out early, far short of
-      // the budget. Caught by the D7 equivalence check against Jeff's GBPJPY fixture:
-      // b45 made the DD at L4's price read $28.10 where the fixture proves it is $16.39.
-      // The engine opens L(n+1) only once price has TRAVELLED the interval, so the
-      // projection must do the same.
-      // b48 (D10): capture the bracket top BEFORE the next leg is added. dd/openLots
-      // here are measured AT px with the legs that exist NOW - which is exactly the
-      // set still alive anywhere between px and the next level, so they are what a
-      // stop inside the NEXT bracket would actually close.
-      prevPx   = px;                             // b46 (D7): top of the next bracket
-      prevDD   = dd;
-      prevLots = openLots;
-      px = NextLadderPrice(dir, px);             // SHARED interval step (B-3)
-      lvl++;
-      projEntry[projN] = px;                     // the leg opens at the STEPPED price
-      projLots[projN]  = ComputeLevelLot(lvl);   // SEALED engine lot sizing (B-2/B-7)
-      projN++;
+      closeNow = true;
+      return 0.0;
      }
-   return 0.0;
+
+   // Every LIVE leg is priced into this stop - that is what the number means now.
+   levelsAfforded = liveN;
+   return NormalizeDouble(b, _Digits);
   }
 
 // D4 STRUCTURAL-CHANGE ANNOUNCER. The boundary is RECOMPUTED inside EnforceExits on

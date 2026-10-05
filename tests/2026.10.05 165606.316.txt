@@ -1,0 +1,24 @@
+2026.10.05 16:56:06.316	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] === TRTM b48 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.10.05 16:56:06.316	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.10.05 16:56:06.316	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Drawdown Auto Close ARMED: effective cap $20.00 (percent limit $53.05 (2.00% of balance 2652.33) vs USD limit $20.00 -> the LOWER (tighter) wins). Enforced as a BOUNDARY SL every position adopts (broker-held, so it fires even if MT5 is closed). Stop Loss (points) concedes to this boundary while enabled.
+2026.10.05 16:56:06.321	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] State persistence self-test: PASS
+2026.10.05 16:56:06.321	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Reconcile: flags restored (trailOverride=F beOverride=F trailingActive=F beApplied=F)
+2026.10.05 16:56:06.321	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Reconcile: broker SL 4157.02 is the EA's OWN last applied value (E9-M1), not a trader edit; computed 4161.92 re-asserts
+2026.10.05 16:56:06.321	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Structure: 1 level(s), 0.01 lots | projected at TP +3.00 | at SL -7.23
+2026.10.05 16:56:06.321	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Reconcile complete: dir=BUY levels=1
+2026.10.05 16:56:06.323	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Account margin mode: HEDGING
+2026.10.05 16:56:06.323	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.10.05 16:56:06.323	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] DD boundary re-derived after init (restart re-derive): 4157.69 - cap $20.00, realised $-0.00, remaining $20.00, 3 level(s) afforded (E9-R1 D4).
+2026.10.05 16:56:06.323	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Init complete - b48 (adoption, exits, recovery active)
+2026.10.05 16:56:06.421	TRTM (XAUUSD.s,M5)	[TRTM][WARN ] DD boundary 4157.69 is LOOSER than the computed SL 4161.92 and REPLACES it (E9-R1 D6: the drawdown cap owns the SL while enabled). Your stop moves AWAY from price. Cap $20.00, 3 level(s) afforded.
+2026.10.05 16:56:06.631	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Exits applied to ticket 892913263: TP 4167.92 SL 4157.69
+2026.10.05 17:02:21.425	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Liveness: L1 ticket 892913263 TP hit @ 4168.16 - removed from sequence
+2026.10.05 17:02:21.425	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Sequence fully closed - back to FLAT, overrides reset to input defaults, flat marker saved
+2026.10.05 17:08:44.040	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] BUY ARMED: 0.01 lots (Fixed 0.01) - click CONFIRM within 10s to execute
+2026.10.05 17:08:44.741	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] L1 BUY OPENED via button: 0.01 lots @ 4168.19 (deal 556672791)
+2026.10.05 17:08:44.741	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Structure: 1 level(s), 0.01 lots | projected at TP +3.00 | at SL -7.23
+2026.10.05 17:08:44.742	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] EA L1 REGISTERED: ticket 892942174 BUY 0.01 lots @ 4168.19. Exits apply next tick.
+2026.10.05 17:08:44.748	TRTM (XAUUSD.s,M5)	[TRTM][WARN ] DD boundary 4160.96 is LOOSER than the computed SL 4165.19 and REPLACES it (E9-R1 D6: the drawdown cap owns the SL while enabled). Your stop moves AWAY from price. Cap $20.00, 3 level(s) afforded.
+2026.10.05 17:08:44.958	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Exits applied to ticket 892942174: TP 4171.19 SL 4160.96
+2026.10.05 17:36:54.660	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Liveness: L1 ticket 892942174 SL hit @ 4160.60 - removed from sequence
+2026.10.05 17:36:54.660	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Sequence fully closed - back to FLAT, overrides reset to input defaults, flat marker saved
