@@ -4703,3 +4703,114 @@ WHERE IT IS ENFORCED: written into .claude/rules/mql5-traps.md, which is PATH-SC
   4000-line state file gets missed; one that loads at edit time does not.
 APPLIES TO E9-R1: the boundary offset is "N POINTS above the limit level", default 10
   (= 1 pip on GBPJPY, XAUUSD.s, AUDNZD.s and USDCAD.s alike).
+
+## LOCKED DECISION E9-R1-D4 (Jeff 2026-10-05): THE BOUNDARY RE-DERIVES ON EVERY STRUCTURAL
+## CHANGE. It is NOT frozen at L1. Jeff chose this AGAINST my recommendation, and he was right
+## about the reason - he cited the two features my freeze proposal had not accounted for.
+
+JEFF: "In consideration with other features like Bar close recovery entry and Drawdown
+  Reduction, I'm leaning towards Re-derive on every structural change."
+BOTH FEATURES VERIFIED PRESENT AND SEALED (I checked before describing anything):
+  InpBarCloseEntry (line 104, DEFAULT TRUE) - recovery entries confirm on bar close.
+  Drawdown Reduction Tiers E4/E5/E6 (lines 20-22, 123-133, dispatcher 2525) - these CLOSE
+    LEGS, and Tier 3 closes a PARTIAL slice of the anchor.
+
+WHY FREEZE WAS WRONG - THE DD TIERS DECIDE IT. The reduction tiers are ROUTINE, EA-INITIATED
+  structural changes, not rare manual edits. Under a frozen boundary every tier firing would
+  leave the stop anchored to a grid that no longer exists, and it drifts TIGHTER as the valves
+  work. Worked case: L1..L4 live, boundary 207.193 sized for 4 legs at $30.44. Tier 1 closes
+  L2+L3 for +$8 realised. The surviving L1+L4 lose only ~$22 at 207.193, so the trader has
+  BANKED profit, still has budget, and yet the stop sits where four legs' loss was. The stop
+  would fire early and kill a sequence the risk budget could still carry - defeating the exact
+  purpose the reduction tiers exist for. MY FREEZE RECOMMENDATION IS WITHDRAWN.
+BAR-CLOSE ENTRY'S ROLE: it makes the ladder confirmation-gated, so levels arrive on bar closes
+  rather than ticks. Re-derive therefore has a naturally LOW-FREQUENCY clock, not a per-tick one.
+
+RE-DERIVE TRIGGER SET - STRUCTURAL ONLY, NEVER PER TICK:
+  RE-DERIVE on: a level opens (registers/adopts) | any leg closes (manual, TP, or DD-tier) |
+    a Tier 3 PARTIAL close (lots change, ticket survives) | an input edit mid-sequence.
+  DO NOT re-derive on: a new tick | a price move | a new bar with no structural change.
+THE COMPUTATION EACH TIME:
+  1. realised = P/L already banked this sequence
+  2. remainingBudget = effectiveCap - |realised|      (effectiveCap = MIN of the two positive limits, D1)
+  3. project the ladder FORWARD from the WORST SURVIVING ENTRY using the engine's own anchor
+     + InpRecoveryIntervalPts, lots from the SEALED ComputeLevelLot(levelN)
+  4. walk levels until cumulative DD >= remainingBudget
+  5. boundary = that level's price, offset 10 POINTS on the safe side (points, never pips)
+  6. write to every live leg via PositionModify
+
+*** BLOCKER FOUND AT GATE 2 AND IT IS THE D3 DUPLICATION HAZARD MADE CONCRETE. ***
+  ComputeRecoveryTrigger() (line 2227) CANNOT BE LOOPED TO PROJECT A GRID. Verified by reading
+  it: it returns ONLY the NEXT single level, and it derives the anchor from the worst
+  SURVIVING LIVE entry via PositionSelectByTicket. With only L1 open it cannot tell you where
+  L5 will be. So the projection MUST walk the interval itself - which is precisely the second
+  copy of the ladder maths D3 named as "the single biggest build risk in R1".
+  ComputeLevelLot(levelN) IS reusable as-is (line 2081): levelN is a free parameter and it
+  reads g_state.baseLot, so projected lots come from the sealed engine unchanged.
+  => GATE 3 MUST extract the interval step into ONE shared helper used by BOTH
+     ComputeRecoveryTrigger and the projection, so the two can never drift. A must-NOT row
+     tests that the projected L-n price equals the price the engine actually trades to.
+
+## LOCKED DECISION E9-R1-D5 (Jeff 2026-10-05): PURE RE-DERIVE - THE BOUNDARY MAY MOVE EITHER
+## WAY, INCLUDING LOOSER. Chosen against my "ratchet" recommendation.
+I recommended a ratchet (adopt only if TIGHTER, never retreat). Jeff chose pure re-derive.
+HIS CHOICE IS THE ARITHMETICALLY FAITHFUL ONE: after the DD tiers bank a profit the sequence
+  GENUINELY has more room, so the stop has earned the right to retreat. The cap then means
+  "exactly 2% of what is still at risk" at all times, rather than "2% of the deepest grid
+  this sequence ever had".
+ACCEPTED CONSEQUENCES, recorded so neither is a surprise later:
+  (1) THE STOP IS NOT MONOTONIC. A trader watching the line will see it move AWAY from price
+      after a profitable tier close. This is correct behaviour, NOT a bug - it needs a clear
+      log line stating realised P/L and remaining budget so the move is explainable.
+  (2) The worst case is always EXACTLY the full cap, never less. A ratchet would often have
+      ended better than the cap; pure re-derive spends the whole budget by design.
+REJECTED (ratchet): would often stop a sequence tighter than the declared cap, wasting budget
+  the reduction tiers had just freed - the same objection that killed the freeze option.
+
+## LOCKED DECISION E9-R1-D6 (Jeff 2026-10-05): WHEN DDClose IS ENABLED THE DD BOUNDARY OWNS
+## THE SL OUTRIGHT AND OVERWRITES A MANUAL SL. Chosen against my "tighter of the two" option.
+JEFF'S CHOICE IS CONSISTENT WITH HIS OWN D2 CLARIFICATION ("InpStopLossPts CONCEDES - the
+  DD-derived price becomes the stop. Two rules cannot both own the SL."). D6 extends that same
+  single-owner principle from the INPUT stop to a HAND-PLACED stop. The cap is then absolute:
+  nothing can loosen it and nothing can silently disable it, which is the failure class that
+  created E9-R1 in the first place.
+REJECTED (tighter-of-the-two, my recommendation): would honour b24 AND the cap, but it makes
+  SL ownership conditional and therefore harder to reason about on a live chart.
+REJECTED (manual always wins): a hand edit could silently exceed the declared cap.
+
+*** CONSEQUENCE I OWE JEFF BEFORE THIS REACHES CODE - D6 IS IN TENSION WITH b24. ***
+  b24 locks: "manual TP releases on structural change; manual SL PERSISTS" - rationale
+  "trader's risk statement + level budget". D6 says the DD boundary overwrites that manual SL.
+  THE REAL COST IS NARROW BUT SHARP: if the trader hand-sets a TIGHTER stop (say 207.500 when
+  the boundary is 207.193), D6 OVERWRITES IT WITH A LOOSER PRICE. The EA would be undoing a
+  deliberate decision to risk LESS, and loosening a stop is the one direction that costs money.
+  SCOPE OF THE TENSION: b24 is NOT globally overridden. D6 applies ONLY while
+  InpEnableDDClose is true. With DDClose off, b24's manual-SL-persists rule is untouched.
+  => GATE 2 CARRIES THIS AS AN EXPLICIT ROW so the behaviour is tested, visible, and Jeff can
+     revisit it on evidence rather than discovering it live. It must also LOG LOUDLY whenever
+     it overwrites a tighter manual stop - a silent loosening is unacceptable even when locked.
+
+## E9-R1 GATE 2 DRAFTED 2026-10-05: docs/R1_MATRIX.md, 51 ROWS, 6 GROUPS, AWAITING JEFF'S SEAL.
+NO CODE until sealed (CLAUDE.md section 2). Groups: A arming/config (9), B grid projection (10),
+C writing the SL (9), D re-derive triggers (10), E restart/state (5), F observability +
+must-NOT regressions (8). 12 absence-type / must-NOT rows. Every locked decision D1-D6 has at
+least one row that FAILS if the decision were implemented backwards.
+THE DECISIVE ROW IS B-3 (the D3 duplication hazard): the projected L-n price must EQUAL the
+price the engine actually trades to, verified by comparing the projection against the engine's
+live trigger as each level opens. Gate 3 must extract ONE shared interval helper.
+FOUR OPEN ITEMS CARRIED TO THE SEAL: (1) the 200-level iteration bound for
+InpMaxRecoveryTrades=0; (2) offset constant vs a fourth input (matrix assumes constant 10
+points); (3) C-5 visibility, the row where D6 loosens a tighter manual stop; (4) whether the
+boundary is persisted or derived-only (recommend derived-only - no schema bump, and D4
+re-derives at init anyway per E-1).
+MACHINERY CONFIRMED REUSABLE BY READING IT, not assumed:
+  ComputeLevelLot(levelN) 2081 - levelN is a free parameter, reads g_state.baseLot => REUSABLE
+    AS-IS for projected lots, including its VOLUME_MAX/step/min clamping (matrix B-7).
+  ComputeRecoveryTrigger 2227 - NOT loopable (returns only the NEXT level, anchored on the
+    worst SURVIVING live entry via PositionSelectByTicket) => the blocker recorded in D4.
+  SequenceFloatingPnL 3753 - sums POSITION_PROFIT + POSITION_SWAP, per-symbol by construction.
+  BrokerStopsLevelPts 3533 - reuse for the C-6 stops-level clamp.
+  Tick-value idiom (SYMBOL_TRADE_TICK_VALUE / TICK_SIZE with a tickSz<=0 -> _Point fallback,
+    pattern at 2176-2179) - reuse for money-per-point; NO new money maths needed.
+  Guard C VERIFIED enforced in three places (init 4808/4850, door 3389, per-level 2374), so
+    matrix B-8 may assume non-decreasing lots - D3 said verify, do not assume. Verified.
