@@ -48,7 +48,7 @@
 
 #include <Trade\Trade.mqh>
 
-#define TRTM_BUILD  "b46"     // internal build tag, bump per delivery
+#define TRTM_BUILD  "b47"     // internal build tag, bump per delivery
 
 //+------------------------------------------------------------------+
 //| ENUMS                                                            |
@@ -4033,7 +4033,9 @@ double DDBoundaryPrice(int &levelsAfforded, bool &closeNow)
 
       if(dd >= remaining)
         {
-         levelsAfforded = liveN + projN;
+         // b47 (E9-R1 D8, Jeff 2026-10-05): levelsAfforded is counted AFTER the
+         // boundary is solved, from the levels that actually sit ABOVE it - see below.
+         // b46 reported liveN + projN here, which COUNTS THE LEVEL THE STOP PREVENTS.
          // b46 (E9-R1 D7): SOLVE THE EXACT PRICE, do not snap to this level.
          // The budget is spent SOMEWHERE AT OR ABOVE px. Between the previous level
          // and px NO new leg opens, so sequence P/L is LINEAR in price there and the
@@ -4068,6 +4070,21 @@ double DDBoundaryPrice(int &levelsAfforded, bool &closeNow)
             closeNow = true;   // budget cannot even cover the legs already open
             return 0.0;
            }
+         // b47 (E9-R1 D8): COUNT ONLY THE LEVELS THE BUDGET ACTUALLY BUYS - those
+         // whose price sits ON THE OPEN SIDE of the boundary. A level BELOW the stop
+         // (BUY) can never open, because price reaches the stop first and the sequence
+         // is closed. Jeff caught this on the Phase 2 pre-compute: with the boundary at
+         // 4157.33 the code reported 4 levels while L4 at 4156.23 was BELOW the stop
+         // and could never exist - the sequence only ever holds L1, L2, L3.
+         // NOT COSMETIC: the dashboard "N lvl" is the trader's at-a-glance read of how
+         // deep the grid can go, so overstating it misstates the risk picture. Same
+         // class of error as B-13 - counting a level the engine never trades to.
+         int afford = 0;
+         for(int k = 0; k < liveN; k++)
+            if((dir > 0 && liveEntry[k] > b) || (dir < 0 && liveEntry[k] < b)) afford++;
+         for(int k = 0; k < projN; k++)
+            if((dir > 0 && projEntry[k] > b) || (dir < 0 && projEntry[k] < b)) afford++;
+         levelsAfforded = afford;
          return NormalizeDouble(b, _Digits);
         }
 
@@ -4078,9 +4095,17 @@ double DDBoundaryPrice(int &levelsAfforded, bool &closeNow)
            {
             // B-4: the INPUT cap bounds the grid. The boundary is the capped grid's
             // bottom - the deepest price the engine will ever actually trade to.
-            levelsAfforded = liveN + projN;
             double off2 = DD_OFFSET_PTS * _Point;
             double b2   = (dir > 0) ? px + off2 : px - off2;
+            // b47 (E9-R1 D8): same correction as the budget branch. The offset puts the
+            // boundary on the OPEN side of this last level, so this level cannot open
+            // either - count only what sits above (BUY) / below (SELL) the stop.
+            int afford2 = 0;
+            for(int k = 0; k < liveN; k++)
+               if((dir > 0 && liveEntry[k] > b2) || (dir < 0 && liveEntry[k] < b2)) afford2++;
+            for(int k = 0; k < projN; k++)
+               if((dir > 0 && projEntry[k] > b2) || (dir < 0 && projEntry[k] < b2)) afford2++;
+            levelsAfforded = afford2;
             return NormalizeDouble(b2, _Digits);
            }
          // B-5: pathological settings hit the hard bound. REFUSE, do not truncate.

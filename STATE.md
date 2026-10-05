@@ -29,10 +29,10 @@
 # with an empty git diff. It worked, but it depended on memory. This does not.
 # ############################################################################
 
-build: b46
+build: b47
 file: TRTM.mq5
-sha256_16: df5d2ae97c3137a7
-lines: 5701
+sha256_16: 7de8801631a76a11
+lines: 5726
 date: 2026-10-05
 # *** b45 BUILT 2026-10-05, AWAITING GATE ZERO (Jeff compiles). *** E9-R1 drawdown auto
 #   close - the inert-input defect. The three DD inputs existed in the dialog since the
@@ -48,7 +48,7 @@ date: 2026-10-05
 #     projection and the live recovery engine CANNOT drift (matrix B-3, the biggest build risk).
 #   b44's E9-Q2 keep logic, the 90-day expiry, the three DD-reduction tiers and state schema v5
 #     are ALL UNTOUCHED. The boundary is DERIVED-ONLY - nothing new is persisted, no schema bump.
-#   REPO src    = b46 (df5d2ae97c3137a7 / 5701)  <- this manifest tracks REPO.
+#   REPO src    = b47 (7de8801631a76a11 / 5726)  <- this manifest tracks REPO.
 #   MT5 runtime = b44 (57bc3811df272e40 / 5224) *** NOT YET ALIGNED - GATE ZERO PENDING. ***
 #     Jeff compiles at the LIVE path; expect "=== TRTM b45 init ===" and a clean self-test.
 # E9-Q2-D2: the b43 GATE 4 FAIL fix. An UNKNOWN record is NEVER loaded into g_state - "keep
@@ -5129,3 +5129,43 @@ NOT disturb the config path - A-4's arithmetic is byte-identical across both bui
 the regression check that matters most after touching DDBoundaryPrice. It proves NOTHING about
 the projection: the chart is FLAT, so DDBoundaryPrice still has not executed once on live data.
 B-12 and B-13 remain UNVERIFIED on the terminal; both are so far only proven by simulation.
+
+## *** LOCKED DECISION E9-R1-D8 (Jeff 2026-10-05): levelsAfforded COUNTS ONLY THE LEVELS THAT
+## CAN ACTUALLY OPEN - those on the OPEN SIDE of the boundary. b47. ***
+JEFF CAUGHT THIS ON THE PHASE 2 PRE-COMPUTE, BEFORE A SINGLE TRADE WAS PLACED: "isn't this
+should be just 3? because the SL is in between 3 and 4 hence we should not be openning L4".
+He is right, and it is a real defect, not a wording quibble.
+THE DEFECT: both sites assigned `levelsAfforded = liveN + projN` AFTER the loop had already
+  appended the leg at px to projN - so the count INCLUDED THE LEVEL THE STOP PREVENTS.
+  XAUUSD.s worked case (BUY 0.01 @ 4165.23, interval 300, cap $20): boundary solves to 4157.33,
+  but L4's price is 4156.23, BELOW the stop. Price reaches 4157.33 first and the sequence closes,
+  so L4 can NEVER exist. The sequence only ever holds L1, L2, L3. Code said 4, truth is 3.
+WHY IT MATTERS AND IS NOT COSMETIC: the dashboard "N lvl" is the trader's AT-A-GLANCE read of
+  how deep the grid can go. Reporting 4 when the budget buys 3 MISSTATES THE RISK PICTURE. It is
+  also the same class of error as B-13 - counting a level the engine never trades to.
+THE FIX (both sites): count levels whose price sits on the OPEN side of the boundary -
+  entry > b for a BUY, entry < b for a SELL - computed AFTER b is known. Applied to BOTH the
+  budget branch and the B-4 InpMaxRecoveryTrades terminator branch, which had the identical
+  flaw (its offset also puts the boundary above the capped grid's last level).
+*** THE GBPJPY FIXTURE CONFIRMS THE FIX AGAINST JEFF'S OWN EARLIER REASONING. *** The count
+  there goes 5 -> 4, and D3 already said exactly that: "the stop fires BEFORE L5 opens, so the
+  loss is capped on FOUR positions rather than five". The code had been reporting 5. b47 now
+  reports 4, matching the analysis Jeff locked weeks before the code existed.
+BOUNDARY PRICES ARE UNCHANGED BY THIS FIX - verified on both fixtures: GBPJPY still 207.193
+  (D7 equivalence HOLDS), XAUUSD.s still 4157.33. Only the COUNT corrects.
+BUILD: b47, sha256_16 7de8801631a76a11, 5726 lines (b46 was df5d2ae97c3137a7 / 5701, +25).
+  GATE ZERO PENDING.
+
+## b47 PHASE 2 PRE-COMPUTE (the independent number Jeff checks the EA against).
+XAUUSD.s BUY L1 0.01 @ 4165.23, interval 300 pts, Incremental +0.01, cap $20, money/pt/lot $1.00:
+    L1 4165.23  0.01 lots open  cumDD $0.00
+    L2 4162.23  0.03            $3.00
+    L3 4159.23  0.06            $12.00
+    L4 4156.23  0.10            $30.00   <- budget spent BETWEEN L3 and L4 (the D7 case)
+  SOLVE: overshoot $10.00 at L4 on 0.10 lots -> 100 pts -> 4157.23; +10 pt offset -> 4157.33.
+  LOSS AT THAT STOP = EXACTLY $20.0000. LEVELS AFFORDED = 3 (L4 is below the stop).
+  INVARIANTS that do not depend on the exact fill: 790 points from entry, 3 levels afforded.
+  InpStopLossPts 300 would put the SL at 4162.23 - if the log shows THAT, C-2 has FAILED.
+  NOTE the DD boundary is far WIDER than the 300-pt input stop (790 vs 300), which is correct:
+  it is sized for the whole anticipated grid, not for L1 alone. So this run also exercises the
+  C-5 LOOSENING path, on a COMPUTED stop rather than a manual one.
