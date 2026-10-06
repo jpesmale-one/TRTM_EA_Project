@@ -5660,3 +5660,109 @@ MATRIX AFTER THIS RUN (docs/R1_MATRIX.md rev 3, 54 rows):
   STILL NEED A RUN: 7 - A-8, A-9 (ride along with any live sequence); D-5, D-6, D-7 (the DD
     reduction tiers, needs 4+ levels with Tier 3 on - THE LAST SUBSTANTIVE GROUP); C-4, C-6,
     C-9, D-4, E-3, E-4 fold opportunistically into that one.
+
+## *** D-5, D-6 AND D-7 ALL CLOSED ON ONE TESTER EVENT, 2026-10-06 (bar time 2026.09.28 04:48:13).
+## THE LAST SUBSTANTIVE GROUP IN THE R1 MATRIX. tests/2026.10.06 130958.031.txt lines 727-741.
+Strategy tester, XAUUSD.s M15, every-tick, DooTechnology-Demo, HEDGING (so slices are available).
+Reached via Stage 9 tester button polling - the visual tester delivers no chart events, so
+PollTesterButtons is the only input channel, and it worked exactly as sealed.
+
+TWO BLOCKERS HAD TO BE REMOVED FIRST, AND BOTH ARE FINDINGS IN THEIR OWN RIGHT:
+ BLOCKER 1 (found by me): with InpEntryLotSize = 0.01 the ANCHOR IS ALWAYS L1 AT 0.01 LOTS, and
+   Tier 3 requires anchorVol >= InpTier3MinLots (0.02) AND >= 2 x volume unit so a slice leaves a
+   valid leg. 0.01 fails both. *** ON THE LIVE CONFIGURATION TIER 3 CAN NEVER FIRE, AT ANY
+   DEPTH, SILENTLY. *** That is an E9-R1-class defect: an input that looks armed and is not.
+   Sealed E6 behaviour, not an R1 bug - but it deserves the same loud init warning the DD cap got.
+ BLOCKER 2 - *** FOUND BY JEFF *** from the shape of the log ("I think the Tier 3 never fired
+   cause the TP was already hit"): InpTier3MinProfitPts and InpAvgTPPts WERE BOTH 200. Tier 3
+   measures margin from the SLICED VWAP, which is always CLOSER to price than the full VWAP
+   (removing anchor weight pulls it toward the newer entries), so with equal thresholds Tier 3
+   and the sequence AvgTP are in a photo finish. VERIFIED on the 04:46 sequence of the previous
+   run: sliced margin reached 252.8 pts at the exact bid where AvgTP fired - Tier 3 WOULD have
+   won by ~53 points, a single fast tick. Same hazard class as the sealed CFG9 trail check
+   (activation sits at/beyond the TP target, so the broker TP fills first), and Tier 3 has no
+   equivalent warning. Jeff set InpTier3MinProfitPts = 80 for the run; margin came in at 82.4,
+   which clears 80 and would have MISSED 200 entirely. That call is what made it fire.
+
+CONFIGURATION THAT WORKED: InpEntryLotSize 0.05 (anchor sliceable), InpMaxDDUSD 200 ($180 needed
+to reach L4 on the 0.05/0.06/0.07/0.08 ladder), InpTier3MinProfitPts 80, InpTier3MinTrades 4,
+InpTier3ClosePercent 50, interval 300, M1 recovery TF.
+
+THE EVENT, AUDITED FIGURE BY FIGURE - EVERY ONE MATCHES:
+  pre-slice state (04:46): L1 0.05 @ 4218.79, L2 0.06 @ 4214.85, L3 0.07 @ 4210.29,
+    L4 0.08 @ 4206.86. lots 0.26, VWAP 4211.9215.
+    boundary = 4211.9215 - (200/0.26) pts + 10pt = 4204.33. LOG READ 4204.33. EXACT.
+  "Tier 3 FIRE: BUY group 2 leg(s) (anchor L1 slice 0.02 of 0.05 + 1 profitable) |
+   sliced-VWAP 4209.25 far 4210.07 margin 82.4 pts >= 80/lot"
+    GROUP COMPOSITION VERIFIED: at far price 4210.07 only L4 (@4206.86) is profitable; L1/L2/L3
+      are all above it. Group = anchor + L4 = 2 legs. The log own count agrees.
+    sliced-VWAP = (0.02 x 4218.79 + 0.08 x 4206.86) / 0.10 = 4209.2460 -> 4209.25. EXACT.
+    margin = (4210.07 - 4209.2460) x 100 = 82.4 pts. EXACT.
+  "Tier 3: sliced L1 ticket 52 by 0.02 lot (remaining 0.03) @ 4210.07"
+    *** MY OWN ARITHMETIC ERROR, CORRECTED ON THE RECORD: I predicted the slice would be 0.03.
+    It is 0.02. MathFloor(0.05 x 0.50 / 0.01) x 0.01 = MathFloor(2.5) x 0.01 = 0.02 - I rounded
+    2.5 UP, the code FLOORS it. THE CODE IS RIGHT and the floor is the conservative direction
+    (an odd unit count always slices the smaller half). *** The leaves-0.03 clamp also held.
+
+D-6 PASS - *** THE HOOK FLAGGED AT GATE 3 AS THE SUBTLEST TRIGGER IN D4. ***
+  "DD boundary re-derived after Tier 3 sliced L1 by 0.02 lot: 4200.68 - cap $200.00,
+   realised $-8.24, remaining $208.24, 3 level(s) afforded (E9-R1 D4)."
+  A Tier 3 slice passes through NEITHER structural chokepoint: ticket 52 SURVIVED, and
+  levelCount only changed because L4 separately closed in full. Riding the b24 hooks alone would
+  have MISSED it, the boundary would have kept PRE-SLICE lots, sat too far from price, and the
+  cap would have been quietly WIDER than declared. The hook in SliceLegAtMarket fired on its own
+  and named the slice volume. PROVEN.
+
+D-5 PASS - IN THE SAME LINE, AND IT IS THE CASE THAT LOOKS LIKE A BUG WITHOUT THE LOG.
+  realised = L4 full close (4210.07-4206.86)x100x0.08 = +$25.68, plus the anchor slice
+  (4210.07-4218.79)x100x0.02 = -$17.44. NET +$8.24 - A PROFIT, so SequenceRealisedLoss returns
+  NEGATIVE: "realised $-8.24". remaining = 200.00 + 8.24 = $208.24, MORE THAN THE CAP. EXACT.
+  Boundary therefore moved 4204.33 -> 4200.68, i.e. *** 365 POINTS AWAY FROM PRICE ***.
+  THAT IS D5 LOCKED BEHAVIOUR, NOT A DEFECT: budget was genuinely freed by a profitable tier
+  close, so the stop legitimately retreats. Without the realised/remaining figures on the line
+  this would read as the cap silently loosening. With them it is explainable to the cent - which
+  is exactly why D5 required them (F-3 observability).
+  survivors L1 0.03 @ 4218.79 + L2 0.06 + L3 0.07 = 0.16 lots, VWAP 4213.5938;
+  boundary = 4213.5938 - (208.24/0.16) x 0.01 + 0.10 = 4200.68. EXACT.
+
+D-7 PASS - rides the same event. The L4 FULL close fired the liveness hook independently:
+  "DD boundary re-derived after a level closed: 4200.68 ... 3 level(s) afforded".
+  BOTH structural hooks engaged on one tick, produced the SAME boundary, and did not conflict.
+
+AFTERMATH: the sequence ran on and closed at a FULL AvgTP 4215.59 three minutes later
+(04:56:40), banking the survivors. The valve did its job - a partial close that bought room,
+then the sequence reached its own target. That is the E4/E5/E6 design intent, observed end to end.
+
+MATRIX AFTER THIS RUN (docs/R1_MATRIX.md rev 3, 54 rows):
+  CLOSED ON LIVE/TESTER EVIDENCE: 35 (+D-5, D-6, D-7).
+  RETIRED BY D11, disposal text owed at the seal: 8.
+  BY INSPECTION: 7 (B-7, B-8, C-7, E-5, F-4, F-5, F-6).
+  STILL NEED A RUN: A-8, A-9, C-4, C-6, C-9, D-4, E-3, E-4 - all opportunistic ride-alongs.
+TESTER-VS-LIVE NOTE, RECORDED SO THE SEAL IS HONEST: these three rows are TESTER-verified, not
+  live. Tester fills are idealised (no requotes, synthetic spread). That is ACCEPTABLE for
+  D-5/D-6/D-7 because what they test is whether the EA RECOMPUTES correctly on a structural
+  event, not how a broker fills - and the recompute is arithmetic the tester reproduces exactly.
+  The same distinction Stage 9 recorded for its own tester rows.
+
+## *** E9-R1-Q2 RAISED 2026-10-06: THE EA LETS YOU CONFIGURE A CAP THAT CANNOT CARRY THE LADDER,
+## AND A TIER 3 THAT CAN NEVER FIRE - BOTH SILENTLY. NEEDS ITS OWN GATE 1. ***
+THREE RELATED FINDINGS, ALL OF THE SAME SHAPE AS E9-R1 ITSELF (an input that looks armed and is
+not), ALL SURFACED BY TESTER RUNS ON 2026-10-06:
+ Q2-a THE CAP/LADDER GEOMETRY WALL. The cap needed to reach depth N grows FASTER than the ladder
+   extends, on every lot mode that increases size. MEASURED at two cap levels on the live
+   0.01/0.02/0.03 incremental ladder at interval 300:
+     $20 -> dies at L3 (the L4 trigger sat 240 pts BEYOND the boundary; the stop is INSIDE the
+            interval, so the next level can never open). Observed: stop-out at -$19.64.
+     $60 -> dies at L4 (L5 trigger 56 pts beyond). Observed: stop-out at -$59.13.
+   Modelled requirement on that ladder: L3 $30, L4 $60, L5 $105, L6 $168 - quadratic.
+   *** JEFF RULING 2026-10-06, A LOCKED PRINCIPLE: THE CAP IS SACRED AND THE GRID ABIDES BY IT.
+   *** "The cap is to ensure the loss is limited hence the grid should abide to the boundary."
+   So the ladder must be configured to FIT the cap, never the reverse.
+   WHAT IS MISSING: the EA arms silently with a combination that is arithmetically incapable of
+   reaching the depths the user expects. It should SAY SO at init, the way A-6 says NOT ARMED.
+ Q2-b TIER 3 UNREACHABLE ON THE LIVE CONFIG (blocker 1 above). InpEntryLotSize 0.01 => anchor
+   0.01 => never >= InpTier3MinLots. Enabling Tier 3 on the live charts does NOTHING, forever.
+ Q2-c TIER 3 RACES THE SEQUENCE TP (blocker 2 above, Jeff finding). MinProfitPts >= AvgTPPts
+   puts the valve in a photo finish with the exit it is meant to pre-empt.
+ALL THREE ARE NOTIFY-NEVER-BLOCK candidates (b19 precedent): compute at init, log loudly, never
+freeze trading. NOT FIXED HERE - each needs Gate 1 -> matrix -> plan like every other change.
