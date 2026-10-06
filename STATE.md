@@ -5947,3 +5947,73 @@ branch-coverage gaps on mechanisms already proven through the same code.
 EVIDENCE, but it is NOT a clean 54/54. A seal should state the four open rows explicitly and
 either accept them as known gaps or close C-9 with a small code change first. That is Jeff's
 call, not mine, and the figures above are what it should be made on. ***
+
+## *** b51 BUILT 2026-10-06: C-9, THE ONE ROW THAT WOULD HAVE FAILED ITS OWN EVIDENCE TEST. ***
+BUILD: b51, e87047e9c93eced7, 5729 lines (b50 661444f782485eb4 / 5667). GATE ZERO PENDING.
+DIFF vs b50: 63 insertions, ONE deletion - and the deletion is the build tag string. No money
+path, no existing function, no state schema, no dashboard DD row touched. Verified by git diff.
+
+WHY THIS BUILD EXISTS. The final row disposition (committed 83bb42c) found that C-9 was not
+merely untested - it would have FAILED. The row says: "DDClose turned OFF mid-sequence ->
+boundary SLs REMAIN on the positions (removing a stop is the one unsafe direction). Log that the
+EA no longer manages them." The BEHAVIOUR was already correct; THE LOG LINE DID NOT EXIST.
+Jeff's call 2026-10-06: close it rather than seal around it.
+
+THE BEHAVIOUR, TRACED AT b50 BEFORE WRITING ANYTHING (it is unchanged by b51):
+  an input edit re-inits -> Reconcile -> ComputeTargets returns sl = 0 when InpStopLossPts is 0
+  (Jeff's usual config) -> the enforce loop's `wantSL = (sl > 0.0 && slPlaceable) ? sl : curSL`
+  falls through to curSL, the boundary ALREADY on the position -> idempotence passes -> NOTHING
+  IS WRITTEN. The stops stay at the broker and keep protecting the sequence. Correct, and the
+  row's required behaviour. The defect was the SILENCE around it.
+
+GATE 1 DECISIONS (Jeff, 2026-10-06):
+  D13 ANNOUNCE ONCE, LEAVE THE STOPS. Not repeat-on-throttle (the b21/b30 precedent in this EA
+      is one-shot per condition, re-armed on restart), and emphatically NOT strip-the-stops -
+      removing a working stop on a live sequence violates the EA's own rule that a sequence
+      never runs uncapped, and is the one unsafe direction the row itself names.
+  D14 NO DASHBOARD DD ROW IN THIS STATE - the notice rides the EXISTING amber warning row.
+      This keeps F-2 ("no DD row when the feature is off - no dead UI") TRUE BY CONSTRUCTION
+      rather than by a second rule that could drift from it. F-2 passed on screen at b45 and is
+      not re-opened.
+
+IMPLEMENTATION: ONE new function, AnnounceOrphanedDDStops(), defined at line 4117 immediately
+after AnnounceDDBoundary, called at line 5590 in OnInit immediately after the
+AnnounceDDBoundary("init (restart re-derive)") call. The two are deliberately ADJACENT and are
+opposite branches of one question - exactly one can produce output on any given init.
+DETECTION NEEDS NO NEW STATE, WHICH IS WHY E-5 IS NOT RE-OPENED: lastAppliedSL is PERSISTED
+(b41, schema v5), so the value the EA last wrote SURVIVES the re-init the input change caused.
+A live position still wearing exactly that price, with the feature now off, is an orphaned
+boundary by definition. Schema stays 5.
+
+THE FIVE MISFIRE GUARDS, AND WHY EACH IS LOAD-BEARING RATHER THAN DEFENSIVE PADDING:
+  InpEnableDDClose     -> still armed; AnnounceDDBoundary owns the announcement, not this.
+  levelCount == 0      -> flat; there are no positions to own a stop.
+  trailingActive       -> *** THE IMPORTANT ONE. *** The trail engine ALSO writes lastAppliedSL.
+  beApplied            -> so does BE. Calling a BE or trail stop a "DD boundary" would be a
+                          FALSE CLAIM about which rule owns the stop, and b48/D9 is the
+                          precedent that settles this: name the owner correctly or say nothing.
+                          Those engines keep managing their own stops, so nothing is orphaned.
+  lastAppliedSL <= 0   -> the EA never applied an SL; none can be orphaned.
+  no live match        -> the trader already moved or removed them. Announcing a price that is
+                          no longer on any position would be misdirection, not information.
+ONE-SHOT per init via AlreadyLogged keyed on the price, re-arming on the next restart so a
+persistent condition is re-stated rather than silently forgotten.
+
+PRE-GATE-ZERO VERIFICATION DONE HERE (all mechanical, none of it replaces Jeff's compile):
+  - check_hygiene hook: PASS (exit 0).
+  - CRLF: 5729 CR = 5729 LF, final line ends "--+" with NO trailing newline - byte-identical
+    convention to b44..b50. (This is the trap that has bitten every single build in this series.)
+  - Brace balance: 501 open / 502 close, diff -1 - IDENTICAL to b50's -1, which is a brace
+    inside a string literal present in both. Paren balance of the new function: 27 / 27.
+  - MQL5 SINGLE-PASS ORDERING (the K-4 lesson, and what cost b45 a rebuild): definition at 4117
+    precedes the call at 5590, so NO forward declaration is needed. Every symbol it references
+    is defined earlier - AlreadyLogged (699), Log (357), g_dashWarn (686), g_state (globals) -
+    verified by reading each one's definition line, not assumed.
+  - The function WRITES nothing but g_dashWarn: no SL, no state file, no CTrade call. It cannot
+    affect the money path even if every guard were wrong.
+
+MATRIX IMPACT: C-9 moves from OPEN (would fail its evidence requirement) to TESTABLE. It closes
+when Jeff switches InpEnableDDClose off on a LIVE sequence carrying boundary stops and the log
+shows the WARN plus the amber row, with the stops still on the positions afterwards.
+PROJECTED DISPOSITION AFTER C-9 CLOSES: 35 closed, 5 retired, 11 by inspection, 3 open
+(C-4, D-4, E-3) = 54.

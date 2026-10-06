@@ -48,7 +48,7 @@
 
 #include <Trade\Trade.mqh>
 
-#define TRTM_BUILD  "b50"     // internal build tag, bump per delivery
+#define TRTM_BUILD  "b51"     // internal build tag, bump per delivery
 
 //+------------------------------------------------------------------+
 //| ENUMS                                                            |
@@ -4087,6 +4087,63 @@ void AnnounceDDBoundary(const string trigger)
                               trigger, DoubleToString(b, _Digits), cap, banked, cap - banked, levels));
   }
 
+// b51 (E9-R1 C-9): THE ORPHANED-BOUNDARY ANNOUNCER.
+// THE ROW: "DDClose turned OFF mid-sequence -> boundary SLs REMAIN on the positions (removing a
+// stop is the one unsafe direction). Log that the EA no longer manages them."
+// THE BEHAVIOUR WAS ALREADY CORRECT AND IS NOT CHANGED HERE. Traced at b50: an input edit
+// re-inits; ComputeTargets returns sl = 0 when InpStopLossPts is 0 (Jeff's usual config); the
+// enforce loop's `wantSL = (sl > 0.0 && slPlaceable) ? sl : curSL` therefore falls through to
+// curSL, the boundary already on the position; idempotence passes and NOTHING IS WRITTEN. The
+// stops stay at the broker and keep protecting the sequence, which is what the row requires.
+// WHAT WAS MISSING - AND IT IS THE WHOLE REASON E9-R1 EXISTS: the EA said NOTHING. A stop it
+// placed, and has now stopped managing, sat there silently. The trader could not tell from the
+// log that the price would no longer move as levels open or close. Silence about a stop's
+// ownership is the same class of defect as the silent no-op that created E9-R1.
+// DETECTION NEEDS NO NEW STATE: lastAppliedSL is PERSISTED (b41, schema v5), so the value the
+// EA last wrote survives the re-init that the input change caused. A live position still
+// wearing exactly that price, with the feature now off, is an orphaned boundary by definition.
+// DELIBERATELY SILENT IN EVERY OTHER CASE (these are the misfire guards, not optimisations):
+//   - feature still ON            -> nothing is orphaned, the boundary is being re-derived
+//   - FLAT                        -> no positions, nothing to own
+//   - lastAppliedSL <= 0          -> the EA never applied an SL, so none can be orphaned
+//   - trailingActive / beApplied  -> those engines ALSO write lastAppliedSL, and calling a
+//                                    BE or trail stop a "DD boundary" would be a FALSE claim.
+//                                    b48/D9 is the precedent: name the owner correctly or say
+//                                    nothing. The trail ratchet keeps managing its own stop.
+//   - no live position matches    -> the trader already moved or removed them; announcing a
+//                                    price that is no longer there would be misdirection.
+// ONE-SHOT per init via AlreadyLogged (the b21/b30 precedent), re-arming on the next restart so
+// a persistent condition is re-stated rather than forgotten. Reads only; writes no SL, no state.
+void AnnounceOrphanedDDStops()
+  {
+   if(InpEnableDDClose)                 return;   // still armed - AnnounceDDBoundary owns this
+   if(g_state.levelCount == 0)          return;   // flat
+   if(g_state.trailingActive)           return;   // trail ratchet owns the stop, not us
+   if(g_state.beApplied)                return;   // BE floor owns it
+   double lastSL = g_state.lastAppliedSL;
+   if(lastSL <= 0.0)                    return;   // the EA never wrote an SL
+
+   double ts  = SymbolInfoDouble(_Symbol, SYMBOL_TRADE_TICK_SIZE);
+   double tol = (ts > 0.0 ? ts : _Point) / 2.0;
+   int    n   = 0;
+   for(int i = 0; i < g_state.levelCount; i++)
+     {
+      if(!PositionSelectByTicket(g_state.tickets[i]))
+         continue;
+      if(MathAbs(PositionGetDouble(POSITION_SL) - lastSL) <= tol)
+         n++;
+     }
+   if(n == 0)                           return;   // nothing still wears it - say nothing
+
+   if(!AlreadyLogged("ddorphan:" + DoubleToString(lastSL, _Digits)))
+      Log(LOG_WARN, StringFormat("Drawdown Auto Close is now DISABLED but %d position(s) still carry the boundary SL %s that it placed. Those stops REMAIN at the broker and still protect the sequence - removing a stop is the one unsafe direction - but the EA NO LONGER MANAGES OR RE-DERIVES them: the price will NOT move as levels open or close. Adjust or remove them by hand if that is not what you want. (E9-R1 C-9)",
+                                 n, DoubleToString(lastSL, _Digits)));
+   // Amber warning row. F-2 stays TRUE by construction: the DD Cap row itself is still absent
+   // (PanelRefresh gates it on InpEnableDDClose), so there is no dead DD UI - this rides the
+   // EXISTING warning row instead, which is where every other per-sequence notice already goes.
+   g_dashWarn = StringFormat("DD off: %d stop(s) at %s, unmanaged", n, DoubleToString(lastSL, _Digits));
+  }
+
 //--- Floating PnL of tracked positions (confirm-close preview).
 double SequenceFloatingPnL()
   {
@@ -5526,6 +5583,11 @@ int OnInit()
    // recovers it - and the broker-held SLs protected the legs the whole time the EA
    // was down, which is the D2 advantage over an EA-side market close.
    AnnounceDDBoundary("init (restart re-derive)");
+   // b51 (E9-R1 C-9): the OPPOSITE branch of the line above. AnnounceDDBoundary speaks when the
+   // cap is ARMED; this speaks when it is NOT and the EA's own boundary stops are still sitting
+   // on live positions. Same structural slot, deliberately adjacent, so the two cases are read
+   // together. Exactly one of them can produce output on any given init.
+   AnnounceOrphanedDDStops();
    Log(LOG_INFO, "Init complete - " + TRTM_BUILD + (InpEnableRecovery
                   ? " (adoption, exits, recovery active)"
                   : " (adoption, exits active - recovery DISABLED)"));
