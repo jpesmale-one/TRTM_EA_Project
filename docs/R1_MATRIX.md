@@ -1,9 +1,20 @@
 # E9-R1 SCENARIO MATRIX — Drawdown Auto Close (boundary-SL enforcement)
 
-STATUS: **SEALED rev 3 — rev 1 sealed by Jeff 2026-10-05. B-11 added the same day from a live
-finding during the b45 build (a points/pips unit error in the fixture itself); B-12 and B-13 added
-for the two b46 projection defects, found by precomputing expected values BEFORE Phase 2 ran.**
+STATUS: **CLOSED — b51 SEALED BY JEFF 2026-10-06 (Gate 6).** Matrix sealed rev 3: rev 1 sealed by
+Jeff 2026-10-05. B-11 added the same day from a live finding during the b45 build (a points/pips
+unit error in the fixture itself); B-12 and B-13 added for the two b46 projection defects, found
+by precomputing expected values BEFORE Phase 2 ran.
 Live findings later become NEW rows (rev 2+), never silent fixes (CLAUDE.md §2).
+
+**FINAL DISPOSITION OF ALL 54 ROWS** (reconciled ID by ID; full reasoning in STATE.md):
+- **35 CLOSED** on live/tester evidence.
+- **5 RETIRED BY D11** (B-2, B-4, B-5, B-9, B-11) — the projected-grid machinery D11 deleted.
+  B-3, B-12 and D8 are SPLIT rows: their projection halves retired, their surviving halves closed.
+- **11 DISPOSED BY INSPECTION** (B-7, B-8, C-6, C-7, E-4, E-5, F-4, F-5, F-6, A-8, A-9) — each
+  with the code read and line numbers recorded.
+- **3 OPEN AND NAMED** (C-4, D-4, E-3) — sealed as known gaps, not rounded up. All three are
+  untested branches of proven mechanisms and close during ordinary trading. E-3 is explicitly
+  *not* claimed on inference: it touches the adoption path.
 
 Builds on locked decisions **E9-R1-D1** (per-symbol scope; percent of BALANCE; MIN of the two
 positive limits; both-off refuses to arm), **D2** (enforced as an SL PRICE every leg adopts, not

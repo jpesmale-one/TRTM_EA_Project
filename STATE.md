@@ -6106,3 +6106,129 @@ ALL THREE CLOSE DURING ORDINARY TRADING. None needs a dedicated test session.
 E9-R1 IS NOW FUNCTIONALLY COMPLETE WITH NO KNOWN EVIDENCE GAPS - the one row that would have
 FAILED (C-9, a missing log line) is closed, and the three that remain are untested branches of
 proven mechanisms rather than defects or omissions. READY FOR JEFF'S GATE 6 SEAL.
+
+## *** b51 SEALED BY JEFF 2026-10-06 *** E9-R1 DRAWDOWN AUTO CLOSE. GATE 6 CLOSED.
+IDENTITY: e87047e9c93eced7 / 5729 lines. Repo and Gate Zero runtime aligned (compiled and
+init-verified 2026-10-06 14:27:21, XAUUSDS, magic 715358).
+
+ALL SIX GATES CLEARED IN ORDER:
+  Gate 1  E9-R1-D1..D6 locked 2026-10-05, then D7..D14 added as live evidence forced them.
+          D11 SUPERSEDES D3 - the one reversal, driven entirely by Jeff's own evidence.
+  Gate 2  docs/R1_MATRIX.md SEALED rev 1 2026-10-05 (51 rows); rev 2 added B-11; rev 3 added
+          B-12 and B-13 from live findings during the b45-b46 builds. 54 rows final.
+  Gate 3  docs/R1_PLAN_2026-10-05_gate3.md CONFIRMED. 12 touch points.
+  Gate 0  PASSED on every build: b45, b46, b47, b48, b49, b50, b51.
+  Gate 4  COMPLETE. 35 closed on live/tester evidence, 5 retired by D11, 11 by inspection,
+          3 OPEN AND NAMED (C-4, D-4, E-3). Reconciled ID by ID: 35+5+11+3 = 54.
+  Gate 6  SEALED on Jeff's explicit word 2026-10-06.
+
+DELTA vs b44 (the pre-R1 sealed baseline, 09fb98a): +505 lines (5224 -> 5729).
+  NO new input (62 before, 62 after - Stage 1's dialog layout stays frozen; the three DD inputs
+  already existed and were INERT, which is the defect this work fixed).
+  NO new persisted field. STATE SCHEMA UNCHANGED AT 5 - the boundary is DERIVED-ONLY, which is
+  what lets it survive a restart by re-derivation (E-1/E-2, closed live) instead of storage.
+  EXACTLY THREE DELETIONS IN THE ENTIRE SEVEN-BUILD DIFF: the build tag, and the two inline
+  ladder-step lines replaced by NextLadderPrice (the B-3 single-copy extraction). Nothing else
+  was removed.
+HYGIENE: 5729 CRLF pairs, 0 bare LF, 0 non-ASCII, brace delta -1 (baseline-preserved - a brace
+  inside a string literal, identical in b44), paren 0, bracket 0.
+
+WHAT E9-R1 ACTUALLY CHANGES, IN ONE LINE: InpEnableDDClose / InpMaxDDPercent / InpMaxDDUSD were
+  three inputs NO CODE READ. They now arm a loss cap enforced as a BROKER-HELD BOUNDARY SL that
+  every leg adopts, re-derived on every structural change.
+
+THE ARITHMETIC, AND IT IS THE WHOLE FEATURE (D11):
+      boundary = VWAP - dir * (remaining / (moneyPerPointPerLot * liveLots)) * _Point
+                      + dir * DD_OFFSET_PTS * _Point
+  Priced on the LEGS THAT ACTUALLY EXIST, closed form, re-derived structurally. As levels open,
+  liveLots rises and the same budget buys less travel - SO THE STOP TIGHTENS TOWARD PRICE AS THE
+  GRID DEEPENS. Two properties follow and both were verified live: the cap is honoured exactly at
+  EVERY depth rather than only in a hypothetical filled grid, and a level can NEVER be skipped
+  because the stop sat above its trigger.
+
+THE ONE REVERSAL, AND IT WAS JEFF'S CALL ON JEFF'S EVIDENCE (D11 supersedes D3):
+  D3 placed the boundary where the FULL ANTICIPATED GRID would lose the cap, assuming the grid
+  fills in. IT DOES NOT NECESSARILY FILL: InpBarCloseEntry gates every level on a confirmed bar
+  close, so price can travel far past a trigger with the sequence one leg deep. Ticket 892942174
+  proved it - stopped out at $7.59 of a $20 cap, $12.41 unspent, 1277 points early, with L2's
+  trigger already passed by 459 points. Jeff: "This is a grid and the SL is our boundary. L1
+  closing at $7 means we take out the chance that it could recover ... the $20 cap was supposedly
+  for the ACCUMULATED drawdown, not a drawdown for each level."
+  A CAP ON ACCUMULATED DRAWDOWN MUST BE MEASURED ON POSITIONS THAT EXIST.
+
+VERIFIED EXACT AT SIX DEPTHS, BOTH DIRECTIONS, ACROSS LIVE AND TESTER:
+  1 leg  BUY  0.01          -> 4137.72, 4121.18, 4127.62, 4110.67   (2000.0 pts travel)
+  1 leg  SELL 0.01          -> 4148.17   (boundary ABOVE entry, offset DOWN - B-10 sign)
+  2 legs      0.03          -> 4147.51, 4134.90   (666.7 pts)
+  3 legs      0.06          -> 4260.23   (333.3 pts)
+  4 legs      0.10 / 0.26   -> 4260.68, 4204.33   (200.0 / 76.9 pts)
+  post-slice  0.16          -> 4200.68   (D-6, with realised credited)
+  Stop tightening observed on level adds: 979 pts (b49), 727 pts (b50).
+  Every figure recomputed independently before PASS. The $3.06 TP close was additionally
+  confirmed against the ACCOUNT BALANCE (2611.28 -> 2614.34) - the broker's own ledger agreeing,
+  routed through none of my tick-value assumptions.
+
+THE FIVE DEFECTS FOUND AND FIXED DURING THE WORK - THREE OF THEM BY JEFF, FROM HIS OWN LOGS:
+  D7  (b46) boundary snapped to a level instead of solving the exact price: $30 lost on a $20
+      cap. Found by recompute.
+  B-13(b46) every projected leg opened at the price of the level ABOVE it - the DD walk read
+      nearly double, so the stop sat too CLOSE and would have stopped sequences out EARLY.
+  D8  *** JEFF *** - "4 level(s) afforded - isn't this should be just 3?" levelsAfforded counted
+      the level the stop PREVENTS from opening.
+  D9  *** JEFF *** (from a dashboard screenshot) - "Proj at SL -3.00" while the real stop cost
+      $7.90. The DD boundary was a FOURTH SL owner and neither projection had been told. Same
+      defect b26 fixed for manual TP; fixed in BOTH PanelRefresh and LogStructure.
+  D12 (b50) MY OWN b49 CODE. The B-6 guard logged "cap $20.00 already spent (realised $-0.00)"
+      when realised was ZERO - it raced the broker's own stop (L1 returned 10036, "broker exit
+      filled first"). REMOVED, not patched: a boundary at/through price is what the sealed
+      SL-exceeded rule already handles, and handles better via the b20 race gate.
+  Plus, on the tier test: *** JEFF *** found that Tier 3 and the sequence AvgTP were in a photo
+  finish (MinProfitPts == AvgTPPts == 200, and the sliced VWAP sits closer to price). Setting
+  MinProfitPts to 80 is what made D-5/D-6/D-7 reachable at all.
+
+ARITHMETIC ERRORS I MADE AND CORRECTED ON THE RECORD (kept so the audit trail is honest):
+  - claimed a b47 live loss was "$19.00, conservative"; the real ladder gave $23.40, $3.40 OVER
+    cap. E9-R1-Q1 as framed was withdrawn.
+  - said L2 was "unreachable by construction" when L2's trigger WAS reached (by 459 pts) - the
+    real cause was M15 bar-close gating.
+  - predicted a 0.03 Tier 3 slice; it is 0.02 (MathFloor(2.5) x 0.01). The code floors, I
+    rounded up, and flooring is the conservative direction.
+  - wrote "35 closed, 8 retired" in the row disposition, totalling 58 against a 54-row matrix -
+    I had double-counted the three SPLIT rows. Caught by ID-by-ID reconciliation.
+  - framed an inert Tier 3 as an E9-R1-class defect; Jeff corrected the scope (see Q2-b).
+
+THE THREE OPEN ROWS, SEALED AS KNOWN GAPS RATHER THAN ROUNDED UP:
+  C-4 manual SL dragged LOOSER than the boundary. The TIGHTER arm of the same `if` (C-5) fired on
+      EVERY derivation in every run; this arm needs a hand-drag mid-sequence. LOW RISK.
+  D-4 a leg closed BY HAND mid-sequence. The liveness hook it rides IS proven (D-7, via a tier
+      close); only this entry route is untested.
+  E-3 adopted magic-0 L1 with the cap armed. THE ONE NOT CLAIMED ON INFERENCE: DDBoundaryPrice
+      reads g_state.tickets[] without consulting adoptedL1 so it SHOULD price identically, but
+      every R1 run used EA-opened positions, and the adoption path is where this EA has had its
+      worst defects (E9-Q2 cost five days). Needs one adopted trade with DDClose armed.
+  ALL THREE CLOSE DURING ORDINARY TRADING. None needs a dedicated session.
+
+DEPLOYMENT STATUS AT SEAL: b51 runs on ONE instance (XAUUSD.s, Doo, magic 715358). Seven other
+  instances still run b44, WHICH HAS NO LOSS CAP AT ALL. Deploy is Jeff's manual step.
+
+STILL OPEN AFTER THIS SEAL - E9-R1-Q2, THREE FINDINGS NEEDING THEIR OWN GATE 1:
+  Q2-a THE CAP/LADDER GEOMETRY WALL. Measured at two cap levels on the live 0.01/0.02/0.03
+    incremental ladder at interval 300: $20 dies at L3, $60 dies at L4. Requirement grows
+    QUADRATICALLY (L3 $30, L4 $60, L5 $105, L6 $168). The EA arms silently with combinations that
+    are arithmetically incapable of reaching the depths the user expects.
+    *** JEFF'S LOCKED PRINCIPLE, 2026-10-06: THE CAP IS SACRED AND THE GRID ABIDES BY IT. ***
+  Q2-b Tier 3 unreachable at a 0.01 anchor - NARROWED by Jeff to the only harmful case: T3 the
+    SOLE enabled tier AND the anchor can never qualify. Behind a live T1/T2 it is a harmless
+    no-op (verified: the dispatcher falls through).
+  Q2-c Tier 3 racing the sequence TP when MinProfitPts >= AvgTPPts (Jeff's finding).
+
+## b51 SEAL - ONE DEFERRED HOUSEKEEPING ITEM, RECORDED SO IT IS NOT FORGOTTEN.
+The EA's own file header lists the sealed enhancements (E1, E4, E5, E6, b39, b40, b41) and does
+NOT yet list E9-R1. It should, by the provenance convention the header itself states.
+I DRAFTED THAT EDIT AND THEN REVERTED IT, DELIBERATELY. Adding six comment lines changed the file
+hash from e87047e9c93eced7 to 7a1f74d337806745. A comment cannot change behaviour, but it breaks
+the one guarantee a seal exists to give: THE IDENTITY IN THE RECORD IS THE BINARY THAT WAS
+COMPILED AND RUN. A sealed build whose hash no longer matches its Gate Zero is not sealed, it is
+merely documented. The EA on disk is byte-identical to what Jeff compiled at 14:27:21.
+CARRY IT INTO THE NEXT BUILD: whatever b52 turns out to be, it adds the E9-R1 header block in the
+same diff, and that build's own Gate Zero re-establishes the identity. Cost of waiting: zero.
