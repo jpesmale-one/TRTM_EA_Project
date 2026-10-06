@@ -5601,3 +5601,62 @@ MATRIX AFTER THIS RUN (docs/R1_MATRIX.md rev 3, 54 rows):
     C-4, C-6, C-9, D-4, E-3, E-4 fold opportunistically into those two sessions.
 PAUSED HERE at Jeff's call, 2026-10-05 23:43. b50 stands: Gate Zero passed, D11 and D12 both
 proven live, 30 of 54 rows closed on evidence. NOTHING PUSHED - still at e00c6b6 upstream.
+
+## *** b50 SELL TEST: B-10 AND C-3 PASS, 2026-10-06 07:23:19 - 07:38:12. ***
+FIRST SELL SEQUENCE OF E9-R1 AND THE FIRST RUN WITH InpStopLossPts = 0 - which is Jeff's USUAL
+setting, so until now the boundary had never been tested in the configuration he actually runs.
+Every prior run (b45..b50) carried a 300-pt computed SL that CONCEDED to the boundary; this one
+had nothing to concede. XAUUSD.s M5, balance 2611.28 at entry.
+
+B-10 PASS (placement arithmetic, the sign) - SELL 0.01 @ 4128.27.
+  travel = 20.00 / (1.00 x 0.01) = 2000.0 pts = $20.00 of price
+  solved = 4128.27 + 20.00 = 4148.27     <- ADVERSE IS UP on a sell. Boundary ABOVE the entry.
+  offset = 4148.27 - 0.10  = 4148.17     <- safe side is DOWN, i.e. TOWARD price
+  LOG READ 4148.17. EXACT, AND BOTH SIGNS ARE RIGHT.
+  Loss AT 4148.17 = (4128.27 - 4148.17) x 100 x 0.01 = -$19.90.
+  Loss at the UN-offset 4148.27 would be exactly -$20.00. The 10-pt offset therefore fires the
+  stop JUST BEFORE the cap on this side too - the mirror of the buy case, confirmed by recompute.
+  Ladder also correct: panel "Next L2 @ 4131.27" = 4128.27 + 300 pts, stepping UP as a sell
+  ladder must (NextLadderPrice's dir<0 branch).
+
+C-3 PASS - *** THE BOUNDARY AS THE SOLE STOP. *** With InpStopLossPts = 0:
+  "Exits applied to ticket 895702310: TP 4125.27 SL 4148.17"
+  AND NOTHING ELSE. No "replaces the computed SL" line, no LOOSER WARN, no tighter INFO -
+  because there was nothing to replace. The boundary was placed ON ITS OWN MERIT.
+  ALSO CORRECTLY ABSENT: "Computed SL is 0.00 (<= 0) - treated as OFF". That guard exists for a
+  NEGATIVE computed price; with the input at zero the SL path never engages at all.
+
+F-1 PASS AGAIN, ON A SELL (dashboard screenshot, 07:2x): "DD Cap SL  4148.17 ($20.00, 1 lvl)",
+  "SL 4148.17", "Proj at TP / SL  +3.00 / -19.90". The projection figure matches the recompute
+  to the cent - D9's fix holding on the sell side.
+
+THE CLOSE - TP, and the DD stop never came near it:
+  07:38:12 "Liveness: L1 ticket 895702310 TP hit @ 4125.21 - removed from sequence"
+  TP target 4125.27 = 4128.27 - 300 pts. Filled at 4125.21, SIX POINTS BEYOND the target in
+  Jeff's favour. Gain = (4128.27 - 4125.21) x 100 x 0.01 = $3.06.
+  *** CONFIRMED INDEPENDENTLY BY THE ACCOUNT: balance 2611.28 -> 2614.34 = +$3.06, TO THE CENT.
+  *** That is the strongest confirmation available, because it does not route through ANY of my
+  assumptions about tick value or point size - the broker's own ledger agrees with the deal maths.
+  SECOND INDEPENDENT CONFIRMATION (first was b50 sequence 1, a BUY) that D2/D6's SL ownership is
+  scoped to the SL and does NOT touch the TP path. The DD stop sat 2117 points away and the TP
+  won cleanly. Now proven on both directions.
+
+TWO LOG OBSERVATIONS, NEITHER A DEFECT, BOTH RECORDED SO THEY ARE NOT RE-INVESTIGATED:
+ 1. TIMESTAMPS APPEAR OUT OF ORDER IN THE FILE. The 07:38:12 close lines sit ABOVE a block
+    stamped 07:20:47. Cause: the log opens with FileSeek(SEEK_END) and appends, so across a
+    detach/re-attach two instances' flushes interleave in the FILE while each line's own stamp
+    stays correct. Content is intact; only file ORDER is scrambled. Read by stamp, not position.
+    Not worth a fix - rotation and append semantics are sealed Stage 1/b22 behaviour.
+ 2. "AutoTrading is OFF" fired at 07:22:22, 07:20:47 and 07:46:41, and a real 10027 rejection at
+    07:23:08 named the cause correctly: "toolbar Algo Trading is OFF (global)". That is b30/b31's
+    A2 rework (AutoTradingDisabledHint) getting THREE free live confirmations in one session -
+    it distinguished the GLOBAL toolbar from the per-EA checkbox, which is exactly the
+    distinction it was built to make. The retry at 07:23:18 went straight through.
+
+MATRIX AFTER THIS RUN (docs/R1_MATRIX.md rev 3, 54 rows):
+  CLOSED ON LIVE EVIDENCE: 32 (+B-10, +C-3).
+  RETIRED BY D11, disposal text owed at the seal: 8.
+  BY INSPECTION: 7 (B-7, B-8, C-7, E-5, F-4, F-5, F-6).
+  STILL NEED A RUN: 7 - A-8, A-9 (ride along with any live sequence); D-5, D-6, D-7 (the DD
+    reduction tiers, needs 4+ levels with Tier 3 on - THE LAST SUBSTANTIVE GROUP); C-4, C-6,
+    C-9, D-4, E-3, E-4 fold opportunistically into that one.

@@ -1,0 +1,40 @@
+2026.10.06 12:22:23.657	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] === TRTM b50 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.10.06 12:22:23.657	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.10.06 12:22:23.657	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Drawdown Auto Close ARMED: effective cap $20.00 (percent limit $52.23 (2.00% of balance 2611.28) vs USD limit $20.00 -> the LOWER (tighter) wins). Enforced as a BOUNDARY SL every position adopts (broker-held, so it fires even if MT5 is closed). Stop Loss (points) concedes to this boundary while enabled.
+2026.10.06 12:22:23.663	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] State persistence self-test: PASS
+2026.10.06 12:22:23.663	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Reconcile complete: FLAT
+2026.10.06 12:22:23.664	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Account margin mode: HEDGING
+2026.10.06 12:22:23.664	TRTM (XAUUSD.s,M5)	[TRTM][WARN ] AutoTrading is OFF (toolbar Algo Trading button) - every entry, pending, and exit write will be rejected with 10027 until it is enabled
+2026.10.06 12:22:23.664	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.10.06 12:22:23.664	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Init complete - b50 (adoption, exits, recovery active)
+2026.10.06 12:23:08.418	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] SELL ARMED: 0.01 lots (Fixed 0.01) - click CONFIRM within 10s to execute
+2026.10.06 12:23:08.857	TRTM (XAUUSD.s,M5)	CTrade::OrderSend: market sell 0.01 XAUUSD.s [auto trading disabled by client]
+2026.10.06 12:23:08.857	TRTM (XAUUSD.s,M5)	[TRTM][ERROR] L1 SELL entry FAILED (retcode 10027: auto trading disabled by client) - no retry, re-arm to try again (E7). toolbar Algo Trading is OFF (global) - enable it and confirm again.
+2026.10.06 12:23:12.019	Experts	automated trading is enabled
+2026.10.06 12:23:19.240	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] SELL ARMED: 0.01 lots (Fixed 0.01) - click CONFIRM within 10s to execute
+2026.10.06 12:23:20.084	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] L1 SELL OPENED via button: 0.01 lots @ 4128.27 (deal 558813750)
+2026.10.06 12:23:20.085	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Structure: 1 level(s), 0.01 lots | projected at TP +3.00 | at SL -19.90
+2026.10.06 12:23:20.085	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] EA L1 REGISTERED: ticket 895702310 SELL 0.01 lots @ 4128.27. Exits apply next tick.
+2026.10.06 12:23:20.303	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Exits applied to ticket 895702310: TP 4125.27 SL 4148.17
+
+
+2026.10.06 12:22:23.657	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] === TRTM b50 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.10.06 12:22:23.657	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.10.06 12:22:23.657	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Drawdown Auto Close ARMED: effective cap $20.00 (percent limit $52.23 (2.00% of balance 2611.28) vs USD limit $20.00 -> the LOWER (tighter) wins). Enforced as a BOUNDARY SL every position adopts (broker-held, so it fires even if MT5 is closed). Stop Loss (points) concedes to this boundary while enabled.
+2026.10.06 12:22:23.663	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] State persistence self-test: PASS
+2026.10.06 12:22:23.663	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Reconcile complete: FLAT
+2026.10.06 12:22:23.664	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Account margin mode: HEDGING
+2026.10.06 12:22:23.664	TRTM (XAUUSD.s,M5)	[TRTM][WARN ] AutoTrading is OFF (toolbar Algo Trading button) - every entry, pending, and exit write will be rejected with 10027 until it is enabled
+2026.10.06 12:22:23.664	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.10.06 12:22:23.664	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Init complete - b50 (adoption, exits, recovery active)
+2026.10.06 12:23:08.418	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] SELL ARMED: 0.01 lots (Fixed 0.01) - click CONFIRM within 10s to execute
+2026.10.06 12:23:08.857	TRTM (XAUUSD.s,M5)	CTrade::OrderSend: market sell 0.01 XAUUSD.s [auto trading disabled by client]
+2026.10.06 12:23:08.857	TRTM (XAUUSD.s,M5)	[TRTM][ERROR] L1 SELL entry FAILED (retcode 10027: auto trading disabled by client) - no retry, re-arm to try again (E7). toolbar Algo Trading is OFF (global) - enable it and confirm again.
+2026.10.06 12:23:12.019	Experts	automated trading is enabled
+2026.10.06 12:23:19.240	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] SELL ARMED: 0.01 lots (Fixed 0.01) - click CONFIRM within 10s to execute
+2026.10.06 12:23:20.084	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] L1 SELL OPENED via button: 0.01 lots @ 4128.27 (deal 558813750)
+2026.10.06 12:23:20.085	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Structure: 1 level(s), 0.01 lots | projected at TP +3.00 | at SL -19.90
+2026.10.06 12:23:20.085	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] EA L1 REGISTERED: ticket 895702310 SELL 0.01 lots @ 4128.27. Exits apply next tick.
+2026.10.06 12:23:20.303	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Exits applied to ticket 895702310: TP 4125.27 SL 4148.17
+2026.10.06 12:38:12.711	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Liveness: L1 ticket 895702310 TP hit @ 4125.21 - removed from sequence
+2026.10.06 12:38:12.711	TRTM (XAUUSD.s,M5)	[TRTM][INFO ] Sequence fully closed - back to FLAT, overrides reset to input defaults, flat marker saved
