@@ -5766,3 +5766,184 @@ not), ALL SURFACED BY TESTER RUNS ON 2026-10-06:
    puts the valve in a photo finish with the exit it is meant to pre-empt.
 ALL THREE ARE NOTIFY-NEVER-BLOCK candidates (b19 precedent): compute at init, log loudly, never
 freeze trading. NOT FIXED HERE - each needs Gate 1 -> matrix -> plan like every other change.
+
+## *** E9-R1 FINAL ROW DISPOSITION, 2026-10-06. ALL 54 ROWS ACCOUNTED FOR. ***
+Written before the Gate 6 seal so that NOT ONE ROW of a sealed matrix is silently dropped.
+Four dispositions exist: CLOSED ON EVIDENCE (34), RETIRED BY D11 (5), DISPOSED BY INSPECTION
+(11, each with the code read and the line numbers recorded below), and OPEN (4, named in Part 3).
+34 + 5 + 11 + 4 = 54, RECONCILED ID BY ID against docs/R1_MATRIX.md: every row ID in the matrix
+has exactly one disposition, and no disposition names a row the matrix does not contain.
+*** CORRECTION ON THE RECORD, CAUGHT BY THAT RECONCILIATION: my first draft of this block said
+"35 closed, 8 retired" and then listed 4 open rows - 58 dispositions against a 54-row matrix.
+Two errors. (1) B-3, B-12 and D8 are SPLIT rows (part retired by D11, part closed on evidence)
+and I counted BOTH halves of each. (2) I miscounted the retired set. Corrected figures:
+34 / 5 / 11 / 4. The three split rows are counted ONCE EACH under CLOSED, because the surviving
+half of each is closed on live evidence; their retired halves are described in Part 1 for the
+record but add no count. The lesson is the same one this project keeps relearning: a running
+total carried in prose drifts, and only an ID-by-ID reconciliation catches it. ***
+
+--- PART 1: THE ROWS D11 RETIRED (5 WHOLLY, plus the retired HALF of 3 split rows) -----------
+CONTEXT, SO THIS IS NEVER MISREAD AS ROWS BEING QUIETLY DROPPED. Locked decision D3 placed the
+boundary on the FULL ANTICIPATED GRID: project L1..Ln forward, walk the drawdown, stop where the
+budget runs out. Eight matrix rows existed to verify THAT WALK. Jeff's live evidence on
+2026-10-05 (ticket 892942174 stopped at $7.59 of a $20 cap, one leg deep, with L2's trigger
+already passed by 459 points) proved the premise false: InpBarCloseEntry gates every level on a
+confirmed bar close, so THE GRID DOES NOT NECESSARILY FILL IN. D11 replaced the walk with a
+CLOSED FORM over the LIVE legs. There is no projection left to test. These rows do not fail -
+THE MACHINERY THEY DESCRIBE NO LONGER EXISTS. Each is retired against the decision that removed it.
+
+ B-2  "Every projected lot comes from ComputeLevelLot(levelN)" - RETIRED BY D11.
+      There are no projected lots. DDBoundaryPrice reads POSITION_VOLUME from the live legs
+      (the one read at its line 47 of the function). ComputeLevelLot returns to having exactly
+      ONE caller - EvaluateRecovery - as it did before R1. The row's concern (a second,
+      drifting copy of the lot ladder) is answered by deletion, which is stronger than by test.
+ B-3  PROJECTION HALF ONLY - RETIRED BY D11. The row had two halves. The half that said
+      "projection and engine must share ONE interval helper" is retired: there is no projection.
+      *** THE OTHER HALF IS CLOSED ON EVIDENCE AND STAYS CLOSED *** - NextLadderPrice remains
+      the single copy of the interval step, verified live three times (b49 trigger 4154.62;
+      b50 4144.52; sell 4131.27), each matching entry +/- InpRecoveryIntervalPts exactly.
+ B-4  "InpMaxRecoveryTrades = 5 terminates the grid" - RETIRED BY D11. The boundary no longer
+      has a terminator because it no longer iterates. The input still caps the LIVE ladder in
+      EvaluateRecovery, untouched by R1 (that is F-5, disposed below).
+ B-5  "Hard iteration bound against pathological settings" - RETIRED BY D11, and the constant
+      DD_MAX_PROJECT was DELETED in b49 along with the loop it bounded. A closed form has no
+      pathological-settings case: it is one division.
+ B-9  "Martingale mode, boundary derives on a geometric ladder" - RETIRED BY D11. The boundary
+      is lot-mode-AGNOSTIC: it reads whatever volume is actually open, so RM_MARTINGALE,
+      RM_INCREMENTAL and RM_MANUAL are indistinguishable to it. The row tested a projection
+      that had to REPRODUCE each mode's ladder; nothing reproduces anything now.
+ B-11 ALREADY DISPOSED 2026-10-05 (Jeff: the live GBPJPY dialog reads 370). Recorded in full
+      above and in the matrix row itself. A RECORDING defect in D3's example, not a code defect.
+ B-12 PROJECTION HALF ONLY - RETIRED BY D11. "Budget runs out BETWEEN two projected levels" is
+      meaningless without projected levels. *** THE PRINCIPLE IT ESTABLISHED SURVIVES AND IS
+      CLOSED ON EVIDENCE *** - the boundary is SOLVED to the exact price where the loss equals
+      the cap, never snapped to a level. D11 solves it by construction, verified at six depths.
+ D8   ORIGINAL FORM RETIRED BY D11 ("levelsAfforded counts only levels the stop does not
+      prevent from opening" - a statement about a PROJECTED grid). *** RESTATED AND CLOSED ON
+      EVIDENCE under D11: levelsAfforded is now the count of LIVE legs priced into the stop,
+      verified at 1, 2, 3 and 4 legs across live and tester runs. *** Jeff's original catch
+      ("isn't this should be just 3?") is what forced the count to be meaningful; under D11 it
+      became trivially correct because it counts something that exists.
+
+--- PART 2: THE ELEVEN ROWS DISPOSED BY INSPECTION -------------------------------------------
+Each was read in src/TRTM.mq5 at b50 (661444f782485eb4) on 2026-10-06. Line numbers are b50's.
+
+ B-7  "Projection must honour the CLAMPED lot, not the raw one" - DISPOSED, TRUE BY
+      CONSTRUCTION. DDBoundaryPrice reads POSITION_VOLUME, i.e. the volume the broker ACTUALLY
+      ACCEPTED after ComputeLevelLot's step/min/max normalisation. It cannot see a raw lot
+      because it never computes one. The row's hazard (projecting an unclamped lot the broker
+      would refuse) is structurally unreachable.
+ B-8  "Projection may ASSUME non-decreasing lots - verified, not assumed" - DISPOSED. Moot
+      under D11 for the same reason as B-9 (the boundary reads live volume and is indifferent
+      to ordering), but the underlying Guard C enforcement was re-verified anyway and stands in
+      three places: ValidateInputs (the static RM_FIXED vs entry-lot case), the
+      EntryLotRecoveryConsistent pre-screen at the door, and the per-level runtime refusal in
+      EvaluateRecovery. Recorded because the row asked for verification, not assumption.
+ C-6  "Boundary inside the broker stops/freeze band" - DISPOSED BY INSPECTION, AND THE
+      REASONING IS LOAD-BEARING BECAUSE THIS BROKER'S STOPS LEVEL IS DYNAMIC (50 pts at every
+      init this session; observed 20-100 pts intraday historically). The DD boundary is written
+      into the LOCAL VARIABLE `sl` inside EnforceExits (line ~1870) BEFORE the broker-distance
+      gate at lines 1980-1989. It therefore passes through the SAME slPlaceable test as every
+      other SL owner, is DEFERRED rather than fired-to-fail when it lands inside minDist, and
+      is retried each tick with the existing 60-second throttled WARN. NO NEW CODE PATH EXISTS
+      TO TEST - that was the explicit point of the D2/D6 injection-point decision at Gate 3
+      ("inherit every protection the sealed path already provides instead of duplicating it").
+      NOT OBSERVED LIVE: a boundary landing inside the band never occurred in any run, because
+      a DD boundary is by nature FAR from price (2000 pts at one leg, 333 at four). It becomes
+      reachable only at extreme depth or a near-spent budget. Recorded as INFERRED, not seen.
+ C-7  "PositionModify returns false - do not read Result*() on a no-send path" - DISPOSED.
+      Inherited verbatim from b42/E9-Q3: the TradeTargetLive(ticket) gate at line 2057 sits
+      ADJACENT to the modify call, and the DD boundary flows through that identical call. The
+      failure it guards (reading the PREVIOUS order's retcode as if it were this call's) was
+      evidenced live 2026-09-22 and fixed in b42. R1 adds no new CTrade call sites: ZERO
+      Result*() reads exist anywhere in the R1 block.
+ E-4  "MUST-NOT write an SL to a ticket MT5 has not confirmed exists" - DISPOSED BY INSPECTION,
+      AND THIS ONE WAS RE-READ CAREFULLY BECAUSE IT IS THE FAILURE CLASS THAT COST FIVE DAYS IN
+      SEPTEMBER. Two independent guards, both upstream of any DD write:
+        (1) DDBoundaryPrice itself skips any ticket PositionSelectByTicket cannot select, so an
+            UNKNOWN ticket contributes NOTHING to lots or VWAP - it cannot even influence the
+            price, let alone receive it.
+        (2) The enforce loop's TradeTargetLive gate (line 2057) refuses to send for a ticket
+            that is not selectable AT THE MODIFY CALL, logging "NO ORDER SENT" without
+            incrementing the failure counter.
+      Additionally b43/b44's E9-Q2 work means an UNKNOWN ticket is KEPT in state but is never
+      selectable, so it falls out at guard (1) on every pass. INFERRED, NOT OBSERVED - no
+      UNKNOWN-state ticket arose in any R1 run. Recorded as inference with the code read.
+ E-5  "If the boundary is persisted the schema bumps; if derived-only, confirm nothing is
+      stored" - DISPOSED, CONFIRMED DERIVED-ONLY. TRTM_STATE_SCHEMA is still 5 (line 162,
+      unchanged since b41). Zero occurrences of any boundary field in the SequenceState struct,
+      StateToJson or StateLoad. The self-test PASSES at every init across b45-b50, which is the
+      positive confirmation that the v5 format is intact. The boundary recovers at restart by
+      RE-DERIVATION (E-1/E-2, closed on live evidence), which is why it needs no persistence.
+ F-4  "MUST-NOT: tier behaviour unchanged with DDClose off" - DISPOSED. EvaluateBasketClose and
+      its three tier branches contain no reference to InpEnableDDClose, EffectiveDDCap or
+      DDBoundaryPrice. The only R1 line inside the tier code is the AnnounceDDBoundary call in
+      SliceLegAtMarket, which runs AFTER a confirmed partial and writes nothing. Corroborated
+      POSITIVELY by the tester run: Tier 3 fired on its own sealed gates with DDClose ON, and
+      the gate arithmetic (sliced-VWAP 4209.25, margin 82.4) recomputes exactly as E6 defines.
+ F-5  "MUST-NOT: recovery ladder unchanged" - DISPOSED, AND CORROBORATED BY EVIDENCE RATHER
+      THAN INSPECTION ALONE. DDBoundaryPrice contains FOUR references to g_state, ALL OF THEM
+      READS (levelCount, direction, tickets[]) and not one assignment - verified by reading the
+      whole function. The projection is read-only with respect to engine state, which is what
+      the row demands. Live corroboration: every recovery trigger in every run matched entry
+      +/- InpRecoveryIntervalPts exactly, and the b50 L4 FORFEITED line shows the sealed
+      fill-side guard still firing untouched.
+ F-6  "MUST-NOT: b24 TP/SL asymmetry intact with DDClose OFF" - DISPOSED. The entire DD
+      injection is inside `if(InpEnableDDClose)` (EnforceExits ~line 1860). With the input
+      false, not one line of R1 executes in the exit path and the b24 substitution logic above
+      it is reached byte-identically to b44. A-1 PASSED ON LIVE EVIDENCE BY ABSENCE on
+      2026-10-05 (not one DD line anywhere in the log with the feature off), which is the
+      strongest available form of this row.
+ A-8  "Input edit mid-sequence (pct 2 -> 3): re-derive on the new cap" - DISPOSED BY
+      INSPECTION. An input change RE-INITIALISES the EA (OnDeinit/OnInit), and OnInit calls
+      AnnounceDDBoundary("init (restart re-derive)") after Reconcile. That is the SAME code
+      path as E-1/E-2, both CLOSED ON LIVE EVIDENCE including a case where the recomputed
+      boundary differed from the one on the positions and correctly rewrote it. A-8 is
+      therefore a special case of a row already proven live, with the cap as the thing that
+      changed rather than the price. Phase 1 also demonstrated the arming arithmetic responds
+      to input edits five times in four minutes (A-2/A-3/A-5/A-7).
+ A-9  "DDClose armed with InpEnableRecovery = false" - DISPOSED BY INSPECTION. Nothing in
+      DDBoundaryPrice consults InpEnableRecovery; it prices whatever legs are open, and a lone
+      L1 is a one-leg sequence. This is EXACTLY the state every b50 single-leg run was in
+      between L1 opening and L2 triggering - the boundary was derived, written and (in the
+      sell) held for fifteen minutes on one leg. The row is thus corroborated by live evidence
+      of the identical code state, reached by a different route.
+
+--- PART 3: THE FOUR REMAINING ROWS, AND WHY THEY ARE NOT BEING CLAIMED ----------------------
+HONEST ACCOUNTING. These four are NOT closed, NOT retired, and NOT disposed by inspection.
+They are OPEN, and the seal must say so rather than rounding them up.
+ C-4  "Manual SL hand-set LOOSER than the boundary -> boundary overwrites it" - OPEN. The
+      TIGHTER case (C-5) fired loudly on EVERY derivation in every run, so the comparison
+      branch is exercised constantly; the LOOSER branch is the other arm of the same `if` and
+      has never been triggered because it requires a hand-drag during a live sequence. LOW
+      RISK, UNTESTED. Closes the first time Jeff drags a stop beyond the boundary.
+ C-9  "DDClose turned OFF mid-sequence -> boundary SLs REMAIN on the positions" - OPEN. The
+      behaviour follows from the enforce loop (with the feature off, `sl` reverts to the
+      computed value, and the existing SL is only overwritten if a new one is placeable), but
+      the row asks for a LOG saying the EA no longer manages them, AND NO SUCH LOG LINE EXISTS
+      IN b50. That is a genuine small gap, not an inference: the row would FAIL on its evidence
+      requirement. Carrying it forward rather than claiming it.
+ D-4  "Leg manually closed mid-sequence -> re-derive from the worst SURVIVING entry" - OPEN.
+      The liveness hook that fires on a leg close IS proven (D-7, on the tester, via a tier
+      close), and a manual close enters through the identical CheckSequenceLiveness path - so
+      the mechanism is evidenced even though this specific entry route is not. Closes the first
+      time a leg is closed by hand.
+ E-3  "Adopted magic-0 L1 - boundary derived for adopted positions too, or declines with a
+      reason" - OPEN AND THE MOST SUBSTANTIVE OF THE FOUR. DDBoundaryPrice reads
+      g_state.tickets[] without consulting adoptedL1, so an adopted L1 SHOULD be priced
+      identically - but EVERY R1 run used EA-opened positions, so this is inference about the
+      adoption path, which is historically where this EA has had its worst defects (E9-Q2 cost
+      five days). NOT CLAIMING IT. Needs one mobile/manual trade adopted with DDClose armed.
+
+SUMMARY FOR THE SEAL: 34 CLOSED ON EVIDENCE, 5 RETIRED BY D11, 11 DISPOSED BY INSPECTION,
+4 OPEN AND NAMED (C-4, C-9, D-4, E-3). Total 54, reconciled ID by ID. Of the four open rows,
+C-9 is a REAL EVIDENCE GAP in b50 - the row requires a log line saying the EA no longer manages
+the boundary SLs after DDClose is switched off mid-sequence, and NO SUCH LINE EXISTS IN THE
+CODE, so the row would FAIL its own evidence requirement rather than merely being untested.
+E-3 touches the ADOPTION path, historically where this EA has had its worst defects (E9-Q2 cost
+five days), so inference there is worth less than elsewhere. C-4 and D-4 are low-risk
+branch-coverage gaps on mechanisms already proven through the same code.
+*** WHAT THIS MEANS FOR THE SEAL: E9-R1 is FUNCTIONALLY COMPLETE AND PROVEN ON MONEY-PATH
+EVIDENCE, but it is NOT a clean 54/54. A seal should state the four open rows explicitly and
+either accept them as known gaps or close C-9 with a small code change first. That is Jeff's
+call, not mine, and the figures above are what it should be made on. ***
