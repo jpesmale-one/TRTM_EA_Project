@@ -6017,3 +6017,63 @@ when Jeff switches InpEnableDDClose off on a LIVE sequence carrying boundary sto
 shows the WARN plus the amber row, with the stops still on the positions afterwards.
 PROJECTED DISPOSITION AFTER C-9 CLOSES: 35 closed, 5 retired, 11 by inspection, 3 open
 (C-4, D-4, E-3) = 54.
+
+## *** b51 GATE ZERO PASSED + C-9 CLOSED ON LIVE EVIDENCE, 2026-10-06. ***
+GATE ZERO (14:27:21): "=== TRTM b51 init ===" ran. Self-test PASS (schema v5 intact - the
+positive confirmation that C-9 added no persisted field). Cap arithmetic unchanged across SEVEN
+builds: balance 2614.34 x 2.00% = 52.2868 -> $52.29; MIN(52.29, 20.00) = $20.00.
+*** AND THE CORRECT SILENCE: AnnounceOrphanedDDStops ran at that init and printed NOTHING. ***
+The feature was still ENABLED and the chart was FLAT, so two of the five guards fired. A noisy
+new function here would have been the first thing to fix; it was quiet, which is the result.
+
+C-9 PASS (14:35:47) - THE ROW THAT WOULD HAVE FAILED ITS OWN EVIDENCE TEST AT b50:
+  "Drawdown Auto Close is now DISABLED but 1 position(s) still carry the boundary SL 4110.67
+   that it placed. Those stops REMAIN at the broker and still protect the sequence - removing a
+   stop is the one unsafe direction - but the EA NO LONGER MANAGES OR RE-DERIVES them: the price
+   will NOT move as levels open or close. Adjust or remove them by hand if that is not what you
+   want. (E9-R1 C-9)"
+
+THE DETECTION CHAIN, TRACED END TO END AND AUDITED AT EVERY LINK:
+  09:35:29  L1 BUY 0.01 @ 4130.57 (ticket 896042326)
+            boundary = 4130.57 - 20.00/(1.00 x 0.01) x 0.01 + 0.10 = 4110.67
+            "Exits applied to ticket 896042326: TP 4133.57 SL 4110.67"  <- WRITTEN
+            TP 4133.57 = entry + 300 pts. Both EXACT.
+  state file lastAppliedSL = 4110.67                                    <- PERSISTED (b41, v5)
+  14:35:47  C-9 WARN names 4110.67                                      <- DETECTED
+  *** THE PERSISTED VALUE SURVIVED FIVE HOURS AND A RE-INIT, AND THE FUNCTION FOUND THE POSITION
+  STILL WEARING IT. *** That is precisely the b41 schema-v5 field doing the job the Gate 3 plan
+  relied on, which is why C-9 needed NO new state and E-5 did not re-open.
+  Loss at 4110.67 would have been (4110.67-4130.57) x 100 x 0.01 = -$19.90 of the $20 cap.
+
+THE BEHAVIOUR IS CONFIRMED CORRECT, NOT JUST THE LOG LINE:
+  "Structure: 1 level(s), 0.01 lots | projected at TP +3.00 | at SL n/a" - ComputeTargets
+  returned sl = 0 (InpStopLossPts = 0, Jeff's usual config), so `wantSL = (sl > 0.0 &&
+  slPlaceable) ? sl : curSL` fell through to curSL - the boundary already on the position -
+  exactly as traced at b50 BEFORE the function was written. NOTHING ELSE IS IN THE LOG: no
+  "Exits applied", no PositionModify, no attempt to strip the stop. THE STOP STAYED AND THE EA
+  WENT QUIET ABOUT MANAGING IT, which is the row's actual requirement.
+F-2 HOLDS BY CONSTRUCTION on the same run: PanelRefresh gates the "DD Cap SL" row on
+  InpEnableDDClose, so with the feature off no DD row can render. The notice rides the EXISTING
+  amber warning row instead (D14), so there is no dead DD UI - the F-2 guarantee is structural,
+  not a second rule that could drift from it.
+
+MATRIX AFTER THIS RUN (docs/R1_MATRIX.md rev 3, 54 rows) - RECONCILED ID BY ID:
+  CLOSED ON LIVE/TESTER EVIDENCE: 35 (+C-9).
+  RETIRED BY D11: 5.      BY INSPECTION: 11.      OPEN: 3 (C-4, D-4, E-3).
+  35 + 5 + 11 + 3 = 54.
+THE THREE REMAINING OPEN ROWS, AND WHY THEY ARE NOT BEING CLAIMED:
+  C-4 manual SL dragged LOOSER than the boundary. The TIGHTER arm of the same `if` (C-5) fires
+      on EVERY derivation in every run, so the comparison is exercised constantly; this arm
+      needs a hand-drag during a live sequence. LOW RISK, UNTESTED.
+  D-4 a leg closed BY HAND mid-sequence. The liveness hook it depends on IS proven (D-7, via a
+      tier close on the tester), and a manual close enters through the identical
+      CheckSequenceLiveness path - so the mechanism is evidenced, only this entry route is not.
+  E-3 adopted magic-0 L1 with the cap armed. *** THE MOST SUBSTANTIVE OF THE THREE. ***
+      DDBoundaryPrice reads g_state.tickets[] without consulting adoptedL1, so an adopted L1
+      SHOULD price identically - but every R1 run used EA-opened positions, and the adoption
+      path is historically where this EA has had its worst defects (E9-Q2 cost five days). NOT
+      CLAIMING IT ON INFERENCE. Needs one mobile/manual trade adopted with DDClose armed.
+ALL THREE CLOSE DURING ORDINARY TRADING. None needs a dedicated test session.
+E9-R1 IS NOW FUNCTIONALLY COMPLETE WITH NO KNOWN EVIDENCE GAPS - the one row that would have
+FAILED (C-9, a missing log line) is closed, and the three that remain are untested branches of
+proven mechanisms rather than defects or omissions. READY FOR JEFF'S GATE 6 SEAL.

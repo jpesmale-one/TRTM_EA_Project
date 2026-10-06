@@ -1,0 +1,10 @@
+2026.10.06 14:35:47.391	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] === TRTM b51 init === symbol=XAUUSDS (raw XAUUSD.s) magic=715358 stateFile=TRTM\state_XAUUSDS_715358.json
+2026.10.06 14:35:47.396	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.10.06 14:35:47.399	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] State persistence self-test: PASS
+2026.10.06 14:35:47.399	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] Reconcile: flags restored (trailOverride=F beOverride=F trailingActive=F beApplied=F)
+2026.10.06 14:35:47.400	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] Structure: 1 level(s), 0.01 lots | projected at TP +3.00 | at SL n/a
+2026.10.06 14:35:47.400	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] Reconcile complete: dir=BUY levels=1
+2026.10.06 14:35:47.402	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] Account margin mode: HEDGING
+2026.10.06 14:35:47.402	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] Broker exit geometry (at init): stops level 50 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 50 pts to price are DEFERRED until placeable
+2026.10.06 14:35:47.402	TRTM (XAUUSD.s,M15)	[TRTM][WARN ] Drawdown Auto Close is now DISABLED but 1 position(s) still carry the boundary SL 4110.67 that it placed. Those stops REMAIN at the broker and still protect the sequence - removing a stop is the one unsafe direction - but the EA NO LONGER MANAGES OR RE-DERIVES them: the price will NOT move as levels open or close. Adjust or remove them by hand if that is not what you want. (E9-R1 C-9)
+2026.10.06 14:35:47.402	TRTM (XAUUSD.s,M15)	[TRTM][INFO ] Init complete - b51 (adoption, exits, recovery active)
