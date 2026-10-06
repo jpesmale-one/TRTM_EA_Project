@@ -5670,9 +5670,15 @@ PollTesterButtons is the only input channel, and it worked exactly as sealed.
 TWO BLOCKERS HAD TO BE REMOVED FIRST, AND BOTH ARE FINDINGS IN THEIR OWN RIGHT:
  BLOCKER 1 (found by me): with InpEntryLotSize = 0.01 the ANCHOR IS ALWAYS L1 AT 0.01 LOTS, and
    Tier 3 requires anchorVol >= InpTier3MinLots (0.02) AND >= 2 x volume unit so a slice leaves a
-   valid leg. 0.01 fails both. *** ON THE LIVE CONFIGURATION TIER 3 CAN NEVER FIRE, AT ANY
-   DEPTH, SILENTLY. *** That is an E9-R1-class defect: an input that looks armed and is not.
-   Sealed E6 behaviour, not an R1 bug - but it deserves the same loud init warning the DD cap got.
+   valid leg. 0.01 fails both, so Tier 3 cannot fire at any depth with a 0.01 anchor - which is
+   why the test needed InpEntryLotSize raised to 0.05 before D-6 could be reached.
+   *** I ORIGINALLY CALLED THIS "an E9-R1-class defect: an input that looks armed and is not",
+   AND JEFF CORRECTED IT 2026-10-06. IT IS NOT THAT CLASS. *** The tiers dispatch T2 -> T1 -> T3
+   with FALL-THROUGH, so an ineligible Tier 3 is a NO-OP sitting behind whichever valve is
+   actually doing the work - no mis-sizing, no false close, no money moved. E9-R1 was a defect
+   because an UNBOUNDED LOSS went uncapped; this costs nothing. The narrowed scope (warn only
+   when T3 is the SOLE enabled tier and the anchor can never qualify) is recorded under E9-R1-Q2b
+   below, with the dispatcher code read that confirms the fall-through.
  BLOCKER 2 - *** FOUND BY JEFF *** from the shape of the log ("I think the Tier 3 never fired
    cause the TP was already hit"): InpTier3MinProfitPts and InpAvgTPPts WERE BOTH 200. Tier 3
    measures margin from the SLICED VWAP, which is always CLOSER to price than the full VWAP
@@ -5760,8 +5766,31 @@ not), ALL SURFACED BY TESTER RUNS ON 2026-10-06:
    So the ladder must be configured to FIT the cap, never the reverse.
    WHAT IS MISSING: the EA arms silently with a combination that is arithmetically incapable of
    reaching the depths the user expects. It should SAY SO at init, the way A-6 says NOT ARMED.
- Q2-b TIER 3 UNREACHABLE ON THE LIVE CONFIG (blocker 1 above). InpEntryLotSize 0.01 => anchor
-   0.01 => never >= InpTier3MinLots. Enabling Tier 3 on the live charts does NOTHING, forever.
+ Q2-b TIER 3 UNREACHABLE AT A 0.01 ANCHOR (blocker 1 above). InpEntryLotSize 0.01 => anchor
+   always 0.01 => never >= InpTier3MinLots (0.02) and never >= 2 units, so the slice-eligibility
+   test can never pass and Tier 3 never fires at any depth.
+   *** SCOPE CORRECTED BY JEFF 2026-10-06, AND MY ORIGINAL FRAMING WAS WRONG. *** I first wrote
+   this as "enabling Tier 3 on the live charts does NOTHING, forever" and filed it as an
+   E9-R1-class defect. Jeff's correction: "its fine even if L1 is in 0.01 cause DD reduction also
+   has hierarchy ... The user should not use T3 alone and there should be no harm in doing so
+   also because it only means it will never fire in a 0.01 L1 setting. The user only needs to be
+   warned of this if the user configures T3 to be enabled ALONE with 0.01 L1."
+   VERIFIED IN THE CODE BEFORE ACCEPTING IT: EvaluateBasketClose dispatches T2 -> T1 -> T3 with
+   FALL-THROUGH. Each tier's `if(tNelig)` block is entered independently, and the Tier 3
+   anchor-eligibility test `if(unit > 0.0 && anchorVol >= InpTier3MinLots && anchorVol >= 2.0 *
+   unit)` simply SKIPS its block when it fails - it does not return, and Tiers 1 and 2 are
+   evaluated BEFORE it and never consult anchorVol at all. So an ineligible Tier 3 is a NO-OP:
+   nothing is mis-sized, no false close fires, no money moves, and whichever valve the user is
+   actually relying on still works.
+   WHY MY FRAMING WAS WRONG IN A WAY THAT MATTERS: E9-R1 was a defect because the user believed
+   a LOSS CAP existed when none did, and the exposure was UNBOUNDED. An inert Tier 3 under a live
+   T1 or T2 costs NOTHING. The two are not the same class, and calling them the same would have
+   justified a warning that fires on a perfectly sound configuration.
+   NARROWED SCOPE (Jeff's, and it is the right line): warn ONLY when Tier 3 is the SOLE enabled
+   tier AND the anchor can never qualify - i.e. InpEnableTier3 && !InpEnableTier1 &&
+   !InpEnableTier2 && entry lot < max(InpTier3MinLots, 2 x volume unit). THAT is the case where
+   the user has a drawdown valve they believe is armed and genuinely has none. In every other
+   combination Tier 3 is harmless dead weight behind a working tier.
  Q2-c TIER 3 RACES THE SEQUENCE TP (blocker 2 above, Jeff finding). MinProfitPts >= AvgTPPts
    puts the valve in a photo finish with the exit it is meant to pre-empt.
 ALL THREE ARE NOTIFY-NEVER-BLOCK candidates (b19 precedent): compute at init, log loudly, never
