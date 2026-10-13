@@ -6232,3 +6232,113 @@ COMPILED AND RUN. A sealed build whose hash no longer matches its Gate Zero is n
 merely documented. The EA on disk is byte-identical to what Jeff compiled at 14:27:21.
 CARRY IT INTO THE NEXT BUILD: whatever b52 turns out to be, it adds the E9-R1 header block in the
 same diff, and that build's own Gate Zero re-establishes the identity. Cost of waiting: zero.
+
+## *** E9-R2 RAISED 2026-10-13 (Jeff, live multi-chart log tests/2026.10.12 184124.510.txt).
+## TWO DEFECTS, OBSERVED SIMULTANEOUSLY, BOTH TRACING TO THE SEALED E9-R1 BOUNDARY. ***
+Jeff's report: "1. the TP and SL are being applied multiple times. it should be only applied once
+as the intended design. 2. For the GBPJPY series the manual TP 210.132 was set on the L1 ...
+Apparently L2 was opened but the same manual TP has been applied repeatedly which should not be
+the case. Also upon the design, once there was a structure change the manual TP should be
+released and the calculated TP should be applied."
+BOTH CONFIRMED. Scope: 4 charts (AUDCAD.s H1, GBPCHF.s H1, GBPJPY.s H4, USDCAD.s H4), build b51.
+
+*** TWO CORRECTIONS TO MY OWN FIRST-PASS DIAGNOSIS. BOTH WERE MINE; JEFF CAUGHT THE FIRST. ***
+ (1) I SAID "THE DD CAP IS RULED OUT" on GBPJPY/USDCAD because neither logged a "Drawdown Auto
+     Close ARMED" line. THAT WAS A FALSE ABSENCE CHECK. Neither chart logged an init block AT
+     ALL (grep for the GBPJPY init banner returns 0) - they were ALREADY RUNNING when the
+     capture began. ABSENCE OF A LINE IS NOT ABSENCE OF THE STATE.
+     Jeff corrected it twice: "205.722 is the SL calculated by the EA based on the Auto Drawdown
+     Close capability", then the mechanism - "DD cap was armed but the log already superseded due
+     to the flooding of TP SL notifications."
+     *** THAT SECOND POINT IS THE SHARPEST THING IN THIS INVESTIGATION: THE DEFECT DESTROYED ITS
+     OWN EVIDENCE. *** 1123 writes on one ticket pushed the init block out of the retained
+     window, and I then read the resulting gap as proof the feature was off. The flood is both
+     the symptom AND the reason the symptom was misdiagnosed.
+     VERIFIED ARITHMETICALLY and it reconciles: boundary 205.722 at L1 0.02 @ 209.448 with cap
+     $47.11 implies travel = (209.448 + 0.010 - 205.722)/0.001 = 3736.0 pts, hence
+     mpp = 47.11/(3736.0 x 0.02) = $0.6305 per point per lot. A 3-digit JPY pair at ~158 USDJPY
+     gives 100000 x 0.001/158 = $0.633. MATCH TO 0.4%. The DD boundary IS the SL on GBPJPY.
+ (2) I THEN BLAMED CostCoverPoints()/BEStopPrice() for the one-point oscillation (swap drift
+     flipping a MathCeil). *** THAT CODE NEVER RAN. *** "BE TRIGGERED" = 0 and
+     "TRAILING ACTIVATED" = 0 across all 2048 lines; BEStopPrice is only reached once
+     g_state.beApplied is set, which never happened. The theory was plausible and WRONG, and the
+     absence check that killed it took one grep I should have run BEFORE proposing it.
+
+--- DEFECT R2-A: THE DD BOUNDARY IS NOT STABLE, SO IT REWRITES THE SL ENDLESSLY -------------
+EVIDENCE: 1123 "Exits applied" lines on GBPJPY ticket 2994752430 ALONE, TP CONSTANT at 210.132,
+  SL wandering one point at a time and REVERSING: 205.722 -> .723 -> .722 -> .723 -> .724 -> .723
+  Distinct SL values and counts on that one ticket: 205.722(4) .723(25) .724(55) .725(84)
+  .726(69) .727(42) .728(116) .729(177) .730(125) .731(112) .732(90) .733(30) .734(20) .735(29)
+  .736(31) .737(18) .738(9) .739(32) .740(27), plus 207.352(13) .353(14) .354(1) after L2 opened.
+  USDCAD ticket 2993705872 shows the same shape at 5-digit scale: 1.44202 .. 1.44206.
+ROOT CAUSE - A HOLE IN D11's OWN PREMISE, NOT A CODING SLIP:
+  boundary = VWAP - (remaining/(mpp * liveLots)) * _Point + offset
+  D4 says the boundary re-derives ONLY on STRUCTURAL change, and D-2/D-3 PASSED on XAUUSD by
+  absence over 17 minutes of real elapsed time. THAT PASS WAS REAL BUT NOT GENERAL. The formula's
+  inputs are not all structural: mpp = MoneyPerPointPerLot() reads SYMBOL_TRADE_TICK_VALUE, and
+  ON ANY PAIR WHOSE QUOTE CURRENCY IS NOT THE ACCOUNT CURRENCY THE BROKER RECOMPUTES THAT VALUE
+  CONTINUOUSLY as the cross rate moves. XAUUSD.s on a USD account has a CONSTANT tick value -
+  which is exactly why D-2/D-3 passed there and why this stayed invisible for seven builds.
+  Modelled sensitivity at the observed values: mpp 0.6290 -> boundary 205.713; mpp 0.6325 ->
+  205.734. A ~0.5% tick-value drift moves the boundary ~1 point; the observed 18-point SL range
+  needs only ~0.9% drift in USDJPY. THAT IS A NORMAL MORNING.
+  EnforceExits then does exactly what it is designed to do: curSL != wantSL -> PositionModify.
+  *** THE IDEMPOTENCE CHECK IS NOT BROKEN. The values genuinely differ every pass. *** The defect
+  is that a cap denominated in ACCOUNT CURRENCY, converted through a FLOATING cross rate, has no
+  deadband - so it can never settle on a cross-quoted instrument.
+COST: ~1100 broker round-trips per position per day per chart, invisibly. Broker throttling and
+  journal noise are the obvious risks; the subtler ones are that EVERY write is a chance for a
+  reject on a live sequence, AND - proven here - THE FLOOD EVICTS THE DIAGNOSTIC HISTORY THAT
+  WOULD EXPLAIN IT.
+SCOPE: every instrument whose quote currency != account currency. Of the four charts in this log,
+  GBPJPY.s (JPY), USDCAD.s (CAD), AUDCAD.s (CAD) and GBPCHF.s (CHF) are ALL affected. XAUUSD.s -
+  the ONLY instrument E9-R1 was ever tested on - is the one that is not.
+
+--- DEFECT R2-B: ADOPTION DOES NOT CLASSIFY PRE-EXISTING EXITS -------------------------------
+EVIDENCE, and the sequence matters:
+  07:05:02.656  ADOPTED UNTAGGED L1: ticket 2994752430 BUY 0.02 @ 209.448 (comment '')
+  07:05:02.873  Exits applied to ticket 2994752430: TP 210.132 SL 205.722
+  ... 1123 applies, TP CONSTANT at 210.132, for TEN HOURS ...
+  17:00:00.459  Recovery L2 OPENED 0.02 @ 208.958
+  17:00:00.594  Manual TP 210.132 ADOPTED (was 209.403) - RISK: target moved 729 pts farther
+JEFF CONFIRMED 210.132 WAS HIS OWN MANUAL TP, set on the limit order that became L1.
+ARITHMETIC ALL VERIFIED: VWAP = (0.02 x 209.448 + 0.02 x 208.958)/0.04 = 209.2030; AvgTP =
+  VWAP + 200 pts = 209.403 (log MATCH); 210.132 - 209.403 = 729 pts (log MATCH). Every figure in
+  that WARN is correct - it is the CLASSIFICATION that is wrong, not the numbers.
+  Corroboration that 210.132 could never have been computed: at adoption levelCount == 1, so
+  ComputeTargets uses InpInitialTPPts -> 209.448 + 300 pts = 209.748. The logged 210.132 is
+  entry + 684 pts, matching no configured target. It was already on the position.
+ROOT CAUSE: AdoptPosition() is THE ONLY registration path that does not classify pre-existing
+  broker exits. It calls ResetExitEnforcement() and nothing else: the ticket is never marked
+  armed (MarkExitsApplied), g_lastAppliedTP is left 0, and g_state.manualTP is left 0 - so a
+  TRADER-SET TP sitting on the position is recorded NOWHERE. Compare: RegisterButtonL1 opens its
+  own position (0/0 exits, nothing to classify) and ReconcileManualExits classifies explicitly on
+  restart. ADOPTION IS THE ONE PATH THAT CAN INHERIT A TRADER'S EXITS AND IT IS THE ONE PATH THAT
+  IGNORES THEM.
+CONSEQUENCE, TEN HOURS LATER: the L2 structural recompute runs DetectManualExitEdits, which sees
+  a broker TP differing from BOTH the new computed target AND g_lastAppliedTP (still 0 from the
+  reset) - and adopts it as a FRESH TRADER EDIT. The b25 discriminator cannot help: it compares
+  against g_lastAppliedTP, which adoption never populated.
+  *** AND THE RELEASE JEFF EXPECTED DID FIRE, AND WAS DEFEATED BY ORDERING. ***
+  AdoptUntrackedLevel calls ReleaseManualTP("level add (L2)") - but manualTP was 0 at that moment,
+  so the release was a NO-OP - and EnforceExits runs AFTER, where DetectManualExitEdits then
+  ADOPTS the stale broker value. Release-then-adopt, same tick, in that order.
+  ABSENCE CHECK ACROSS ALL 2048 LINES: 2 "Manual TP ... ADOPTED", 0 "Manual TP ... RELEASED".
+  The release is not merely late - it never appears in the log at all.
+JEFF'S DESIGN INTENT IS CORRECT AND THE CODE DOES NOT IMPLEMENT IT: on a structural change the
+  manual TP must RELEASE and the computed TP take over (b24 D2/D7, sealed). Instead the stale
+  value is freshly ADOPTED as manual on that exact tick and then persists.
+
+RELATIONSHIP BETWEEN THE TWO: R2-A is why the TP looked "applied repeatedly" - the TP was never
+  rewritten at all, it rode along on 1123 SL writes. Jeff read one symptom and it decomposed into
+  two independent defects in two different sealed areas (E9-R1 boundary stability; Stage 8
+  adoption classification). Both are in b51 and both were invisible on XAUUSD.
+WHAT THIS SAYS ABOUT THE E9-R1 SEAL: the seal is not wrong, it is NARROWER THAN IT READ. Every
+  row was verified on XAUUSD.s (plus one tester run on the same symbol). The matrix never had a
+  cross-quoted instrument in it, so D-2/D-3's absence proof was symbol-specific without saying so.
+  THE LESSON FOR FUTURE MATRICES: when a money formula reads a BROKER-SUPPLIED value, the matrix
+  needs a row for an instrument where that value is not constant.
+JEFF'S CALL 2026-10-13: "we may address these issues 1 by 1 but let's put them on the same version
+  as it was observed simultaneously." -> ONE build (b52), two Gate 1 decisions, two matrix groups,
+  fixed and verified one at a time but delivered together.
+GATE 1 IS OPEN. NO CODE UNTIL THE DECISIONS ARE LOCKED.
