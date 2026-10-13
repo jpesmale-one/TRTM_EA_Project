@@ -48,7 +48,7 @@
 
 #include <Trade\Trade.mqh>
 
-#define TRTM_BUILD  "b51"     // internal build tag, bump per delivery
+#define TRTM_BUILD  "b52"     // internal build tag, bump per delivery
 
 //+------------------------------------------------------------------+
 //| ENUMS                                                            |
@@ -694,7 +694,7 @@ int    g_flatBlockReasonLogged = 0;   // Stage10-b30: 0 none,1 GuardA,2 GuardB,3
 void   AnnounceDDBoundary(const string trigger);
 double EffectiveDDCap();
 double SequenceRealisedLoss();
-double DDBoundaryPrice(int &levelsAfforded, bool &closeNow);
+double DDBoundaryPrice(int &levelsAfforded, bool &closeNow, double &travelPtsOut);
 
 bool AlreadyLogged(const string key)
   {
@@ -1845,7 +1845,8 @@ void EnforceExits()
       int    dirSLOwn  = g_state.direction;
       int  ddLevels = 0;
       bool ddCloseNow = false;
-      double ddSL = DDBoundaryPrice(ddLevels, ddCloseNow);
+      double ddTravelPts = 0.0;
+      double ddSL = DDBoundaryPrice(ddLevels, ddCloseNow, ddTravelPts);
       if(ddCloseNow)
         {
          // D-9: the budget is already spent by banked losses. No stop price enforces
@@ -1857,6 +1858,57 @@ void EnforceExits()
         }
       if(ddSL > 0.0)
         {
+         // b52 (E9-R2 D15, matrix A-1..A-10): *** THE DEADBAND. ***
+         // THE DEFECT IT FIXES, observed live 2026-10-13 across FOUR charts: 1123 PositionModify
+         // calls on ONE GBPJPY ticket in a day. The TP never changed; the SL wandered one point at
+         // a time and kept REVERSING (205.722 -> .723 -> .722 -> .723 -> .724 ...).
+         // THE CAUSE IS IN D11's OWN FORMULA, not in the enforce loop: mpp = MoneyPerPointPerLot()
+         // reads SYMBOL_TRADE_TICK_VALUE, and ON ANY PAIR WHOSE QUOTE CURRENCY IS NOT THE ACCOUNT
+         // CURRENCY THE BROKER RECOMPUTES THAT VALUE CONTINUOUSLY as the cross rate moves. So the
+         // boundary has a FLOATING input and can never settle. A ~0.5% tick-value drift moves it one
+         // point; the 18-point range observed needs ~0.9% in USDJPY - a normal morning.
+         // *** THE IDEMPOTENCE CHECK WAS NEVER BROKEN: the values genuinely differed every pass. ***
+         // WHY SEVEN BUILDS MISSED IT: every E9-R1 row was verified on XAUUSD.s, whose tick value is
+         // CONSTANT on a USD account. D-2/D-3 passed by absence over 17 real minutes - a TRUE result
+         // that was SYMBOL-SPECIFIC WITHOUT SAYING SO. Gold is the one instrument this cannot happen
+         // on, and it was the only one in the matrix.
+         // THE RULE: the boundary keeps re-deriving exactly as D4 says and the announcer still fires
+         // structurally (A-8). What is gated is THE WRITE - the SL is rewritten only when the new
+         // boundary differs from the one the positions ALREADY CARRY by more than the threshold.
+         // A-7: THIS GATES THE WRITE, NOT THE VALUE. DDBoundaryPrice is untouched; D11 stands.
+         if(ddTravelPts > 0.0)
+           {
+            // Find the boundary the positions actually carry. Any ONE live leg answers it: the
+            // boundary is written uniformly to every leg by the loop below, so they agree.
+            double heldSL = 0.0;
+            for(int i = 0; i < g_state.levelCount; i++)
+               if(PositionSelectByTicket(g_state.tickets[i]))
+                 {
+                  double s = PositionGetDouble(POSITION_SL);
+                  if(s > 0.0) { heldSL = s; break; }
+                 }
+            // A-9: nothing held yet -> write unconditionally. A deadband against NOTHING must never
+            // suppress the FIRST placement, or a sequence would run uncapped until it drifted enough.
+            if(heldSL > 0.0)
+              {
+               // The threshold in the SAME terms as the boundary itself: ddTravelPts is already
+               // remaining/(mpp*liveLots), so a percentage of it is a percentage of the CAP,
+               // converted to points at the live lots. Self-scaling across instruments, lot sizes
+               // and depths - which is the whole reason D15 chose this unit.
+               double thrPts = ddTravelPts * DD_RESTEP_PCT / 100.0;
+               if(MathAbs(ddSL - heldSL) <= thrPts * _Point)
+                 {
+                  // A-2: HOLD. This single branch is what turns ~1100 writes into 1.
+                  // Logged ONCE per distinct held price (not per tick) - the log must not become
+                  // the very flood this removes.
+                  if(!AlreadyLogged("ddhold:" + DoubleToString(heldSL, _Digits)))
+                     Log(LOG_INFO, StringFormat("DD boundary %s is within %.1f pts of the stop already held (%s) - HOLDING, no rewrite (E9-R2 D15: %.2f%% of the remaining budget). The cap is honoured to within that distance.",
+                                                DoubleToString(ddSL, _Digits), thrPts,
+                                                DoubleToString(heldSL, _Digits), DD_RESTEP_PCT));
+                  ddSL = heldSL;   // keep what is there; the loop below then finds nothing to do
+                 }
+              }
+           }
          // C-5: D6 makes this boundary the single SL owner, so it can OVERWRITE a
          // TIGHTER stop with a LOOSER price. Jeff locked that; loosening is the one
          // direction that costs money, so it is never silent.
@@ -2295,7 +2347,8 @@ void LogStructure()
      {
       int  ddLvLS = 0;
       bool ddNowLS = false;
-      double ddLS = DDBoundaryPrice(ddLvLS, ddNowLS);
+      double ddTrLS = 0.0;
+      double ddLS = DDBoundaryPrice(ddLvLS, ddNowLS, ddTrLS);
       if(ddLS > 0.0)
          sl = ddLS;
      }
@@ -3884,6 +3937,18 @@ void ArmMaintain()
                              // symbol, so 10 means the same distance on GBPJPY (3-digit),
                              // XAUUSD.s (2-digit) and AUDNZD.s/USDCAD.s (5-digit) alike.
                              // Locked convention 2026-10-05 - see .claude/rules/mql5-traps.md.
+// b52 (E9-R2 D15): the DEADBAND threshold, as a PERCENTAGE OF THE REMAINING BUDGET.
+// WHY A PERCENTAGE AND NOT POINTS - the arithmetic decided this at Gate 1, not taste. Jeff first
+// chose a fixed POINT threshold (the InpMinTrailStepPts precedent). Recomputing the money cost
+// killed it: money-per-point scales with LOTS, so a 25-point deadband costs 0.67% of a $47.11 cap
+// on GBPJPY at 0.02 lots but 12.50% of a $20 cap on a 4-leg XAUUSD sequence at 0.10 lots.
+// A CONSTANT IN POINTS IS NOT A CONSTANT IN MONEY, and a fixed point deadband is cheapest exactly
+// where the sequence is shallow and most expensive exactly where it is DEEPEST - the wrong way
+// round for a loss cap. As a percentage of the remaining budget the cost is EXACTLY this figure
+// of the cap at every depth, on every instrument, by construction.
+// A CONSTANT, not a 4th input: Stage 1 froze the dialog layout and DD_OFFSET_PTS set the
+// precedent for resolving this class of value here.
+#define DD_RESTEP_PCT   0.5
 // b49 (D11): DD_MAX_PROJECT is GONE. It bounded the grid PROJECTION walk, and D11 removed
 // the projection entirely - the boundary is now closed form over the LIVE legs, so there is
 // no loop to bound and no pathological-settings case to refuse. Matrix B-5 retires with it.
@@ -3977,9 +4042,10 @@ double SequenceRealisedLoss()
 // DEEPENS. That is the inverse of b45-b48 and it is correct. Two properties follow:
 //   (1) the cap is honoured EXACTLY at every depth, not only in a hypothetical filled grid;
 //   (2) a level can NEVER be skipped because the stop sat above its trigger.
-double DDBoundaryPrice(int &levelsAfforded, bool &closeNow)
+double DDBoundaryPrice(int &levelsAfforded, bool &closeNow, double &travelPtsOut)
   {
    levelsAfforded = 0;
+   travelPtsOut   = 0.0;   // b52 (D15): 0 means "no usable boundary" - the deadband caller tests this
    closeNow       = false;
    double cap = EffectiveDDCap();
    if(cap <= 0.0 || g_state.levelCount == 0 || g_state.direction == 0)
@@ -4024,6 +4090,7 @@ double DDBoundaryPrice(int &levelsAfforded, bool &closeNow)
    // mpp * liveLots per point of adverse travel from the VWAP, so the budget buys
    // exactly remaining / (mpp * liveLots) points.
    double travelPts = remaining / (mpp * liveLots);
+   travelPtsOut     = travelPts;   // b52 (D15): hand the caller the SAME value, never a second copy of the maths (B-3)
    double solved    = (dir > 0) ? vwap - travelPts * _Point
                                 : vwap + travelPts * _Point;
 
@@ -4073,7 +4140,8 @@ void AnnounceDDBoundary(const string trigger)
       return;   // not armed; validation already said so loudly at init (A-6)
    int    levels = 0;
    bool   now    = false;
-   double b      = DDBoundaryPrice(levels, now);
+   double trAnn  = 0.0;
+   double b      = DDBoundaryPrice(levels, now, trAnn);
    double banked = SequenceRealisedLoss();
    if(now)
      {
@@ -4589,7 +4657,8 @@ void PanelRefresh()
         {
          int  dcLv = 0;
          bool dcNow = false;
-         double dcB = DDBoundaryPrice(dcLv, dcNow);
+         double dcTr = 0.0;
+         double dcB = DDBoundaryPrice(dcLv, dcNow, dcTr);
          if(dcNow)
            {
             dcVal = StringFormat("$%.2f SPENT - closing", dcCap);
@@ -4674,7 +4743,8 @@ void PanelRefresh()
         {
          int  ddLvDisp = 0;
          bool ddNowDisp = false;
-         double ddDisp = DDBoundaryPrice(ddLvDisp, ddNowDisp);
+         double ddTrDisp = 0.0;
+         double ddDisp = DDBoundaryPrice(ddLvDisp, ddNowDisp, ddTrDisp);
          if(ddDisp > 0.0)
             sl = ddDisp;   // display what the broker actually holds (D2/D6)
         }

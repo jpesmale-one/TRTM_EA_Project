@@ -6530,3 +6530,31 @@ ROW COVERAGE RECONCILED: 9 touch points name 41 rows; the other 5 (A-6, C-6, D-5
      by diffing the plan's row mentions against the sealed matrix IDs - the same enumeration habit
      that caught the 58-vs-54 count in R1 and the 14-vs-16 must-NOT count in this matrix. ***
 GATE 3 AWAITING JEFF'S CONFIRMATION. NO CODE UNTIL CONFIRMED.
+
+## b52 BUILD STAGE 1 of 2 (R2-A, the D15 deadband) - IN PROGRESS, NOT YET COMPILED.
+TP7 LANDED. 78 insertions, 8 deletions; every deletion is a line REPLACED by its updated form
+(the build tag, the DDBoundaryPrice fwd decl, its definition, and the five call sites). No logic
+removed. check_hygiene PASS. Brace delta -1, IDENTICAL to b51's baseline (a brace inside a string
+literal). CR = LF = 5799, final byte a bare '+', matching b44..b51 exactly.
+HOW THE DEADBAND IS WIRED, and why it is not a second copy of the money maths:
+  DDBoundaryPrice ALREADY computes travelPts = remaining/(mpp*liveLots) to solve the boundary.
+  That value IS the deadband's denominator. So the function now RETURNS it through a new
+  &travelPtsOut parameter and EnforceExits takes a percentage of it:
+      thrPts = ddTravelPts * DD_RESTEP_PCT / 100.0
+  Recomputing remaining/mpp/liveLots in the caller would have been a SECOND COPY of the money
+  maths - precisely the B-3 hazard D11 exists to prevent. One computation, one consumer.
+  MQL5 CANNOT DEFAULT A REFERENCE PARAMETER, so all five call sites were updated rather than the
+  one that needs it. That is why the deletion count is 8 and not 1 - checked and expected, not a
+  surprise at diff time.
+A-9 IS EXPLICIT IN THE CODE: if no SL is held yet, the first boundary writes UNCONDITIONALLY.
+  A deadband against NOTHING would leave a fresh sequence uncapped until it drifted enough.
+A-2's HOLD BRANCH logs ONCE PER DISTINCT HELD PRICE via AlreadyLogged, not per tick - the fix must
+  not replace a write flood with a log flood.
+
+*** ONE HYGIENE SLIP CAUGHT AND CORRECTED DURING THE SPLICE, RECORDED BECAUSE IT WOULD HAVE
+BROKEN THE BUILD: *** my CRLF pipeline stripped the final LF but LEFT the trailing CR, giving
+CR=5800 / LF=5799 and a file ending "+\r". b51 ends with a BARE '+' - no CR, no LF - and
+CR=LF=5729. Fixed by removing the last TWO bytes instead of one. This is the same trap that has
+bitten every build in this series; the difference is that the counts are now checked against b51's
+actual values rather than assumed.
+NEXT: R2-B (TP1-TP6, TP8-TP9). ONE Gate Zero at the end on the complete b52, per the plan.
