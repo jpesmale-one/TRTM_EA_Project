@@ -6637,3 +6637,30 @@ SWEEP RUN BEFORE REBUILDING: every #define in the file checked against its first
 comment text). ALL CLEAN: every macro is defined before its first code use.
 BUILD: b52, bf3aef020416afdb, 5998 lines (was c2b3453f7eff2e85 / 5987). check_hygiene PASS,
 CR = LF = 5998, final bytes "--+", brace delta -1 identical to baseline. GATE ZERO RE-PENDING.
+
+## HOUSEKEEPING REVIEW 2026-10-14 (Jeff asked whether comments and dead code could be trimmed).
+MEASURED, NOT ESTIMATED: 5998 lines = 4284 code (71%), 1434 comment-only (23%), 280 blank.
+DEAD CODE FOUND: essentially NONE. Every global is referenced. Of six functions with a single
+  textual occurrence, FIVE are MT5 EVENT HANDLERS (OnTick, OnTimer, OnDeinit, OnChartEvent,
+  OnTradeTransaction) - the terminal calls them, not the code.
+  THE ONLY GENUINE DEAD CODE IS TFShort(), 5 lines, zero callers. QUEUED FOR b53 (not b52: that
+  build is mid-Gate-Zero and its hash must stay stable).
+  OnTradeTransaction is EMPTY but KEPT - it is a documented Stage 3+ intention AND an MT5 handler;
+  deleting it changes which events the terminal delivers, so it is a behaviour change, not
+  housekeeping.
+COMMENTS: RECOMMENDED AGAINST TRIMMING, and Jeff agreed ("if there's nothing we can remove then
+  that's ok"). They are not explaining WHAT the code does - they record WHICH DEFECT produced each
+  line and WHAT THE EVIDENCE WAS. The file's own header states the rule: "They are the audit trail
+  - do not strip them."
+  *** THIS SESSION IS THE ARGUMENT FOR THEM. Three times today a comment caught an error: ***
+   - SliceLegAtMarket's b45 comment ("no ReleaseManualTP fires") is what revealed the SAME gap
+     existed for manual exits -> matrix C-7, a code addition that would otherwise have been missed.
+   - The manualSL field comment ("PERSISTS across structure changes") is what F-3 exists to fix;
+     without it D16 would silently contradict its own documentation.
+   - Three LIVE LOG STRINGS still told the user "Persists across level adds" - found by grepping
+     the CLAIM, not the two sites the Gate 3 plan named. Those were lines the EA would have
+     PRINTED, asserting retired behaviour.
+SPLIT INTO #include FILES: raised as the real answer if NAVIGATION is the pain (state / exits /
+  recovery / tiers / panel / DD). *** JEFF DECLINED FOR NOW ("not to split at this time"). ***
+  Parked, not rejected - it needs its own Gate 1 and would reduce the file without losing a line
+  of audit trail.
