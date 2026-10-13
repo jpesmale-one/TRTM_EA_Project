@@ -223,9 +223,12 @@ struct SequenceState
    // --- Stage 8 (b24): manual exit ownership (matrix D2/D7) ---
    double   manualTP;           // trader-owned TP (0 = not owned). Releases on structural
                                 // events: level add / level close / trail-arm.
-   double   manualSL;           // trader-owned SL (0 = not owned). PERSISTS across structure
-                                // changes (locked: trader's risk statement + level budget);
-                                // ends only on flat / re-edit / BE-trail supersession.
+   double   manualSL;           // trader-owned SL (0 = not owned). b52 (E9-R2 D16): RELEASES on
+                                // structural change, SYMMETRICALLY WITH manualTP. The b24 rule
+                                // that it "PERSISTS across structure changes (trader's risk
+                                // statement + level budget)" is RETIRED - a stop sized against a
+                                // 1-leg sequence is as stale as a target sized against it.
+                                // Also ends on flat / re-edit / BE-trail supersession.
    // --- b41 (E9M1-D1): the EA's OWN last applied exits, PERSISTED ---
    double   lastAppliedTP;      // last TP the EA itself successfully applied (0 = none).
                                 // Persisted so the b25/M7-8 discriminator can see ACROSS an
@@ -696,6 +699,23 @@ double EffectiveDDCap();
 double SequenceRealisedLoss();
 double DDBoundaryPrice(int &levelsAfforded, bool &closeNow, double &travelPtsOut);
 
+// b52 (E9-R2 D16): the manual-exit lifecycle needs two globals VISIBLE EARLY, because
+// ReleaseManualExits sits at the Stage 8 block (~1240) while one of its callers - the liveness
+// prune - sits above it. MQL5 requires a global to be DECLARED before any use, so they are
+// declared here with the other early globals rather than beside their logical owners.
+// g_manualDetectSkipOnce IS NOT NEW - it is the sealed b24/M7 flag, MOVED UP from its old
+// position below DetectManualExitEdits so ReleaseManualExits can set it. Behaviour unchanged:
+// set by ReconcileManualExits (restart) and now ALSO by ReleaseManualExits (C-8); consumed once
+// by the next DetectManualExitEdits pass.
+bool   g_manualDetectSkipOnce = false;
+// F-2 (matrix): the manual SL value most recently RELEASED, handed to the enforce pass so it can
+// state the money delta if the SUCCESSOR stop turns out to be LOOSER. A release must never widen
+// risk silently - that was b24's whole reason for persisting a manual SL, and D16 only retires
+// the persistence, NOT the duty to say so. 0.0 = nothing pending.
+double g_pendingReleasedSL    = 0.0;
+// b52: ReleaseManualExits is called from the liveness prune ABOVE its definition.
+void   ReleaseManualExits(const string trigger);
+
 bool AlreadyLogged(const string key)
   {
    for(int i = 0; i < ArraySize(g_loggedKeys); i++)
@@ -768,6 +788,51 @@ void AdoptPosition(const ulong ticket, const int posDir, const bool untagged, co
    g_state.baseLot      = PositionGetDouble(POSITION_VOLUME);
    g_state.adoptionTime = TimeCurrent();
    ResetExitEnforcement();
+   // b52 (E9-R2, matrix B-1..B-8): *** CLASSIFY THE EXITS THE POSITION ALREADY CARRIES. ***
+   // THIS IS THE R2-B ROOT FIX. AdoptPosition was THE ONLY registration path that inherited a
+   // position's exits and recorded NOTHING about them. RegisterButtonL1 opens its own position
+   // (0/0 exits, nothing to classify); ReconcileManualExits classifies explicitly on restart.
+   // ADOPTION IS THE ONE PATH THAT CAN INHERIT A TRADER'S EXITS - AND IT WAS THE ONE PATH THAT
+   // IGNORED THEM. ResetExitEnforcement() above cleared the enforcement baseline (correct), which
+   // left manualTP/manualSL at 0 and lastAppliedTP/SL at 0, so the values sitting on the broker
+   // were owned by nobody.
+   // WHAT THAT COST, OBSERVED LIVE 2026-10-13 ON GBPJPY: a trader TP of 210.132 was adopted at
+   // 07:05 and recorded nowhere. TEN HOURS LATER, when L2 opened, DetectManualExitEdits saw a
+   // broker TP differing from BOTH the new computed target (209.403) and lastAppliedTP (still 0)
+   // and adopted it as a FRESH TRADER EDIT - "Manual TP 210.132 ADOPTED (was 209.403)". The b25
+   // discriminator could not help: it compares against lastAppliedTP, which adoption never
+   // populated. The release that should have fired on the level add WAS a no-op, because
+   // manualTP was 0 at that moment.
+   // B-3: TP AND SL ARE CLASSIFIED INDEPENDENTLY, and the GBPJPY ticket is exactly why - it
+   // carried a TRADER TP (210.132) and an EA-DERIVED DD BOUNDARY SL (205.722). TWO OWNERS ON ONE
+   // TICKET. Classifying "the exits" as a unit would have mislabelled one of them.
+   double adoptTP = PositionGetDouble(POSITION_TP);
+   double adoptSL = PositionGetDouble(POSITION_SL);
+   if(adoptTP > 0.0)
+     {
+      g_state.manualTP      = adoptTP;   // the trader owns it until the next structural change
+      g_state.lastAppliedTP = adoptTP;   // and the b25 discriminator can now SEE it (B-8)
+      g_lastAppliedTP       = adoptTP;
+     }
+   if(adoptSL > 0.0)
+     {
+      g_state.manualSL      = adoptSL;
+      g_state.lastAppliedSL = adoptSL;
+      g_lastAppliedSL       = adoptSL;
+     }
+   if(adoptTP > 0.0 || adoptSL > 0.0)
+     {
+      // The ticket is ARMED: it carries values the EA now knows about, so a LATER change to them
+      // is a genuine trader edit and must be detected as one. Without this the b2 "fresh position"
+      // rule would keep skipping the ticket in DetectManualExitEdits.
+      MarkExitsApplied(ticket);
+      Log(LOG_INFO, StringFormat("Adoption: the position already carries %s%s%s - ADOPTED as trader-owned and honoured until the next structural change, then the enabled engines take over (E9-R2 D16).",
+                                 adoptTP > 0.0 ? "TP " + DoubleToString(adoptTP, _Digits) : "",
+                                 (adoptTP > 0.0 && adoptSL > 0.0) ? " and " : "",
+                                 adoptSL > 0.0 ? "SL " + DoubleToString(adoptSL, _Digits) : ""));
+     }
+   // B-4: a 0/0 position classifies NOTHING and this whole block is silent - the common case,
+   // byte-identical to b51.
    CancelOwnPendingOrders("sequence started (adoption)");   // P8: never let our pending fill into a live sequence
    StateSave(g_state);
    LogStructure();
@@ -1034,7 +1099,7 @@ void CheckSequenceLiveness()
       return;
    if(g_state.levelCount > 0)
      {
-      ReleaseManualTP("level close");   // b24 structural release; manual SL persists (M7-4)
+      ReleaseManualExits("level close");   // b24 hook, b52/D16: now releases BOTH exits (the M7-4 "SL persists" note is retired)
       // b45 (E9-R1 D-4/D-5/D-7): a leg closed - manual, TP/SL, or any of the three
       // DD-reduction tiers. The budget and the leg set both changed, so the boundary
       // re-derives. After a PROFITABLE tier close the remaining budget GROWS and the
@@ -1221,20 +1286,70 @@ void LogBrokerExitGeometry()
   }
 
 //+------------------------------------------------------------------+
-//| STAGE 8 (b24): MANUAL EXIT OWNERSHIP - structural TP release     |
-//| Manual TP releases when the structure it was set against changes |
-//| (level add / level close / trail-arm): the idea behind the edit  |
-//| is invalid once the arithmetic moves. Manual SL has NO release   |
-//| path here by design (locked): it persists as the trader's risk   |
-//| statement and level budget. Caller is responsible for StateSave. |
+//| b52 (E9-R2 D16): MANUAL EXIT RELEASE - NOW SYMMETRIC FOR TP AND SL|
 //+------------------------------------------------------------------+
-void ReleaseManualTP(const string trigger)
+// *** THIS SUPERSEDES THE b24 ASYMMETRY. READ THE REVERSAL BEFORE EDITING. ***
+// b24 locked: manual TP releases on structural change; manual SL PERSISTS, as "the trader's risk
+// statement and level budget", ending only on flat / re-edit / BE-trail supersession. That rule
+// is now RETIRED by E9-R2-D16 (Jeff, 2026-10-13).
+// JEFF'S WORDS: "any manual TP and/or SL set should be adopted but only until a change in
+// structure occurs. and if it does, all enabled functionalities should take over overriding the
+// manual set. And if the user again manually adjust the TP and/or SL ... the EA should then again
+// adopt it and then override when a new level opens again."
+// THE RATIONALE: a stop sized against a 1-leg sequence is exactly as stale as a target sized
+// against it. Once the arithmetic moves, BOTH edits were made against a structure that no longer
+// exists. b24's reasoning was defensible but it left a 4-leg sequence governed by a stop chosen
+// for one leg. Same shape as D11 superseding D3: overturned on intent, recorded as a supersession.
+// WHY ONE FUNCTION AND NOT TWO: leaving a TP-only release and adding SL releases at the four call
+// sites would put the symmetry in the CALLERS, where it can drift apart over later builds. The
+// rule lives here, once.
+void ReleaseManualExits(const string trigger)
   {
-   if(g_state.manualTP <= 0.0)
-      return;
-   Log(LOG_WARN, StringFormat("Manual TP %s RELEASED - %s (structure changed: computed target re-asserted)",
-                              DoubleToString(g_state.manualTP, _Digits), trigger));
-   g_state.manualTP = 0.0;
+   bool hadTP = (g_state.manualTP > 0.0);
+   bool hadSL = (g_state.manualSL > 0.0);
+   if(!hadTP && !hadSL)
+      return;   // nothing owned - silent, this runs on every structural event
+
+   if(hadTP)
+     {
+      Log(LOG_WARN, StringFormat("Manual TP %s RELEASED - %s (structure changed: computed target re-asserted)",
+                                 DoubleToString(g_state.manualTP, _Digits), trigger));
+      g_state.manualTP = 0.0;
+     }
+
+   if(hadSL)
+     {
+      double releasedSL = g_state.manualSL;
+      g_state.manualSL = 0.0;
+      // D16-E (matrix C-11): WILL ANY ENGINE ACTUALLY TAKE THE STOP?
+      // If none will, the released stop stays PHYSICALLY on the position and the EA simply stops
+      // managing it. Never strip a working stop - removing one is the single unsafe direction
+      // this project has consistently refused. Say so loudly instead. Identical treatment and
+      // precedent to C-9 (b51), which handles the orphaned DD boundary.
+      bool successor = (InpStopLossPts > 0) || InpEnableDDClose
+                       || g_state.beApplied || g_state.trailingActive;
+      if(!successor)
+         Log(LOG_WARN, StringFormat("Manual SL %s RELEASED - %s - but NO engine owns the stop: Stop Loss (points) is 0, the drawdown cap is off, and neither BE nor trailing is active. The stop REMAINS at the broker and still protects the sequence, but the EA NO LONGER MANAGES OR RE-DERIVES it. Adjust or remove it by hand if that is not what you want. (E9-R2 D16-E)",
+                                    DoubleToString(releasedSL, _Digits), trigger));
+      else
+         Log(LOG_WARN, StringFormat("Manual SL %s RELEASED - %s (structure changed: the enabled engines re-assert the stop). NOTE: b24 used to persist a manual SL across level adds; E9-R2 D16 retired that - a stop sized against the old structure is as stale as a target sized against it.",
+                                    DoubleToString(releasedSL, _Digits), trigger));
+      g_pendingReleasedSL = releasedSL;   // F-2: the enforce pass compares the successor against it
+     }
+
+   // C-8 (matrix) - *** THE ORDERING FIX, AND THE SUBTLEST LINE IN b52. ***
+   // THIS IS THE b51 FAILURE MECHANISM: releases fire from WatchUntrackedLevels /
+   // CheckSequenceLiveness, which run BEFORE EnforceExits in OnTick. DetectManualExitEdits then
+   // sees the STALE broker value still sitting on the positions, finds it differs from both the
+   // new computed target and lastApplied, and RE-ADOPTS IT AS A FRESH TRADER EDIT - on the same
+   // tick the release happened. Observed live 2026-10-13: "Manual TP 210.132 ADOPTED" fired on
+   // the exact tick L2 opened, ten hours after that value was first seen.
+   // THE FIX REUSES THE SEALED PRECEDENT rather than inventing a mechanism: g_manualDetectSkipOnce
+   // already exists for EXACTLY this problem - ReconcileManualExits sets it so the first
+   // post-restart pass does not read its own classification as a trader edit. One flag, one
+   // consumer, already proven. The next DetectManualExitEdits pass skips, the enforce loop writes
+   // the computed values, and the pass after that sees a CLEAN baseline.
+   g_manualDetectSkipOnce = true;
   }
 
 double NormalizePrice(const double price)
@@ -1484,7 +1599,7 @@ void ApplyProtectiveEngines(double &tp, double &sl)
             dir * (evalPx - g_curAvgEntry) >= (InpBEOffsetPts + InpTrailDistPts) * _Point)
            {
             g_state.trailingActive = true;    // gates recovery (Stage 4 wiring); toggle-off refused (locked)
-            ReleaseManualTP("trailing armed"); // b24: trail-arm is a structural TP release event
+            ReleaseManualExits("trailing armed"); // b24: trail-arm is structural; b52/D16 releases BOTH
             if(g_state.manualSL > 0.0)         // b27: D2 lock - trail ratchet owns the stop from here
               {
                Log(LOG_INFO, StringFormat("Manual SL %s superseded - trail ratchet owns the stop from here (a TIGHTER manual edit becomes the ratchet floor, Stage 6 D3)",
@@ -1679,6 +1794,16 @@ bool SliceLegAtMarket(const ulong ticket, const int level, const double sliceVol
    // per point and therefore the boundary. Without this hook the boundary would keep
    // using PRE-SLICE lots, sit TOO FAR from price, and UNDER-ENFORCE the cap - a loss
    // cap quietly WIDER than the declared one. Hooked here, after a CONFIRMED partial.
+   // b52 (E9-R2 C-7): *** THE RELEASE HOOK THE SLICE NEVER HAD. ***
+   // The comment above says it in b45's own words - "no ReleaseManualTP fires" - and that was
+   // stated as a REASON the DD boundary needed its own hook here. It is equally a reason the
+   // MANUAL EXITS need one: the slice SHRANK the sequence's lots, so a manual TP or SL set
+   // against the pre-slice structure is now stale by exactly the D16 argument. b45 hooked the
+   // boundary and left the manual exits behind, because at that time b24's rule said a manual SL
+   // persisted and only a level ADD released the TP. D16 retired both halves of that.
+   // ORDER MATTERS: release BEFORE the announce, so the boundary is derived with ownership
+   // already cleared and the announced figure is the one the enforce pass will actually write.
+   ReleaseManualExits(StringFormat("Tier 3 sliced L%d by %.2f lot", level, sliceVol));
    AnnounceDDBoundary(StringFormat("Tier 3 sliced L%d by %.2f lot", level, sliceVol));
    return true;
   }
@@ -1713,10 +1838,10 @@ void CloseSequenceAtMarket(const string reason)
 //|                     WARN+REMOVED in the enforce loop             |
 //|   removal (->0)   -> never adopted; enforce loop reverts + WARN  |
 //+------------------------------------------------------------------+
-bool g_manualDetectSkipOnce = false; // set by ReconcileManualExits: first
-                                     // pass after restart only propagates
-                                     // what Reconcile already classified -
-                                     // stale tickets must not read as edits
+// g_manualDetectSkipOnce (the b24/M7 one-pass skip) is DECLARED EARLY now - see the globals block
+// near the R1 forward declarations. Its meaning is unchanged: the first pass after Reconcile, or
+// after a structural release, only propagates what has ALREADY been classified; stale tickets
+// must not read as trader edits. b52 (C-8) added ReleaseManualExits as a second setter.
 
 void DetectManualExitEdits(const double compTP, const double compSL)
   {
@@ -1790,7 +1915,44 @@ void DetectManualExitEdits(const double compTP, const double compSL)
      }
    if(candSL > 0.0 && !slConflict)
      {
-      if(g_state.beApplied && dir * (candSL - BEStopPrice()) <= tol)
+      // b52 (E9-R2 D16-C, matrix C-3/C-4): *** A MANUAL SL MAY ONLY TIGHTEN THE DD BOUNDARY. ***
+      // D6 says the armed boundary OWNS the SL and may even overwrite a tighter manual stop with
+      // a looser price. D16-C NARROWS that for MANUAL EDITS ONLY: a manual stop INSIDE the cap is
+      // honoured until the next structural change; a manual stop BEYOND the cap is REFUSED,
+      // because honouring it would breach the loss cap the trader declared.
+      // THIS PRESERVES JEFF'S LOCKED PRINCIPLE OF 2026-10-06: *** THE CAP IS SACRED AND THE GRID
+      // ABIDES BY IT *** - while still letting the trader tighten inside it.
+      // *** D16-D LIVES HERE BY CONSTRUCTION, AND IT IS THE SUBTLE HALF. *** This gate is in the
+      // MANUAL-EDIT path only. The EA's OWN re-derivation never passes through
+      // DetectManualExitEdits, so when a DD-reduction tier closes a leg and D5 re-derives the
+      // boundary LOOSER, that is untouched and remains correct. Jeff raised the distinction
+      // unprompted and it is arithmetic, not judgement: replaying the sealed D-5/D-6 tester event,
+      // the post-slice boundary loses $206.62 but the tier had BANKED +$8.24, so total exposure is
+      // $198.38 against a $200 cap - STILL INSIDE. A manual widening has no such offsetting
+      // realised gain; it simply spends budget that was never released.
+      bool ddRefuse = false;
+      if(InpEnableDDClose)
+        {
+         int    ddLvC  = 0;
+         bool   ddNowC = false;
+         double ddTrC  = 0.0;
+         double ddBC   = DDBoundaryPrice(ddLvC, ddNowC, ddTrC);   // pure read, no writes
+         if(ddBC > 0.0)
+           {
+            bool looserThanCap = (dir > 0) ? (candSL < ddBC) : (candSL > ddBC);
+            if(looserThanCap)
+              {
+               ddRefuse = true;
+               Log(LOG_WARN, StringFormat("Manual SL %s REFUSED - it is LOOSER than the drawdown boundary %s, so honouring it would breach the $%.2f cap (E9-R2 D16-C: the cap is sacred; a manual stop may only TIGHTEN inside it). Reverting. Tighten the stop, or raise the cap if more room is genuinely wanted.",
+                                          DoubleToString(candSL, _Digits), DoubleToString(ddBC, _Digits), EffectiveDDCap()));
+              }
+           }
+        }
+      if(ddRefuse)
+        {
+         // refused: fall through without adopting, exactly as the BE-floor refusal does
+        }
+      else if(g_state.beApplied && dir * (candSL - BEStopPrice()) <= tol)
          Log(LOG_WARN, StringFormat("Manual SL %s REFUSED - at/below BE floor %s (engines own once armed; the floor never lowers - M6-2). Reverting.",
                                     DoubleToString(candSL, _Digits), DoubleToString(BEStopPrice(), _Digits)));
       else
@@ -1798,13 +1960,13 @@ void DetectManualExitEdits(const double compTP, const double compSL)
          if(dir * (baseSL - candSL) > tol)
            {
             double extraLoss = (tickSize > 0.0 ? MathAbs(baseSL - candSL) / tickSize * tickVal * totalLots : 0.0);
-            Log(LOG_WARN, StringFormat("Manual SL %s ADOPTED (was %s) - RISK: max loss widened ~%.2f %s (+%d pts on %.2f lots); more recovery levels can open before the stop (trader's responsibility). Persists across level adds.",
+            Log(LOG_WARN, StringFormat("Manual SL %s ADOPTED (was %s) - RISK: max loss widened ~%.2f %s (+%d pts on %.2f lots); more recovery levels can open before the stop (trader is responsible). RELEASES at the next structural change (E9-R2 D16).",
                                        DoubleToString(candSL, _Digits), DoubleToString(baseSL, _Digits),
                                        extraLoss, AccountInfoString(ACCOUNT_CURRENCY),
                                        (int)MathRound(MathAbs(baseSL - candSL) / _Point), totalLots));
            }
          else
-            Log(LOG_INFO, StringFormat("Manual SL %s ADOPTED (was %s) - tighter; note it also caps recovery depth (level budget). Persists across level adds.",
+            Log(LOG_INFO, StringFormat("Manual SL %s ADOPTED (was %s) - tighter; note it also caps recovery depth (level budget). RELEASES at the next structural change (E9-R2 D16).",
                                        DoubleToString(candSL, _Digits), DoubleToString(baseSL, _Digits)));
          g_state.manualSL = candSL;
          saved = true;
@@ -1936,6 +2098,32 @@ void EnforceExits()
         }
      }
 
+   // b52 (E9-R2 F-2): *** A RELEASE MUST NEVER WIDEN RISK SILENTLY. ***
+   // b24's entire reason for persisting a manual SL across structure changes was that the stop is
+   // the trader's risk statement. D16 retired the PERSISTENCE - it did NOT retire the duty to say
+   // so when the successor stop is LOOSER than the stop just released. Stated in money, because
+   // "4 points looser" means nothing and "$1.37 more risk" means something.
+   if(g_pendingReleasedSL > 0.0)
+     {
+      if(sl > 0.0 && g_state.direction != 0)
+        {
+         bool looserThanReleased = (g_state.direction > 0) ? (sl < g_pendingReleasedSL)
+                                                           : (sl > g_pendingReleasedSL);
+         if(looserThanReleased)
+           {
+            double mppF2  = MoneyPerPointPerLot();
+            double lotsF2 = 0.0;
+            for(int i = 0; i < g_state.levelCount; i++)
+               if(PositionSelectByTicket(g_state.tickets[i]))
+                  lotsF2 += PositionGetDouble(POSITION_VOLUME);
+            double extraPts = MathAbs(sl - g_pendingReleasedSL) / _Point;
+            Log(LOG_WARN, StringFormat("Risk WIDENED by the release: the manual SL %s is gone and the engine stop is %s, %.0f pts further from price - about %.2f %s more loss on %.2f lots. This is the D16 trade-off stated out loud: the manual stop was sized against the OLD structure, the engine stop is sized against the current one.",
+                                       DoubleToString(g_pendingReleasedSL, _Digits), DoubleToString(sl, _Digits),
+                                       extraPts, extraPts * mppF2 * lotsF2, AccountInfoString(ACCOUNT_CURRENCY), lotsF2));
+           }
+        }
+      g_pendingReleasedSL = 0.0;   // one-shot: reported once per release, never per tick
+     }
    if(g_prevAnchorLvl > 0 && g_curAnchorLvl != g_prevAnchorLvl && sl > 0.0 && g_state.manualSL <= 0.0)
       Log(LOG_INFO, StringFormat("SL re-anchored: L%d -> L%d (widened to %s per locked rule - boundaries move with the structure)",
                                  g_prevAnchorLvl, g_curAnchorLvl, DoubleToString(sl, _Digits)));
@@ -2931,7 +3119,7 @@ bool AdoptUntrackedLevel(const ulong ticket, const int rawLvl, const string src)
    g_state.tickets[g_state.levelCount] = ticket;
    g_state.levels[g_state.levelCount]  = lvl;
    g_state.levelCount++;
-   ReleaseManualTP(StringFormat("level add (L%d)", lvl));   // b24; manual SL untouched (M3-4)
+   ReleaseManualExits(StringFormat("level add (L%d)", lvl));   // b24; b52/D16: SL released too (M3-4 retired)
    AnnounceDDBoundary(StringFormat("L%d opened", lvl));     // b45 (E9-R1 D-1)
    StateSave(g_state);
    Log(LOG_INFO, StringFormat("%s: L%d REGISTERED ticket %I64u %.2f lots @ %s",
@@ -3061,7 +3249,7 @@ void ReconcileManualExits(const SequenceState &file, const bool haveFile)
          if(!found)
            {
             releasedTP = g_state.manualTP;
-            ReleaseManualTP(StringFormat("position closed while EA was offline (ticket %I64u - death-window structural event)", file.tickets[i]));
+            ReleaseManualExits(StringFormat("position closed while EA was offline (ticket %I64u - death-window structural event)", file.tickets[i]));
             break;
            }
         }
@@ -3185,7 +3373,7 @@ void ReconcileManualExits(const SequenceState &file, const bool haveFile)
             Log(LOG_INFO, StringFormat("Reconcile: broker SL %s is the EA's OWN last applied value (E9-M1), not a trader edit; computed %s re-asserts", DoubleToString(uSL, _Digits), DoubleToString(compSL, _Digits)));
          else
            {
-            Log(LOG_INFO, StringFormat("Reconcile: SL edited to %s while EA was offline (computed %s) - adopted as manual (M7-5); persists across level adds", DoubleToString(uSL, _Digits), DoubleToString(compSL, _Digits)));
+            Log(LOG_INFO, StringFormat("Reconcile: SL edited to %s while EA was offline (computed %s) - adopted as manual (M7-5); RELEASES at the next structural change (E9-R2 D16)", DoubleToString(uSL, _Digits), DoubleToString(compSL, _Digits)));
             g_state.manualSL = uSL;
            }
         }

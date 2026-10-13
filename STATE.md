@@ -6558,3 +6558,57 @@ CR=LF=5729. Fixed by removing the last TWO bytes instead of one. This is the sam
 bitten every build in this series; the difference is that the counts are now checked against b51's
 actual values rather than assumed.
 NEXT: R2-B (TP1-TP6, TP8-TP9). ONE Gate Zero at the end on the complete b52, per the plan.
+
+## *** b52 BUILT COMPLETE 2026-10-14. c2b3453f7eff2e85 / 5987 lines. GATE ZERO PENDING. ***
+DELTA vs b51 (e87047e9c93eced7 / 5729): +258 lines, 294 insertions / 36 deletions.
+EVERY ONE OF THE 36 DELETIONS IS A LINE REPLACED BY ITS UPDATED FORM - no logic was removed:
+the build tag; the old ReleaseManualTP function (superseded by ReleaseManualExits); the
+g_manualDetectSkipOnce declaration (RELOCATED, not deleted); the five DDBoundaryPrice call sites;
+the four release call sites; the manualSL struct comment; three log strings that would now LIE.
+HYGIENE: check_hygiene PASS. CR = LF = 5987, final bytes "--+" matching b44..b51. Brace delta -1,
+IDENTICAL to b51's baseline. Paren 0. No new input (62 before, 62 after). Schema UNCHANGED at 5.
+
+ALL NINE TOUCH POINTS LANDED:
+ TP7 the D15 deadband (stage 1, committed f780a65).
+ TP1 ReleaseManualExits() replaces ReleaseManualTP - symmetric release, D16-E orphan announcement,
+     F-2 handoff, and the C-8 skip-flag set.
+ TP2 the four release call sites updated; each comment now carries its b52/D16 marker and says
+     which b24 note it retires (M7-4, M3-4).
+ TP3 the slice release hook - BEFORE the announce, so the boundary derives with ownership cleared.
+ TP4 AdoptPosition classifies pre-existing exits - THE R2-B ROOT FIX.
+ TP5 the D16-C tighter-only gate, chained as if(ddRefuse){} else if(BE floor) else {adopt} so the
+     sealed BE refusal keeps its exact position and wording.
+ TP6 the C-8 ordering fix - ReleaseManualExits sets the SEALED g_manualDetectSkipOnce flag.
+ TP8 F-3 doc integrity: the manualSL struct comment, AND three LIVE LOG STRINGS that still told
+     the user "Persists across level adds". Those were not comments - they were lines the EA would
+     have printed to Jeff, asserting retired behaviour. Found by grepping for the claim rather
+     than for the two sites the plan named.
+ TP9 README - DEFERRED to its own commit, see below.
+
+*** THREE THINGS CHECKED DURING THE BUILD THAT CHANGED WHAT I DID: ***
+ (1) MQL5 FORWARD RESOLUTION - SETTLED ON EVIDENCE, NOT BELIEF. The plan worried about ordering.
+     b51 ALREADY has Log() at line 359 reading g_cfgCapture/g_cfgReason declared at 3499-3500 -
+     over 3000 lines later - and it compiles. So MQL5 resolves forward references to BOTH
+     functions and file-scope globals. TP4 therefore needed no relocation of the lastApplied
+     globals. A forward declaration for ReleaseManualExits was still added: redundant costs
+     nothing, missing costs a Gate Zero.
+ (2) g_manualDetectSkipOnce had to MOVE UP (it was declared at 1716, below ReleaseManualExits at
+     ~1258). Moved to the early globals block with the R1 forward declarations, and a pointer
+     comment left at its old home so the b24/M7 rationale stays where a reader expects it.
+ (3) THE FINAL-BYTE TRIM DIFFERS BETWEEN STAGES AND I GOT IT WRONG ONCE IN EACH DIRECTION. Stage 1
+     needed minus-TWO bytes (sed added a CR to a file that still had its final LF). Stage 2 needed
+     minus-ONE (no trailing LF survived the awk/head pipeline, so sed added only a CR). I trimmed
+     two in stage 2 first and produced a file ending "---" instead of "--+" - caught by diffing
+     the last three bytes against b51 rather than assuming the recipe. THE RULE FOR NEXT TIME:
+     never apply a fixed trim; compare the candidate's final bytes to the baseline's.
+
+WHAT IS DELIBERATELY NOT DONE YET:
+ - TP9 (README) is a documentation change with no bearing on the compile. It goes in a separate
+   commit so the Gate Zero identity covers CODE ONLY and a doc edit can never move the hash.
+ - THE EA HEADER STILL DOES NOT LIST E9-R1 OR E9-R2. The b51 seal recorded this deferral
+   deliberately (adding comment lines moves the hash and breaks the seal's identity guarantee).
+   b52 is the build that was supposed to carry it - IT DOES NOT, because the same argument applies
+   until b52's own Gate Zero passes. CARRY IT TO b53, or add it in the same diff as any post-Gate-
+   Zero fix. Recorded so it is not forgotten a third time.
+NEXT: Jeff compiles b52 (c2b3453f7eff2e85 / 5987 lines). Gate 4 verification is group by group,
+starting with A-2 (the replay: ~1100 writes must become 1) on a CROSS-QUOTED chart.
