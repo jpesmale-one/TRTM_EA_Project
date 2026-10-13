@@ -6485,3 +6485,48 @@ THE ROOT FIX THIS ENABLES (defect R2-B): AdoptPosition must CLASSIFY pre-existin
   stale value resurfaces at the next structural change as a FRESH trader edit, which is exactly
   the GBPJPY failure (adopted 07:05, misclassified 17:00, ten hours later).
 GATE 1 CLOSED FOR R2-B. Gate 2 (the matrix) is next; no code until it is sealed.
+
+## E9-R2 GATE 2 SEALED by Jeff 2026-10-13 ("sealed"). docs/R2_MATRIX.md rev 1, 45 rows, 6 groups,
+## 16 must-NOT/absence rows. A 10 / B 8 / C 12 / D 5 / E 6 / F 4, reconciled ID by ID.
+THE INSTRUMENT RULE IS WRITTEN INTO THE MATRIX HEAD AND IS THE LESSON OF THE WHOLE EPISODE: every
+money-formula row is verified on a CROSS-QUOTED instrument (GBPJPY.s / USDCAD.s / AUDCAD.s /
+GBPCHF.s), NOT XAUUSD.s. Standing rule for all future matrices: when a money formula reads a
+BROKER-SUPPLIED value, the matrix needs a row for an instrument where that value is NOT constant.
+
+## E9-R2 GATE 3 DRAFTED: docs/R2_PLAN_2026-10-13_gate3.md. 9 touch points, +150..190 lines est.
+EVERY LINE NUMBER IN THE PLAN WAS READ FROM b51 BEFORE WRITING IT, not recalled - the K-4 rule.
+TP1 ReleaseManualExits() replaces ReleaseManualTP (symmetric release; the rename keeps the
+  symmetry in ONE function instead of spreading it across four callers where it can drift).
+TP2 the four existing release call sites (1037, 1487, 2881, 3011) - callee change only.
+TP3 SliceLegAtMarket gains a release hook before the existing announce. THE C-7 KNOWN GAP: the
+  slice announces the boundary but releases nothing, the same shape as the D-6 gap found at Gate 3
+  of E9-R1, in the same function, for the same reason.
+TP4 AdoptPosition classifies pre-existing broker exits - THE R2-B ROOT FIX. TP and SL handled
+  INDEPENDENTLY because the GBPJPY ticket carried a TRADER TP and an EA-DERIVED SL (two owners,
+  one ticket); classifying "the exits" as a unit would mislabel one.
+TP5 the D16-C tighter-only gate, placed in the MANUAL-EDIT path only - which is what makes D16-D
+  true by construction: the EA's own re-derivation never passes through DetectManualExitEdits, so
+  a tier close that loosens the boundary is unaffected.
+TP6 THE C-8 ORDERING FIX, and the subtlest item: reuse the SEALED g_manualDetectSkipOnce
+  precedent (already set by ReconcileManualExits for exactly this problem) rather than inventing a
+  mechanism. One flag, one consumer, no new state.
+TP7 the D15 deadband. DDBoundaryPrice gains out-params for remaining/mpp*lots rather than
+  EnforceExits recomputing them - a second copy of the money maths is the B-3 hazard D11 exists to
+  prevent.
+TP8/TP9 F-3 doc integrity (two sites still claim manual SL PERSISTS - D16 makes that false) and
+  the README lifecycle section.
+ROW COVERAGE RECONCILED: 9 touch points name 41 rows; the other 5 (A-6, C-6, D-5, E-3, E-5) are
+  verification-only and are NAMED in the plan with the reason each has no code site. C-6
+  (re-adoption) is EMERGENT - the lifecycle repeats because every step is stateless, so there is
+  nothing to code and everything to verify.
+
+*** TWO CORRECTIONS I MADE TO MY OWN PLAN BEFORE PRESENTING IT, BOTH FOUND BY CHECKING THE TREE:
+ (1) I wrote that THREE of four release call sites sit above the definition and need a forward
+     declaration. It is ONE (1037 vs the definition at 1231). More usefully: *** b51 ALREADY
+     COMPILES THAT WAY WITH NO FORWARD DECLARATION ***, so MQL5 resolves this case on its own and
+     the rename needs no decl. The b45 R1 block DID need them - so the real K-4 lesson is knowing
+     WHICH cases need decls, not assuming all do. Recorded in the plan's risk register.
+ (2) The first draft covered 41 of 45 rows with no statement about the other 4 (plus C-6). Caught
+     by diffing the plan's row mentions against the sealed matrix IDs - the same enumeration habit
+     that caught the 58-vs-54 count in R1 and the 14-vs-16 must-NOT count in this matrix. ***
+GATE 3 AWAITING JEFF'S CONFIRMATION. NO CODE UNTIL CONFIRMED.

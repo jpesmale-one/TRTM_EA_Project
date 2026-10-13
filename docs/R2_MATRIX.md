@@ -1,6 +1,6 @@
 # E9-R2 SCENARIO MATRIX — boundary stability (R2-A) + manual-exit lifecycle (R2-B)
 
-STATUS: **DRAFT rev 1, 2026-10-13 — AWAITING JEFF'S SEAL.**
+STATUS: **SEALED rev 1 — sealed by Jeff 2026-10-13.** Live findings later become NEW rows (rev 2+), never silent fixes (CLAUDE.md §2).
 Target build: **b52**, one build carrying both defects (Jeff's call: *"we may address these issues
 1 by 1 but let's put them on the same version as it was observed simultaneously"*).
 
