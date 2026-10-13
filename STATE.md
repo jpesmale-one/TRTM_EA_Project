@@ -6401,3 +6401,87 @@ HONEST STATEMENT OF WHAT IS GIVEN UP: the stop can now sit up to 0.5% of the cap
   mathematically exact boundary. On a $47.11 cap that is $0.24. Jeff accepted this trade knowingly
   in exchange for removing ~1100 broker writes per position per day. It is recorded here so the
   cap's promise is never overstated in the README or the logs.
+
+## *** LOCKED DECISION E9-R2-D16 (Jeff 2026-10-13): MANUAL EXITS ARE ADOPTED, HONOURED UNTIL THE
+## NEXT STRUCTURAL CHANGE, THEN THE ENGINES TAKE OVER - SYMMETRICALLY FOR TP AND SL. ***
+## Gate 1 for defect R2-B. *** THIS REVERSES THE b24 ASYMMETRY AND THE REVERSAL IS DELIBERATE. ***
+JEFF'S WORDS: "any manual TP and/or SL set should be adopted but only until a change in structure
+occurs. and if it does, all enabled functionalities should take over overriding the manual set.
+And if the user again manually adjust the TP and/or SL of course in compliance in the safety
+configurations we set, the EA should then again adopt it and then override when a new level opens
+again."
+
+WHAT IS BEING REVERSED, STATED PLAINLY SO IT IS NEVER MISREAD AS A BUG FIX:
+  b24 locked an ASYMMETRY. Manual TP releases on structural change; manual SL PERSISTS - "the
+  trader's risk statement and level budget", ending only on flat / re-edit / BE-trail
+  supersession. That text is in the SequenceState field comment and in ReleaseManualTP's header.
+  D16 MAKES THEM SYMMETRIC: both release on structural change.
+  THE RATIONALE Jeff is applying: a stop sized against a 1-leg sequence is exactly as stale as a
+  target sized against it. Once the arithmetic moves, BOTH edits were made against a structure
+  that no longer exists. b24's reasoning for the asymmetry (an SL is a standing risk statement)
+  is defensible but it leaves a 4-leg sequence governed by a stop chosen for one leg.
+  Same shape as D11 superseding D3: a sealed decision overturned on evidence and intent, recorded
+  as a supersession rather than silently edited.
+
+THE FULL LIFECYCLE, AS LOCKED:
+  1. ADOPT. A manual TP and/or SL present on a position is ADOPTED into g_state.manualTP/manualSL
+     and honoured, SUBJECT TO THE EXISTING SEALED SAFETY GUARDS (all retained, none weakened):
+       - post-BE looser SL REFUSED (M6-2: the floor never lowers)
+       - conflicting values across tickets in one pass -> NONE adopted (M4-1)
+       - a REMOVAL (-> 0) is never adopted (D3/M1)
+       - a widening edit is adopted but WARNs with the money figure (trader's responsibility)
+       - and D16-C below, the new one.
+  2. HONOUR until the next STRUCTURAL change (level add, level close, Tier 1/2/3 fire, trail-arm).
+  3. RELEASE on that structural change - BOTH TP and SL - and every enabled engine takes over:
+     computed AvgTP, the DD boundary, BE, trail, whichever are armed.
+  4. RE-ADOPT if the trader edits again, back to step 1. The cycle repeats per structural event.
+
+D16-C: MANUAL SL vs THE ARMED DD CAP - *** TIGHTER ONLY. ***
+  D6 says the boundary owns the SL while armed and may overwrite a tighter manual stop with a
+  looser price. D16 NARROWS THAT FOR MANUAL EDITS ONLY: a manual SL is adopted only when it is
+  TIGHTER than the current boundary. A manual SL LOOSER than the boundary is REFUSED with a loud
+  WARN, because honouring it would breach the declared cap.
+  This preserves Jeff's locked principle of 2026-10-06 - *** THE CAP IS SACRED AND THE GRID
+  ABIDES BY IT *** - while still letting the trader tighten inside it.
+
+*** D16-D: THE DISTINCTION JEFF RAISED UNPROMPTED, AND IT IS THE SHARPEST POINT IN THIS GATE. ***
+  Jeff: "during drawdown reduction when the highest level closes due to any Tier the SL could
+  loosen according to our DD Cap if enabled. So in SL if manually changed then only allow Tighter
+  but when EA takes over due to change in structure we allow the DD Cap to adjust accordingly to
+  preserve the max allowable loss."
+  THE RULE: "tighter only" binds MANUAL EDITS. It does NOT bind the EA's own re-derivation. When
+  a tier closes a leg and D5 re-derives the boundary LOOSER, that is permitted and correct.
+  WHY THESE ARE NOT THE SAME THING, AND IT IS NOT A JUDGEMENT CALL - IT IS ARITHMETIC. Verified
+  by replaying the ACTUAL sealed D-5/D-6 tester event (2026.09.28 04:48:13):
+     pre-slice  0.26 lots, VWAP 4211.9215, boundary 4204.33 -> loss at boundary -197.38
+     post-slice 0.16 lots, VWAP 4213.5938, boundary 4200.68 -> loss at boundary -206.62
+     realised already banked by the tier                     -> +8.24 (a PROFIT)
+     TOTAL EXPOSURE = -206.62 + 8.24 = *** -198.38 against a $200.00 cap. STILL INSIDE. ***
+  The boundary moved 365 points AWAY from price and the cap was never breached, because the tier
+  genuinely FREED budget. A manual widening has no such offsetting realised gain - it simply
+  spends budget that was never released.
+  SO: same direction of movement, two different owners, two different rules. The EA re-spending a
+  budget it can prove was freed is NOT the same act as a human widening past the cap. D16-D is
+  what keeps "the cap is sacred" true in both cases rather than only in the easy one.
+
+D16-E: THE ORPHAN CASE (Jeff's call, same session). When BOTH manual exits release and NO engine
+  claims the stop - InpStopLossPts = 0 AND the DD cap off - the released SL stays physically on
+  the position and the EA stops managing it. RULE: release, LEAVE THE STOP, and ANNOUNCE IT. Never
+  strip a working stop; removing one is the single unsafe direction this project has consistently
+  refused. Identical treatment and wording precedent to C-9 (b51), which handles the orphaned DD
+  boundary. Rejected alternative: making the release CONDITIONAL on a successor existing - it
+  would make the same structural event release or not depending on unrelated inputs, which is
+  harder to reason about and was rejected on exactly that ground.
+
+WHAT D16 DOES *NOT* CHANGE:
+  - Every sealed safety guard in DetectManualExitEdits is retained verbatim (see step 1).
+  - The b25 discriminator stays; D16 FEEDS it correctly by populating lastApplied at adoption.
+  - EnforceExits remains the SINGLE SL/TP writer. D16 adds no new writer and no new owner.
+  - D15's deadband is independent and composes cleanly: D16 decides WHAT the stop should be,
+    D15 decides WHETHER a change is big enough to write.
+THE ROOT FIX THIS ENABLES (defect R2-B): AdoptPosition must CLASSIFY pre-existing broker exits at
+  adoption - record them as manual, mark the ticket armed, and seed lastAppliedTP/SL - instead of
+  calling ResetExitEnforcement() and recording nothing. Without that, step 1 never happens and the
+  stale value resurfaces at the next structural change as a FRESH trader edit, which is exactly
+  the GBPJPY failure (adopted 07:05, misclassified 17:00, ten hours later).
+GATE 1 CLOSED FOR R2-B. Gate 2 (the matrix) is next; no code until it is sealed.
