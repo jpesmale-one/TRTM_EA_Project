@@ -6612,3 +6612,28 @@ WHAT IS DELIBERATELY NOT DONE YET:
    Zero fix. Recorded so it is not forgotten a third time.
 NEXT: Jeff compiles b52 (c2b3453f7eff2e85 / 5987 lines). Gate 4 verification is group by group,
 starting with A-2 (the replay: ~1100 writes must become 1) on a CROSS-QUOTED chart.
+
+## b52 GATE ZERO FAILED ON THE FIRST COMPILE, FIXED, REBUILT. 2026-10-14.
+ERROR (Jeff's MetaEditor): "undeclared identifier 'DD_RESTEP_PCT'  TRTM.mq5  2060  46"
+CAUSE - AND IT IS A THIRD ORDERING RULE I HAD NOT DISTINGUISHED: I placed the new constant beside
+DD_OFFSET_PTS in the E9-R1 block (~line 4130), where it belongs BY TOPIC. The deadband CONSUMES it
+inside EnforceExits at ~line 2060 - TWO THOUSAND LINES EARLIER.
+  A #define is a PREPROCESSOR directive. Unlike a FUNCTION or a FILE-SCOPE GLOBAL - both of which
+  MQL5 resolves forward across the whole file - a MACRO exists only from its own line onward.
+*** THIS IS THE SAME SESSION IN WHICH I PROVED FORWARD RESOLUTION WORKS FOR FUNCTIONS AND GLOBALS
+(Log() at 359 reads g_cfgCapture declared at 3499, and b51 compiles). I then OVER-GENERALISED that
+proof to macros, which obey the opposite rule. The evidence I gathered was correct; the inference
+I drew from it was too broad. ***
+THE THREE RULES, now written where the constant lives so the next build does not relearn them:
+  functions      - forward references RESOLVE
+  globals        - forward references RESOLVE
+  #define macros  - forward references DO NOT RESOLVE. Define before first USE, always.
+FIX: the constant and its rationale moved to the CONSTANTS block (after TRTM_UNKNOWN_MAX_AGE_SEC,
+line ~172), with the compile error itself recorded in the comment so the placement is never
+"tidied" back. Diff vs the broken build: 23 insertions, 12 deletions - the block removed from one
+place and re-added in another. NO LOGIC TOUCHED.
+SWEEP RUN BEFORE REBUILDING: every #define in the file checked against its first use on CODE lines
+(comments stripped first - my first pass flagged four false positives by matching names inside
+comment text). ALL CLEAN: every macro is defined before its first code use.
+BUILD: b52, bf3aef020416afdb, 5998 lines (was c2b3453f7eff2e85 / 5987). check_hygiene PASS,
+CR = LF = 5998, final bytes "--+", brace delta -1 identical to baseline. GATE ZERO RE-PENDING.

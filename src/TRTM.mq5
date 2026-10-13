@@ -170,6 +170,29 @@ input int  InpLogRetentionDays = 14; // Delete own logs older than N days (0 = k
 // destroying the very adoptedL1 record this build protects. A CONSTANT, not an input (B-4).
 #define TRTM_UNKNOWN_MAX_AGE_SEC  7776000         // 90 days
 
+// b52 (E9-R2 D15): the DD-boundary DEADBAND threshold, as a PERCENTAGE OF THE REMAINING BUDGET.
+// *** DECLARED HERE, NOT BESIDE DD_OFFSET_PTS, AND THE REASON IS A COMPILE ERROR I MADE. ***
+// My first b52 put it next to DD_OFFSET_PTS in the E9-R1 block (~line 4130) because that is where
+// it belongs by TOPIC. It does not compile there: the deadband CONSUMES it inside EnforceExits at
+// ~line 2060, two thousand lines EARLIER. A #define is a PREPROCESSOR directive - unlike a
+// function or a file-scope global, which MQL5 resolves forward across the whole file, a macro
+// exists only from its own line onward. "undeclared identifier 'DD_RESTEP_PCT'", Gate Zero, b52.
+// THE LESSON, because this file has three different ordering rules and they are NOT the same:
+//   functions        - forward references RESOLVE (ReleaseManualExits is called above its body)
+//   globals          - forward references RESOLVE (Log() at 359 reads g_cfgCapture from 3499)
+//   #define macros    - forward references DO NOT RESOLVE. Define before first use, always.
+// WHY A PERCENTAGE AND NOT POINTS - the arithmetic decided this at Gate 1, not taste. Jeff first
+// chose a fixed POINT threshold (the InpMinTrailStepPts precedent). Recomputing the money cost
+// killed it: money-per-point scales with LOTS, so a 25-point deadband costs 0.67% of a $47.11 cap
+// on GBPJPY at 0.02 lots but 12.50% of a $20 cap on a 4-leg XAUUSD sequence at 0.10 lots.
+// A CONSTANT IN POINTS IS NOT A CONSTANT IN MONEY, and a fixed point deadband is cheapest exactly
+// where the sequence is shallow and most expensive exactly where it is DEEPEST - the wrong way
+// round for a loss cap. As a percentage of the remaining budget the cost is EXACTLY this figure
+// of the cap at every depth, on every instrument, by construction.
+// A CONSTANT, not a 4th input: Stage 1 froze the dialog layout and DD_OFFSET_PTS set the
+// precedent for resolving this class of value in code rather than in the dialog.
+#define DD_RESTEP_PCT   0.5
+
 // Log levels
 #define LOG_INFO   0
 #define LOG_WARN   1
@@ -4125,18 +4148,6 @@ void ArmMaintain()
                              // symbol, so 10 means the same distance on GBPJPY (3-digit),
                              // XAUUSD.s (2-digit) and AUDNZD.s/USDCAD.s (5-digit) alike.
                              // Locked convention 2026-10-05 - see .claude/rules/mql5-traps.md.
-// b52 (E9-R2 D15): the DEADBAND threshold, as a PERCENTAGE OF THE REMAINING BUDGET.
-// WHY A PERCENTAGE AND NOT POINTS - the arithmetic decided this at Gate 1, not taste. Jeff first
-// chose a fixed POINT threshold (the InpMinTrailStepPts precedent). Recomputing the money cost
-// killed it: money-per-point scales with LOTS, so a 25-point deadband costs 0.67% of a $47.11 cap
-// on GBPJPY at 0.02 lots but 12.50% of a $20 cap on a 4-leg XAUUSD sequence at 0.10 lots.
-// A CONSTANT IN POINTS IS NOT A CONSTANT IN MONEY, and a fixed point deadband is cheapest exactly
-// where the sequence is shallow and most expensive exactly where it is DEEPEST - the wrong way
-// round for a loss cap. As a percentage of the remaining budget the cost is EXACTLY this figure
-// of the cap at every depth, on every instrument, by construction.
-// A CONSTANT, not a 4th input: Stage 1 froze the dialog layout and DD_OFFSET_PTS set the
-// precedent for resolving this class of value here.
-#define DD_RESTEP_PCT   0.5
 // b49 (D11): DD_MAX_PROJECT is GONE. It bounded the grid PROJECTION walk, and D11 removed
 // the projection entirely - the boundary is now closed form over the LIVE legs, so there is
 // no loop to bound and no pathological-settings case to refuse. Matrix B-5 retires with it.
