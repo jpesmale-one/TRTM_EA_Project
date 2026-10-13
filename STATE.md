@@ -6342,3 +6342,62 @@ JEFF'S CALL 2026-10-13: "we may address these issues 1 by 1 but let's put them o
   as it was observed simultaneously." -> ONE build (b52), two Gate 1 decisions, two matrix groups,
   fixed and verified one at a time but delivered together.
 GATE 1 IS OPEN. NO CODE UNTIL THE DECISIONS ARE LOCKED.
+
+## *** LOCKED DECISION E9-R2-D15 (Jeff 2026-10-13): THE DD BOUNDARY GETS A DEADBAND, SIZED AS A
+## PERCENTAGE OF THE REMAINING BUDGET. *** Gate 1 for defect R2-A.
+THE RULE: the boundary keeps re-deriving exactly as D4 says. What changes is the WRITE: the SL is
+rewritten ONLY when the newly derived boundary differs from the one currently on the positions by
+more than a threshold. Inside the threshold the existing stop is LEFT ALONE.
+
+OPTIONS CONSIDERED AND REJECTED, WITH REASONS:
+ - FREEZE mpp at structural change (snapshot the tick value, reuse until the next structural
+   event). Rejected: it makes the formula strictly structural but the cap then drifts in REAL
+   MONEY as the cross moves, a frozen value can be hours stale, and it needs either a new
+   persisted field (schema bump, which DISCARDS the state file) or a re-derive on init.
+ - BOTH freeze and deadband. Rejected as unnecessary machinery: the deadband alone reduces the
+   writes to near zero, and two new behaviours is two things to verify for one defect.
+ - Threshold as a NEW INPUT. Rejected: Stage 1 froze the dialog layout and DD_OFFSET_PTS already
+   set the precedent of resolving this class of value as a CONSTANT.
+ - Threshold DERIVED FROM SYMBOL_TRADE_STOPS_LEVEL. Rejected, and the reason is the defect itself:
+   this broker reports that level DYNAMICALLY (observed 0, 50, and 20-100 pts intraday). A
+   threshold that itself moves is exactly the instability being fixed.
+
+*** THE UNIT WAS CHANGED MID-GATE-1, AND THE ARITHMETIC IS WHY. ***
+Jeff first chose a FIXED POINT threshold (the InpMinTrailStepPts precedent). I then computed the
+money cost and it is NOT uniform, because money-per-point scales with LOTS:
+    N=25 pts  ->  GBPJPY 0.02 lots: $0.32 = 0.67% of a $47.11 cap
+              ->  XAUUSD 0.10 lots: $2.50 = 12.50% of a $20 cap
+  A constant in POINTS is not a constant in MONEY. A fixed point deadband is cheapest exactly
+  where the sequence is shallow and most expensive exactly where it is DEEPEST - the wrong way
+  round for a loss cap. Jeff revised to percent-of-cap on that evidence.
+
+THE LOCKED FORM:
+    #define DD_RESTEP_PCT  0.5        // percent of the REMAINING budget
+    thresholdPts = (remaining * DD_RESTEP_PCT/100.0) / (mpp * liveLots)
+    rewrite only if |newBoundary - currentBoundary| > thresholdPts * _Point
+  The threshold is computed in the SAME terms as the boundary itself (remaining, mpp, liveLots),
+  so it is self-scaling across instruments, lot sizes and depths by construction.
+  COST IS EXACTLY 0.5% OF THE CAP, EVERYWHERE, AT EVERY DEPTH. That is the whole point of the
+  unit change: the promise "your loss is capped at X" becomes "capped at X, within 0.5%".
+
+VALIDATED AGAINST THE OBSERVED DATA BEFORE LOCKING (this is not a projection, it is a replay):
+  GBPJPY L1 phase: remaining $47.11, mpp 0.6305, lots 0.02 -> threshold 18.7 pts.
+    OBSERVED DRIFT WAS 18 pts (205.722 .. 205.740). 18 < 18.7, so THE ENTIRE FLOOD COLLAPSES TO
+    ONE WRITE. The ~1100 modifies on that ticket become 1.
+  GBPJPY after L2: lots 0.04 -> threshold 9.3 pts; observed post-L2 range 2 pts -> absorbed.
+  XAUUSD 4-leg, cap $20, 0.10 lots, mpp 1.00 -> threshold 1.0 pt, slip $0.10 (0.5%) - the case
+    that would have cost 12.5% under the fixed-point form.
+  Note the threshold TIGHTENS as the grid deepens (18.7 -> 9.3 pts when lots doubled), which is
+  the same direction D11 already moves the boundary itself. The deadband does not fight D11.
+
+WHAT IS EXPLICITLY NOT CHANGED BY D15:
+  - The boundary FORMULA is untouched. D11 stands exactly as sealed.
+  - D4 (re-derive on structural change) is untouched; the announcer still fires structurally.
+  - The SL-exceeded close, the b20 race gate, the min-distance deferral, idempotence and the
+    TradeTargetLive gate are all untouched - the deadband sits in front of the write, inside the
+    existing single-writer path, and adds NO new SL owner.
+  - D2/D6 ownership is untouched: while armed, the boundary still owns the SL.
+HONEST STATEMENT OF WHAT IS GIVEN UP: the stop can now sit up to 0.5% of the cap away from the
+  mathematically exact boundary. On a $47.11 cap that is $0.24. Jeff accepted this trade knowingly
+  in exchange for removing ~1100 broker writes per position per day. It is recorded here so the
+  cap's promise is never overstated in the README or the logs.
