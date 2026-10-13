@@ -6664,3 +6664,79 @@ SPLIT INTO #include FILES: raised as the real answer if NAVIGATION is the pain (
   recovery / tiers / panel / DD). *** JEFF DECLINED FOR NOW ("not to split at this time"). ***
   Parked, not rejected - it needs its own Gate 1 and would reduce the file without losing a line
   of audit trail.
+
+## *** E9-R2-C RAISED 2026-10-14 (Jeff, DEMO GBPJPY.s b52 first run, tests/2026.10.14 004249.152.txt)
+## A MANUAL SL IS INVISIBLE TO THE CLASSIFIER WHENEVER InpStopLossPts = 0. QUEUED FOR b53. ***
+JEFF'S REPORT: "The Manual SL change is not being honored even though in the tighter path."
+CONFIRMED - AND IT IS NOT D16-C. D16-C (the tighter/looser gate added at TP5 in b52) NEVER RAN.
+The edit never reached the classifier at all.
+
+ABSENCE CHECK ACROSS ALL 19 LINES OF THE LOG:
+  "Manual SL ... ADOPTED"                = 0
+  "Manual SL ... REFUSED"                = 0
+  "LOOSER than the drawdown boundary"    = 0   (the D16-C refusal text)
+  "Manual SL REMOVAL"                    = 0
+  Distinct SL values the EA ever wrote: 201.509 and 201.510 - BOTH the DD boundary.
+  NOT adopted AND NOT refused is the signature of a value that was never CLASSIFIED, as opposed
+  to one that was judged and rejected. That distinction is what located the defect.
+
+ROOT CAUSE - PRE-EXISTING b24 CODE, NOT b52:
+  DetectManualExitEdits computes its baseline as
+      baseSL = (g_state.manualSL > 0.0) ? g_state.manualSL : compSL
+  and then gates ALL SL detection behind
+      if(!trailingActive && baseSL > 0.0 && curSL > tol && MathAbs(curSL - baseSL) > tol && ...)
+  With InpStopLossPts = 0, ComputeTargets SKIPS its entire `if(InpStopLossPts > 0)` block, so
+  compSL returns 0.0. No manual SL is owned yet, so manualSL is 0.0 too. baseSL is therefore 0.0
+  and *** THE CONDITION SHORT-CIRCUITS ON `baseSL > 0.0` BEFORE IT EVER EXAMINES THE EDIT. ***
+  candSL is never assigned; no adopt branch, no refuse branch, nothing logged. The enforce loop
+  then writes the DD boundary over the trader's stop on the next pass - visible in the log at
+  00:44:05 and 00:44:08, both rewriting SL 201.510.
+
+*** THE PROOF IS IN JEFF'S OWN LOG, ON THE SAME TICK: THE MANUAL TP WAS ADOPTED. ***
+  00:43:40 "Manual TP 210.870 ADOPTED (was 210.091) - RISK: target moved 779 pts farther"
+  baseTP = (manualTP > 0) ? manualTP : compTP, and compTP = 210.091 because InpInitialTPPts = 300.
+  baseTP > 0.0 PASSES, so the TP edit was seen, classified and adopted.
+  SAME FUNCTION, SAME PASS, SAME TRADER ACTION, OPPOSITE OUTCOME - and the only difference is that
+  one input is 300 and the other is 0. That is the whole defect in one sentence.
+
+WHY IT HAS BEEN INVISIBLE SINCE b24: with InpStopLossPts = 0 and no DD cap, there was no stop on
+  the position at all, so there was nothing for a trader to drag and nothing to misclassify. E9-R1
+  (b45+) made the DD boundary put a stop there WHILE InpStopLossPts stays 0 - which is exactly
+  Jeff's standing configuration. The feature that made the stop exist is what exposed the hole.
+
+SECOND GATE CHECKED SO THE FIX IS NOT HALF A FIX: would g_lastAppliedSL have blocked it anyway?
+  No. At that moment g_lastAppliedSL = 201.510 (the boundary the EA itself wrote). A TIGHTER manual
+  stop on a BUY sits far above it, so `MathAbs(curSL - g_lastAppliedSL) > tol` PASSES.
+  *** baseSL == 0 IS THE ONLY BLOCKER. Fixing baseSL is NECESSARY AND SUFFICIENT. ***
+
+THE SHAPE OF THE FIX (Gate 1 still owed - this is the question, not the answer):
+  baseSL needs a THIRD fallback when both manualSL and compSL are zero. The natural candidate is
+  the DD boundary itself, since while the cap is armed that IS the stop in charge - the same
+  "reflect the value actually in charge" principle as b26 (manual TP display) and b48/D9 (the
+  projection). But that is a DECISION about what the baseline MEANS when the boundary is the only
+  stop, and it interacts with D16-C (which compares a candidate against that same boundary), so it
+  gets a locked decision rather than a one-line patch.
+  OPEN QUESTION FOR GATE 1: with the cap armed and InpStopLossPts = 0, is the manual-edit baseline
+  (a) the DD boundary, (b) the last applied SL, or (c) "any non-zero broker SL is a candidate"?
+
+MATRIX GAP, STATED PLAINLY: docs/R2_MATRIX.md rows C-3 and C-4 cover manual SL TIGHTER and LOOSER
+  than the boundary - but NEITHER says "with InpStopLossPts = 0", which is Jeff's stated normal
+  configuration. I wrote the D16-C gate and reasoned about its branches without ever asking what
+  baseSL holds in that config. The matrix inherited the same blind spot. A new row is owed at b53:
+  "manual SL edited while InpStopLossPts = 0 and the DD cap armed -> the edit must be CLASSIFIED
+  (adopted or refused), never silently ignored."
+
+WHAT IS CONFIRMED WORKING IN THE SAME RUN (do not lose this in the defect):
+  GATE ZERO PASSED on the demo (b52, GBPJPY.s, magic 758860, HEDGING, stops level 25 pts).
+  *** THE D15 DEADBAND FIRED CORRECTLY, WHICH IS A-2's MECHANISM: ***
+    "DD boundary 201.509 is within 41.5 pts of the stop already held (201.509) - HOLDING, no
+     rewrite (E9-R2 D15: 0.50% of the remaining budget)."
+    AUDITED: boundary 201.509 from entry 209.791 implies travel (209.791 - 201.509 + 0.010)/0.001
+    = 8292.0 pts; threshold = 8292.0 x 0.5% = 41.5 pts. LOG MATCHES EXACTLY.
+    Implied mpp = 52.35/(8292.0 x 0.01) = $0.6313/pt/lot - consistent with a 3-digit JPY pair.
+  Cap arithmetic: 2617.36 x 2.00% = 52.3472 -> $52.35. EXACT.
+  TP arithmetic: entry 209.791 + 300 pts = 210.091 EXACT; manual 210.870 is 779 pts farther EXACT.
+  A-2 IS NOT YET CLAIMED: the later "Exits applied" lines were driven by Jeff's TP edit, not by
+  tick-value drift, so the row still needs a multi-hour run with no manual intervention.
+JEFF'S CALL 2026-10-14: "let's line up the fix on the next iteration" -> b53. b52 stays as built
+  (bf3aef020416afdb / 5998 lines); its Gate 4 verification continues meanwhile.

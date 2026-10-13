@@ -1,0 +1,19 @@
+2026.10.14 00:42:49.152	TRTM (GBPJPY.s,M15)	[TRTM][INFO ] === TRTM b52 init === symbol=GBPJPYS (raw GBPJPY.s) magic=758860 stateFile=TRTM\state_GBPJPYS_758860.json
+2026.10.14 00:42:49.152	TRTM (GBPJPY.s,M15)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.10.14 00:42:49.152	TRTM (GBPJPY.s,M15)	[TRTM][INFO ] Drawdown Auto Close ARMED: effective cap $52.35 (percent limit only: 2.00% of balance 2617.36). Enforced as a BOUNDARY SL every position adopts (broker-held, so it fires even if MT5 is closed). Stop Loss (points) concedes to this boundary while enabled.
+2026.10.14 00:42:49.153	TRTM (GBPJPY.s,M15)	[TRTM][INFO ] State persistence self-test: PASS
+2026.10.14 00:42:49.153	TRTM (GBPJPY.s,M15)	[TRTM][INFO ] Reconcile complete: FLAT
+2026.10.14 00:42:49.157	TRTM (GBPJPY.s,M15)	[TRTM][INFO ] Account margin mode: HEDGING
+2026.10.14 00:42:49.157	TRTM (GBPJPY.s,M15)	[TRTM][INFO ] Broker exit geometry (at init): stops level 25 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 25 pts to price are DEFERRED until placeable
+2026.10.14 00:42:49.157	TRTM (GBPJPY.s,M15)	[TRTM][INFO ] Init complete - b52 (adoption, exits, recovery active)
+2026.10.14 00:43:00.811	TRTM (GBPJPY.s,M15)	[TRTM][INFO ] BUY ARMED: 0.01 lots (Fixed 0.01) - click CONFIRM within 10s to execute
+2026.10.14 00:43:01.872	TRTM (GBPJPY.s,M15)	[TRTM][INFO ] L1 BUY OPENED via button: 0.01 lots @ 209.791 (deal 574809278)
+2026.10.14 00:43:01.873	TRTM (GBPJPY.s,M15)	[TRTM][INFO ] Structure: 1 level(s), 0.01 lots | projected at TP +1.89 | at SL -52.29
+2026.10.14 00:43:01.873	TRTM (GBPJPY.s,M15)	[TRTM][INFO ] EA L1 REGISTERED: ticket 915874152 BUY 0.01 lots @ 209.791. Exits apply next tick.
+2026.10.14 00:43:02.452	TRTM (GBPJPY.s,M15)	[TRTM][INFO ] Exits applied to ticket 915874152: TP 210.091 SL 201.509
+2026.10.14 00:43:02.733	TRTM (GBPJPY.s,M15)	[TRTM][INFO ] DD boundary 201.509 is within 41.5 pts of the stop already held (201.509) - HOLDING, no rewrite (E9-R2 D15: 0.50% of the remaining budget). The cap is honoured to within that distance.
+2026.10.14 00:43:40.474	TRTM (GBPJPY.s,M15)	[TRTM][WARN ] Manual TP 210.870 ADOPTED (was 210.091) - RISK: target moved 779 pts farther from price; the sequence must run further before banking (trader's responsibility)
+2026.10.14 00:43:46.705	TRTM (GBPJPY.s,M15)	[TRTM][INFO ] Exits applied to ticket 915874152: TP 210.870 SL 201.510
+2026.10.14 00:43:47.229	TRTM (GBPJPY.s,M15)	[TRTM][INFO ] DD boundary 201.510 is within 41.5 pts of the stop already held (201.510) - HOLDING, no rewrite (E9-R2 D15: 0.50% of the remaining budget). The cap is honoured to within that distance.
+2026.10.14 00:44:05.452	TRTM (GBPJPY.s,M15)	[TRTM][INFO ] Exits applied to ticket 915874152: TP 210.870 SL 201.510
+2026.10.14 00:44:08.711	TRTM (GBPJPY.s,M15)	[TRTM][INFO ] Exits applied to ticket 915874152: TP 210.870 SL 201.510
