@@ -1,6 +1,10 @@
 # E9-R2 SCENARIO MATRIX — boundary stability (R2-A) + manual-exit lifecycle (R2-B)
 
 STATUS: **SEALED rev 1 — sealed by Jeff 2026-10-13.** Live findings later become NEW rows (rev 2+), never silent fixes (CLAUDE.md §2).
+AMENDED **rev 2 — 2026-10-14**: **C-13 ADDED** for E9-R2-C (Jeff, demo GBPJPY.s). The sealed rows
+are UNCHANGED; rev 2 only ADDS. The gap C-13 closes: C-3 and C-4 both specify manual-SL behaviour
+but NEITHER states `InpStopLossPts = 0`, which is Jeff’s standing configuration — so the matrix
+inherited the same blind spot as the code. 45 rows → **46**.
 Target build: **b52**, one build carrying both defects (Jeff's call: *"we may address these issues
 1 by 1 but let's put them on the same version as it was observed simultaneously"*).
 
@@ -79,6 +83,7 @@ matrix needs a row for an instrument where that value is **not constant**.
 | C-10 | Trail-arm release | Existing b24 trail-arm release still fires, now for **both** exits | log |
 | C-11 | **D16-E: orphan — no engine claims the stop** | `InpStopLossPts = 0` and DD off → release, **leave the stop**, announce it. Never strip a working stop | WARN + the SL still on the position |
 | C-12 | Death-window release (restart) | `ReconcileManualExits`' existing release path extended to the SL side | log at init |
+| C-13 | **AMENDED rev 2 (b53): manual SL edited while `InpStopLossPts = 0` AND the cap armed** | The edit must be **CLASSIFIED** — adopted or refused — and **NEVER SILENTLY IGNORED**. E9-R2-C: `baseSL` falls to 0.0 so the detector short-circuits before examining the edit; the enforce pass then overwrites the trader's stop with the boundary. C-3/C-4 assume a non-zero baseline and so **cannot be tested until this is fixed** | `ADOPTED` **or** `REFUSED` present — the absence of BOTH is the defect signature |
 
 ---
 
@@ -123,7 +128,7 @@ and that b24's original concern is addressed rather than ignored.
 
 ## SUMMARY
 
-**45 rows across 6 groups** (A 10, B 8, C 12, D 5, E 6, F 4 — reconciled ID by ID).
+**46 rows across 6 groups** (A 10, B 8, C **13**, D 5, E 6, F 4 — reconciled ID by ID; C-13 added at rev 2).
 **16** are MUST-NOT / absence-type: A-5, A-6, A-7, B-4, B-5, B-8, C-8, C-9, D-1, D-2, D-3, E-2,
 E-3, E-4, E-6, F-2.
 

@@ -46,3 +46,21 @@
 2026.10.14 15:15:00.979	TRTM (GBPJPY.s,M1)	[TRTM][INFO ] Exits applied to ticket 917590477: TP 210.312 SL 207.158
 2026.10.14 15:15:01.214	TRTM (GBPJPY.s,M1)	[TRTM][INFO ] Exits applied to ticket 917774054: TP 210.312 SL 207.158
 2026.10.14 15:15:01.246	TRTM (GBPJPY.s,M1)	[TRTM][INFO ] DD boundary 207.158 is within 13.8 pts of the stop already held (207.158) - HOLDING, no rewrite (E9-R2 D15: 0.50% of the remaining budget). The cap is honoured to within that distance.
+2026.10.14 16:18:28.323	TRTM (GBPJPY.s,M1)	[TRTM][INFO ] Manual TP 210.142 ADOPTED (was 210.312) - propagating to all 2 position(s); releases on level add/close or trail-arm
+2026.10.14 16:18:28.557	TRTM (GBPJPY.s,M1)	[TRTM][INFO ] Exits applied to ticket 917774054: TP 210.142 SL 207.158
+2026.10.14 16:27:41.507	TRTM (GBPJPY.s,M1)	[TRTM][INFO ] Deinit (reason 3) - state saved (sequence alive)
+2026.10.14 16:27:41.530	TRTM (GBPJPY.s,M5)	[TRTM][INFO ] === TRTM b52 init === symbol=GBPJPYS (raw GBPJPY.s) magic=758860 stateFile=TRTM\state_GBPJPYS_758860.json
+2026.10.14 16:27:41.531	TRTM (GBPJPY.s,M5)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.10.14 16:27:41.531	TRTM (GBPJPY.s,M5)	[TRTM][INFO ] Drawdown Auto Close ARMED: effective cap $52.38 (percent limit only: 2.00% of balance 2618.94). Enforced as a BOUNDARY SL every position adopts (broker-held, so it fires even if MT5 is closed). Stop Loss (points) concedes to this boundary while enabled.
+2026.10.14 16:27:41.532	TRTM (GBPJPY.s,M5)	[TRTM][INFO ] State persistence self-test: PASS
+2026.10.14 16:27:41.532	TRTM (GBPJPY.s,M5)	[TRTM][INFO ] Reconcile: flags restored (trailOverride=F beOverride=F trailingActive=F beApplied=F)
+2026.10.14 16:27:41.532	TRTM (GBPJPY.s,M5)	[TRTM][INFO ] Reconcile: manual TP 210.142 ownership continues across restart (broker agrees)
+2026.10.14 16:27:41.532	TRTM (GBPJPY.s,M5)	[TRTM][INFO ] Structure: 2 level(s), 0.03 lots | projected at TP +4.36 | at SL -52.18
+2026.10.14 16:27:41.532	TRTM (GBPJPY.s,M5)	[TRTM][INFO ] Reconcile complete: dir=BUY levels=2
+2026.10.14 16:27:41.542	TRTM (GBPJPY.s,M5)	[TRTM][INFO ] Account margin mode: HEDGING
+2026.10.14 16:27:41.542	TRTM (GBPJPY.s,M5)	[TRTM][INFO ] Broker exit geometry (at init): stops level 25 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 25 pts to price are DEFERRED until placeable
+2026.10.14 16:27:41.542	TRTM (GBPJPY.s,M5)	[TRTM][INFO ] DD boundary re-derived after init (restart re-derive): 207.157 - cap $52.38, realised $-0.00, remaining $52.38, 2 level(s) afforded (E9-R1 D4).
+2026.10.14 16:27:41.542	TRTM (GBPJPY.s,M5)	[TRTM][INFO ] Init complete - b52 (adoption, exits, recovery active)
+2026.10.14 16:56:58.143	TRTM (GBPJPY.s,M5)	[TRTM][INFO ] Liveness: L2 ticket 917774054 TP hit @ 210.142 - removed from sequence
+2026.10.14 16:56:58.143	TRTM (GBPJPY.s,M5)	[TRTM][INFO ] Liveness: L1 ticket 917590477 TP hit @ 210.142 - removed from sequence
+2026.10.14 16:56:58.143	TRTM (GBPJPY.s,M5)	[TRTM][INFO ] Sequence fully closed - back to FLAT, overrides reset to input defaults, flat marker saved

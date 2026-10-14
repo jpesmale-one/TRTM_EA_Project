@@ -6790,3 +6790,63 @@ ROWS CLOSED ON THIS RUN: C-8 (ordering, by absence), C-1 (release on level add),
  (2) E9-R2-C IS VISIBLE AGAIN AND UNCHANGED. Three "Manual TP ADOPTED" events on this run (the TP
      path classifies fine); ZERO manual-SL events of any kind. Third appearance of the same
      asymmetry, same cause: baseSL == 0 because InpStopLossPts = 0. Fix queued for b53.
+
+## *** b52 VERIFICATION RUN 3 (demo GBPJPY.s, 2026-10-14 15:15-16:56, THE CLOSE). ***
+## tests/2026.10.14 004249.152.txt lines 49-66 (file now 66 lines). ROWS CLOSED: E-5, C-6.
+## *** AND THE R2-A MECHANISM CAUGHT IN THE ACT - see the mpp drift below. ***
+JEFF'S REPORT: "TP was now hit. L3 did not fire though."
+
+*** WHY L3 DID NOT FIRE - CORRECT BEHAVIOUR, NOT A DEFECT. ***
+  L2 filled 209.859 -> L3 trigger = 209.859 - 150 pts = 209.709, needing an M15 bar to CLOSE
+  at or below it. ABSENCE CHECK: "Recovery signal" appears EXACTLY ONCE in all 66 lines (line 40,
+  the L2 trigger). Zero occurrences of "L3" / "level 3" / "3 level". After 15:15 price went the
+  OTHER WAY - up 433 pts to the TP at 210.142. L3 was never within reach.
+  THE PROXIMATE CAUSE IS JEFF'S OWN MANUAL TP: computed AvgTP after L2 was 210.312; Jeff pulled it
+  to 210.142, i.e. 170 pts NEARER price. The sequence banked before it could deepen. A manual TP
+  tighter than the computed target structurally FORECLOSES deeper recovery levels - worth stating
+  because it is a consequence of D16 adoption that no matrix row names.
+
+THE CLOSE, AUDITED TO THE CENT. mpp solved FROM THE LOG, not assumed:
+  L1: (210.142 - 210.018) = 124 pts x 0.01 x 0.631693 = $0.7833
+  L2: (210.142 - 209.859) = 283 pts x 0.02 x 0.631693 = $3.5754
+  TOTAL $4.3587 -> $4.36.   LOG at 16:27 "projected at TP +4.36".  EXACT.
+  Recomputed at BOTH mpp values below ($4.3587 / $4.3571) - both round to $4.36, so the audit
+  holds regardless of which tick value was live. Both legs TP-hit on the same tick 16:56:58.143.
+
+*** E-5 PASS (restart over a classified sequence). ***
+  16:27:41.507 Deinit (reason 3) - state saved (sequence alive)   [chart period M1 -> M5]
+  16:27:41.532 Reconcile: manual TP 210.142 ownership continues across restart (broker agrees)
+  16:27:41.532 Reconcile complete: dir=BUY levels=2    State persistence self-test: PASS
+  Manual ownership classified before the restart SURVIVED it via the existing persisted fields,
+  with no schema change (E-4 holds: self-test PASS, schema still 5).
+*** C-6 PASS (re-adoption after release). ***
+  THE FULL CYCLE IN ONE SEQUENCE: 14:23 adopt 210.603 -> 14:23 adopt 210.651 -> 15:15 RELEASED on
+  the L2 add -> 16:18 "Manual TP 210.142 ADOPTED (was 210.312)" = adopted AGAIN post-release.
+  The lifecycle Jeff specified, observed end to end rather than argued.
+
+*** THE R2-A MECHANISM, MEASURED - THE MOST VALUABLE FINDING ON THIS RUN. ***
+  Two re-derives, 72 minutes apart, on INPUTS THAT ARE BYTE-FOR-BYTE IDENTICAL:
+    15:15:00.731  DD boundary re-derived after L2 opened:        207.158
+    16:27:41.542  DD boundary re-derived after init (restart):   207.157
+  Same VWAP 209.912000, same cap $52.38, same remaining $52.38, same 0.03 lots, same balance
+  2618.94 (CHECKED: the ARMED lines at 14:13 and 16:27 BOTH read 2618.94 - I first guessed a
+  balance change and the log refuted it). THE ONLY FREE VARIABLE IS mpp. Solving D11 backwards:
+    boundary 207.158 requires travel 2764.000 pts -> mpp = 0.63169320
+    boundary 207.157 requires travel 2765.000 pts -> mpp = 0.63146474
+  *** DRIFT 0.00022846 = 0.0362% OF THE TICK VALUE, AND IT MOVED THE BOUNDARY A FULL POINT. ***
+  THIS IS SYMBOL_TRADE_TICK_VALUE BEING RECOMPUTED BY THE BROKER ON A CROSS-QUOTED PAIR - the
+  precise mechanism R2-A exists to suppress, now MEASURED on this account rather than inferred
+  from the 4-chart log. A-2's premise is confirmed real here even though A-2 itself stays open.
+  WOULD D15 HAVE SUPPRESSED IT? YES: 1 pt move vs a 13.8 pt threshold at this depth.
+  SO WHY DID IT WRITE? Because "restart re-derive" is a STRUCTURAL re-derive at init, not an
+  EnforceExits pass - and A-8 requires structural changes to re-derive REGARDLESS of the deadband.
+  *** THIS IS A-8 BEHAVING CORRECTLY, NOT A DEADBAND MISS. *** Recording the distinction because
+  the surface reading ("the boundary moved inside the deadband") is the wrong one.
+
+*** C-2 EXPLICITLY NOT CLOSED, AND THIS RUN CANNOT CLOSE IT. ***
+  Both legs closed on the SAME TICK (16:56:58.143), so levelCount went 2 -> 0 directly and the
+  `if(g_state.levelCount > 0)` branch holding ReleaseManualExits("level close") WAS SKIPPED
+  ENTIRELY. C-2 needs a close that LEAVES SURVIVORS - a DD tier partial close, or one leg hitting
+  its own stop. Not a defect; untested. Same discipline as run 2's refusal to claim A-2.
+ALSO UNCHANGED: A-2 still needs the b51 A/B or a live flooding chart. E9-R2-C neither confirmed
+  nor cleared - this run never touched an SL (absence: zero "Manual SL" lines in 66).
