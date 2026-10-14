@@ -6850,3 +6850,74 @@ THE CLOSE, AUDITED TO THE CENT. mpp solved FROM THE LOG, not assumed:
   its own stop. Not a defect; untested. Same discipline as run 2's refusal to claim A-2.
 ALSO UNCHANGED: A-2 still needs the b51 A/B or a live flooding chart. E9-R2-C neither confirmed
   nor cleared - this run never touched an SL (absence: zero "Manual SL" lines in 66).
+
+## ============================================================================
+## *** b53 GATE 1 - LOCKED DECISIONS. Jeff, 2026-10-14. ***
+## E9-R2-C: a manual SL is invisible to the classifier whenever InpStopLossPts = 0.
+## ============================================================================
+DEFECT RE-CONFIRMED IN LIVE SOURCE (not from notes) before anything was locked:
+  src/TRTM.mq5:1882   double baseSL = (g_state.manualSL > 0.0) ? g_state.manualSL : compSL;
+  src/TRTM.mq5:1910   if(!g_state.trailingActive && baseSL > 0.0 && curSL > tol && ...)
+  With InpStopLossPts = 0, ComputeTargets skips its SL block -> compSL = 0.0; nothing owned ->
+  manualSL = 0.0; so baseSL = 0.0 and THE GATE SHORT-CIRCUITS BEFORE EXAMINING THE EDIT.
+  The TP gate at 1904 is STRUCTURALLY IDENTICAL and survives only because compTP is non-zero.
+  SAME FUNCTION, SAME PASS, OPPOSITE OUTCOME - the only difference is 300 vs 0.
+  PRE-EXISTING b24 CODE. E9-R1 made the boundary put a stop there WHILE InpStopLossPts stays 0,
+  which is Jeff's standing config - the feature that made the stop exist is what exposed the hole.
+
+*** D17 (LOCKED, option (a)): WHEN InpStopLossPts = 0 AND THE CAP IS ARMED, THE MANUAL-EDIT
+*** BASELINE IS THE DD BOUNDARY ITSELF.
+  RATIONALE: the baseline must be the stop ACTUALLY IN CHARGE. While the cap is armed that IS the
+  boundary. Same principle already sealed twice: b26 (manual TP display reflects the owner) and
+  b48/D9 (the projection prices what will really happen). It also unifies the test: D16-C already
+  compares candidates against this same boundary, so adopt/refuse becomes ONE coherent comparison
+  instead of two baselines that can disagree.
+  SCOPED DELIBERATELY: the boundary is the baseline ONLY WHEN InpEnableDDClose IS ON. With the cap
+  OFF and InpStopLossPts = 0, NO engine owns a stop at all - that is the C-11 / D16-E ORPHAN case,
+  already decided (announce it, leave the stop, do not manage it). D17 must not quietly start
+  managing it. REJECTED (b) g_lastAppliedSL: whenever the cap is armed that value IS the boundary,
+  so (b) is (a) by a less direct route, and it has no defined meaning when nothing was ever written.
+  REJECTED (c) "any non-zero broker SL is a candidate": requires deleting the `baseSL > 0.0` guard,
+  which is LOAD-BEARING for the b2 fresh-position rule and the b25 stale-write discriminator.
+
+*** D18 (LOCKED, option (a2)): THE WIDEN WARNING TELLS THE TRUTH IN BOTH WORLDS. ***
+  FOUND BY VERIFYING D17 RATHER THAN ASSUMING IT - and it is the reason Gate 1 was worth running:
+  with baseSL = the boundary, D16-C at 1965 REFUSES every candidate looser than the boundary. So at
+  the adopt branch (1983) candSL is GUARANTEED tighter than baseSL, and
+      if(dir * (baseSL - candSL) > tol)     // "RISK: max loss widened ~X"
+  *** CAN NEVER BE TRUE IN THAT CONFIG. *** The WARN at 1986 becomes unreachable whenever the cap
+  is armed and InpStopLossPts = 0. That is not a flaw in D17; it is D17 exposing that the widen
+  warning was written for the PRE-CAP world, where baseSL was a computed SL a trader could
+  legitimately loosen. With the cap armed, loosening is refused outright - there is nothing to warn
+  about. REJECTED (a1) "leave it, it is merely unreachable": shipping a branch that cannot fire in
+  Jeff's standing configuration invites a later reader to read it as a defect, and the matrix would
+  have to carry a footnote forever.
+  LOCKED INSTEAD: the boundary-baseline case logs its OWN INFO - the candidate is tighter than the
+  boundary, and BY HOW MANY POINTS. That figure is the sentence that was missing. The existing
+  widen WARN stays live and reachable for the InpStopLossPts > 0 and cap-off paths.
+
+*** D19 (LOCKED): ONE BOUNDARY CALL PER DETECTOR PASS. ***
+  D17 would make DDBoundaryPrice run THREE times per EnforceExits pass: the new baseline (1882),
+  D16-C (1961), and the enforcer (2034). All three are pure - VERIFIED, not assumed: the only side
+  effect in the whole body (4244-4322) is one AlreadyLogged-guarded WARN, idempotent by
+  construction. So three calls are CORRECT but wasteful, and three copies of one value can drift.
+  CONSOLIDATE THE TWO INSIDE DetectManualExitEdits into one call at the top. ORDERING VERIFIED:
+  the 1961 call sits inside the `candSL > 0.0` block AFTER the ticket loop; the baseline is needed
+  at 1882 BEFORE it; same function, NO state mutation in between, so one value serves both.
+  LINE 2034 IS LEFT ALONE - it is in EnforceExits, a different scope, and threading a parameter
+  through would widen the diff for no gain. b52 already proves the call pattern (its own comment at
+  1961 reads "pure read, no writes").
+
+ALSO IN b53 (debts, all previously deferred):
+  1. TFShort() removal - 5 lines, ZERO callers, the only genuine dead code found in the housekeeping
+     sweep. Deferred from b52 because Gate Zero had not yet passed on b52.
+  2. The E9-R1 + E9-R2 header block in the EA header - DEFERRED TWICE NOW (b51, b52).
+  3. F-3: the SequenceState.manualSL field comment and ReleaseManualExits' header still claim the
+     manual SL PERSISTS. D16 retired that in b52 and the comments were not updated. F-3 cannot
+     close until they are.
+MATRIX: C-13 already added at rev 2 (2026-10-14) ahead of this Gate 1. b53's own rows for D17/D18/
+  D19 are owed at Gate 2.
+BLOCKED-ROW NOTE, THE REASON b53 JUMPS THE QUEUE: C-3, C-4, D-1, D-3 and D-4 are ALL manual-SL rows
+  and ALL unreachable while E9-R2-C stands - the edit never reaches the classifier, so there is
+  nothing to adopt or refuse. FIVE b52 MATRIX ROWS ARE GATED BEHIND THIS FIX. They carry forward to
+  b53's Gate 4 and get verified in one pass instead of two.
