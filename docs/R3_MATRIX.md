@@ -1,6 +1,7 @@
 # E9-R2-C SCENARIO MATRIX — the manual-SL classifier baseline (b53)
 
-STATUS: **GATE 2 DRAFT — 2026-10-14. NOT SEALED.** Awaiting Jeff's word.
+STATUS: **SEALED rev 1 — sealed by Jeff 2026-10-14.** Live findings later become NEW rows
+(rev 2+), never silent fixes (CLAUDE.md §2).
 Gate 1 decisions this verifies: **D17** (baseline = the DD boundary when `InpStopLossPts = 0`
 and the cap is armed), **D18** (the widen warning tells the truth in both worlds), **D19**
 (one boundary call per detector pass).
@@ -91,7 +92,7 @@ They carry into b53's Gate 4 and are verified in the same pass.
 |---|---|---|---|
 | F-1 | `TFShort()` removed | 5 lines, **zero callers — verified**: one occurrence in the whole file, its own definition at `:4658` | grep count 0 + compile |
 | F-2 | EA header carries E9-R1 **and** E9-R2 | Deferred at b51 and again at b52. Third time it ships | header diff |
-| F-3 | **b52's F-3 closes** | The `SequenceState.manualSL` field comment and `ReleaseManualExits`' header still claim the SL **persists**. D16 retired that in b52 and the comments were never updated | comment diff |
+| F-3 | **WITHDRAWN at Gate 3 — ALREADY SATISFIED IN b52** | Verified in source, not from notes: the `SequenceState.manualSL` comment at `:249` states the b24 "PERSISTS" rule is **RETIRED**, and `ReleaseManualExits`’ header at `:1315` records the supersession. Every other `persist` hit is historical narration, not a live claim. **b52 closed this; the row was drafted against a stale note.** No b53 work | grep `persist` + read `:249` and `:1315` |
 
 ---
 
@@ -99,6 +100,9 @@ They carry into b53's Gate 4 and are verified in the same pass.
 
 **24 rows across 5 new groups** (A 6, B 3, C 6, D 6, F 3 = 24). Group E is 6 **carried** b52 rows,
 not new, so it is excluded from the 24.
+**AMENDED AT GATE 3 (2026-10-14): F-3 WITHDRAWN** — verifying it against source showed b52 had
+already done it. **23 rows are actionable in b53**; F-3 stays listed, struck, so the record shows
+it was checked rather than dropped. Counts re-reconciled ID by ID after the withdrawal.
 **11** are MUST-NOT / absence-type: A-3, A-5, C-1, C-2, C-4, D-1, D-2, D-3, D-4, D-5, D-6
 (C-1 is an unreachability claim, verified by absence of the WARN).
 
