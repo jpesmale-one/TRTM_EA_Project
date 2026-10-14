@@ -6740,3 +6740,53 @@ WHAT IS CONFIRMED WORKING IN THE SAME RUN (do not lose this in the defect):
   tick-value drift, so the row still needs a multi-hour run with no manual intervention.
 JEFF'S CALL 2026-10-14: "let's line up the fix on the next iteration" -> b53. b52 stays as built
   (bf3aef020416afdb / 5998 lines); its Gate 4 verification continues meanwhile.
+
+## *** b52 VERIFICATION RUN 2 (demo GBPJPY.s M1, 2026-10-14 14:13-15:15). C-8 PASSES. ***
+## tests/2026.10.14 004249.152.txt lines 20-48. Cap $52.38 (2.00% of 2618.94).
+CONFIG: InpRecoveryTF M1 nominal but the log shows PERIOD_M15 on the signal line - the recovery
+  TF input was NOT actually changed to M1 on this run. Levels still arrived (62 minutes to L2),
+  so the test worked, but note it: the "Recovery signal: PERIOD_M15" line is the authority on
+  which TF gated the entry, not the chart period in the log prefix.
+
+*** C-8 PASS - THE ORDERING TRAP, AND THE SINGLE MOST IMPORTANT ROW IN b52. ***
+  15:15:00.731  Recovery L2 OPENED: 0.02 lots BUY @ 209.859
+  15:15:00.731  Manual TP 210.651 RELEASED - level add (L2)
+  15:15:00.731  DD boundary re-derived after L2 opened: 207.158
+  15:15:00.979  Exits applied: TP 210.312 SL 207.158
+  ABSENCE CHECK: ZERO "ADOPTED" lines anywhere after that RELEASE.
+  ON b51 THIS EXACT SEQUENCE PRODUCED "Manual TP 210.132 ADOPTED" ON THE SAME TICK - the release
+  fired and DetectManualExitEdits immediately re-adopted the stale broker value. The sealed
+  g_manualDetectSkipOnce flag, reused rather than reinvented, HELD.
+  FOLLOW-THROUGH IS CORRECT TOO: the computed AvgTP 210.312 took over = VWAP + 400 pts exactly.
+  The manual target is gone and the engine owns the exit - the D16 lifecycle Jeff described.
+
+EVERY FIGURE RECOMPUTED, ALL EXACT:
+  VWAP = (0.01 x 210.018 + 0.02 x 209.859)/0.03 = 209.9120
+  AvgTP = VWAP + 400 pts = 210.312                     LOG 210.312  MATCH
+  L2 trigger = 210.018 - 150 pts = 209.868             LOG 209.868  MATCH
+  L1 threshold: travel (210.018-201.736+0.010)/0.001 = 8292.0 pts x 0.5% = 41.5   LOG 41.5  MATCH
+  L2 threshold: travel (209.9120-207.158+0.010)/0.001 = 2764.0 pts x 0.5% = 13.8  LOG 13.8  MATCH
+  *** THRESHOLD TIGHTENED 41.5 -> 13.8 pts as lots went 0.01 -> 0.03. *** D15 self-scaling with
+  depth, OBSERVED rather than argued - and it tightens in the same direction D11 moves the
+  boundary itself, which is what the Gate 1 note predicted.
+  STRONG INTERNAL CHECK, UNPLANNED: implied mpp = 0.631693 at L1 and 0.631693 at L2 - IDENTICAL TO
+  SIX DECIMALS, derived from two completely different boundary prices at two different lot totals.
+  The money basis is consistent across depths, which no single-depth check could have shown.
+
+ROWS CLOSED ON THIS RUN: C-8 (ordering, by absence), C-1 (release on level add), D-1 (boundary
+  re-derives on the level-add hook), A-1 and A-3 (threshold arithmetic and its tightening with
+  depth), and the B-3 principle (TP and SL handled independently - the TP released while the
+  boundary SL was re-derived separately on the same tick).
+
+*** TWO THINGS DELIBERATELY NOT CLAIMED: ***
+ (1) A-2 IS STILL OPEN AND THIS RUN DOES NOT CLOSE IT. The HOLDING lines show the boundary moving
+     201.736 -> 201.738 -> 201.739 across TWO HOURS - about 3 points of drift against a 41.5-point
+     threshold. THE DEADBAND WAS NEVER STRESSED. It held correctly, but what that proves is that
+     there was no flood to suppress on this window, NOT that it suppresses one. Claiming A-2 here
+     would be exactly the false pass that D-2/D-3 gave on gold for seven builds.
+     THE ONLY THING THAT SETTLES IT: run the SAME window on b51 (e87047e9c93eced7) and compare
+     "Exits applied" counts. b51 floods + b52 quiet = proven. BOTH quiet = the tester/demo feed has
+     a near-constant tick value on this window and A-2 can only close on a live flooding chart.
+ (2) E9-R2-C IS VISIBLE AGAIN AND UNCHANGED. Three "Manual TP ADOPTED" events on this run (the TP
+     path classifies fine); ZERO manual-SL events of any kind. Third appearance of the same
+     asymmetry, same cause: baseSL == 0 because InpStopLossPts = 0. Fix queued for b53.
