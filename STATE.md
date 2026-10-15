@@ -7036,3 +7036,66 @@ RECOMMENDATION (needs its own GATE 1 - D6 is SEALED, and overturning it is a sup
        widened cap - is untouched.
   NOT DOING IT WITHOUT JEFF'S WORD: b53 is unsealed, and D6 is a locked decision.
 STATUS: b53 rows A-1, A-3, B-2, C-6 and carried b52 C-4 CLOSED. D6 finding raised, awaiting Gate 1.
+
+## ============================================================================
+## *** LOCKED DECISION E9-R3-D20 (Jeff, 2026-10-15): D6 IS SUPERSEDED. ***
+## *** THE DD BOUNDARY AND A MANUAL SL NOW RESOLVE TIGHTER-OF-THE-TWO, ***
+## *** AND A STRUCTURAL CHANGE HANDS THE STOP BACK TO THE CAP OUTRIGHT. ***
+## ============================================================================
+JEFF'S WORDS, VERBATIM: "The user may adjust the SL tigher so I'd go with Tighter-of-the-two.
+  But when the structure was changed then the EA should now refer the new SL to the AutoDD Close
+  logic and disregard the Manual SL"
+
+WHAT IS SUPERSEDED: E9-R1-D6 (2026-10-05, STATE.md:4778) - "when DDClose is enabled the DD
+  boundary OWNS the SL outright and OVERWRITES a manual SL." Chosen then against my
+  tighter-of-the-two recommendation. NOW REVERSED ON EVIDENCE, which is exactly the route the
+  original ruling specified: "Jeff can revisit it on evidence rather than discovering it live."
+THE EVIDENCE: tests/2026.10.15 220429.251.txt. D6 replaced a $4.90 risk with a $52.09 risk under
+  a $52.13 cap neither stop threatened. The predicted cost (STATE.md:4789) occurred verbatim.
+
+*** D20 IS TWO HALVES AND THE SECOND HALF IS WHAT MAKES THE FIRST ONE SAFE. ***
+ HALF 1 - WHILE THE STRUCTURE HOLDS: tighter-of-the-two. A manual SL INSIDE the boundary is
+   HONOURED and the boundary does NOT overwrite it. The cap stays absolute in the only direction
+   that can cost money: a manual stop LOOSER than the boundary is still REFUSED (D16-C, sealed
+   b52, unchanged). The trader may tighten inside the cap; nothing may loosen past it.
+ HALF 2 - ON A STRUCTURAL CHANGE: the manual SL is DISREGARDED and the cap logic owns the stop
+   again, re-derived for the new structure.
+ *** HALF 2 IS ALREADY BUILT AND NEEDS NO CODE. VERIFIED IN SOURCE, NOT ASSUMED. ***
+   That is precisely D16 (b52): ReleaseManualExits sets g_state.manualSL = 0.0, and it is wired to
+   ALL FIVE structural chokepoints - level add (:3228), level close (:1152), Tier 3 slice (:1856),
+   trail-arm (:1652), death-window restart (:3358). After the release manualSL is 0, so the
+   boundary is the sole owner by construction. JEFF'S SECOND SENTENCE DESCRIBES SEALED BEHAVIOUR.
+   => D20 IS ONE CHANGE, NOT TWO. Only the Half-1 overwrite site moves.
+
+WHY THE 2026-10-05 REJECTION NO LONGER APPLIES - this is the crux, and it is not a change of mind:
+  D6 rejected tighter-of-the-two because "it makes SL ownership conditional and therefore harder
+  to reason about on a live chart." TRUE AT THE TIME. But D16-C (b52) ALREADY made manual SL
+  ownership conditional on being tighter than the boundary, and that comparison is sealed,
+  written and working - the log line Jeff just read is produced by it. The conditionality the
+  rejection was avoiding IS ALREADY IN THE CODEBASE. D6 simply does not consult it.
+  D6's remaining conflict is therefore NOT with b24 (D16 retired b24's persistence in b52) but
+  with D16-C - a NEWER decision of Jeff's. Two of his own rulings pointed opposite ways:
+  D6 "the boundary always wins" vs D16-C / "Manual wins if its tighter" (Jeff, 2026-10-13).
+  D20 resolves that contradiction in favour of the newer one.
+
+WHAT D20 DOES **NOT** CHANGE - the E9-R1 failure class stays closed:
+  - D16-C still REFUSES a manual SL looser than the boundary. The cap cannot be widened by hand.
+  - D2 unchanged: InpStopLossPts still CONCEDES to the boundary. D20 is about a HAND-PLACED stop
+    only, never the input stop.
+  - D5 unchanged: the EA's OWN re-derivation may still loosen the boundary after a profitable tier
+    close. That is not a manual edit and does not pass through this gate.
+  - D11 unchanged: the boundary PRICE and its formula are untouched. D20 changes which of two
+    prices WINS, never how either is computed.
+  - D15 unchanged: the deadband still gates the write.
+  - The single-writer invariant holds: EnforceExits remains the only TP/SL writer.
+
+THE SITE: EnforceExits, the D6 block that currently ends `sl = ddSL;` unconditionally (~:2145).
+  Under D20 that assignment becomes conditional on the boundary being TIGHTER than an OWNED
+  manual SL. The existing loud WARN for a loosening overwrite ("Your stop moves AWAY from price")
+  becomes unreachable for an owned manual SL - and per the D18 precedent set hours earlier in b53,
+  an unreachable branch gets REPLACED by a line stating what is true, not left to rot.
+OPEN FOR GATE 2/3: whether Half 1 compares against g_state.manualSL alone, or any stop tighter
+  than the boundary regardless of owner. RECOMMENDATION: manualSL ONLY - an unowned tighter stop
+  has no classified owner, and honouring it would resurrect the ambiguity D2/D6 removed.
+STATUS: Gate 1 LOCKED. Gate 2 (matrix) owed. Target build b54 - NOT b53, which stays as built
+  (1d764698e8a8150c / 6074) with its own Gate 4 unfinished.
