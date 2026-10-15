@@ -6921,3 +6921,55 @@ BLOCKED-ROW NOTE, THE REASON b53 JUMPS THE QUEUE: C-3, C-4, D-1, D-3 and D-4 are
   and ALL unreachable while E9-R2-C stands - the edit never reaches the classifier, so there is
   nothing to adopt or refuse. FIVE b52 MATRIX ROWS ARE GATED BEHIND THIS FIX. They carry forward to
   b53's Gate 4 and get verified in one pass instead of two.
+
+## *** b53 GATE ZERO PASSED 2026-10-15. THE TEST CONFIG IS RECORDED HERE BECAUSE IT WAS NOT. ***
+BUILD: b53, 1d764698e8a8150c, 6074 lines. Demo GBPJPY.s, magic 758860, HEDGING, stops level 25 pts.
+GATE ZERO EVIDENCE (Jeff's init block, 2026-10-15 21:58:45):
+  "=== TRTM b53 init ===" - THE BANNER READS b53, which is what proves the TRTM_BUILD bump landed
+  and the right binary is loaded. b53's first build left the tag at "b52" and Jeff's question
+  ("What version are we now?") is what surfaced it.
+  Cap AUDITED: 2606.38 x 2.00% = 52.1276 -> $52.13. LOG $52.13. EXACT.
+  Self-test PASS on schema 5 - D-2 holds, no state file discarded.
+  ABSENCE CHECKS on the init: ZERO ERROR, ZERO WARN, no CONFIG-BLOCKED, no "NOT ARMED", no schema
+  mismatch, no orphan line. The orphan/boundary pair is correct BY CONSTRUCTION here: exactly one
+  of AnnounceDDBoundary / AnnounceOrphanedDDStops can speak per init, and on a FLAT+ARMED init the
+  right answer is NEITHER.
+  BALANCE MOVED: 2618.94 (10-14) -> 2606.38 (10-15), -$12.56, so the cap TIGHTENED $52.38 -> $52.13.
+  Not a defect - the percent limit tracks balance by design - but boundary prices will differ from
+  the b52 runs and every b53 audit must use the LIVE figure.
+NOTHING OF D17/D18/D19 IS EXERCISED BY THIS INIT. The sequence is FLAT, so the detector never ran.
+
+*** THE TEST CONFIG - DERIVED FROM THE 10-14 LOG, NOT FROM MEMORY. ***
+WHY THIS BLOCK EXISTS: I gave Jeff this configuration in chat and NEVER WROTE IT DOWN, so it was
+lost at the context compaction and he had to ask for it again. A config that only exists in
+conversation is not recorded. Recomputed from logged PRICES, which outrank recollection - and the
+recomputation CORRECTED me: I had said InitialTP was 300 and the arithmetic says 600.
+  InpInitialTPPts        600    entry 210.018 -> TP 210.618 = 600 pts
+  InpAvgTPPts            400    VWAP 209.9120 -> AvgTP 210.312 = 400 pts
+  InpRecoveryIntervalPts 150    210.018 -> L2 trigger 209.868 = 150 pts
+  InpStopLossPts           0    *** THE WHOLE POINT - this is what exposes E9-R2-C ***
+  InpEnableDDClose      true    "Drawdown Auto Close ARMED" present
+  InpMaxDDPercent       2.00    "2.00% of balance" in the ARMED line
+  InpMaxDDUSD              0    "percent limit only"
+  InpEntryLotSize       0.01    L1 opened 0.01
+  InpRecoveryMultMode   Incremental, step 0.01    L2 = 0.02 from base 0.01
+  InpEnableRecovery     true
+  InpEnableBE / InpEnableTrailing   false    ZERO BE/trail lines in 66 log lines (absence check)
+  Tier 1 / 2 / 3        false    ZERO "Tier" lines (absence check)
+  InpRecoveryTF         *** NOT M1. The 10-14 signal line reads PERIOD_M15 and that is the
+                        authority, not the chart period in the log prefix (see line 6746). L2 still
+                        arrived in 62 minutes. b53's A-1/A-3 do NOT need a second level, so this can
+                        stay as-is; set PERIOD_M1 EXPLICITLY only if the structural-release rows are
+                        wanted in one session. The 10-15 chart is H1, so the chart period alone will
+                        not do it. ***
+
+*** THE TEST THAT DECIDES b53 (matrix A-1 and A-3): ***
+  1. Open L1 via the button.  2. Wait for the boundary SL (~207.x) - one "Exits applied" line.
+  3. DRAG THE SL TIGHTER than the boundary.
+  EXPECT: "Manual SL <px> ADOPTED - N pts TIGHTER than the drawdown boundary <b>, so it sits INSIDE
+  the $52.13 cap (E9-R2-C D17...)".
+  *** SILENCE IS THE FAILURE. *** The defect was never a wrong decision, it was NO decision: on
+  2026-10-14 the drag produced neither ADOPTED nor REFUSED. Neither line on this drag means b53 did
+  not fix it, no matter how the other 22 rows read.
+  SECOND DRAG, IF THERE IS PATIENCE: pull the SL LOOSER than the boundary -> expect REFUSED as a cap
+  breach. That closes A-2 AND the blocked b52 row C-3 in the same session.
