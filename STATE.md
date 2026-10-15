@@ -7099,3 +7099,24 @@ OPEN FOR GATE 2/3: whether Half 1 compares against g_state.manualSL alone, or an
   has no classified owner, and honouring it would resurrect the ambiguity D2/D6 removed.
 STATUS: Gate 1 LOCKED. Gate 2 (matrix) owed. Target build b54 - NOT b53, which stays as built
   (1d764698e8a8150c / 6074) with its own Gate 4 unfinished.
+
+## *** b53 GATE 4: SIX ROWS CLOSED BY INSPECTION + ABSENCE, 2026-10-15. NO CHART TIME NEEDED. ***
+Closed WITHOUT trading, because these are structural claims and a trade cannot make them truer:
+  F-1 PASS  TFShort occurrences in the file = 0 (was 1, its own definition). Deleted, zero callers.
+  F-2 PASS  the E9 header block is present: "E9-R2-C" appears in lines 1-45. Deferred at b51 and
+            b52, shipped at b53.
+  D-1 PASS  input count = 62, unchanged. D17/D18/D19 added no dialog field.
+  D-2 PASS  TRTM_STATE_SCHEMA = 5, unchanged, and the run-1 self-test read PASS. No state file was
+            discarded, so no manual-SL ownership was lost on the upgrade.
+  D-3 PASS  exactly ONE PositionModify call site in the whole file. EnforceExits remains the only
+            TP/SL writer; D19 removed a READ and added no write. Corroborated in the run-1 log:
+            3 "Exits applied" lines, all from that one site.
+  D-4 PASS  DDBoundaryPrice body re-scanned at its b53 line numbers (:4327+). The ONLY side effect
+            is the AlreadyLogged("ddmpp")-guarded WARN - idempotent by construction. D19's
+            consolidation depends on this purity, so it is re-verified per build, never assumed.
+ABSENCE CHECKS ON RUN 1 (all zero, which is what makes the above safe to claim):
+  "trailing" 0, "TRAIL" 0, "BE TRIGGERED" 0, "stale" 0, "fresh position" 0, "Conflicting" 0.
+  So run 1 exercised NEITHER the BE floor NOR the trail ratchet NOR the conflict path - which is
+  why C-3 (BE composition) and C-4 (trailingActive suppression) remain OPEN and are NOT claimed.
+RUNNING TOTAL: 11 of 23 actionable rows closed (A-1, A-3, B-2, C-6, D-1..D-4, F-1, F-2, + carried
+  b52 C-4). OPEN: A-2, A-4, A-5, A-6, B-1, B-3, C-1, C-2, C-3, C-5, D-5, D-6.
