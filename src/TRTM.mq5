@@ -39,6 +39,14 @@
 //|             fell to 0.0 and the detector short-circuited, so a   |
 //|             trader SL was NEITHER adopted NOR refused: it was    |
 //|             silently overwritten. Found live by Jeff 2026-10-14. |
+//|   [X] E9-R3  D20: the cap is a CEILING, not a floor (b54).       |
+//|             SUPERSEDES D6. The DD boundary takes the SL only    |
+//|             when it is TIGHTER than the stop already in charge, |
+//|             whoever owns it. D6 overwrote a BE floor worth      |
+//|             +$0.19 with a boundary worth -$52.10 under a $52.13 |
+//|             cap - a $52.29 swing on a cap nothing threatened.   |
+//|             Found live by Jeff 2026-10-15; predicted at D6 Gate |
+//|             1 and revisited on evidence, exactly as planned.    |
 //|   [X] Stage 9: Tester interactive mode (button polling)          |
 //|   [X] Stage 10: Observability (guard announcements)              |
 //|                                                                  |
@@ -75,7 +83,7 @@
 
 #include <Trade\Trade.mqh>
 
-#define TRTM_BUILD  "b53"     // internal build tag, bump per delivery
+#define TRTM_BUILD  "b54"     // internal build tag, bump per delivery
 
 //+------------------------------------------------------------------+
 //| ENUMS                                                            |
@@ -2082,6 +2090,24 @@ void DetectManualExitEdits(const double compTP, const double compSL)
       StateSave(g_state);   // 14th save site: adoption is transition-current (D7)
   }
 
+// b54 (E9-R3 D20): *** NAME THE STOP THAT IS ACTUALLY IN CHARGE. ***
+// D6 labelled the owner two ways only - `g_state.manualSL > 0.0 ? "manual" : "computed"` - and
+// THAT IS WHY THE 2026-10-15 22:34 BE CASE LOGGED AS "computed": the BE floor had no label of
+// its own, so the most expensive instance of the D6 defect ($52.29 swing, a locked-in +$0.19
+// profit replaced by a -$52.10 loss) read as a manual-SL problem for a run longer than it had
+// to. A log that cannot name the owner cannot be audited.
+// ORDER IS LOAD-BEARING and mirrors the real precedence in ApplyProtectiveEngines: the trail
+// ratchet zeroes the TP and owns the SL outright; an owned manual stop substitutes BEFORE the
+// engines run; the BE floor is merged on top via ProtectiveSL. Re-ordering these lines would
+// mislabel a stop without changing any behaviour, which is the worst kind of wrong.
+string SLOwnerName()
+  {
+   if(g_state.trailingActive) return "trail ratchet";
+   if(g_state.manualSL > 0.0) return "manual";
+   if(g_state.beApplied)      return "BE floor";
+   return "computed";
+  }
+
 void EnforceExits()
   {
    if(g_state.levelCount == 0)
@@ -2177,30 +2203,80 @@ void EnforceExits()
                  }
               }
            }
-         // C-5: D6 makes this boundary the single SL owner, so it can OVERWRITE a
-         // TIGHTER stop with a LOOSER price. Jeff locked that; loosening is the one
-         // direction that costs money, so it is never silent.
+         // *** b54 (E9-R3 D20, Jeff 2026-10-15): THE BOUNDARY TAKES THE SL ONLY WHEN TIGHTER.
+         // *** THIS SUPERSEDES E9-R1-D6. READ THE SUPERSESSION BEFORE EDITING. ***
+         // D6 (2026-10-05) locked: "when DDClose is enabled the DD boundary OWNS the SL outright
+         // and OVERWRITES a manual SL", chosen against my tighter-of-the-two recommendation on
+         // the grounds that conditional SL ownership is harder to reason about on a live chart.
+         // JEFF 2026-10-15: "The user may adjust the SL tigher so I'd go with Tighter-of-the-two.
+         // But when the structure was changed then the EA should now refer the new SL to the
+         // AutoDD Close logic and disregard the Manual SL"
+         // WHAT THE COMPARISON BELOW USED TO BE: it computed `looser`, LOGGED either way, and then
+         // assigned `sl = ddSL` UNCONDITIONALLY. It narrated the overwrite without ever deciding
+         // it. D20 makes the same comparison DECIDE. That is the whole fix.
+         // *** WHAT D6 COST, MEASURED ON ONE SEQUENCE (tests/2026.10.15 220429.251.txt): ***
+         //   22:09  overwrote a freshly ADOPTED manual SL 204.388   $30.89 -> $52.09 risk
+         //   22:10  overwrote the tighter manual SL 208.489        $ 4.90 -> $52.09 risk
+         //   22:31  RE-overwrote that SAME owned stop on a later pass - so a tighter manual stop
+         //          was never safe for more than one tick while the cap was armed
+         //   22:34  overwrote the BE FLOOR 209.292:  +$0.19 PROFIT -> -$52.10 LOSS, a $52.29
+         //          swing, nullifying break-even on the same millisecond it was achieved - and
+         //          breaking SEALED M6-2 ("the floor never lowers") by 8251 points.
+         // The cap was $52.13 throughout and EVERY replaced stop was already INSIDE it.
+         // A LOSS CAP IS A CEILING ON RISK, NOT A FLOOR.
+         // *** WHY THIS CANNOT UNDER-ENFORCE THE CAP - the proof, not an assurance: ***
+         // D20 only ever declines to LOOSEN; tightening is ALWAYS permitted. So a kept tighter
+         // stop makes the cap UNREACHABLE, not under-enforced. The one direction that could
+         // breach it - a held stop LOOSER than the boundary - is exactly the direction where the
+         // boundary still wins below (A-3), which also keeps D2 intact with no special case:
+         // an InpStopLossPts stop farther than the boundary is still replaced by it.
+         // AND THE OTHER HALF OF JEFF'S RULING NEEDS NO CODE HERE: "disregard the Manual SL" on a
+         // structural change IS D16 (b52) - ReleaseManualExits zeroes manualSL at all five
+         // structural chokepoints, so the boundary is sole owner afterwards BY CONSTRUCTION.
          if(sl > 0.0 && MathAbs(sl - ddSL) > tolSLOwn)
            {
             bool looser = (dirSLOwn > 0) ? (ddSL < sl) : (ddSL > sl);
             if(looser)
               {
-               if(!AlreadyLogged("ddloosen:" + DoubleToString(ddSL, _Digits) + ":" + DoubleToString(sl, _Digits)))
-                  Log(LOG_WARN, StringFormat("DD boundary %s is LOOSER than the %s SL %s and REPLACES it (E9-R1 D6: the drawdown cap owns the SL while enabled). Your stop moves AWAY from price. Cap $%.2f, %d level(s) afforded.",
-                                             DoubleToString(ddSL, _Digits),
-                                             (g_state.manualSL > 0.0 ? "manual" : "computed"),
-                                             DoubleToString(sl, _Digits), EffectiveDDCap(), ddLevels));
+               // A-1/A-2/A-5: the stop in charge is TIGHTER - KEEP IT, whoever owns it.
+               // D6's WARN here said "Your stop moves AWAY from price". It is DELETED rather than
+               // reworded, because under D20 that no longer HAPPENS, and a WARN describing an
+               // action the code does not take is a false claim in the log (the D18 precedent,
+               // b53: an unreachable branch is replaced by a line stating what is true).
+               // The figure stated is the MONEY AT THE KEPT STOP against the cap, because
+               // "tighter" is a price claim and what a trader needs is the risk claim. On the
+               // 22:34 case this reads +0.19 against the $52.13 cap - which makes the old
+               // behaviour self-evidently wrong without any argument.
+               if(!AlreadyLogged("ddkeep:" + DoubleToString(sl, _Digits) + ":" + DoubleToString(ddSL, _Digits)))
+                 {
+                  double keepLots = 0.0;
+                  for(int k = 0; k < g_state.levelCount; k++)
+                     if(PositionSelectByTicket(g_state.tickets[k]))
+                        keepLots += PositionGetDouble(POSITION_VOLUME);
+                  double keepPL = (g_curAvgEntry > 0.0)
+                                  ? dirSLOwn * (sl - g_curAvgEntry) / _Point * MoneyPerPointPerLot() * keepLots
+                                  : 0.0;
+                  Log(LOG_INFO, StringFormat("%s SL %s is TIGHTER than the drawdown boundary %s - KEPT (E9-R3 D20: the cap is a CEILING on risk, not a floor). At this stop the sequence takes %+.2f %s against the $%.2f cap, so the cap is UNREACHABLE rather than under-enforced. The boundary re-asserts the moment it becomes the tighter of the two.",
+                                             SLOwnerName(), DoubleToString(sl, _Digits),
+                                             DoubleToString(ddSL, _Digits), keepPL,
+                                             AccountInfoString(ACCOUNT_CURRENCY), EffectiveDDCap()));
+                 }
+               // A-6: ddSL is deliberately NOT assigned. `sl` stands as the want-value.
               }
             else
               {
+               // A-3/A-4 UNCHANGED FROM D6: the boundary is genuinely TIGHTER and still wins.
+               // This is the cap doing its job - and it is what makes the stop tighten as the
+               // grid deepens (D11), so a regression here would be as bad as the D6 defect.
                if(!AlreadyLogged("ddtighten:" + DoubleToString(ddSL, _Digits)))
-                  Log(LOG_INFO, StringFormat("DD boundary %s replaces the %s SL %s (tighter; E9-R1 D6). Cap $%.2f, %d level(s) afforded.",
-                                             DoubleToString(ddSL, _Digits),
-                                             (g_state.manualSL > 0.0 ? "manual" : "computed"),
+                  Log(LOG_INFO, StringFormat("DD boundary %s replaces the %s SL %s (tighter; E9-R1 D6/D11 - the cap still owns the SL in this direction). Cap $%.2f, %d level(s) afforded.",
+                                             DoubleToString(ddSL, _Digits), SLOwnerName(),
                                              DoubleToString(sl, _Digits), EffectiveDDCap(), ddLevels));
+               sl = ddSL;   // D2: InpStopLossPts concedes. D11: the boundary tightens with depth.
               }
            }
-         sl = ddSL;   // D2: InpStopLossPts concedes. D6: a manual SL concedes too.
+         else
+            sl = ddSL;   // A-7: equal within tolerance, or no stop yet - assign exactly, no log
         }
      }
 
