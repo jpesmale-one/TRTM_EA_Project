@@ -12,6 +12,33 @@
 //|   [X] Stage 7: SafetyLayer + instance lock + log retention       |
 //|   [X] Stage 8: Manual exit ownership (b24-b28; reconcile         |
 //|                classification extended by b41, E9-M1)            |
+//|                                                                  |
+//|  POST-CORE HARDENING (E9 series, each gated and sealed):         |
+//|   [X] E9-R1  Drawdown Auto Close (b45-b51, SEALED 2026-10-06).   |
+//|             A broker-held BOUNDARY SL enforces a declared loss   |
+//|             cap, so it fires even with MT5 closed. D11: the      |
+//|             boundary is priced on the LIVE legs, not the         |
+//|             projected grid - which is why it survives a partial  |
+//|             sequence. 34 matrix rows closed on live evidence.    |
+//|   [X] E9-R2  Boundary stability + manual-exit lifecycle (b52).   |
+//|             D15: a DEADBAND sized as a PERCENTAGE of the         |
+//|             remaining budget, because a constant in POINTS is    |
+//|             not a constant in MONEY. Stops the boundary churning |
+//|             when a broker re-prices tick value on a cross-quoted |
+//|             pair (measured: 0.036% of tick value moved it a full |
+//|             point on GBPJPY).                                    |
+//|             D16: manual TP and SL are now SYMMETRIC - adopted,   |
+//|             honoured, RELEASED on structural change, re-adopted. |
+//|             This REVERSES the sealed b24 rule that a manual SL   |
+//|             persists; a stop sized against a 1-leg sequence is   |
+//|             as stale as a target sized against it.               |
+//|   [X] E9-R2-C  The manual-SL classifier baseline (b53).          |
+//|             D17: with Stop Loss (points) at 0 and the cap armed, |
+//|             the manual-edit baseline is the BOUNDARY ITSELF -    |
+//|             the stop actually in charge. Before this, baseSL     |
+//|             fell to 0.0 and the detector short-circuited, so a   |
+//|             trader SL was NEITHER adopted NOR refused: it was    |
+//|             silently overwritten. Found live by Jeff 2026-10-14. |
 //|   [X] Stage 9: Tester interactive mode (button polling)          |
 //|   [X] Stage 10: Observability (guard announcements)              |
 //|                                                                  |
@@ -1877,11 +1904,55 @@ void DetectManualExitEdits(const double compTP, const double compSL)
    double tol      = (tickSize > 0.0 ? tickSize : _Point) / 2.0;
    int    dir      = g_state.direction;
 
+   // b53 (E9-R2-C D19): *** ONE BOUNDARY READ PER PASS, SHARED BY TWO CONSUMERS. ***
+   // Read here, used by the D17 baseline immediately below AND by the D16-C refusal gate ~80
+   // lines down. b52 read it twice in this one function; both reads are pure, so two was CORRECT
+   // but wasteful, and two copies of one price can drift apart under a later edit.
+   // HOISTING IS SAFE FOR A NARROWER REASON THAN IT LOOKS, SO THE REASON IS RECORDED: the window
+   // between here and the D16-C gate is NOT free of mutation - the manual-TP adopt branch writes
+   // g_state.manualTP. It is safe because DDBoundaryPrice reads ONLY g_state.direction,
+   // g_state.levelCount and g_state.tickets (whole body scanned), none of which that write
+   // touches. A LATER BUILD THAT MAKES THE BOUNDARY READ MORE STATE MUST RE-CHECK THIS.
+   // The InpEnableDDClose guard lives HERE, which is what makes A-5 structural: cap off -> 0.0 ->
+   // no baseline, nothing classified, and the C-11/D16-E orphan case is untouched.
+   int    ddLvC  = 0;
+   bool   ddNowC = false;
+   double ddTrC  = 0.0;
+   double ddBC   = InpEnableDDClose ? DDBoundaryPrice(ddLvC, ddNowC, ddTrC) : 0.0;
+
    // Baseline = what the EA itself last wanted: owned manual, else computed.
    double baseTP = (g_state.manualTP > 0.0) ? g_state.manualTP : compTP;
    double baseSL = (g_state.manualSL > 0.0) ? g_state.manualSL : compSL;
+   // *** b53 (E9-R2-C D17): THE THIRD FALLBACK - THE WHOLE DEFECT IS THE ABSENCE OF THIS. ***
+   // JEFF, 2026-10-14: "The Manual SL change is not being honored even though in the tighter path."
+   // With InpStopLossPts = 0 ComputeTargets returns sl = 0.0 (its only assignment sits behind
+   // if(InpStopLossPts > 0)), and with nothing owned manualSL is 0.0 too - so baseSL was 0.0 and
+   // the SL gate below SHORT-CIRCUITED ON `baseSL > 0.0` BEFORE EVER EXAMINING THE EDIT. candSL
+   // was never assigned: no adopt, no refuse, NO CLASSIFICATION AT ALL, and the enforce pass then
+   // wrote the boundary over the trader's stop on the next tick.
+   // THE PROOF IT WAS THE BASELINE AND NOT THE GATE: on the SAME pass, the SAME trader action on
+   // the TP WAS adopted - because baseTP falls back to compTP, which is non-zero whenever
+   // InpInitialTPPts > 0. Same function, same tick, opposite outcome; the only difference is that
+   // one input is 300 and the other is 0.
+   // PRE-EXISTING b24 CODE. Invisible until E9-R1 made the cap put a stop on the position WHILE
+   // InpStopLossPts stays 0 - the feature that made the stop exist is what exposed the hole.
+   // D17: the baseline must be THE STOP ACTUALLY IN CHARGE. While the cap is armed that is the
+   // boundary. Same principle already sealed at b26 (manual TP display) and b48/D9 (projection).
+   bool   baseSLisBoundary = false;
+   if(baseSL <= 0.0 && ddBC > 0.0)
+     {
+      baseSL            = ddBC;
+      baseSLisBoundary  = true;   // D18 reads this to say what is TRUE rather than what cannot be
+     }
    if(g_state.beApplied)
-      baseSL = ProtectiveSL(baseSL, BEStopPrice(), dir);   // post-BE the floor is the baseline
+     {
+      double floored = ProtectiveSL(baseSL, BEStopPrice(), dir);   // post-BE the floor is the baseline
+      // C-3: ProtectiveSL returns the TIGHTER of the two, so the floor wins where it is tighter.
+      // If it did win, baseSL is NO LONGER the boundary and D18 must not call it one.
+      if(MathAbs(floored - baseSL) > 0.0)
+         baseSLisBoundary = false;
+      baseSL = floored;
+     }
 
    double candTP = 0.0, candSL = 0.0, totalLots = 0.0;
    bool   tpConflict = false, slConflict = false;
@@ -1954,21 +2025,17 @@ void DetectManualExitEdits(const double compTP, const double compSL)
       // $198.38 against a $200 cap - STILL INSIDE. A manual widening has no such offsetting
       // realised gain; it simply spends budget that was never released.
       bool ddRefuse = false;
-      if(InpEnableDDClose)
+      // b53 (D19): uses ddBC HOISTED at the top of this function - one read, one value, two
+      // consumers. The InpEnableDDClose guard moved into that hoist, so ddBC is 0.0 when the
+      // cap is off and this gate is skipped exactly as it was before.
+      if(ddBC > 0.0)
         {
-         int    ddLvC  = 0;
-         bool   ddNowC = false;
-         double ddTrC  = 0.0;
-         double ddBC   = DDBoundaryPrice(ddLvC, ddNowC, ddTrC);   // pure read, no writes
-         if(ddBC > 0.0)
+         bool looserThanCap = (dir > 0) ? (candSL < ddBC) : (candSL > ddBC);
+         if(looserThanCap)
            {
-            bool looserThanCap = (dir > 0) ? (candSL < ddBC) : (candSL > ddBC);
-            if(looserThanCap)
-              {
-               ddRefuse = true;
-               Log(LOG_WARN, StringFormat("Manual SL %s REFUSED - it is LOOSER than the drawdown boundary %s, so honouring it would breach the $%.2f cap (E9-R2 D16-C: the cap is sacred; a manual stop may only TIGHTEN inside it). Reverting. Tighten the stop, or raise the cap if more room is genuinely wanted.",
-                                          DoubleToString(candSL, _Digits), DoubleToString(ddBC, _Digits), EffectiveDDCap()));
-              }
+            ddRefuse = true;
+            Log(LOG_WARN, StringFormat("Manual SL %s REFUSED - it is LOOSER than the drawdown boundary %s, so honouring it would breach the $%.2f cap (E9-R2 D16-C: the cap is sacred; a manual stop may only TIGHTEN inside it). Reverting. Tighten the stop, or raise the cap if more room is genuinely wanted.",
+                                       DoubleToString(candSL, _Digits), DoubleToString(ddBC, _Digits), EffectiveDDCap()));
            }
         }
       if(ddRefuse)
@@ -1980,7 +2047,23 @@ void DetectManualExitEdits(const double compTP, const double compSL)
                                     DoubleToString(candSL, _Digits), DoubleToString(BEStopPrice(), _Digits)));
       else
         {
-         if(dir * (baseSL - candSL) > tol)
+         // *** b53 (E9-R2-C D18): SAY WHAT IS TRUE, NOT WHAT CANNOT HAPPEN. ***
+         // Found by VERIFYING D17 rather than assuming it, and it is why Gate 1 was worth running:
+         // when baseSL IS the cap boundary, the D16-C gate above has ALREADY REFUSED every
+         // candidate looser than it. So candSL is guaranteed TIGHTER than baseSL and the widen
+         // test below CAN NEVER BE TRUE in that configuration. The widen WARN was written for the
+         // PRE-CAP world, where baseSL was a computed SL a trader could legitimately loosen; with
+         // the cap armed, loosening is refused outright and there is nothing to warn about.
+         // It stays REACHABLE and UNCHANGED for the InpStopLossPts > 0 and cap-off paths (C-2).
+         // The figure stated here is the one that was missing: HOW FAR INSIDE THE CAP the trader
+         // has moved. Note baseSLisBoundary is cleared above if the BE floor overrode the
+         // boundary, so this message never mislabels the floor as the boundary (C-3).
+         if(baseSLisBoundary)
+            Log(LOG_INFO, StringFormat("Manual SL %s ADOPTED - %d pts TIGHTER than the drawdown boundary %s, so it sits INSIDE the $%.2f cap (E9-R2-C D17: with Stop Loss (points) at 0 the boundary is the baseline). RELEASES at the next structural change (D16).",
+                                       DoubleToString(candSL, _Digits),
+                                       (int)MathRound(MathAbs(candSL - baseSL) / _Point),
+                                       DoubleToString(baseSL, _Digits), EffectiveDDCap()));
+         else if(dir * (baseSL - candSL) > tol)
            {
             double extraLoss = (tickSize > 0.0 ? MathAbs(baseSL - candSL) / tickSize * tickVal * totalLots : 0.0);
             Log(LOG_WARN, StringFormat("Manual SL %s ADOPTED (was %s) - RISK: max loss widened ~%.2f %s (+%d pts on %.2f lots); more recovery levels can open before the stop (trader is responsible). RELEASES at the next structural change (E9-R2 D16).",
@@ -4653,13 +4736,6 @@ void PanelButtonSet(const string name, const int x, const int y, const int w, co
    ObjectSetInteger(0, name, OBJPROP_BGCOLOR, bg);
    ObjectSetInteger(0, name, OBJPROP_STATE, false);
    ObjectSetInteger(0, name, OBJPROP_TIMEFRAMES, visible ? OBJ_ALL_PERIODS : OBJ_NO_PERIODS);
-  }
-
-string TFShort(const ENUM_TIMEFRAMES tf)
-  {
-   string s = EnumToString(tf);
-   StringReplace(s, "PERIOD_", "");
-   return s;
   }
 
 // Value strings follow the approved dashboard format (2026-07-13 mockup):
