@@ -75,7 +75,7 @@
 
 #include <Trade\Trade.mqh>
 
-#define TRTM_BUILD  "b52"     // internal build tag, bump per delivery
+#define TRTM_BUILD  "b53"     // internal build tag, bump per delivery
 
 //+------------------------------------------------------------------+
 //| ENUMS                                                            |
