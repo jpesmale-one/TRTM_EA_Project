@@ -7120,3 +7120,35 @@ ABSENCE CHECKS ON RUN 1 (all zero, which is what makes the above safe to claim):
   why C-3 (BE composition) and C-4 (trailingActive suppression) remain OPEN and are NOT claimed.
 RUNNING TOTAL: 11 of 23 actionable rows closed (A-1, A-3, B-2, C-6, D-1..D-4, F-1, F-2, + carried
   b52 C-4). OPEN: A-2, A-4, A-5, A-6, B-1, B-3, C-1, C-2, C-3, C-5, D-5, D-6.
+
+## *** b53 RUN 1 CONTINUED 2026-10-15 22:31: A-2 PASSES. THE CAP CANNOT BE WIDENED BY HAND. ***
+## tests/2026.10.15 220429.251.txt now 26 lines.
+JEFF dragged the SL BELOW the boundary, which is the refusal side.
+  22:31:15.805 [WARN] Manual SL 200.379 REFUSED - it is LOOSER than the drawdown boundary 201.040,
+                so honouring it would breach the $52.13 cap (E9-R2 D16-C...). Reverting.
+*** AUDITED TO THE CENT - THE REFUSAL IS ARITHMETICALLY RIGHT, NOT MERELY POLICY-RIGHT: ***
+  loss at 200.379 = (209.262-200.379)/0.001 = 8883 pts x 0.01 lots x $0.633799 = $56.30
+  cap $52.13  =>  the refused stop would have BREACHED THE CAP BY $4.17. D16-C earned its keep.
+  Threshold recompute: travel (209.262-201.040+0.010)/0.001 = 8232.0 pts; x 0.5% = 41.2 pts.
+  LOG 41.2. EXACT.
+ROWS CLOSED: A-2 (looser -> REFUSED naming both prices and the cap), B-1 (the money at the
+  refused stop recomputed against EffectiveDDCap), C-5 (reverted cleanly - no conflict WARN, no
+  partial application), and CARRIED b52 C-3, blocked since 10-14.
+RUNNING TOTAL: 15 of 23 actionable rows. OPEN: A-4, A-5, A-6, B-3, C-1, C-2, C-3, D-5, D-6.
+*** WHY A-2 MATTERED MOST AND WAS RUN FIRST: once D20 removes D6's blanket overwrite, D16-C is
+  THE ONLY THING between a hand edit and a widened cap. Proving it on b53 BEFORE the belt comes
+  off is the right order, not a formality. ***
+
+*** NEW EVIDENCE FOR D20, SHARPER THAN RUN 1'S - READ THE SECOND LINE'S PRICE. ***
+  22:31:15.805 [WARN] DD boundary 201.040 is LOOSER than the manual SL 208.489 and REPLACES it
+  THE PRICE IS 208.489, **NOT** THE REFUSED 200.379. So the actual sequence was:
+    (1) the 200.379 edit was REFUSED and reverted                     - correct
+    (2) it reverted to the STILL-OWNED manual 208.489                 - correct, and notable:
+        ownership SURVIVES a refused edit, which is the right behaviour and was untested
+    (3) D6 then overwrote THAT OWNED STOP AGAIN: $4.90 risk -> $52.11 risk
+  *** D6 DOES NOT MERELY OVERWRITE A FRESH TIGHTER EDIT - IT RE-OVERWRITES AN ALREADY-OWNED ONE
+  ON EVERY SUBSEQUENT PASS. *** A trader's tighter stop is never safe for more than a millisecond
+  while the cap is armed. Run 1 showed the overwrite happening once per edit; this shows it is
+  PERSISTENT and unrelated to whether an edit just occurred.
+  NOT A NEW DEFECT - it is the same D6 ruling, now measured more precisely. It strengthens D20
+  without changing its shape: tighter-of-the-two fixes this case by the same one-line change.
