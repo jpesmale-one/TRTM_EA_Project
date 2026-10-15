@@ -7152,3 +7152,56 @@ RUNNING TOTAL: 15 of 23 actionable rows. OPEN: A-4, A-5, A-6, B-3, C-1, C-2, C-3
   PERSISTENT and unrelated to whether an edit just occurred.
   NOT A NEW DEFECT - it is the same D6 ruling, now measured more precisely. It strengthens D20
   without changing its shape: tighter-of-the-two fixes this case by the same one-line change.
+
+## ============================================================================
+## *** b53 RUN 1, 22:34-22:35: D6 DESTROYS A BREAK-EVEN STOP. ***
+## *** THIS IS WORSE THAN THE MANUAL-SL CASE AND IT WIDENS D20'S SCOPE. ***
+## tests/2026.10.15 220429.251.txt, 34 lines. Jeff flipped BE ON via the panel button.
+## ============================================================================
+  22:34:46.238 [WARN] BE override flipped for this sequence: effective ON
+  22:34:46.303 [INFO] Manual SL 208.489 superseded - BE floor owns the stop from here (M6-1)
+  22:34:46.311 [INFO] BE TRIGGERED @ 209.477: SL -> 209.292 (avg 209.262 + 30 pts offset)
+  22:34:46.311 [WARN] DD boundary 201.040 is LOOSER than the COMPUTED SL 209.292 and REPLACES it
+
+BE ARITHMETIC IS EXACT (so the defect is in the resolution, not the engine):
+  trigger 209.262 + 100 pts = 209.362; fired @ 209.477, past it.  CORRECT.
+  floor   209.262 +  30 pts = 209.292.  LOG 209.292.  EXACT.
+
+*** THE MONEY, WHICH IS THE WHOLE ARGUMENT: ***
+  BE floor 209.292 -> if hit: +$0.19   (+30 pts - A GUARANTEED PROFIT, locked in)
+  boundary 201.041 -> if hit: -$52.10  (-8221 pts)
+  *** D6 REPLACED A LOCKED-IN +$0.19 PROFIT WITH A -$52.10 LOSS. A $52.29 SWING. ***
+  BE's ENTIRE PURPOSE - "this trade can no longer lose" - WAS NULLIFIED ON THE SAME
+  MILLISECOND IT WAS ACHIEVED. And it enforces a cap that, with the BE stop in place, WAS NO
+  LONGER REACHABLE AT ALL.
+  THIS ALSO BREAKS SEALED M6-2 ("the floor never lowers"): D6 lowered it by 8251 points.
+
+*** CONSEQUENCE 1: D20's SCOPE AS LOCKED WAS TOO NARROW. I WROTE IT WRONG. ***
+  D20 (locked earlier tonight) is framed as manual-SL-vs-boundary. The log reads "LOOSER than the
+  COMPUTED SL" - this is the BE FLOOR, not a manual stop. D6 overwrites EVERY SL owner: manual
+  (run 1, 22:09/22:10), computed-with-BE (here), and by the same code path the TRAIL ratchet.
+  => D20 MUST BE RESTATED AT GATE 2 AS: the boundary takes the SL only when it is TIGHTER than
+     the stop ALREADY IN CHARGE, whoever owns it - manual, BE floor, or trail ratchet.
+     NOT a new decision, a correction of my own framing. Jeff's words ("The user may adjust the SL
+     tigher so I'd go with Tighter-of-the-two") state a PRINCIPLE about which stop wins; nothing
+     in them limits it to manual stops, and the BE case is the same principle with more money on
+     it. VERIFIED IN SOURCE: ApplyProtectiveEngines sets the BE floor at :2099 and the D6 block
+     overwrites it at :2109 - ten lines later, same pass.
+  NOTE D5 STILL STANDS AND IS NOT TOUCHED: the EA's own re-derivation may still LOOSEN the
+  boundary after a profitable tier close. That is the boundary moving against ITSELF, not against
+  another owner, so it never reaches this comparison.
+
+*** CONSEQUENCE 2: C-3 IS UNPROVABLE AS I SPECIFIED IT. MY TEST INSTRUCTION WAS WRONG. ***
+  I told Jeff: "drag the SL below the BE floor, expect REFUSED - at/below BE floor". He dragged to
+  199.878 and got the BOUNDARY refusal instead:
+  22:35:08.315 [WARN] Manual SL 199.878 REFUSED - LOOSER than the drawdown boundary 201.041
+  WHY: the two refusal gates are ORDERED and the boundary one SHADOWS the BE one. VERIFIED in
+  source (~:2041): `if(ddRefuse) {} else if(g_state.beApplied && ...)`. ddRefuse is tested FIRST,
+  and the BE check is its `else if` - so ANY candidate below the boundary is refused as a cap
+  breach and the BE-floor branch NEVER RUNS.
+  => TO REACH THE BE BRANCH the candidate must sit BETWEEN the boundary and the BE floor, i.e.
+     in (201.041, 209.292) for this sequence - e.g. 205.000. C-3 STAYS OPEN with a corrected
+     procedure; it is NOT claimed, and the shadowing is itself worth recording as a finding about
+     gate order that no matrix row names.
+ROWS: A-2 re-confirmed at a second price (199.878, loss $59.59 vs cap $52.13 - still a breach, so
+  still correctly refused). C-3 OPEN. D-5/D-6 untouched. Running total stays 15 of 23.
