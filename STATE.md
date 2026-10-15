@@ -7205,3 +7205,27 @@ BE ARITHMETIC IS EXACT (so the defect is in the resolution, not the engine):
      gate order that no matrix row names.
 ROWS: A-2 re-confirmed at a second price (199.878, loss $59.59 vs cap $52.13 - still a breach, so
   still correctly refused). C-3 OPEN. D-5/D-6 untouched. Running total stays 15 of 23.
+
+## *** b53 RUN 1, 22:39: C-3 PASSES ON THE CORRECTED PROCEDURE. 16 of 23. ***
+  22:39:31.826 [WARN] Manual SL 205.007 REFUSED - at/below BE floor 209.292 (engines own once
+               armed; the floor never lowers - M6-2). Reverting.
+THE CORRECTED PROCEDURE WORKED EXACTLY AS DERIVED. My first C-3 instruction ("drag below the BE
+  floor") could not reach this branch, because the boundary gate shadows it. The fix was to aim
+  the candidate INTO the window (boundary, BE floor) = (201.041, 209.292). Jeff used 205.007.
+  VERIFIED: 205.007 > 201.041 so D16-C PASSES it as tighter-than-cap; 205.007 < 209.292 so the BE
+  gate REFUSES it. Both gates ran in the right order and the right one spoke.
+LABELLING IS CORRECT - the check this row exists for: the message names "BE floor 209.292", the
+  FLOOR, not the boundary. No mislabelling.
+MONEY: at 205.007 the sequence loses $26.97; at the BE floor it GAINS $0.19. The floor protects
+  more, so refusing the looser candidate is right in money as well as in policy.
+
+*** WHAT C-3 DOES **NOT** PROVE, STATED SO IT IS NOT MISREAD LATER: ***
+  The candidate was REFUSED BEFORE reaching the adopt branch, so `baseSLisBoundary` WAS NEVER READ
+  on this path. C-3 proves the BE REFUSAL works. It does NOT prove b53's D18 BE-clearing line
+  (the one that stops D18 calling the floor "the boundary"). THAT needs a manual SL TIGHTER than
+  the BE floor - above 209.292 - which would be ADOPTED and would then exercise the clearing.
+  => A NEW ROW IS OWED AT b54's GATE 2: "manual SL tighter than the BE floor while the cap is
+     armed -> ADOPTED, and the D18 message must name the FLOOR, not the boundary."
+  NOT claiming it by equivalence: the two paths differ by exactly the branch under test.
+RUNNING TOTAL: 16 of 23. OPEN: A-4, A-5, A-6, B-3, C-1, C-2, D-5, D-6 - all provable by
+  inspection or needing an input change, NONE needing more live chart time.

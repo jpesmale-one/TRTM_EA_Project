@@ -32,3 +32,5 @@
 2026.10.15 22:35:08.315	TRTM (GBPJPY.s,M1)	[TRTM][WARN ] DD boundary 201.041 is LOOSER than the computed SL 209.292 and REPLACES it (E9-R1 D6: the drawdown cap owns the SL while enabled). Your stop moves AWAY from price. Cap $52.13, 1 level(s) afforded.
 2026.10.15 22:35:08.550	TRTM (GBPJPY.s,M1)	[TRTM][INFO ] Exits applied to ticket 924705320: TP 209.862 SL 201.041
 2026.10.15 22:35:08.558	TRTM (GBPJPY.s,M1)	[TRTM][INFO ] DD boundary 201.041 is within 41.2 pts of the stop already held (201.041) - HOLDING, no rewrite (E9-R2 D15: 0.50% of the remaining budget). The cap is honoured to within that distance.
+2026.10.15 22:39:31.826	TRTM (GBPJPY.s,M1)	[TRTM][WARN ] Manual SL 205.007 REFUSED - at/below BE floor 209.292 (engines own once armed; the floor never lowers - M6-2). Reverting.
+2026.10.15 22:39:32.063	TRTM (GBPJPY.s,M1)	[TRTM][INFO ] Exits applied to ticket 924705320: TP 209.862 SL 201.041
