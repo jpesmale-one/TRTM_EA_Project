@@ -6973,3 +6973,66 @@ recomputation CORRECTED me: I had said InitialTP was 300 and the arithmetic says
   not fix it, no matter how the other 22 rows read.
   SECOND DRAG, IF THERE IS PATIENCE: pull the SL LOOSER than the boundary -> expect REFUSED as a cap
   breach. That closes A-2 AND the blocked b52 row C-3 in the same session.
+
+## ============================================================================
+## *** b53 VERIFICATION RUN 1, 2026-10-15. E9-R2-C IS FIXED. FIVE ROWS CLOSE. ***
+## *** AND IT EXPOSED E9-R1-D6 AS THE REAL DEFECT - PREDICTED AT GATE 1, NOW OBSERVED. ***
+## tests/2026.10.15 220429.251.txt, 22 lines. Demo GBPJPY.s, b53, cap $52.13.
+## ============================================================================
+JEFF'S REPORT: "The Manual SL is being rejected"
+*** THE PREMISE AND THE EVIDENCE DIVERGE, AND THE DIFFERENCE IS THE WHOLE FINDING. ***
+  The manual SL was NOT rejected. It was ADOPTED - twice - and then OVERWRITTEN by a DIFFERENT
+  rule one millisecond later. ABSENCE CHECK: ZERO "REFUSED" lines in all 22 lines.
+  22:09:16.761  Manual SL 204.388 ADOPTED - 3344 pts TIGHTER than the drawdown boundary 201.044
+  22:10:07.787  Manual SL 208.489 ADOPTED (was 204.388) - tighter
+  Calling this a rejection would have sent the fix at the classifier, which is now CORRECT.
+
+ROWS CLOSED, EVERY FIGURE RECOMPUTED:
+  A-1 PASS  both drags CLASSIFIED. This is the exact action that produced SILENCE on 10-14.
+  A-3 PASS  by absence: neither ADOPTED-nor-REFUSED is gone. The defect signature is absent.
+  B-2 PASS  (204.388 - 201.044)/0.001 = 3344.0 pts. LOG 3344. EXACT.
+  C-6 PASS  the second edit baselined on the FIRST - "(was 204.388)" - so re-adoption works.
+  b52 C-4 PASS (CARRIED, was BLOCKED by E9-R2-C): tighter manual SL adopted.
+  TP: 209.262 + 600 pts = 209.862 EXACT. Boundary 201.047 implies travel 8225.0 pts; threshold
+  8225.0 x 0.5% = 41.1 pts, LOG 41.1 EXACT. Implied mpp 0.633799.
+
+*** THE DEFECT: E9-R1-D6 OVERWRITES A TIGHTER MANUAL STOP WITH A LOOSER ONE. ***
+  22:09:16.762 [WARN] DD boundary 201.044 is LOOSER than the manual SL 204.388 and REPLACES it
+               (E9-R1 D6...). Your stop moves AWAY from price.
+  THE MONEY, WHICH IS THE ARGUMENT:
+    boundary 201.044  = 8218 pts = $52.09 risk
+    manual   204.388  = 4874 pts = $30.89 risk
+    manual   208.489  =  773 pts = $ 4.90 risk
+    cap = $52.13.  *** ALL THREE ARE INSIDE THE CAP. THE MANUAL ONES RISK LESS. ***
+  D6 REPLACED A $4.90 RISK WITH A $52.09 RISK TO ENFORCE A $52.13 CAP THAT WAS NEVER THREATENED.
+  A LOSS CAP MUST BE A CEILING ON RISK, NOT A FLOOR.
+
+*** THIS WAS PREDICTED AT GATE 1 AND THE RECORD SAYS SO - see STATE.md:4788-4800. ***
+  2026-10-05, in my own words before D6 reached code: "if the trader hand-sets a TIGHTER stop
+  (say 207.500 when the boundary is 207.193), D6 OVERWRITES IT WITH A LOOSER PRICE. The EA would
+  be undoing a deliberate decision to risk LESS, and loosening a stop is the one direction that
+  costs money." And: "Jeff can revisit it on evidence rather than discovering it live."
+  THIS LOG IS THAT EVIDENCE. The mechanism, the direction and the cost are all as forecast.
+  WHY IT TOOK UNTIL b53 TO SURFACE: before b53 the edit never reached the classifier (E9-R2-C), so
+  D6's overwrite had nothing to overwrite and left no trace. b53 made the adoption VISIBLE - and
+  thereby made it visible that the adoption is COSMETIC.
+
+*** D6 AND D16-C NOW CONTRADICT EACH OTHER. ***
+  D16-C (b52): a manual SL may only TIGHTEN inside the cap; looser is REFUSED. D17 (b53) made that
+  gate reachable. D6 (b45): the boundary owns the SL unconditionally and loosens whatever it finds.
+  So the EA adopts the tighter stop per D16-C and discards it per D6, on the same tick.
+  JEFF 2026-10-13, his own words: "Manual wins if its tighter." That IS D16-C. D6 is the one
+  remaining place that contradicts it.
+
+RECOMMENDATION (needs its own GATE 1 - D6 is SEALED, and overturning it is a supersession like
+  D11 over D3 and D16 over b24): revisit D6 as TIGHTER-OF-THE-TWO, the option recorded as
+  "REJECTED (tighter-of-the-two, my recommendation)" at STATE.md:4785.
+  TWO THINGS CHANGED SINCE THAT REJECTION, and they answer the reason it was rejected:
+   (1) It was rejected because conditional SL ownership is "harder to reason about on a live
+       chart". But D16-C ALREADY IMPLEMENTS THAT EXACT COMPARISON and is sealed and working - the
+       conditionality is already in the codebase, just not consulted by D6.
+   (2) The cap stays ABSOLUTE in the direction that matters: nothing may loosen past the boundary,
+       a trader may only tighten inside it. The E9-R1 failure class - a silently disabled or
+       widened cap - is untouched.
+  NOT DOING IT WITHOUT JEFF'S WORD: b53 is unsealed, and D6 is a locked decision.
+STATUS: b53 rows A-1, A-3, B-2, C-6 and carried b52 C-4 CLOSED. D6 finding raised, awaiting Gate 1.
