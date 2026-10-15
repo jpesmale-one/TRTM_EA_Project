@@ -7229,3 +7229,35 @@ MONEY: at 205.007 the sequence loses $26.97; at the BE floor it GAINS $0.19. The
   NOT claiming it by equivalence: the two paths differ by exactly the branch under test.
 RUNNING TOTAL: 16 of 23. OPEN: A-4, A-5, A-6, B-3, C-1, C-2, D-5, D-6 - all provable by
   inspection or needing an input change, NONE needing more live chart time.
+
+## *** b54 GATE ZERO PASSED 2026-10-16 00:29. D20 COMPILES AND LOADS CLEAN. ***
+BUILD: b54, 6f1844f09354cf7e, 6150 lines. Demo GBPJPY.s M1, magic 758860, HEDGING, stops 25 pts.
+  Banner reads "=== TRTM b54 init ===" - the tag bump landed and the right binary is loaded. The
+  b53 build shipped with the tag still at "b52" until Jeff's question caught it; bumping during
+  the build rather than after is now the habit.
+  CAP AUDITED: 2608.49 x 2.00% = 52.1698 -> $52.17. LOG $52.17. EXACT.
+  BALANCE 2606.38 -> 2608.49 (+$2.11), so the cap moved $52.13 -> $52.17. Consistent with the b53
+  test sequence closing at a small profit, but NOT VERIFIED - this log has no close line, and an
+  unverified inference is recorded as one.
+  Self-test PASS on schema 5. ABSENCE: zero ERROR, zero WARN, no CONFIG-BLOCKED, no NOT ARMED.
+ROWS CLOSED BY INSPECTION OF THE SHIPPED FILE (not the candidate):
+  D-5 PASS  exactly ONE PositionModify call site. D20 moved an assignment, added no writer.
+  D-6 PASS  inputs 62, schema 5 - unchanged. No dialog field, no persisted field.
+  A-6 PASS  the loosening WARN is GONE from executable code: `ddloosen` 0 occurrences, and the
+            "moves AWAY from price" text appears 0 times once comments are stripped. The single
+            remaining occurrence is the comment EXPLAINING the deletion. "The string is in the
+            file" and "the code can log it" are different claims and were checked separately.
+  TP2 verified in place: SLOwnerName returns trail ratchet / manual / BE floor / computed, in that
+            order - the precedence ApplyProtectiveEngines actually uses.
+NOTHING OF D20's BEHAVIOUR IS EXERCISED BY A FLAT INIT. The detector and the verdict block both
+  need a live sequence. 23 rows remain open; the deciding one is A-1.
+*** THE TEST THAT DECIDES b54 - A-1, THE BE CASE, because it is the most expensive thing D6 cost:
+  1. Open L1 via the button.  2. Wait for the boundary SL (one "Exits applied").
+  3. Flip BE ON via the panel.  4. Wait for "BE TRIGGERED".
+  EXPECT INSTEAD OF THE OVERWRITE:
+    "BE floor SL <px> is TIGHTER than the drawdown boundary <b> - KEPT (E9-R3 D20: the cap is a
+     CEILING on risk, not a floor). At this stop the sequence takes +0.xx USD against the $52.17
+     cap, so the cap is UNREACHABLE rather than under-enforced."
+  AND THE PROOF IS THE NEXT LINE: "Exits applied" must carry the BE FLOOR, not the boundary.
+  The KEPT line alone only proves the EA said the right thing; the applied price proves it DID the
+  right thing. On b53 the announcement and the action disagreed - that was the whole defect.
