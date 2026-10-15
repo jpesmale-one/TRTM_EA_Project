@@ -1,6 +1,7 @@
 # E9-R3 SCENARIO MATRIX — D20: the boundary takes the SL only when it is TIGHTER (b54)
 
-STATUS: **GATE 2 DRAFT — 2026-10-15. NOT SEALED.** Awaiting Jeff's word.
+STATUS: **SEALED rev 1 — sealed by Jeff 2026-10-15.** Live findings later become NEW rows
+(rev 2+), never silent fixes (CLAUDE.md §2).
 Gate 1: **D20** (Jeff, 2026-10-15) supersedes **E9-R1-D6** (Jeff, 2026-10-05).
 
 > **JEFF'S RULING, VERBATIM:** *"The user may adjust the SL tigher so I'd go with
