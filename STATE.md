@@ -7413,3 +7413,38 @@ THE FIX SHAPE (b56, needs Gate 1 only to confirm the rule): the projection must 
   needed 31 minutes to produce its 8 lines, so one line in a quarter of a second proves nothing
   about dedupe. Claiming it here would be exactly the false pass D-2/D-3 gave on gold.
   IT CLOSES ON: the same sequence left running 30+ minutes past BE with still ONE KEPT line.
+
+## *** b56 GATE 1 DRAFT - E9-R3-B. THE SURVEY FOUND MORE THAN JEFF'S SYMPTOM. ***
+SURVEYED EVERY SITE THAT SUBSTITUTES `sl` BEFORE A PROJECTION (grep, whole file):
+  :2129  EnforceExits   - manual SL substitution, then ApplyProtectiveEngines, then the D20 gate
+  :2739  LogStructure   - manual SL substitution
+  :2752  LogStructure   - UNCONDITIONAL boundary overwrite   <-- DEFECT
+  :5096  PanelRefresh   - manual SL substitution
+  :5108  PanelRefresh   - trailing: live broker SL
+  :5129  PanelRefresh   - UNCONDITIONAL boundary overwrite   <-- DEFECT (Jeff's screenshot)
+*** THREE COPIES OF ONE LADDER AND ONLY THE ENGINE'S IS RIGHT. *** That is the real finding:
+  E9-R3-B is not one stale line, it is a DUPLICATED DERIVATION that D20 desynchronised.
+
+*** AND THE SURVEY FOUND A SECOND, OLDER DEFECT NEITHER OF US WAS LOOKING FOR: ***
+  THE PANEL LADDER NEVER APPLIES THE BE FLOOR AT ALL. It handles manual (:5096), trailing
+  (:5108) and the boundary (:5129) - but the BE floor is merged inside ApplyProtectiveEngines,
+  which the DISPLAY path does not call and does not replicate. So on a BE-only sequence with the
+  cap OFF, "Proj at SL" would price the raw anchor stop and MISS the floor entirely.
+  THIS PREDATES D20 AND PREDATES b48/D9. It was invisible because the unconditional boundary
+  overwrite at :5129 happened to mask it whenever the cap was armed - the wrong value hid an
+  older wrong value. NOT VERIFIED LIVE YET: it needs BE armed with InpEnableDDClose = false.
+  Recorded as a PREDICTION from code reading, to be confirmed or refuted before b56 claims it.
+
+THE RULE THE FIX MUST IMPLEMENT (one sentence, three sites):
+  *** A PROJECTION MUST PRICE THE STOP THE ENFORCE PASS WOULD ACTUALLY WRITE. ***
+  Not "the boundary", not "the manual value" - the OUTCOME of the same ladder EnforceExits runs.
+OPTION A (recommended): extract the ladder into ONE pure helper - ProjectedStopPrice() - that
+  mirrors EnforceExits' sequence exactly (manual -> BE/trail merge -> D20 tighter-of-two) and
+  have all THREE callers consume it. Kills the duplication that caused this, and the b45/B-3
+  precedent is explicit about why: "a second, drifting copy of this maths" was named the biggest
+  build risk in R1, and NextLadderPrice was extracted for exactly that reason.
+OPTION B (minimal): apply the D20 tighter-of-two test at :2752 and :5129 only. Fixes Jeff's
+  symptom, leaves the missing BE floor and the duplication in place. REJECTED unless Jeff wants
+  the smaller diff - it repairs the instance and preserves the cause.
+OPEN FOR JEFF AT GATE 1: Option A or Option B. My recommendation is A, with the BE-floor gap
+  confirmed live first so b56 fixes a proven defect rather than a predicted one.
