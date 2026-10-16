@@ -7307,3 +7307,30 @@ INTRODUCED IN b54. *** But the same run also PROVES D20, so both findings are re
 ALSO IN THIS RUN: beOverride=T restored across the restart (the panel flip persisted), and the
   boundary re-derived at init to 201.737. Reconcile and E-5-class behaviour unaffected by D20.
 STATUS: b54 rows A-1, C-2, D-2, D-5, D-6 CLOSED. E9-R3-A raised, queued for b55.
+
+## *** b55 BUILT 2026-10-16: E9-R3-A FIXED. 26f7e00b285c94de / 6179 lines. GATE ZERO PENDING. ***
+ONE EXPRESSION CHANGED (plus the tag). Code diff is exactly two lines:
+  WAS:  AlreadyLogged("ddkeep:" + DoubleToString(sl) + ":" + DoubleToString(ddSL))
+  NOW:  AlreadyLogged("ddkeep:" + SLOwnerName() + ":" + DoubleToString(sl))
+*** WHY THE OWNER IS IN THE KEY - this is the part I nearly got wrong twice. ***
+  My first instinct was "key on sl alone", matching ddhold. Checking it first showed that is
+  INSUFFICIENT: an owner handover at an UNCHANGED PRICE is reachable, because the trail ratchet
+  floor is ProtectiveSL(brokerSL, lastAppliedSL) and can therefore arm sitting EXACTLY ON the BE
+  floor. Keying on price alone would swallow that line - and "which engine owns the stop" is
+  precisely what b54's own SLOwnerName was added to make auditable. So the key is owner + price.
+  NEITHER COMPONENT CAN DRIFT, BY CONSTRUCTION:
+    SLOwnerName() reads FLAGS (trailingActive / manualSL > 0 / beApplied) - never a price.
+    sl is the held stop - it changes only when an engine deliberately moves it.
+    ddSL IS NO LONGER IN THE KEY, so no tick-value input remains anywhere in it.
+VERIFIED BY REPLAYING THE ACTUAL b54 DATA, not by argument: the eight observed boundary values
+  201.734..201.741 with the BE floor constant at 209.994 now produce ONE distinct key,
+  "ddkeep:BE floor:209.994". *** EIGHT LINES COLLAPSE TO ONE. *** And
+  "ddkeep:trail ratchet:209.994" is distinct from it, so the handover case still logs once.
+BUILD HYGIENE: wall PASS. CR == LF == 6179, file ends '---+', non-ASCII 0, tag "b55" (bumped
+  during the build, not after - the b53 lesson). Inputs 62, schema 5. One PositionModify site.
+WHAT b55 IS NOT: it does NOT touch D20's decision, the deadband, D16-C, M6-2 or any money path.
+  It changes WHICH STRING is handed to AlreadyLogged. b54's A-1/C-2/D-2 passes stand unaffected -
+  the behaviour they proved is untouched, only the log volume changes.
+NEXT: Jeff compiles b55 (26f7e00b285c94de / 6179). Then b54's remaining Gate 4 rows carry forward
+  to b55's verification: A-2, A-3, A-5, A-7, B-1..B-5, C-1, C-3, C-4, D-1, D-3, D-4, D-7, and the
+  new E9-R3-A row (the KEPT line logs ONCE per held stop, not once per re-derive).

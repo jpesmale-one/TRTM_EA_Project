@@ -47,6 +47,11 @@
 //|             cap - a $52.29 swing on a cap nothing threatened.   |
 //|             Found live by Jeff 2026-10-15; predicted at D6 Gate |
 //|             1 and revisited on evidence, exactly as planned.    |
+//|   [X] E9-R3-A  The KEPT line deduped correctly (b55).           |
+//|             b54 keyed that log line on the drifting BOUNDARY,  |
+//|             so it logged once per re-derive instead of once     |
+//|             per held stop. Keyed on owner + held price now.     |
+//|             R2-A's cause, reintroduced in the logging layer.    |
 //|   [X] Stage 9: Tester interactive mode (button polling)          |
 //|   [X] Stage 10: Observability (guard announcements)              |
 //|                                                                  |
@@ -83,7 +88,7 @@
 
 #include <Trade\Trade.mqh>
 
-#define TRTM_BUILD  "b54"     // internal build tag, bump per delivery
+#define TRTM_BUILD  "b55"     // internal build tag, bump per delivery
 
 //+------------------------------------------------------------------+
 //| ENUMS                                                            |
@@ -2247,7 +2252,31 @@ void EnforceExits()
                // "tighter" is a price claim and what a trader needs is the risk claim. On the
                // 22:34 case this reads +0.19 against the $52.13 cap - which makes the old
                // behaviour self-evidently wrong without any argument.
-               if(!AlreadyLogged("ddkeep:" + DoubleToString(sl, _Digits) + ":" + DoubleToString(ddSL, _Digits)))
+               // *** b55 (E9-R3-A): THE DEDUPE KEY MUST CONTAIN NO DRIFTING VALUE. ***
+               // MY DEFECT, INTRODUCED IN b54 AND FOUND BY JEFF THE SAME DAY: the key was
+               //   "ddkeep:" + sl + ":" + ddSL
+               // `sl` is stable (the held stop) but `ddSL` IS THE BOUNDARY, which drifts with
+               // SYMBOL_TRADE_TICK_VALUE on any cross-quoted pair. Observed 2026-10-16 on
+               // GBPJPY: 201.734 .. 201.741 across 31 minutes, so EVERY re-derive minted a
+               // FRESH key and AlreadyLogged suppressed NOTHING - eight identical lines.
+               // *** THIS IS R2-A's ROOT CAUSE REINTRODUCED ONE LAYER UP, IN THE LOGGING. ***
+               // D15 exists to suppress WRITES against exactly this drift; b54 then keyed a
+               // LOG line on the same unstable number. The deadband was working correctly the
+               // whole time - one "Exits applied" in the whole run - so this was log noise, not
+               // a trading defect. Recorded at its real severity, not as R2-A's equal.
+               // THE KEY IS THE HELD STOP PLUS ITS OWNER, AND NEITHER DRIFTS:
+               //   sl             - the price actually held; changes only when an engine moves it
+               //   SLOwnerName()  - reads FLAGS (trailingActive / manualSL / beApplied), never
+               //                    a price, so it cannot drift by construction
+               // WHY THE OWNER IS IN THE KEY AND `sl` ALONE IS NOT ENOUGH: an owner handover at
+               // an UNCHANGED price is reachable - the trail ratchet floor is
+               // ProtectiveSL(brokerSL, lastAppliedSL), so it can arm sitting exactly ON the BE
+               // floor. Keying on the price alone would swallow that line, and "who owns the
+               // stop" is precisely what b54's own SLOwnerName exists to make auditable.
+               // PRECEDENT: ddhold keys on heldSL, ddorphan on lastSL - both stable. ddtighten
+               // keys on ddSL and is CORRECT to, because in that branch the boundary is the
+               // value being WRITTEN, so a new boundary genuinely is a new event.
+               if(!AlreadyLogged("ddkeep:" + SLOwnerName() + ":" + DoubleToString(sl, _Digits)))
                  {
                   double keepLots = 0.0;
                   for(int k = 0; k < g_state.levelCount; k++)
