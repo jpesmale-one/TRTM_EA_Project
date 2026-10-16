@@ -7623,3 +7623,37 @@ ROWS CLOSED: A-5, B-2, C-2 (multi-step arithmetic), plus the earlier A-1, A-4, B
   (A-2, A-3, A-6, A-7, B-3, D-1..D-4), which need no chart time. ***
 NOTE FOR THE NEXT SESSION: the sequence is FLAT. E9-R3-B is fixed and proven on both the
   engine line and the dashboard. b56 is ready to seal once the inspection rows are swept.
+
+## *** b56 INSPECTION SWEEP 2026-10-16: THE REMAINING 8 ROWS CLOSE. GATE 4 COMPLETE. ***
+  A-2 PASS  boundary-tighter branch present and reachable: `if(b > 0.0)` then the
+            tighter-of-two test, with the `sl <= 0.0` arm preserving b48/D9's original fix
+            for Jeff's standing config (InpStopLossPts = 0, no manual, no BE).
+  A-3 PASS  `if(g_state.manualSL > 0.0) sl = g_state.manualSL;` is the FIRST substitution in
+            the helper, matching b24's order in the engine.
+  A-6 PASS  PURE. Executable lines scanned for global assignment, Log and StateSave: ZERO of
+            each. Safe at the 500ms panel refresh and safe to call twice per pass.
+  A-7 PASS  EnforceExits (body :2123-:2563) contains ZERO executable calls to
+            ProjectedStopPrice and still calls ApplyProtectiveEngines exactly once. The engine
+            keeps its own MUTATING ladder; the helper only REPORTS. Scope held.
+  B-3 PASS  ONE derivation: 1 helper definition, 2 call sites (:2846 LogStructure, :5202
+            PanelRefresh), and ZERO leftover boundary ladders once comments are stripped.
+  D-1 PASS  money path untouched - D20's ddkeep, D15's ddhold, D16-C's looser-refusal, M6-2's
+            BE-floor refusal and D-9's spent-cap close are all still present and keyed.
+  D-2 PASS  exactly ONE PositionModify site. The helper writes nothing.
+  D-3 PASS  inputs 62, schema 5. No dialog field, no persisted field.
+
+*** A METHOD NOTE, BECAUSE THE SWEEP ITSELF ALMOST PRODUCED A FALSE FAILURE. ***
+  My first A-7 check reported FOUR calls to ProjectedStopPrice inside EnforceExits, which would
+  have been a direct scope violation. It was MY awk range: `/^void EnforceExits/,/^\/\/ b52/`
+  ran PAST the function and swept in LogStructure and PanelRefresh. Bounding the body properly
+  (:2123 to its closing brace :2563) gives ZERO.
+  THIS IS THE THIRD TIME IN THIS BUILD THAT A GREP, NOT THE CODE, PRODUCED THE ALARM - after
+  b54's "moves AWAY" surviving in a comment and b56's `==` matching an assignment pattern.
+  THE RULE THAT KEEPS EARNING ITS KEEP: strip comments and bound the region before believing a
+  count. A check that cannot tell "the text appears" from "the code does it" is not a check.
+
+*** b56 GATE 4 IS COMPLETE. ALL 18 ROWS CLOSED. ***
+  Live evidence: A-1, A-4, A-5, B-1, B-2, C-1, C-2, C-3, D-5, D-6.
+  Inspection:    A-2, A-3, A-6, A-7, B-3, D-1, D-2, D-3, D-4.
+  BUILD: b56, b098d631618e5e28, 6251 lines. Hygiene PASS. Sequence FLAT.
+  *** AWAITING JEFF'S SEAL (Gate 6). ***
