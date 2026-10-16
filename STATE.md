@@ -7512,3 +7512,42 @@ NEXT: Jeff compiles b56 (b098d631618e5e28 / 6251). *** HIS POSITION IS STILL OPE
   "Proj at SL +0.19" where b55 read -52.16, and the Structure log line must agree (B-1), and both
   must match the SL in the next "Exits applied" (B-2). A-4 (the BE-floor gap) still needs its own
   run with InpEnableDDClose = false.
+
+## ============================================================================
+## *** b56 GATE ZERO PASSED 2026-10-16 21:38. AND IT PROVED THE FIX IN ONE LINE. ***
+## tests/2026.10.16 160519.369.txt, now 32 lines. b098d631618e5e28 / 6251.
+## ============================================================================
+*** THE WHOLE DEFECT AND ITS FIX, IN TWO LINES OF THE SAME FILE: ***
+  b55 16:09:19  Structure: 1 level(s), 0.01 lots | projected at TP +3.80 | at SL -52.16
+  b56 21:38:00  Structure: 1 level(s), 0.01 lots | projected at TP +3.80 | at SL +0.19
+  SAME SEQUENCE. SAME TICKET. SAME STOP ON THE BROKER. Only the derivation changed.
+AUDITED: floor 210.479 - entry 210.449 = +30 pts; 30 x 0.01 x $0.6338 = +0.1901 -> +0.19.
+  LOG +0.19. EXACT. The wrong answer is GONE: the loss at the boundary 202.208 would be
+  -$52.23, and that figure appears NOWHERE in the b56 init. THE SIGN FLIPPED FROM LOSS TO
+  PROFIT, which was the entire complaint.
+ROWS CLOSED: A-1 (BE floor priced), C-1 (sign correct - a stop in profit projects POSITIVE),
+  B-1 partially (the ENGINE side agrees; the panel screenshot is still owed), D-5/D-6 by the
+  clean init, and the b56 Gate Zero itself.
+
+*** A-4 IS PROVEN BY THIS RUN - BETTER THAN I EXPECTED, AND THE REASONING MATTERS. ***
+  At Gate 2 I recorded the BE-floor gap as "inspection-proven, not log-proven", and said A-4
+  needed a separate run with InpEnableDDClose = FALSE because the armed boundary MASKS it.
+  *** THAT WAS TRUE FOR DETECTING THE GAP. IT IS NOT TRUE FOR PROVING THE FIX. ***
+  The projection printed +0.19, which is the price of the BE FLOOR. The OLD ladder could not
+  produce that number by any route: BEStopPrice appeared ZERO times in it, so even with the
+  boundary comparison corrected, the old code had NO PATH to 210.479. The only way +0.19
+  reaches that line is the new `if(g_state.beApplied) sl = ProtectiveSL(sl, BEStopPrice(), dir)`.
+  => A-4 CLOSES HERE. The cap-OFF run is no longer owed. Recorded because the earlier
+  "it cannot be separated" note is now superseded and a later reader must not re-run it.
+ABSENCE on the b56 init: ZERO ERROR, ZERO WARN, no "-52" anywhere, no NOT ARMED, no schema
+  mismatch. Cap 2611.21 x 2.00% = $52.22 EXACT. Self-test PASS on schema 5.
+RECONCILE CARRIED THE STATE CORRECTLY ACROSS THE RESTART: "beOverride=T beApplied=T" - so the
+  BE floor survived, which is WHY the projection had a floor to price. E-5-class behaviour
+  intact under b56.
+TWO KEPT LINES IN THE FILE AND THAT IS CORRECT, not a dedupe regression: one per EA INSTANCE
+  (b55's at 16:55, b56's at 21:38). AlreadyLogged is a runtime registry that resets on init, so
+  one line per attach is the designed behaviour. E9-R3-A's proof was ONE line within a single
+  instance over an hour, and that still stands.
+STILL OPEN: B-1's panel half (the screenshot showing "Proj at TP / SL  +3.80 / +0.19"), B-2
+  (projection equals the next "Exits applied" SL), B-3, C-2, C-3, A-2/A-3/A-5/A-6/A-7, D-1..D-4.
+  Most are inspection; B-1/B-2 need one dashboard look while this sequence is still live.
