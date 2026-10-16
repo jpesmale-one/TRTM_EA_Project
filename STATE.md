@@ -7657,3 +7657,48 @@ NOTE FOR THE NEXT SESSION: the sequence is FLAT. E9-R3-B is fixed and proven on 
   Inspection:    A-2, A-3, A-6, A-7, B-3, D-1, D-2, D-3, D-4.
   BUILD: b56, b098d631618e5e28, 6251 lines. Hygiene PASS. Sequence FLAT.
   *** AWAITING JEFF'S SEAL (Gate 6). ***
+
+## ============================================================================
+## *** b56 SEALED BY JEFF 2026-10-16. GATE 6 CLOSED. E9-R3-B IS DONE. ***
+## BUILD OF RECORD: b56, b098d631618e5e28, 6251 lines.
+## ============================================================================
+WHAT E9-R3-B WAS: Jeff read his own dashboard and saw "SL 210.479" beside "Proj at SL -52.16" -
+  a $52 loss projected at a stop sitting 30 points IN PROFIT. One screenshot, one sentence.
+WHAT IT ACTUALLY WAS: not a stale line but THREE HAND-MAINTAINED COPIES of one ladder, of which
+  only the engine's was right. D20 (b54) changed when the boundary wins; the two DISPLAY copies
+  were never told, because the comment they relied on - "display what the broker actually holds"
+  - had been TRUE under D6 and was made FALSE by D20. The code did not change; the sentence
+  underneath it did.
+AND THE SURVEY FOUND AN OLDER DEFECT NOBODY WAS LOOKING FOR: neither display path had EVER
+  merged the BE floor. It predates D20 and b48/D9, and the unconditional boundary overwrite
+  MASKED it whenever the cap was armed - a wrong value hiding an older wrong value.
+THE FIX (Jeff's Option A at Gate 1): ONE pure helper, ProjectedStopPrice, consumed by both
+  display paths. It CANNOT call ApplyProtectiveEngines - that function arms BE, arms trailing,
+  zeroes manualSL, logs transitions and saves state TWICE, and PanelRefresh runs every 500ms.
+  So it REPLICATES the merge and SKIPS every transition.
+PROVEN ON ONE SEQUENCE, END TO END:
+  b55 16:09  "projected at TP +3.80 | at SL -52.16"
+  b56 21:38  "projected at TP +3.80 | at SL +0.19"     same ticket, same broker stop
+  Panel 21:40  "Proj at TP / SL  +3.80 / +0.19"        engine and dashboard agree
+  Trail 21:45-21:55  five ratchet steps, each KEPT price matching the next Exits applied
+  Exit  21:59  SL hit @ 210.732 = the last stop written. +$1.79, audited.
+18 ROWS: 10 closed on live evidence, 8 by inspection. ZERO left open.
+
+*** THE E9-R3 ARC IN THREE BUILDS, AND WHAT EACH ONE TAUGHT: ***
+  b54 (D20) - the cap is a CEILING on risk, not a floor. Superseded D6 on evidence, exactly as
+      D6's own Gate 1 said it should be revisited. Cost of the defect: a $52.29 swing.
+  b55 (R3-A) - MY defect. I keyed a log line on the DRIFTING boundary, reintroducing R2-A's root
+      cause one layer up, in logging rather than writes. Jeff found it the same day.
+  b56 (R3-B) - Jeff's defect report from a dashboard reading. Fixed the instance AND the cause
+      (three copies -> one), and closed an older gap found while fixing it.
+  THE THREAD RUNNING THROUGH ALL THREE: every one was found by READING WHAT THE EA SAID and
+  checking it against what the EA DID. b54's log announced an overwrite it shouldn't make;
+  b55's log repeated a line it should have suppressed; b56's panel printed a number that
+  contradicted the row above it. *** THE LOG AND THE DASHBOARD ARE THE TEST SURFACE. ***
+  AND A METHOD NOTE WORTH CARRYING: three separate false alarms in this arc came from MY OWN
+  greps, not from the code - a comment match, an `==` matched as an assignment, and an awk range
+  that overran a function body. Strip comments and bound the region before believing a count.
+STATE AT SEAL: sequence FLAT, demo GBPJPY.s, balance 2611.21 + 1.79 realised.
+OPEN WORK CARRIED FORWARD (not part of b56): the b54 matrix rows never given their own pass -
+  A-2, A-3, A-7, B-1..B-5, C-1, C-3, C-4, D-1, D-3, D-4, D-7 and E-1 (manual SL tighter than
+  the BE floor -> ADOPTED, message must name the FLOOR).

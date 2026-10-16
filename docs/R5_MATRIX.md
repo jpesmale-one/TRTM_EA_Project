@@ -1,6 +1,7 @@
 # E9-R3-B SCENARIO MATRIX — one projected-stop derivation (b56)
 
-STATUS: **SEALED rev 1 — sealed by Jeff 2026-10-16.** Live findings later become NEW rows
+STATUS: **SEALED rev 1 — sealed by Jeff 2026-10-16. GATE 4 COMPLETE, GATE 6 SEALED
+2026-10-16: all 18 rows closed (10 live, 8 inspection).** Live findings later become NEW rows
 (rev 2+), never silent fixes (CLAUDE.md §2).
 Gate 1: **Option A approved by Jeff 2026-10-16** — extract ONE pure helper,
 `ProjectedStopPrice()`, mirroring `EnforceExits`' ladder, consumed by all three callers.
