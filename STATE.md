@@ -7551,3 +7551,31 @@ TWO KEPT LINES IN THE FILE AND THAT IS CORRECT, not a dedupe regression: one per
 STILL OPEN: B-1's panel half (the screenshot showing "Proj at TP / SL  +3.80 / +0.19"), B-2
   (projection equals the next "Exits applied" SL), B-3, C-2, C-3, A-2/A-3/A-5/A-6/A-7, D-1..D-4.
   Most are inspection; B-1/B-2 need one dashboard look while this sequence is still live.
+
+## *** b56 B-1 PASSES ON JEFF'S SCREENSHOT 2026-10-16. THE DASHBOARD DEFECT IS CLOSED. ***
+THE SAME PANEL THAT RAISED E9-R3-B NOW READS CORRECTLY:
+    SL                210.479          Proj at TP / SL   +3.80 / +0.19
+  The frame that raised the defect read "SL 210.479" beside "Proj at SL -52.16".
+*** B-1 PASS - AND IT IS THE ROW THAT DECIDED THE BUILD. ***
+  panel  "Proj at TP / SL  +3.80 / +0.19"
+  engine "Structure ... projected at TP +3.80 | at SL +0.19"   (21:38 init, same state)
+  IDENTICAL FIGURES FROM TWO INDEPENDENTLY-CALLED SITES. Before b56 they also agreed - but
+  only by ACCIDENT, both wrong in the same direction because both ran their own copy of the
+  same broken ladder. Now they agree because there is ONE derivation. Agreement alone was
+  never the proof; agreement WITH THE RIGHT ANSWER is.
+EVERY FIGURE ON THE FRAME RECONCILES:
+  C-3 PASS  TP side untouched: (211.049-210.449)/0.001 = 600 pts x 0.01 x $0.6338 = +3.80. EXACT.
+  C-1 PASS  sign: SL 210.479 sits ABOVE entry 210.449, so the stop is IN PROFIT and the figure
+            is POSITIVE. The whole defect was a -$52 printed at a stop worth +$0.19.
+  SL row 210.479 agrees with "BE: SET @ 210.479*" - the row and the engine name the same stop.
+  Floating PnL +2.13 at ask ~210.786 recomputes to +2.14 (~1c, live-tick spread). Consistent.
+*** THE DD CAP SL ROW AND THE PROJ ROW NOW DISAGREE, AND THAT IS EXACTLY THE FIX. ***
+  "DD Cap SL 202.211 ($52.22, 1 lvl)" still shows WHERE THE CAP WOULD BITE - that row is
+  correct and unchanged, it is the cap's own statement. "Proj at SL +0.19" shows WHAT THE STOP
+  ACTUALLY IN CHARGE IS WORTH. Before b56 the projection BORROWED the cap row's price, which is
+  why one frame carried two numbers that could not both be true. Two rows, two questions, two
+  answers - and they are allowed to differ.
+ROWS CLOSED THIS SESSION: A-1, A-4, B-1, C-1, C-3, D-5, D-6 + Gate Zero.
+STILL OPEN: B-2 (the projection must equal the SL in the next "Exits applied" - needs a write,
+  and the deadband is correctly suppressing writes while nothing changes), B-3, A-2, A-3, A-5,
+  A-6, A-7, C-2, D-1..D-4. All but B-2 are inspection rows needing no chart time.
