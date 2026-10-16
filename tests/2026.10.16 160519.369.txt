@@ -6,3 +6,13 @@
 2026.10.16 16:05:19.372	TRTM (GBPJPY.s,M1)	[TRTM][INFO ] Account margin mode: HEDGING
 2026.10.16 16:05:19.372	TRTM (GBPJPY.s,M1)	[TRTM][INFO ] Broker exit geometry (at init): stops level 25 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 25 pts to price are DEFERRED until placeable
 2026.10.16 16:05:19.372	TRTM (GBPJPY.s,M1)	[TRTM][INFO ] Init complete - b55 (adoption, exits, recovery active)
+2026.10.16 16:09:17.753	TRTM (GBPJPY.s,M1)	[TRTM][INFO ] BUY ARMED: 0.01 lots (Fixed 0.01) - click CONFIRM within 10s to execute
+2026.10.16 16:09:19.360	TRTM (GBPJPY.s,M1)	[TRTM][INFO ] L1 BUY OPENED via button: 0.01 lots @ 210.449 (deal 584291121)
+2026.10.16 16:09:19.360	TRTM (GBPJPY.s,M1)	[TRTM][INFO ] Structure: 1 level(s), 0.01 lots | projected at TP +3.80 | at SL -52.16
+2026.10.16 16:09:19.360	TRTM (GBPJPY.s,M1)	[TRTM][INFO ] EA L1 REGISTERED: ticket 927512736 BUY 0.01 lots @ 210.449. Exits apply next tick.
+2026.10.16 16:09:20.266	TRTM (GBPJPY.s,M1)	[TRTM][INFO ] Exits applied to ticket 927512736: TP 211.049 SL 202.204
+2026.10.16 16:09:20.278	TRTM (GBPJPY.s,M1)	[TRTM][INFO ] DD boundary 202.204 is within 41.3 pts of the stop already held (202.204) - HOLDING, no rewrite (E9-R2 D15: 0.50% of the remaining budget). The cap is honoured to within that distance.
+2026.10.16 16:09:24.970	TRTM (GBPJPY.s,M1)	[TRTM][WARN ] BE override flipped for this sequence: effective ON - engine evaluates from the next tick (fires immediately if the trigger is already met)
+2026.10.16 16:55:38.486	TRTM (GBPJPY.s,M1)	[TRTM][INFO ] BE TRIGGERED @ 210.550: SL -> 210.479 (avg 210.449 + 30 pts offset + 0 pts cost cover, profit side)
+2026.10.16 16:55:38.486	TRTM (GBPJPY.s,M1)	[TRTM][INFO ] BE floor SL 210.479 is TIGHTER than the drawdown boundary 202.204 - KEPT (E9-R3 D20: the cap is a CEILING on risk, not a floor). At this stop the sequence takes +0.19 USD against the $52.22 cap, so the cap is UNREACHABLE rather than under-enforced. The boundary re-asserts the moment it becomes the tighter of the two.
+2026.10.16 16:55:38.719	TRTM (GBPJPY.s,M1)	[TRTM][INFO ] Exits applied to ticket 927512736: TP 211.049 SL 210.479

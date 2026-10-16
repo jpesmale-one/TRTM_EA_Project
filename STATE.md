@@ -7363,3 +7363,53 @@ NEXT RUN, AND IT IS THE SAME SHAPE AS b54's A-1:
 CARRIED FORWARD to b55's Gate 4, still open from b54: A-2, A-3, A-5, A-7, B-1..B-5, C-1, C-3, C-4,
   D-1, D-3, D-4, D-7, plus E-1 (manual SL tighter than the BE floor -> ADOPTED, message must name
   the FLOOR) which b53's C-3 could not reach.
+
+## ============================================================================
+## *** E9-R3-B RAISED 2026-10-16 (Jeff, dashboard screenshot + b55 run 1). ***
+## *** THE PROJECTION PRICES THE BOUNDARY, NOT THE STOP ACTUALLY HELD. ***
+## tests/2026.10.16 160519.369.txt, 18 lines. Queued for b56.
+## ============================================================================
+JEFF'S REPORT: "When SL was moved to the positive side as you can see in the dashboard its not
+reflecting the correct dollar value at SL". CONFIRMED, and it is in TWO places, not one.
+
+*** THE DASHBOARD CONTRADICTS ITSELF ON ITS OWN FACE: ***
+  SL row       210.479        BE: SET @ 210.479        Avg entry 210.449
+  Proj at SL   -52.16
+  210.479 is +30 pts from entry - ON THE PROFIT SIDE. The true figure is
+  30 pts x 0.01 lots x $0.6338 = +$0.19. THE PANEL SHOWS A $52 LOSS AT A STOP THAT IS IN PROFIT.
+WHERE -52.16 COMES FROM, recomputed: the DD Cap SL row reads 202.206, and the loss AT THE BOUNDARY
+  is (202.206-210.449)/0.001 x 0.01 x 0.6338 = -$52.2. *** THE PROJECTION IS PRICED ON THE
+  BOUNDARY, WHICH IS NOT THE STOP THE BROKER HOLDS. ***
+
+ROOT CAUSE - b48/D9 WAS CORRECT WHEN WRITTEN AND D20 MADE ITS COMMENT FALSE:
+  src/TRTM.mq5:5129  `sl = ddDisp;   // display what the broker actually holds (D2/D6)`
+  Under D6 that comment was TRUE: the boundary ALWAYS won, so it always WAS the held stop. b54's
+  D20 changed that - the boundary now wins ONLY when it is TIGHTER - but this line still
+  overwrites sl UNCONDITIONALLY. The code did not change; the SENTENCE IT RELIED ON DID.
+  *** SECOND SITE, SAME DEFECT: LogStructure at :2750 does the identical unconditional overwrite,
+  and the LOG PROVES IT IS LIVE: "Structure: 1 level(s), 0.01 lots | projected at TP +3.80 | at SL
+  -52.16" - the same wrong figure on the ENGINE side. b48/D9 created the display twin and the
+  engine twin together; D20 broke BOTH, so a fix that only touches the panel is half a fix. ***
+
+SEVERITY: DISPLAY/REPORTING ONLY. Nothing in the money path reads these values - EnforceExits
+  computes its own sl and is correct (the Exits applied line carries 210.479, the real floor).
+  But the direction of the error is the WRONG one and that is why it matters: b48/D9 exists
+  because "UNDERSTATING THE LOSS AT THE STOP IS THE WRONG DIRECTION TO ERR" - this OVERSTATES a
+  loss that cannot happen, which could push a trader into closing a protected winner by hand.
+THE FIX SHAPE (b56, needs Gate 1 only to confirm the rule): the projection must price THE STOP
+  THAT WILL ACTUALLY BE WRITTEN - i.e. apply the SAME tighter-of-the-two test D20 uses, not an
+  unconditional boundary substitution. Both sites, one rule. A b56 matrix row is owed:
+  "Proj at SL prices the stop the enforce pass would write, under every owner (manual, BE floor,
+  trail ratchet, boundary) - verified by recomputing the money at the price the log applies."
+
+## *** b55 RUN 1 ALSO RE-CONFIRMS A-1, AND E9-R3-A IS **NOT** CLAIMED. ***
+  16:55:38.486  BE TRIGGERED @ 210.550: SL -> 210.479 (avg 210.449 + 30 pts)   EXACT
+  16:55:38.486  BE floor SL 210.479 is TIGHTER than the boundary 202.204 - KEPT ... +0.19 USD
+  16:55:38.719  Exits applied to ticket 927512736: TP 211.049 SL 210.479
+  A-1 RE-CONFIRMED on b55: the applied SL is the BE FLOOR, and the +0.19 figure recomputes exact.
+  D20 survives the b55 edit untouched, which is what a logging-only change had to prove.
+*** E9-R3-A STAYS OPEN. *** "KEPT" appears exactly ONCE - but the log ENDS 0.233 seconds after
+  that line (16:55:38.486 -> 16:55:38.719). THE ABSENCE WINDOW IS EFFECTIVELY ZERO. b54's flood
+  needed 31 minutes to produce its 8 lines, so one line in a quarter of a second proves nothing
+  about dedupe. Claiming it here would be exactly the false pass D-2/D-3 gave on gold.
+  IT CLOSES ON: the same sequence left running 30+ minutes past BE with still ONE KEPT line.
