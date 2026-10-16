@@ -7579,3 +7579,47 @@ ROWS CLOSED THIS SESSION: A-1, A-4, B-1, C-1, C-3, D-5, D-6 + Gate Zero.
 STILL OPEN: B-2 (the projection must equal the SL in the next "Exits applied" - needs a write,
   and the deadband is correctly suppressing writes while nothing changes), B-3, A-2, A-3, A-5,
   A-6, A-7, C-2, D-1..D-4. All but B-2 are inspection rows needing no chart time.
+
+## ============================================================================
+## *** b56 GATE 4 COMPLETE 2026-10-16. THE SEQUENCE EXITED ON THE TRAIL RATCHET. ***
+## tests/2026.10.16 160519.369.txt, 47 lines. Closed +$1.79 on a ratchet stop.
+## ============================================================================
+JEFF ARMED TRAILING DELIBERATELY TO END THE TEST, having been told the trade-off first:
+  a +$3.80 capped target swapped for an uncapped trail. It cost $2.01 against the TP and
+  gained $1.60 against the BE floor. HIS CALL, MADE WITH THE ARITHMETIC IN HAND.
+
+*** A-5 PASS - THE TRAIL RATCHET PRICED BY ProjectedStopPrice, FIVE TIMES. ***
+  21:45:40  TRAILING ACTIVATED @ 210.784 -> candidate 210.784 - 100 pts = 210.684. EXACT.
+  Every ratchet step recomputed against entry 210.449:
+    210.684  +235 pts -> +1.49      210.696  +247 pts -> +1.56
+    210.709  +260 pts -> +1.65      210.721  +272 pts -> +1.72
+    210.732  +283 pts -> +1.79
+  ALL FIVE MATCH THE LOG. The helper's trailing branch (read the LIVE broker stop, return
+  early) produced the right figure at every step - and the stop only ever ADVANCED.
+
+*** ONE ROW FLAGGED MISMATCH AND IT WAS MY ARITHMETIC, NOT THE EA'S. ***
+  210.696 computed +1.5655 against the logged +1.56 using mpp 0.6338 - a ROUNDED figure I had
+  carried from earlier audits. Solving mpp back out of the other FOUR rows gives a consistent
+  band [0.632692, 0.634191]; its midpoint 0.633442 yields +1.5646 -> +1.56, matching.
+  *** THE EA IS SELF-CONSISTENT ACROSS ALL FIVE ROWS; MY INPUT WAS THE IMPRECISE ONE. ***
+  Recorded because "a mismatch is a finding, never noise" cuts both ways - the finding here is
+  that a rounded constant carried between audits will eventually produce a false alarm.
+
+*** B-2 PASS - THE ROW THAT TIES THE PROJECTION TO REALITY. ***
+  Five times, the KEPT line named a price and the NEXT "Exits applied" carried THAT SAME price:
+    210.684 -> 210.684    210.696 -> 210.696    210.709 -> 210.709
+    210.721 -> 210.721    210.732 -> 210.732
+  THE PROJECTION EQUALS THE SL ACTUALLY WRITTEN. That is what makes b56's replication safe:
+  the helper and the engine ladder agreed on every one of five independent writes.
+
+THE CLOSE: 21:59:25 "Liveness: L1 ticket 927512736 SL hit @ 210.732" - EXACTLY the last stop
+  written, and the first time a D20-KEPT stop has actually EXECUTED.
+  P/L AUDITED: (210.732 - 210.449)/0.001 = +283 pts x 0.01 lots x ~$0.6334 = +$1.79.
+  "Sequence fully closed - back to FLAT, overrides reset to input defaults, flat marker saved."
+ALSO OBSERVED: 21:52:11 "Trailing toggle-off REFUSED: trailing already active, TP removed" -
+  the sealed Stage 6 lock behaving exactly as I warned Jeff it would before he armed it.
+ROWS CLOSED: A-5, B-2, C-2 (multi-step arithmetic), plus the earlier A-1, A-4, B-1, C-1, C-3,
+  D-5, D-6. *** b56's Gate 4 is COMPLETE on live evidence except the pure-inspection rows
+  (A-2, A-3, A-6, A-7, B-3, D-1..D-4), which need no chart time. ***
+NOTE FOR THE NEXT SESSION: the sequence is FLAT. E9-R3-B is fixed and proven on both the
+  engine line and the dashboard. b56 is ready to seal once the inspection rows are swept.
