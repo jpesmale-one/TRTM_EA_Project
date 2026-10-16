@@ -7480,3 +7480,35 @@ STILL OPEN AND UNCHANGED: E9-R3-B (the projection prices the boundary, not the h
 NOTE FOR THE RECORD: the sequence is STILL LIVE at the BE floor (+$0.19 protected) with TP 211.049
   and L2's trigger at 210.299. Whatever it does next is free evidence - a BE-floor fill would be
   the first time a D20-KEPT stop actually executes, and B-2 (level close -> release) is still open.
+
+## *** b56 BUILT 2026-10-16: E9-R3-B FIXED. b098d631618e5e28 / 6251 lines. GATE ZERO PENDING. ***
+Was 26f7e00b285c94de / 6179. +72 lines. Hygiene wall PASS. Gate 1 Option A, Gate 2 sealed (18 rows).
+TP1 (:2772) ProjectedStopPrice() - ONE pure derivation, placed above LogStructure.
+TP2 (:2846) LogStructure: manual-SL substitution + boundary block -> one call.
+TP3 (:5202) PanelRefresh: manual-SL + trailing live-SL scan + boundary block -> one call.
+  `tp = 0.0` KEPT inside the trailing branch - that is the TP side, untouched (C-3).
+
+*** TWO VERIFICATION CHECKS CAME BACK NON-ZERO AND BOTH WERE MY OWN GREP'S FAULT. ***
+  A-6 purity scan hit 1: the match was `g_state.direction == 0` - a COMPARISON, caught because
+    `=` occurs inside `==`. Re-run excluding `==`: ZERO global assignments, ZERO Log, ZERO
+    StateSave in executable lines. *** THE HELPER IS PURE. ***
+  B-3 ladder scan hit 1: the match was line 2741, INSIDE MY OWN COMMENT quoting the old
+    defective line `sl = ddDisp; // display what the broker actually holds`. Re-run with comments
+    stripped: ZERO. *** ONE DERIVATION REMAINS. ***
+  RECORDED BECAUSE THE DISTINCTION IS THE POINT: "the pattern appears in the file" and "the code
+  does the thing" are different claims. The same distinction cleared the A-6 false alarm in b54
+  ("moves AWAY from price" surviving only in a comment). A check that cannot tell those apart is
+  not a check.
+VERIFIED: 2 call sites, helper at :2772 above both callers (:2846, :5202), inputs 62, schema 5,
+  ONE PositionModify site, CR == LF == 6251, ends '---+', non-ASCII 0, tag "b56" (bumped during
+  the build).
+THE DESIGN CONSTRAINT, re-stated because it is the whole build: the helper MUST NOT call
+  ApplyProtectiveEngines - that function arms BE, arms trailing, zeroes manualSL, calls StateSave
+  twice and logs both transitions, and PanelRefresh runs it every 500ms. The helper REPLICATES
+  the merge and SKIPS every transition. Cost: it can drift from the engine. Matrix B-2 is the
+  row that catches drift - the projection must equal the SL actually applied.
+NEXT: Jeff compiles b56 (b098d631618e5e28 / 6251). *** HIS POSITION IS STILL OPEN AT THE BE FLOOR,
+  WHICH IS THE EXACT STATE THAT SHOWS THE FIX: *** on re-attach the panel must read
+  "Proj at SL +0.19" where b55 read -52.16, and the Structure log line must agree (B-1), and both
+  must match the SL in the next "Exits applied" (B-2). A-4 (the BE-floor gap) still needs its own
+  run with InpEnableDDClose = false.

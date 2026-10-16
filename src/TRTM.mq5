@@ -52,6 +52,13 @@
 //|             so it logged once per re-derive instead of once     |
 //|             per held stop. Keyed on owner + held price now.     |
 //|             R2-A's cause, reintroduced in the logging layer.    |
+//|   [X] E9-R3-B  One projected-stop derivation (b56).             |
+//|             The panel showed a -$52 loss at a stop sitting in   |
+//|             PROFIT: both display paths priced the BOUNDARY,     |
+//|             which D20 had stopped guaranteeing was the held     |
+//|             stop. Three copies of one ladder became one pure    |
+//|             helper - and it closes an OLDER gap found while     |
+//|             fixing it: neither display ever merged the BE floor.|
 //|   [X] Stage 9: Tester interactive mode (button polling)          |
 //|   [X] Stage 10: Observability (guard announcements)              |
 //|                                                                  |
@@ -88,7 +95,7 @@
 
 #include <Trade\Trade.mqh>
 
-#define TRTM_BUILD  "b55"     // internal build tag, bump per delivery
+#define TRTM_BUILD  "b56"     // internal build tag, bump per delivery
 
 //+------------------------------------------------------------------+
 //| ENUMS                                                            |
@@ -2725,6 +2732,100 @@ void ComputeProjection(const double tp, const double sl,
       avgEntry = sumWV / lots;   // E1: lot-weighted, matches the engine anchor
   }
 
+//+------------------------------------------------------------------+
+// b56 (E9-R3-B): *** THE ONE DERIVATION OF "WHICH STOP IS ACTUALLY IN CHARGE". ***
+// RAISED BY JEFF 2026-10-16 FROM THE DASHBOARD: the panel showed SL 210.479 (the BE floor,
+// +30 pts, IN PROFIT) and "Proj at SL -52.16" on the same frame. The true figure was +$0.19;
+// -52.16 was the loss at the BOUNDARY 202.206 - a stop the broker was NOT holding.
+// ROOT CAUSE WAS A COMMENT THAT D20 MADE FALSE. The old line read
+//    sl = ddDisp;   // display what the broker actually holds (D2/D6)
+// and under D6 that was TRUE: the boundary ALWAYS won, so it always WAS the held stop. b54/D20
+// made the boundary win ONLY WHEN TIGHTER - but both display paths kept overwriting
+// UNCONDITIONALLY. The code did not change; THE SENTENCE IT RELIED ON DID.
+// THREE COPIES OF ONE LADDER EXISTED and only the engine's was right (EnforceExits,
+// LogStructure, PanelRefresh). That duplication IS the defect - b45/B-3 named "a second,
+// drifting copy of this maths" as E9-R1's biggest build risk and extracted NextLadderPrice for
+// exactly this reason. Jeff chose Option A at Gate 1: extract, do not patch.
+// *** AND THE SURVEY FOUND AN OLDER DEFECT NOBODY WAS LOOKING FOR: ***
+// NEITHER DISPLAY LADDER EVER APPLIED THE BE FLOOR. BEStopPrice appeared ZERO times in both;
+// the floor merges at exactly one line (:1635) inside ApplyProtectiveEngines, which only
+// EnforceExits calls. It predates D20 AND b48/D9, and stayed invisible because the
+// unconditional boundary overwrite MASKED it whenever the cap was armed - a wrong value
+// concealing an older wrong value. Confirmed by inspection; matrix A-4 owes the live log.
+//
+// *** THIS MUST NOT CALL ApplyProtectiveEngines, AND THAT IS THE WHOLE DESIGN. ***
+// That function ARMS BE (sets beApplied), ARMS TRAILING (sets trailingActive), ZEROES
+// manualSL, calls StateSave TWICE, writes g_trailCand / g_lastTrailBar, and LOGS both
+// transitions. PanelRefresh runs every 500ms from OnTimer. Calling it here would ARM BE FROM
+// THE DASHBOARD and rewrite the state file three times a second.
+// So this REPLICATES the merge and SKIPS every transition: it reports the stop AS IT STANDS
+// THIS INSTANT and never predicts one that has not happened. A projection that armed BE early
+// would be worse than the defect it replaces.
+// THE COST, STATED SO A LATER BUILD KNOWS: this is a REPLICATION of EnforceExits' ladder, so
+// the two CAN drift. That is the price of keeping the engine's mutating path separate
+// (matrix A-7). Matrix B-2 is the row that catches drift: THE PROJECTION MUST EQUAL THE SL
+// THE ENFORCE PASS ACTUALLY APPLIES. If they ever disagree, THIS function is the suspect.
+// PURE: reads only. No write, no log, no StateSave - safe at 500ms and safe to call twice.
+// ORDERING: callers MUST call ComputeTargets first - BEStopPrice depends on g_curAvgEntry,
+// which ComputeTargets sets. Both existing callers already do.
+//+------------------------------------------------------------------+
+double ProjectedStopPrice(const double computedSL)
+  {
+   if(g_state.levelCount == 0 || g_state.direction == 0)
+      return 0.0;
+   int    dir = g_state.direction;
+   double sl  = computedSL;
+
+   // b24: an owned manual stop substitutes for the computed one. Engines may tighten on top.
+   if(g_state.manualSL > 0.0)
+      sl = g_state.manualSL;
+
+   // Stage 6: once the ratchet owns the exit the LIVE BROKER stop is the truth - it already
+   // carries every advance the trail has made. Returns EARLY because EnforceExits skips the
+   // boundary block entirely while trailing, and both old display ladders gated on
+   // !trailingActive for the same reason. Same behaviour, now stated once.
+   if(g_state.trailingActive)
+     {
+      double live = 0.0;
+      for(int i = 0; i < g_state.levelCount; i++)
+         if(PositionSelectByTicket(g_state.tickets[i]))
+            live = ProtectiveSL(live, PositionGetDouble(POSITION_SL), dir);
+      return (live > 0.0) ? live : sl;
+     }
+
+   // *** THE GAP THIS BUILD CLOSES: the BE floor, which NEITHER display path ever merged. ***
+   // Read-only mirror of the engine line `sl = ProtectiveSL(sl, BEStopPrice(), dir)`. It fires
+   // only when beApplied is ALREADY true - this never arms BE.
+   if(g_state.beApplied)
+      sl = ProtectiveSL(sl, BEStopPrice(), dir);
+
+   // D20 (b54): the boundary takes the stop ONLY WHEN TIGHTER than whatever is in charge.
+   // This is the line that fixes Jeff's screenshot - it USED to assign unconditionally.
+   if(InpEnableDDClose)
+     {
+      int    ddLv  = 0;
+      bool   ddNow = false;
+      double ddTr  = 0.0;
+      double b     = DDBoundaryPrice(ddLv, ddNow, ddTr);
+      if(b > 0.0)
+        {
+         // sl <= 0 IS NOT AN EDGE CASE - IT IS JEFF'S STANDING CONFIGURATION. With
+         // InpStopLossPts = 0, no manual stop and no BE, the boundary is the ONLY stop there
+         // is, and it must still be priced. That is b48/D9's original fix and matrix A-2
+         // guards it from regressing here.
+         if(sl <= 0.0)
+            sl = b;
+         else
+           {
+            bool tighter = (dir > 0) ? (b > sl) : (b < sl);
+            if(tighter)
+               sl = b;
+           }
+        }
+     }
+   return sl;
+  }
+
 // Structure summary + projected PnL guard. Called on every structure
 // change (adoption, level open, level removal).
 void LogStructure()
@@ -2735,22 +2836,14 @@ void LogStructure()
    ComputeTargets(tp, sl);
    if(g_state.manualTP > 0.0 && !g_state.trailingActive)
       tp = g_state.manualTP;   // b26: projection reflects the value actually in charge
-   if(g_state.manualSL > 0.0)
-      sl = g_state.manualSL;
-   // b48 (E9-R1 D9): the ENGINE-SIDE TWIN of the dashboard fix. This line printed
-   // "at SL -3.00" in Jeff's 11:44:31 log while the stop the EA had just written was
-   // 4154.40, where the loss is $7.90. Same cause: the DD boundary is a fourth SL
-   // owner and this projection was never told. The b26 principle - "the projection
-   // reflects the value actually in charge" - applies to it exactly as to a manual SL.
-   if(InpEnableDDClose && !g_state.trailingActive)
-     {
-      int  ddLvLS = 0;
-      bool ddNowLS = false;
-      double ddTrLS = 0.0;
-      double ddLS = DDBoundaryPrice(ddLvLS, ddNowLS, ddTrLS);
-      if(ddLS > 0.0)
-         sl = ddLS;
-     }
+   // b56 (E9-R3-B): the manual-SL substitution AND the whole boundary block that used to
+   // sit here are now ONE call. b48/D9's principle is unchanged and still honoured - "the
+   // projection reflects the value actually in charge" - but the DERIVATION of that value
+   // lives in exactly one place now, because three hand-maintained copies is what let D20
+   // desynchronise two of them. THE LOG LINE BELOW CARRIED THE DEFECT: Jeff's 16:09 run
+   // read "projected at TP +3.80 | at SL -52.16" while the stop in force was the BE floor
+   // worth +$0.19. The manual TP line above is untouched - b56 is the SL side only (C-3).
+   sl = ProjectedStopPrice(sl);
    double lots, pTP, pSL, avgEntry;
    ComputeProjection(tp, sl, lots, pTP, pSL, avgEntry);
    Log(LOG_INFO, StringFormat("Structure: %d level(s), %.2f lots | projected at TP %s | at SL %s",
@@ -5092,42 +5185,21 @@ void PanelRefresh()
       // while the sequence ran on the manual target).
       if(g_state.manualTP > 0.0 && !g_state.trailingActive)
          tp = g_state.manualTP;
-      if(g_state.manualSL > 0.0)
-         sl = g_state.manualSL;
-      // Stage 6 display truth: once trailing owns the exit the TP is gone and
-      // the REAL stop is the broker-side ratchet - project from those, not
-      // from the stale anchor values (engine transitions stay in EnforceExits).
+      // b56 (E9-R3-B): the manual-SL line and the trailing live-SL scan that used to sit here
+      // are both inside ProjectedStopPrice now (called just below). `tp = 0.0` STAYS here -
+      // that is the TP side, and b56 does not touch it (matrix C-3).
       if(g_state.trailingActive)
-        {
          tp = 0.0;
-         double liveSL0 = 0.0;
-         for(int i = 0; i < g_state.levelCount; i++)
-            if(PositionSelectByTicket(g_state.tickets[i]))
-               liveSL0 = ProtectiveSL(liveSL0, PositionGetDouble(POSITION_SL), g_state.direction);
-         if(liveSL0 > 0.0)
-            sl = liveSL0;
-        }
-      // b48 (E9-R1 D9, found live 2026-10-05 on Jeff's Phase 2 dashboard): THE DD
-      // BOUNDARY IS THE FOURTH SL OWNER AND THE PROJECTION HAD NOT BEEN TOLD.
-      // The rows above substitute a MANUAL SL and a TRAILING SL into the display, but
-      // b45 added the DD boundary as a new owner and did not extend this path - so
-      // "Proj at SL" kept projecting from ComputeTargets' raw InpStopLossPts value, the
-      // very stop the boundary had just OVERRIDDEN. Observed: the panel read -3.00 (the
-      // loss at the conceded 4159.30) while the real stop sat at 4154.40, where L1 alone
-      // loses $7.90. UNDERSTATING THE LOSS AT THE STOP IS THE WRONG DIRECTION TO ERR.
-      // This is precisely the defect b26 fixed for the manual TP ("Proj at TP froze on
-      // computed while the sequence ran on the manual target") - the same lesson, a new
-      // owner. The SL row itself was already correct because b21 made it read the LIVE
-      // BROKER stop; only the PROJECTION was stale.
-      if(InpEnableDDClose && !g_state.trailingActive)
-        {
-         int  ddLvDisp = 0;
-         bool ddNowDisp = false;
-         double ddTrDisp = 0.0;
-         double ddDisp = DDBoundaryPrice(ddLvDisp, ddNowDisp, ddTrDisp);
-         if(ddDisp > 0.0)
-            sl = ddDisp;   // display what the broker actually holds (D2/D6)
-        }
+      // b56 (E9-R3-B): ONE call replaces the manual / trailing / boundary ladder that used to
+      // live here. b48/D9's lesson is PRESERVED, not retired - "UNDERSTATING THE LOSS AT THE
+      // STOP IS THE WRONG DIRECTION TO ERR" is still why the boundary must be priced whenever
+      // it is the stop in charge (matrix A-2 guards that). What b56 adds is the other half:
+      // it must NOT be priced when it is NOT in charge, which is what produced Jeff's
+      // "Proj at SL -52.16" beside an SL row reading 210.479. OVERSTATING a loss that cannot
+      // happen is its own defect - it could push a trader into hand-closing a protected winner.
+      // NOTE the SL ROW below is UNCHANGED and was always correct: b21 made it read the LIVE
+      // BROKER stop. Only this PROJECTION was ever wrong.
+      sl = ProjectedStopPrice(sl);
       ComputeProjection(tp, sl, lots, pTP, pSL, avgEntry);
       for(int i = 0; i < g_state.levelCount; i++)
          if(g_state.levels[i] > maxLvl) maxLvl = g_state.levels[i];
