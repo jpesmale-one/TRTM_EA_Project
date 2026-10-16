@@ -7448,3 +7448,35 @@ OPTION B (minimal): apply the D20 tighter-of-two test at :2752 and :5129 only. F
   the smaller diff - it repairs the instance and preserves the cause.
 OPEN FOR JEFF AT GATE 1: Option A or Option B. My recommendation is A, with the BE-floor gap
   confirmed live first so b56 fixes a proven defect rather than a predicted one.
+
+## *** E9-R3-A PASSES 2026-10-16. THE DEDUPE FIX IS PROVEN BY ABSENCE. ***
+## tests/2026.10.16 160519.369.txt, still 18 lines after >1 hour. Jeff: "after morethan an hour past."
+THE EVIDENCE IS THAT NOTHING WAS ADDED:
+  16:55:38.486  BE floor SL 210.479 ... KEPT      <- ONE line
+  16:55:38.719  Exits applied ... SL 210.479      <- last entry in the file
+  >60 MINUTES LATER: the file is UNCHANGED at 18 lines. "KEPT" count = 1.
+
+*** WHY THIS ABSENCE IS CONCLUSIVE AND NOT JUST A QUIET HOUR - the controlled comparison: ***
+  b54, SAME instrument, SAME config, SAME BE-floor-held-over-drifting-boundary condition:
+      8 KEPT lines in 31 minutes, boundary wandering 201.734 .. 201.741.
+  b55, same condition, >60 minutes: ONE line.
+  THE BOUNDARY CANNOT HAVE STOOD STILL FOR AN HOUR. Tick-value drift on a cross-quoted pair is
+  continuous and MEASURED on this very account (R2-A: 0.036% moved it a full point). So the
+  re-derives DID happen and the log line was SUPPRESSED - which is precisely the dedupe working.
+  b54 is the control: it proves this exact condition PRODUCES lines when the key carries a
+  drifting value. Without that control an empty hour would prove nothing; with it, it proves the
+  fix. THIS IS WHY THE DEFECT HAD TO BE OBSERVED BEFORE IT COULD BE CLOSED.
+SILENCE IS THE DESIGNED STEADY STATE, confirmed by tracing every per-tick path for this exact
+  state (1 level, beApplied, cap armed): liveness silent unless a ticket vanishes; the watcher
+  silent by design (R-4); EnforceExits idempotent so no write and no log; ddhold keyed on the
+  stable heldSL; ddkeep now keyed on owner+held price; recovery silent until an M15 bar closes
+  past 210.299. Nothing in that list SHOULD speak - and under b54 one of them did.
+ROWS CLOSED: *** E9-R3-A *** (the KEPT line logs ONCE per held stop, not once per re-derive).
+  A-1 already re-confirmed on this same run (applied SL = BE floor 210.479, +$0.19 exact).
+STILL OPEN AND UNCHANGED: E9-R3-B (the projection prices the boundary, not the held stop - Jeff's
+  dashboard screenshot, two sites) and the predicted BE-floor gap in the panel ladder. b56 owns
+  both. Carried b54 rows also remain: A-2, A-3, A-5, A-7, B-1..B-5, C-1, C-3, C-4, D-1, D-3,
+  D-4, D-7, E-1.
+NOTE FOR THE RECORD: the sequence is STILL LIVE at the BE floor (+$0.19 protected) with TP 211.049
+  and L2's trigger at 210.299. Whatever it does next is free evidence - a BE-floor fill would be
+  the first time a D20-KEPT stop actually executes, and B-2 (level close -> release) is still open.
