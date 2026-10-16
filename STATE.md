@@ -7261,3 +7261,49 @@ NOTHING OF D20's BEHAVIOUR IS EXERCISED BY A FLAT INIT. The detector and the ver
   AND THE PROOF IS THE NEXT LINE: "Exits applied" must carry the BE FLOOR, not the boundary.
   The KEPT line alone only proves the EA said the right thing; the applied price proves it DID the
   right thing. On b53 the announcement and the action disagreed - that was the whole defect.
+
+## ============================================================================
+## *** b54 RUN 1, 2026-10-16. A-1 PASSES - D20 WORKS. AND I INTRODUCED A FLOOD. ***
+## tests/2026.10.16 133605.756..txt, 21 lines. Demo GBPJPY.s, cap $52.17.
+## ============================================================================
+JEFF'S REPORT: "it seems like the log is flooding again". *** HE IS RIGHT, AND IT IS MY DEFECT,
+INTRODUCED IN b54. *** But the same run also PROVES D20, so both findings are recorded.
+
+*** A-1 PASS - THE ROW THAT DECIDES b54, AND THE MOST EXPENSIVE THING D6 WAS COSTING. ***
+  14:18:57.510  BE TRIGGERED @ 210.065: SL -> 209.994 (avg 209.964 + 30 pts offset)
+  14:18:57.510  BE floor SL 209.994 is TIGHTER than the drawdown boundary 201.736 - KEPT (D20...)
+  14:18:57.744  Exits applied to ticket 927070161: TP 210.564 SL 209.994
+  *** THE THIRD LINE IS THE PROOF, NOT THE SECOND. *** 209.994 is the BE FLOOR. On b53 that same
+  line carried the BOUNDARY (201.xxx) and the +$0.19 profit was destroyed. The announcement and
+  the action now AGREE - on b53 they disagreed, and that disagreement WAS the defect.
+  AUDITED: floor 209.964 + 30 pts = 209.994 EXACT. P/L 30 pts x 0.01 x 0.6338 = +$0.19, LOG +0.19.
+  ROWS CLOSED: A-1 (BE floor kept), C-2 (money at a kept BE floor is a PROFIT, sign checked),
+  D-2 (M6-2 restored - the floor no longer lowers), and D-5/D-6 already closed at Gate Zero.
+
+*** E9-R3-A: THE KEPT LINE FLOODS. MY OWN DEFECT, SAME ROOT CAUSE AS R2-A, ONE LAYER UP. ***
+  EIGHT identical KEPT lines between 14:18 and 14:49. THE CAUSE IS MY DEDUPE KEY:
+      AlreadyLogged("ddkeep:" + DoubleToString(sl) + ":" + DoubleToString(ddSL))
+  `sl` is CONSTANT at 209.994 (the BE floor). `ddSL` is THE BOUNDARY, which DRIFTS with
+  SYMBOL_TRADE_TICK_VALUE - observed 201.734 .. 201.741, a 7-point range across 31 minutes.
+  *** I PUT THE DRIFTING VALUE IN THE DEDUPE KEY, so every re-derive mints a FRESH key and
+  AlreadyLogged can never suppress anything. ***
+  THIS IS R2-A's ROOT CAUSE REINTRODUCED IN THE LOGGING LAYER. D15 suppresses the WRITES on
+  exactly this drift; I then keyed a log line on the same unstable number. The mechanism I
+  documented at length in b52 is the one I walked into in b54.
+  EVERY OTHER dd* KEY IN THE FILE GETS THIS RIGHT, which is what makes it my slip and not a
+  design question: ddhold keys on heldSL (the STABLE held stop), ddorphan on lastSL, ddtighten on
+  ddSL - and ddtighten is CORRECT to use ddSL, because in that branch the boundary is the value
+  being WRITTEN, so a new boundary genuinely is a new event worth one line.
+  SEVERITY, STATED HONESTLY: 8 log lines in 31 minutes, versus b51's 1123 PositionModify calls on
+  one ticket. THE D15 DEADBAND IS WORKING - there is exactly ONE "Exits applied" line in the whole
+  run. Nothing is written to the broker repeatedly. This is LOG NOISE, not a trading defect, and
+  it must not be described as if it were R2-A's equal.
+  THE FIX (b55): key on the STABLE value only - "ddkeep:" + sl - matching the ddhold precedent.
+  The KEPT condition is "the stop in charge is tighter than the boundary"; that condition is
+  identified by WHICH STOP IS HELD, not by where the drifting boundary happens to sit. A genuine
+  change of owner or of held price yields a new key and one new line, which is correct.
+  MATRIX: a new row is owed at b55 Gate 2 - "the KEPT line is logged ONCE per held stop, not once
+  per boundary re-derive; the dedupe key must contain NO value that drifts with tick value."
+ALSO IN THIS RUN: beOverride=T restored across the restart (the panel flip persisted), and the
+  boundary re-derived at init to 201.737. Reconcile and E-5-class behaviour unaffected by D20.
+STATUS: b54 rows A-1, C-2, D-2, D-5, D-6 CLOSED. E9-R3-A raised, queued for b55.
