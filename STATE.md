@@ -7334,3 +7334,32 @@ WHAT b55 IS NOT: it does NOT touch D20's decision, the deadband, D16-C, M6-2 or 
 NEXT: Jeff compiles b55 (26f7e00b285c94de / 6179). Then b54's remaining Gate 4 rows carry forward
   to b55's verification: A-2, A-3, A-5, A-7, B-1..B-5, C-1, C-3, C-4, D-1, D-3, D-4, D-7, and the
   new E9-R3-A row (the KEPT line logs ONCE per held stop, not once per re-derive).
+
+## *** b55 GATE ZERO PASSED 2026-10-16 16:05. 26f7e00b285c94de / 6179 lines. ***
+Demo GBPJPY.s M1, magic 758860, HEDGING, stops 25 pts. Banner reads "=== TRTM b55 init ===".
+  CAP AUDITED: 2611.21 x 2.00% = 52.2242 -> $52.22. LOG $52.22. EXACT.
+  Self-test PASS on schema 5. Shipped-file invariants: tag b55, inputs 62, schema 5, and the key
+  is confirmed in source as AlreadyLogged("ddkeep:" + SLOwnerName() + ...) - the drifting ddSL is
+  gone from it.
+  ABSENCE: zero ERROR, zero WARN, no "undeclared", no NOT ARMED, no schema mismatch, no orphan.
+
+*** WHAT THIS GATE ZERO DOES **NOT** PROVE - stated plainly so the record cannot be misread. ***
+  "Reconcile complete: FLAT" - the b54 position closed before this attach. With no live sequence
+  there is no held stop, no boundary, and therefore NO KEPT LINE AT ALL ("ddkeep" and "KEPT" both
+  0 occurrences in the log). Gate Zero proves b55 COMPILES AND LOADS. It does NOT prove the dedupe
+  works. The fix is verified by the ABSENCE of repeats over time, and an absence cannot be
+  demonstrated by a log that had no opportunity to produce the line even once.
+  => E9-R3-A STAYS OPEN. It closes on a run where a tighter stop is HELD while the boundary
+     drifts, and exactly ONE KEPT line appears across the whole window.
+
+NEXT RUN, AND IT IS THE SAME SHAPE AS b54's A-1:
+  1. Open L1.  2. Wait for the boundary SL.  3. Flip BE ON.  4. Wait for BE TRIGGERED.
+  5. *** THEN LEAVE IT ALONE FOR 30+ MINUTES. *** The b54 flood took 31 minutes to produce 8
+     lines, so the window has to be at least that long for the absence to mean anything.
+  EXPECT: ONE "BE floor SL ... KEPT" line, then SILENCE while the boundary drifts underneath.
+  FAIL SIGNATURE: a SECOND KEPT line with the same owner and the same held price. A second line
+  after the OWNER or the HELD PRICE changed is CORRECT and not a failure - that distinction is the
+  whole reason SLOwnerName is in the key.
+CARRIED FORWARD to b55's Gate 4, still open from b54: A-2, A-3, A-5, A-7, B-1..B-5, C-1, C-3, C-4,
+  D-1, D-3, D-4, D-7, plus E-1 (manual SL tighter than the BE floor -> ADOPTED, message must name
+  the FLOOR) which b53's C-3 could not reach.

@@ -1,0 +1,8 @@
+2026.10.16 16:05:19.369	TRTM (GBPJPY.s,M1)	[TRTM][INFO ] === TRTM b55 init === symbol=GBPJPYS (raw GBPJPY.s) magic=758860 stateFile=TRTM\state_GBPJPYS_758860.json
+2026.10.16 16:05:19.369	TRTM (GBPJPY.s,M1)	[TRTM][INFO ] Instance lock acquired (no existing lock)
+2026.10.16 16:05:19.369	TRTM (GBPJPY.s,M1)	[TRTM][INFO ] Drawdown Auto Close ARMED: effective cap $52.22 (percent limit only: 2.00% of balance 2611.21). Enforced as a BOUNDARY SL every position adopts (broker-held, so it fires even if MT5 is closed). Stop Loss (points) concedes to this boundary while enabled.
+2026.10.16 16:05:19.370	TRTM (GBPJPY.s,M1)	[TRTM][INFO ] State persistence self-test: PASS
+2026.10.16 16:05:19.371	TRTM (GBPJPY.s,M1)	[TRTM][INFO ] Reconcile complete: FLAT
+2026.10.16 16:05:19.372	TRTM (GBPJPY.s,M1)	[TRTM][INFO ] Account margin mode: HEDGING
+2026.10.16 16:05:19.372	TRTM (GBPJPY.s,M1)	[TRTM][INFO ] Broker exit geometry (at init): stops level 25 pts, freeze level 0 pts (dynamic on this broker) - TP/SL closer than 25 pts to price are DEFERRED until placeable
+2026.10.16 16:05:19.372	TRTM (GBPJPY.s,M1)	[TRTM][INFO ] Init complete - b55 (adoption, exits, recovery active)
